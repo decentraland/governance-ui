@@ -1,0 +1,39 @@
+import { useQuery } from '@tanstack/react-query'
+
+import { CommitteeName } from '../../clients/Transparency'
+import NotFound from '../../components/Layout/NotFound'
+import ProposalSubmitHiringPage from '../../components/Proposal/Submit/ProposalSubmitHiringPage'
+import { DEFAULT_QUERY_STALE_TIME } from '../../hooks/constants'
+import useURLSearchParams from '../../hooks/useURLSearchParams'
+import { HiringType, toHiringType } from '../../types/proposals'
+import { getCommitteesWithOpenSlots } from '../../utils/committee'
+
+import './submit.css'
+
+export default function Hiring() {
+  const params = useURLSearchParams()
+  const request = params.request
+
+  const type = toHiringType(request, () => null)
+
+  const { data: committees, isLoading: isCommitteesLoading } = useQuery({
+    queryKey: [`committees#${type}`],
+    queryFn: async () => {
+      if (type === HiringType.Add) {
+        const committees = await getCommitteesWithOpenSlots()
+        return committees.map((committee) => committee.name)
+      }
+
+      return Object.values(CommitteeName)
+    },
+    staleTime: DEFAULT_QUERY_STALE_TIME,
+  })
+
+  if (type !== null) {
+    return (
+      <ProposalSubmitHiringPage type={type} committees={committees ?? []} isCommitteesLoading={isCommitteesLoading} />
+    )
+  }
+
+  return <NotFound />
+}

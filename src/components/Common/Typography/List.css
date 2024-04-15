@@ -1,0 +1,5 @@
+.List > .ListItem {
+  color: var(--text);
+  font-style: normal;
+  font-stretch: normal;
+}
