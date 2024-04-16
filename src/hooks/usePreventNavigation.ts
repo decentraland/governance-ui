@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { toGovernancePathname } from '../helpers/browser'
-import locations from '../utils/locations'
-
 import useFormatMessage from './useFormatMessage'
 
 function usePreventNavigation(shouldPrevent: boolean, navigateTo = '/submit') {
@@ -32,17 +29,19 @@ function usePreventNavigation(shouldPrevent: boolean, navigateTo = '/submit') {
 
     window.addEventListener('beforeunload', handleBeforeUnload)
 
-    const globalHistory = {} // todo: globalHistory was imported from reach/router
-    const unsubscribe = globalHistory.listen(({ action }) => {
-      const pathname = toGovernancePathname(navigateTo)
+    // const globalHistory = {} // todo: globalHistory was imported from reach/router
+    // const unsubscribe = globalHistory.listen(({ action }) => {
+    //   const pathname = toGovernancePathname(navigateTo)
 
-      if (
-        shouldPrevent &&
-        (action === 'POP' || (action === 'PUSH' && pathname === locations.proposals() && !confirmBack.current))
-      ) {
-        preventNavigation()
-      }
-    })
+    //   if (
+    //     shouldPrevent &&
+    //     (action === 'POP' || (action === 'PUSH' && pathname === locations.proposals() && !confirmBack.current))
+    //   ) {
+    //     preventNavigation()
+    //   }
+    // })
+
+    const unsubscribe = () => {}
 
     return () => {
       unsubscribe()

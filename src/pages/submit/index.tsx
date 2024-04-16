@@ -42,7 +42,7 @@ const CATALYST_MODAL_PROPS: AddRemoveProposalModalProps = {
   removeType: CatalystType.Remove,
 }
 
-export default function NewProposalPage() {
+export default function SubmitPage() {
   const t = useFormatMessage()
   const [proposalModalProps, setProposalModalProps] = useState(POI_MODAL_PROPS)
 

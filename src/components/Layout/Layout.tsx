@@ -45,7 +45,7 @@ export default function Layout({ children }: LayoutProps) {
   const location = useLocation()
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && window.analytics) {
       window.analytics.page()
     }
   }, [location])
