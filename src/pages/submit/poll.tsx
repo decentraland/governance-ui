@@ -255,7 +255,7 @@ export default function SubmitPoll() {
           <Label>{t('page.submit_poll.choices_label')}</Label>
           {errors && (
             <Text size="lg" color="primary">
-              {errors.choices?.message}
+              {errors.choices?.message as React.ReactNode}
             </Text>
           )}
           <div className="Poll__Options">

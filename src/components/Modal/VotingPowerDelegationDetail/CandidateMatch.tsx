@@ -1,7 +1,6 @@
-import { Stats } from 'decentraland-ui/dist/components/Stats/Stats'
-
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import { MatchResult } from '../../../utils/snapshot'
+import { Stats } from '../../Common/Stats'
 import Helper from '../../Helper/Helper'
 
 import './CandidateMatch.css'
@@ -17,20 +16,22 @@ function matchColor(matchingVotes: MatchResult) {
 function CandidateMatch({ matchingVotes }: Props) {
   const t = useFormatMessage()
 
+  if (!matchingVotes) {
+    return null
+  }
+
   return (
-    matchingVotes && (
-      <Stats title={t('modal.vp_delegation.details.stats_match')} className="CandidateMatch">
-        <Helper
-          text={t('modal.vp_delegation.details.stats_match_helper')}
-          position="right center"
-          size="14"
-          containerClassName="CandidateMatch__Info"
-        />
-        <div className="CandidateMatch__StatsValue" style={matchColor(matchingVotes)}>
-          {matchingVotes.percentage}%
-        </div>
-      </Stats>
-    )
+    <Stats title={t('modal.vp_delegation.details.stats_match')} className="CandidateMatch">
+      <Helper
+        text={t('modal.vp_delegation.details.stats_match_helper')}
+        position="right center"
+        size="14"
+        containerClassName="CandidateMatch__Info"
+      />
+      <div className="CandidateMatch__StatsValue" style={matchColor(matchingVotes)}>
+        {matchingVotes.percentage}%
+      </div>
+    </Stats>
   )
 }
 

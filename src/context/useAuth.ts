@@ -38,20 +38,19 @@ export default function useAuth(
     return
   }, [])
 
-  const select = useCallback(
-    (selecting = true) => {
-      if (isLoading(state.status)) {
-        return
-      }
+  // TODO: Check this
+  // const select = useCallback((selecting = true) => {
+  const select = useCallback(() => {
+    if (isLoading(state.status)) {
+      return
+    }
 
-      if (selecting === state.selecting) {
-        return
-      }
+    // if (selecting === state.selecting) {
+    //   return
+    // }
 
-      setState((current) => ({ ...current, selecting }))
-    },
-    [state]
-  )
+    setState((current) => ({ ...current }))
+  }, [state])
 
   const connect = useCallback(
     (providerType: ProviderType, chainId: ChainId) => {

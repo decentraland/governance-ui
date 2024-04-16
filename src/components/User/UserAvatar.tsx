@@ -20,10 +20,6 @@ export default function UserAvatar({ address }: Props) {
     setWearablePreviewController(WearablePreview.createController('wearable-preview'))
   }, [])
 
-  const handleError = useCallback((error) => {
-    console.warn(error)
-  }, [])
-
   const previewEmote = useMemo(() => {
     const poses = [PreviewEmote.DAB, PreviewEmote.FIST_PUMP, PreviewEmote.DANCE, PreviewEmote.HEAD_EXPLODE]
     return poses[(Math.random() * poses.length) | 0]
@@ -49,7 +45,6 @@ export default function UserAvatar({ address }: Props) {
         id="wearable-preview"
         profile={address}
         onLoad={handleLoad}
-        onError={handleError}
         background={'FFFFFF'}
         emote={previewEmote}
         disableAutoRotate={true}

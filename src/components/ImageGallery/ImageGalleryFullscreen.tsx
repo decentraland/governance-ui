@@ -1,10 +1,10 @@
 import { Close } from 'decentraland-ui/dist/components/Close/Close'
 import { Modal, ModalProps } from 'decentraland-ui/dist/components/Modal/Modal'
-import { Keyboard, Navigation, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/bundle'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import { Keyboard, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import NO_IMAGE from '../../images/no-image.png'

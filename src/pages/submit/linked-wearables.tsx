@@ -194,7 +194,7 @@ export default function SubmitLinkedWearables() {
         <SubLabel>{t(`page.submit_linked_wearables.${params.section}_detail`, detailOptions)}</SubLabel>
         {errors && (
           <Text size="lg" color="primary">
-            {errors[params.section]?.message}
+            {errors[params.section]?.message as React.ReactNode}
           </Text>
         )}
         <div className="SectionList">
@@ -396,7 +396,6 @@ export default function SubmitLinkedWearables() {
                 message: t('error.linked_wearables.nft_collections_too_large'),
               },
             }}
-            placeholder={t('page.submit_linked_wearables.nft_collections_placeholder')}
             error={!!errors.nft_collections}
             message={
               (errors.nft_collections?.message || '') +
@@ -418,7 +417,6 @@ export default function SubmitLinkedWearables() {
           <MarkdownField
             name="motivation"
             control={control}
-            placeholder={t('page.submit_linked_wearables.motivation_placeholder')}
             rules={{
               required: { value: true, message: t('error.linked_wearables.motivation_empty') },
               minLength: {
@@ -478,7 +476,6 @@ export default function SubmitLinkedWearables() {
           <MarkdownField
             control={control}
             name="governance"
-            placeholder={t('page.submit_linked_wearables.governance_placeholder')}
             rules={{
               required: { value: true, message: t('error.linked_wearables.governance_empty') },
               minLength: {
@@ -543,7 +540,6 @@ export default function SubmitLinkedWearables() {
             <MarkdownField
               control={control}
               name="method"
-              placeholder={t('page.submit_linked_wearables.method_placeholder')}
               rules={{
                 required: { value: true, message: t('error.linked_wearables.method_empty') },
                 minLength: {

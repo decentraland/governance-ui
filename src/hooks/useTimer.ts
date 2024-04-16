@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 
 export default function useTimer(seconds: number) {
-  const [currentTimer, setCurrentTimer] = useState<NodeJS.Timer>()
+  const [currentTimer, setCurrentTimer] = useState<NodeJS.Timeout>()
   const [time, setTime] = useState(seconds)
 
   const startTimer = useCallback(() => {
