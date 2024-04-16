@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Dropdown } from 'decentraland-ui/dist/components/Dropdown/Dropdown'
@@ -8,7 +9,6 @@ import useFormatMessage from '../../hooks/useFormatMessage'
 import useURLSearchParams from '../../hooks/useURLSearchParams'
 import useYearAndQuarterParams from '../../hooks/useYearAndQuarterParams'
 import Time from '../../utils/date/Time'
-import { navigate } from '../../utils/locations'
 import Link from '../Common/Typography/Link'
 
 import FilterContainer from './FilterContainer'
@@ -33,6 +33,7 @@ function QuarterFilter() {
   const [selectedYear, setSelectedYear] = useState<number | undefined>()
   const { year: yearParam, quarter: quarterParam } = useYearAndQuarterParams()
   const params = useURLSearchParams()
+  const navigate = useNavigate()
   useEffect(() => {
     if (yearParam) {
       setSelectedYear(yearParam)
