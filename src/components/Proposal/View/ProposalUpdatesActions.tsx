@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 
@@ -39,6 +40,7 @@ export default function ProposalUpdatesActions({
       ),
     [nextUpdate?.id, pendingUpdates]
   )
+  const navigate = useNavigate()
 
   const navigateToNextUpdateSubmit = useCallback(() => {
     const hasUpcomingPendingUpdate = currentUpdate?.id && currentUpdate?.status === UpdateStatus.Pending
@@ -48,7 +50,7 @@ export default function ProposalUpdatesActions({
         proposalId: proposal.id,
       })
     )
-  }, [currentUpdate?.id, currentUpdate?.status, proposal.id])
+  }, [currentUpdate?.id, currentUpdate?.status, navigate, proposal.id])
 
   const onPostUpdateClick = useCallback(() => {
     if (latePendingUpdate) {

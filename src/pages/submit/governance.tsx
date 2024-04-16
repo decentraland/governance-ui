@@ -194,7 +194,6 @@ export default function SubmitGovernanceProposal() {
                 message: t('error.governance.summary_too_large'),
               },
             }}
-            placeholder={t('page.submit_governance.summary_placeholder')}
             disabled={submissionVpNotMet || formDisabled}
             error={!!errors.summary}
             message={
@@ -227,7 +226,6 @@ export default function SubmitGovernanceProposal() {
                 message: t('error.governance.abstract_too_large'),
               },
             }}
-            placeholder={t('page.submit_governance.abstract_placeholder')}
             disabled={submissionVpNotMet || formDisabled}
             error={!!errors.abstract}
             message={
@@ -260,7 +258,6 @@ export default function SubmitGovernanceProposal() {
                 message: t('error.governance.motivation_too_large'),
               },
             }}
-            placeholder={t('page.submit_governance.motivation_placeholder')}
             disabled={submissionVpNotMet || formDisabled}
             error={!!errors.motivation}
             message={
@@ -293,7 +290,6 @@ export default function SubmitGovernanceProposal() {
                 message: t('error.governance.specification_too_large'),
               },
             }}
-            placeholder={t('page.submit_governance.specification_placeholder')}
             disabled={submissionVpNotMet || formDisabled}
             error={!!errors.specification}
             message={
@@ -326,7 +322,6 @@ export default function SubmitGovernanceProposal() {
                 message: t('error.governance.impacts_too_large'),
               },
             }}
-            placeholder={t('page.submit_governance.impacts_placeholder')}
             disabled={submissionVpNotMet || formDisabled}
             error={!!errors.impacts}
             message={
@@ -359,7 +354,6 @@ export default function SubmitGovernanceProposal() {
                 message: t('error.governance.implementation_pathways_too_large'),
               },
             }}
-            placeholder={t('page.submit_governance.implementation_pathways_placeholder')}
             disabled={submissionVpNotMet || formDisabled}
             error={!!errors.implementation_pathways}
             message={
@@ -392,7 +386,6 @@ export default function SubmitGovernanceProposal() {
                 message: t('error.governance.conclusion_too_large'),
               },
             }}
-            placeholder={t('page.submit_governance.conclusion_placeholder')}
             disabled={submissionVpNotMet || formDisabled}
             error={!!errors.conclusion}
             message={

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid/Grid'
 
-import { DelegationResult, DetailedScores, VpDistribution } from '../../clients/SnapshotTypes'
+import { DelegationResult, DetailedScores, VpDistribution } from '../../types/SnapshotTypes'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { useSortingByKey } from '../../hooks/useSortingByKey'
 import FullWidthButton from '../Common/FullWidthButton'

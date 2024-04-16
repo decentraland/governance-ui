@@ -209,7 +209,7 @@ export default function ProposalsPage() {
                       )}
                       {proposals && proposals.total > ITEMS_PER_PAGE && (
                         <Pagination
-                          onPageChange={(e, { activePage }) => handlePageFilter(activePage as number)}
+                          onPageChange={(_e, { activePage }) => handlePageFilter(activePage as number)}
                           totalPages={Math.ceil(proposals.total / ITEMS_PER_PAGE)}
                           activePage={page}
                           firstItem={null}

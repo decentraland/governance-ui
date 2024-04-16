@@ -36,7 +36,13 @@ import useFormatMessage from '../../hooks/useFormatMessage'
 import usePreventNavigation from '../../hooks/usePreventNavigation'
 import useProjectRequestSectionNumber from '../../hooks/useProjectRequestSectionNumber'
 import useVotingPowerDistribution from '../../hooks/useVotingPowerDistribution'
-import { GrantRequest, GrantRequestCategoryAssessment, NewGrantCategory, VALID_CATEGORIES } from '../../types/grants'
+import {
+  GrantRequest,
+  GrantRequestCategoryAssessment,
+  GrantRequestFunding,
+  NewGrantCategory,
+  VALID_CATEGORIES,
+} from '../../types/grants'
 import { ProposalType } from '../../types/proposals'
 import locations from '../../utils/locations'
 import { asNumber, isGrantProposalSubmitEnabled, userModifiedForm } from '../../utils/proposal'
@@ -186,7 +192,7 @@ export default function SubmitGrant() {
   }, [])
 
   const handleFundingSectionValidation = useCallback(
-    (data, sectionValid) => {
+    (data: GrantRequestFunding, sectionValid: boolean) => {
       patchGrantRequest((prevState) => ({ ...prevState, ...data }))
       setValidationState((prevState) => ({ ...prevState, fundingSectionValid: sectionValid }))
     },
@@ -194,7 +200,7 @@ export default function SubmitGrant() {
   )
 
   const handleCategorySection = useCallback(
-    (data, sectionValid) => {
+    (data: GrantRequestCategoryAssessment, sectionValid: boolean) => {
       patchGrantRequest((prevState) => ({ ...prevState, ...data }))
       setValidationState((prevState) => ({ ...prevState, categoryAssessmentSectionValid: sectionValid }))
     },

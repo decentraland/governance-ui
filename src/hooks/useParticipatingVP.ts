@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { Governance } from '../clients/Governance'
-import { SnapshotProposal } from '../clients/SnapshotTypes'
+import { SnapshotProposal } from '../types/SnapshotTypes'
 import { groupProposalsByMonth, median } from '../utils/snapshot'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants'

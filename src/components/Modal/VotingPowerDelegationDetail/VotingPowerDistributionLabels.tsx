@@ -1,4 +1,4 @@
-import { VpDistribution } from '../../../clients/SnapshotTypes'
+import { VpDistribution } from '../../../types/SnapshotTypes'
 import { getFormattedPercentage } from '../../../helpers'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import { EMPTY_DISTRIBUTION } from '../../../hooks/useVotingPowerDistribution'

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid/Grid'
 
-import { DelegationResult } from '../../clients/SnapshotTypes'
+import { DelegationResult } from '../../types/SnapshotTypes'
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useVotingPowerDistribution from '../../hooks/useVotingPowerDistribution'

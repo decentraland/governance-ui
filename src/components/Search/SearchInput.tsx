@@ -45,7 +45,7 @@ export default function SearchInput() {
     }
   }, [search])
 
-  function handleChange(e: React.ChangeEvent<any>) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchText(e.target.value)
   }
 
@@ -65,6 +65,8 @@ export default function SearchInput() {
       setSearchText('')
     }
   }
+
+  // TODO: onKeyPress deprecated. Remove
 
   return (
     <div className="SearchContainer">

@@ -120,28 +120,24 @@ function GeneralSection({ onValidation, isFormDisabled, sectionNumber, intialVal
       <MarkdownField
         showMarkdownNotice={false}
         label={t('page.proposal_update.highlights_label')}
-        placeholder={t('page.proposal_update.highlights_placeholder')}
         disabled={isFormDisabled}
         {...getFieldProps('highlights')}
       />
       <MarkdownField
         showMarkdownNotice={false}
         label={t('page.proposal_update.blockers_label')}
-        placeholder={t('page.proposal_update.blockers_placeholder')}
         disabled={isFormDisabled}
         {...getFieldProps('blockers')}
       />
       <MarkdownField
         showMarkdownNotice={false}
         label={t('page.proposal_update.next_steps_label')}
-        placeholder={t('page.proposal_update.next_steps_placeholder')}
         disabled={isFormDisabled}
         {...getFieldProps('next_steps')}
       />
       <MarkdownField
         showMarkdownNotice={false}
         label={t('page.proposal_update.additional_notes_label')}
-        placeholder={t('page.proposal_update.additional_notes_placeholder')}
         disabled={isFormDisabled}
         {...getFieldProps('additional_notes', false)}
       />

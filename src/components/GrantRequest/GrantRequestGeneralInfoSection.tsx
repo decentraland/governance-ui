@@ -94,7 +94,6 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
         <MarkdownField
           name="abstract"
           control={control}
-          placeholder={t('page.submit_grant.general_info.abstract_placeholder')}
           error={!!errors.abstract}
           message={
             (errors.abstract?.message || '') +
@@ -195,7 +194,6 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
         <MarkdownField
           name="roadmap"
           control={control}
-          placeholder={t('page.submit_grant.general_info.roadmap_placeholder')}
           error={!!errors.roadmap}
           message={
             (errors.roadmap?.message || '') +

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Header } from 'decentraland-ui/dist/components/Header/Header'
@@ -42,6 +43,7 @@ export default function SubmitBanName() {
     watch,
   } = useForm<NewProposalBanName>({ defaultValues: initialState, mode: 'onTouched' })
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const [formDisabled, setFormDisabled] = useState(false)
   const preventNavigation = useRef(false)

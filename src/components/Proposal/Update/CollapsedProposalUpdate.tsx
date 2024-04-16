@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
@@ -39,6 +40,7 @@ const CollapsedProposalUpdate = ({
 }: Props) => {
   const t = useFormatMessage()
   const [account] = useAuthContext()
+  const navigate = useNavigate()
 
   const { introduction, status, health, completion_date, due_date } = update
   const updateLocation = locations.update(update.id)
@@ -60,7 +62,7 @@ const CollapsedProposalUpdate = ({
         navigate(updateLocation)
       }
     },
-    [update.completion_date, updateLocation]
+    [update.completion_date, updateLocation, navigate]
   )
 
   return (

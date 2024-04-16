@@ -19,7 +19,8 @@ export default function SearchInputMobile() {
   const [open, setOpen] = useState(false)
   const [searchText, setSearchText] = useState(search || '')
 
-  const handleSearch = (textSearch: string, location: Location) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSearch = (textSearch: string, location: any) => {
     const newParams = new URLSearchParams(location.search)
     if (textSearch) {
       newParams.set('search', textSearch)

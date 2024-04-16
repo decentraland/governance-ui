@@ -1,4 +1,4 @@
-import { VpDistribution } from '../../clients/SnapshotTypes'
+import { VpDistribution } from '../../types/SnapshotTypes'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import MobileSlider from '../Common/MobileSlider'
 

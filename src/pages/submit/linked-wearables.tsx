@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Field as DCLField } from 'decentraland-ui/dist/components/Field/Field'
@@ -120,6 +121,7 @@ export default function SubmitLinkedWearables() {
   const [error, setError] = useState('')
   const preventNavigation = useRef(false)
   const values = useWatch({ control })
+  const navigate = useNavigate()
 
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
 

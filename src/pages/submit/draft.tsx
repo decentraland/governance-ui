@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Header } from 'decentraland-ui/dist/components/Header/Header'
@@ -62,6 +63,7 @@ export default function SubmitDraftProposal() {
   const [error, setError] = useState('')
   const [formDisabled, setFormDisabled] = useState(false)
   const preventNavigation = useRef(false)
+  const navigate = useNavigate()
 
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { ErrorCode } from '@ethersproject/logger'
 import { Web3Provider } from '@ethersproject/providers'
@@ -144,6 +144,7 @@ export default function ProposalPage() {
   const { votes, segmentedVotes, isLoadingVotes, reloadVotes } = useProposalVotes(proposal?.id)
   const { highQualityVotes } = segmentedVotes || {}
   const choices = useProposalChoices(proposal)
+  const navigate = useNavigate()
 
   const subscriptionsQueryKey = `proposalSubscriptions#${proposal?.id || ''}`
   const { data: subscriptions, isLoading: isSubscriptionsLoading } = useQuery({
@@ -274,14 +275,14 @@ export default function ProposalPage() {
   useEffect(() => {
     updatePageState((prevState) => ({
       ...prevState,
-      showProposalSuccessModal: params.new === 'true',
-      showTenderPublishedModal: params.pending === 'true',
-      showBidSubmittedModal: params.bid === 'true',
+      showProposalSuccessModal: params.get('new') === 'true',
+      showTenderPublishedModal: params.get('pending') === 'true',
+      showBidSubmittedModal: params.get('bid') === 'true',
     }))
   }, [params])
 
   useEffect(() => {
-    const isNewUpdate = params.newUpdate === 'true'
+    const isNewUpdate = params.get('newUpdate') === 'true'
     if (isNewUpdate) {
       refetchUpdates()
     }

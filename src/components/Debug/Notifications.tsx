@@ -21,6 +21,8 @@ export default function Notifications({ className }: Props) {
   const [notificationURL, setNotificationURL] = useState('')
   const [isSendingNotification, setIsSendingNotification] = useState(false)
 
+  // TODO: Type this
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSendNotification = async (e: any) => {
     e.preventDefault()
     setIsSendingNotification(true)

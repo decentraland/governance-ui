@@ -100,7 +100,7 @@ export class VotedChoiceBuilder {
     return this.choices[vote.choice - 1]
   }
 
-  votedChoiceVoteCount(choices: string[], votes: VoteByAddress | null, account: string, delegators: string[]): number {
+  votedChoiceVoteCount(_choices: string[], votes: VoteByAddress | null, account: string, delegators: string[]): number {
     if (!votes) return 0
 
     let delegatorsWhoVotedTheSame = 0

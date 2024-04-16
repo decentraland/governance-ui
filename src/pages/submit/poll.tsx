@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Field as DCLField } from 'decentraland-ui/dist/components/Field/Field'
@@ -70,6 +71,7 @@ export default function SubmitPoll() {
   )
   const [formDisabled, setFormDisabled] = useState(false)
   const preventNavigation = useRef(false)
+  const navigate = useNavigate()
 
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
   const values = useWatch({ control })

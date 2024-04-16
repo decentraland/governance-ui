@@ -41,7 +41,7 @@ import useProposal from '../../hooks/useProposal'
 import useProposalOutcome from '../../hooks/useProposalOutcome'
 import useURLSearchParams from '../../hooks/useURLSearchParams'
 import useUserBid from '../../hooks/useUserBid'
-import { BidRequest } from '../../types/bids'
+import { BidRequest, BidRequestFunding, BidRequestGeneralInfo } from '../../types/bids'
 import { ProposalType } from '../../types/proposals'
 import locations from '../../utils/locations'
 import { userModifiedForm } from '../../utils/proposal'
@@ -170,7 +170,7 @@ export default function SubmitBid() {
   }, [])
 
   const handleFundingSectionValidation = useCallback(
-    (data, sectionValid) => {
+    (data: BidRequestFunding, sectionValid: boolean) => {
       patchBidRequest((prevState) => ({ ...prevState, ...data }))
       setValidationState((prevState) => ({ ...prevState, fundingSectionValid: sectionValid }))
     },
@@ -178,7 +178,7 @@ export default function SubmitBid() {
   )
 
   const handleGeneralInfoSectionValidation = useCallback(
-    (data, sectionValid) => {
+    (data: BidRequestGeneralInfo, sectionValid: boolean) => {
       patchBidRequest((prevState) => ({ ...prevState, ...data }))
       setValidationState((prevState) => ({ ...prevState, generalInformationSectionValid: sectionValid }))
     },

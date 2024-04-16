@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
 
@@ -37,6 +38,7 @@ const ExpandedProposalUpdate = ({ update, index, onEditClick, onDeleteUpdateClic
   const t = useFormatMessage()
   const { introduction, status, health, completion_date } = update
   const UpdateIcon = getStatusIcon(health, completion_date)
+  const navigate = useNavigate()
 
   const handleUpdateClick = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,7 +49,7 @@ const ExpandedProposalUpdate = ({ update, index, onEditClick, onDeleteUpdateClic
         navigate(locations.update(update.id))
       }
     },
-    [update]
+    [update, navigate]
   )
 
   if (!completion_date) {

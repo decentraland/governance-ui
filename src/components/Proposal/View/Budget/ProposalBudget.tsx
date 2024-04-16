@@ -1,4 +1,3 @@
-import { Desktop } from 'decentraland-ui/dist/components/Media/Media'
 import snakeCase from 'lodash/snakeCase'
 
 import { BudgetWithContestants } from '../../../../types/budgets'

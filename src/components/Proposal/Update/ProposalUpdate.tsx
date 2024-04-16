@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { Governance } from '../../../clients/Governance'
 import { useAuthContext } from '../../../context/AuthProvider'
@@ -58,6 +59,7 @@ const ProposalUpdate = ({
   const [isDeletingUpdate, setIsDeletingUpdate] = useState(false)
   const [isDeleteUpdateModalOpen, setIsDeleteUpdateModalOpen] = useState(false)
   const [account] = useAuthContext()
+  const navigate = useNavigate()
 
   if (!update) {
     return <EmptyProposalUpdate />

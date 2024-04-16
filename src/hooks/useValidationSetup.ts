@@ -19,7 +19,7 @@ function useValidationSetup(account?: AccountType) {
   const [clipboardMessage, setClipboardMessage] = useState('')
   const { handleCopy } = useClipboardCopy(Time.Second)
   const { startTimer, resetTimer, time } = useTimer(MESSAGE_TIMEOUT_TIME / 1000 - 1)
-  const [validatingProfile, setValidatingProfile] = useState<NodeJS.Timer>()
+  const [validatingProfile, setValidatingProfile] = useState<NodeJS.Timeout>()
   const [isValidated, setIsValidated] = useState<boolean>()
 
   useEffect(() => {

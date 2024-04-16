@@ -1,5 +1,5 @@
-import { Delegation } from '../clients/SnapshotTypes'
 import { SNAPSHOT_SPACE } from '../constants/snapshot'
+import { Delegation } from '../types/SnapshotTypes'
 import { filterDelegationFrom, filterDelegationTo } from '../utils/snapshot'
 
 const DCL_SPACE = SNAPSHOT_SPACE || 'dcl_space'

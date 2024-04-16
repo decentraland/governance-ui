@@ -1,4 +1,4 @@
-import { DelegationResult, DetailedScores } from '../../clients/SnapshotTypes'
+import { DelegationResult, DetailedScores } from '../../types/SnapshotTypes'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useVotingPowerInformation from '../../hooks/useVotingPowerInformation'
 import { isSameAddress } from '../../utils/snapshot'

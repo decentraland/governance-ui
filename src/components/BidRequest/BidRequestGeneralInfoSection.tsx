@@ -113,7 +113,6 @@ export default function BidRequestGeneralInfoSection({ onValidation, isFormDisab
         <MarkdownField
           name="roadmap"
           control={control}
-          placeholder={t('page.submit_bid.general_info.roadmap_placeholder')}
           error={!!errors.roadmap}
           message={
             (errors.roadmap?.message || '') +

@@ -1,5 +1,3 @@
-import React from 'react'
-
 import CheckboxField from '../GrantRequest/CheckboxField'
 
 import './ActivityTickerFilterItem.css'

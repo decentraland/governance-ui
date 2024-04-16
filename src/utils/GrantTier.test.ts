@@ -1,5 +1,6 @@
+import { GrantTierType } from '../types/grants'
+
 import { GrantTier, TransparencyOneTimePaymentTier } from './GrantTier'
-import { GrantTierType } from './types'
 
 describe('entities/GrantTier', () => {
   describe('getTierFromBudget', () => {

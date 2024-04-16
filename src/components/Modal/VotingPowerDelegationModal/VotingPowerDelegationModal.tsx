@@ -1,7 +1,7 @@
 import { Close } from 'decentraland-ui/dist/components/Close/Close'
 import { Modal } from 'decentraland-ui/dist/components/Modal/Modal'
 
-import { VpDistribution } from '../../../clients/SnapshotTypes'
+import { VpDistribution } from '../../../types/SnapshotTypes'
 import VotingPowerDelegationDetail from '../VotingPowerDelegationDetail/VotingPowerDelegationDetail'
 
 import VotingPowerDelegationCandidatesList, { Candidate } from './VotingPowerDelegationCandidatesList'

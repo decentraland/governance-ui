@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Header } from 'decentraland-ui/dist/components/Header/Header'
@@ -84,6 +85,7 @@ export default function ProposalSubmitPoiPage({ poiType }: Props) {
   const action = getPoiTypeAction(poiType)
   const preventNavigation = useRef(false)
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const {
     handleSubmit,
@@ -216,7 +218,6 @@ export default function ProposalSubmitPoiPage({ poiType }: Props) {
               minLength: { value: schema.description.minLength, message: t('error.poi.description_too_short') },
               maxLength: { value: schema.description.maxLength, message: t('error.poi.description_too_large') },
             }}
-            placeholder={t(`page.submit_poi.${action}.description_placeholder`)}
             disabled={formDisabled}
             error={!!errors.description}
             message={

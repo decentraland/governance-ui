@@ -15,8 +15,9 @@ import ContestedBudgetDistributionBar from './ContestedBudgetDistributionBar'
 import ContestedBudgetCardLabel from './ContestedBudgetLabel'
 import ContestedBudgetSubLabel from './ContestedBudgetSubLabel'
 
+// TODO: t is not used, remove from function
 function getContestingProposalsItems(
-  t: FormatMessageFunction,
+  _t: FormatMessageFunction,
   intl: IntlShape,
   proposal: ProposalAttributes,
   categoryBudget: CategoryBudgetWithContestants,

@@ -3,7 +3,7 @@ import { Suspense, lazy } from 'react'
 import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
 import { NotMobile, useMobileMediaQuery } from 'decentraland-ui/dist/components/Media/Media'
 
-import { VpDistribution } from '../../clients/SnapshotTypes'
+import { VpDistribution } from '../../types/SnapshotTypes'
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useGovernanceProfile from '../../hooks/useGovernanceProfile'
