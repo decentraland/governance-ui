@@ -1,4 +1,5 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { ChainId } from '@dcl/schemas/dist/dapps/chain-id'
 import { Network } from '@dcl/schemas/dist/dapps/network'
@@ -41,6 +42,13 @@ export default function Layout({ children }: LayoutProps) {
   const [user, userState] = useAuthContext()
   const track = useAnalyticsTrack()
   const { isFeatureFlagEnabled } = useDclFeatureFlags()
+  const location = useLocation()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.analytics.page()
+    }
+  }, [location])
 
   const handleClickUserMenuOption = useAnalyticsTrackLink(function (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

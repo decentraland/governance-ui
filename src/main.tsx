@@ -26,7 +26,7 @@ import ProposalsPage from './pages/proposals'
 import TransparencyPage from './pages/transparency'
 import { flattenMessages } from './utils/intl'
 
-import { SEGMENT_KEY, SSO_URL } from './constants'
+import { SSO_URL } from './constants'
 import HomePage from './pages'
 import './theme.css'
 import './ui-overrides.css'
@@ -56,7 +56,7 @@ const component = (
         </BrowserRouter>
       </QueryClientProvider>
     </AuthProvider>
-    {SEGMENT_KEY && <Segment key="segment" segmentKey={SEGMENT_KEY} />}
+    <Segment />
   </React.StrictMode>
 )
 
