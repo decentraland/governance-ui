@@ -18,6 +18,7 @@ import Layout from './components/Layout/Layout'
 import AuthProvider from './context/AuthProvider'
 import en from './intl/en.json'
 import DebugPage from './pages/debug'
+import ProfilePage from './pages/profile'
 import ProjectsPage from './pages/projects'
 import ProposalPage from './pages/proposal'
 import ProposalsPage from './pages/proposals'
@@ -45,6 +46,7 @@ const component = (
                 <Route path="/proposals" element={<ProposalsPage />} />
                 <Route path="/proposal" element={<ProposalPage />} />
                 <Route path="/projects" element={<ProjectsPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/transparency" element={<TransparencyPage />} />
                 <Route path="/debug" element={<DebugPage />} />
               </Routes>

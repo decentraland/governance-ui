@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { EMPTY_DELEGATION } from '../clients/SnapshotTypes'
 import { SNAPSHOT_SPACE } from '../constants/snapshot'
+import { EMPTY_DELEGATION } from '../types/SnapshotTypes'
 import { getDelegations } from '../utils/snapshot'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants'
