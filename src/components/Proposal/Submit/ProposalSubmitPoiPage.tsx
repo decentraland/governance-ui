@@ -9,7 +9,7 @@ import { Governance } from '../../../clients/Governance'
 import { useAuthContext } from '../../../context/AuthProvider'
 import { disableOnWheelInput } from '../../../helpers'
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { PoiType, ProposalType, getPoiTypeAction, newProposalPOIScheme } from '../../../types/proposals'
+import { PoiType, ProposalType, newProposalPOIScheme } from '../../../types/proposals'
 import locations from '../../../utils/locations'
 import { asNumber, isAlreadyPointOfInterest, isValidPointOfInterest } from '../../../utils/proposal'
 import Field from '../../Common/Form/Field'
@@ -76,6 +76,10 @@ async function validateAlreadyPointOfInterest(x: number, y: number, required: bo
 
 interface Props {
   poiType: PoiType
+}
+
+function getPoiTypeAction(poiType: PoiType) {
+  return poiType.split('_')[0] // "add" | "remove"
 }
 
 export default function ProposalSubmitPoiPage({ poiType }: Props) {

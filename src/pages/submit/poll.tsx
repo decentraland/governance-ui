@@ -27,11 +27,13 @@ import { SUBMISSION_THRESHOLD_POLL } from '../../constants/proposals'
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useVotingPowerDistribution from '../../hooks/useVotingPowerDistribution'
-import { INVALID_PROPOSAL_POLL_OPTIONS, ProposalType, newProposalPollScheme } from '../../types/proposals'
+import { ProposalType, newProposalPollScheme } from '../../types/proposals'
 import locations from '../../utils/locations'
 
 import './poll.css'
 import './submit.css'
+
+const INVALID_PROPOSAL_POLL_OPTIONS = 'Invalid question/options'
 
 type PollState = {
   title: string

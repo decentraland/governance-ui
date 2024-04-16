@@ -4,8 +4,7 @@ import snapshot from '@snapshot-labs/snapshot.js'
 import Client from '@snapshot-labs/snapshot.js/dist/sign'
 import { ProposalType, Vote } from '@snapshot-labs/snapshot.js/dist/sign/types'
 
-import { config } from '../config'
-import { SNAPSHOT_SPACE } from '../constants/snapshot'
+import { SNAPSHOT_API, SNAPSHOT_SPACE } from '../constants/snapshot'
 
 import { trimLastForwardSlash } from './utils'
 
@@ -31,7 +30,7 @@ type CastVote = {
 }
 
 export class SnapshotApi {
-  static Url = config.get('SNAPSHOT_API') || 'https://hub.snapshot.org'
+  static Url = SNAPSHOT_API
 
   static Cache = new Map<string, SnapshotApi>()
   private readonly client: Client
@@ -57,7 +56,7 @@ export class SnapshotApi {
   }
 
   static get() {
-    return this.from(config.get('SNAPSHOT_API', this.Url))
+    return this.from(this.Url)
   }
 
   async castVote({

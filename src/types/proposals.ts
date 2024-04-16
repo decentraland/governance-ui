@@ -1,18 +1,4 @@
-import {
-  MAX_NAME_SIZE,
-  MIN_NAME_SIZE,
-  VOTING_POWER_TO_PASS_BAN_NAME,
-  VOTING_POWER_TO_PASS_BID,
-  VOTING_POWER_TO_PASS_CATALYST,
-  VOTING_POWER_TO_PASS_DRAFT,
-  VOTING_POWER_TO_PASS_GOVERNANCE,
-  VOTING_POWER_TO_PASS_HIRING,
-  VOTING_POWER_TO_PASS_LINKED_WEARABLES,
-  VOTING_POWER_TO_PASS_PITCH,
-  VOTING_POWER_TO_PASS_POI,
-  VOTING_POWER_TO_PASS_POLL,
-  VOTING_POWER_TO_PASS_TENDER,
-} from '../constants/proposals'
+import { MAX_NAME_SIZE, MIN_NAME_SIZE } from '../constants/proposals'
 
 import { SnapshotProposal } from './SnapshotTypes'
 import { UnpublishedBidInfo } from './bids'
@@ -130,48 +116,6 @@ export enum CatalystType {
   Remove = 'catalyst_remove',
 }
 
-export function isProposalType(value: string | null | undefined): boolean {
-  if (value === null || value === undefined) {
-    return false
-  }
-
-  return Object.values(ProposalType).includes(value as ProposalType)
-}
-
-export function isPoiType(value: string | null | undefined): boolean {
-  switch (value) {
-    case PoiType.AddPOI:
-    case PoiType.RemovePOI:
-      return true
-    default:
-      return false
-  }
-}
-
-export function isCatalystType(value: string | null | undefined): boolean {
-  switch (value) {
-    case CatalystType.Add:
-    case CatalystType.Remove:
-      return true
-    default:
-      return false
-  }
-}
-
-export function isSortingOrder(value: string | null | undefined): boolean {
-  switch (value) {
-    case SortingOrder.ASC:
-    case SortingOrder.DESC:
-      return true
-    default:
-      return false
-  }
-}
-
-export function getPoiTypeAction(poiType: PoiType) {
-  return poiType.split('_')[0] // "add" | "remove"
-}
-
 export function isHiringType(value: string | null | undefined): boolean {
   switch (value) {
     case HiringType.Add:
@@ -184,19 +128,6 @@ export function isHiringType(value: string | null | undefined): boolean {
 
 export function toHiringType<T>(value: string | null | undefined, orElse: () => T): HiringType | T {
   return isHiringType(value) ? (value as HiringType) : orElse()
-}
-
-function requiredVotingPower(value: string | undefined | null, defaultValue: number) {
-  if (value === undefined || value === null) {
-    return defaultValue
-  }
-
-  const vp = Number(value.replace(/_/gi, ''))
-  if (Number.isFinite(vp) && vp >= 0) {
-    return vp
-  }
-
-  return defaultValue
 }
 
 export type UpdateProposalStatusProposal = {
@@ -239,8 +170,6 @@ const coAuthors = {
     maxLength: 42,
   },
 }
-
-export const INVALID_PROPOSAL_POLL_OPTIONS = 'Invalid question/options'
 
 export const newProposalPollScheme = {
   type: 'object',
@@ -662,20 +591,6 @@ export const newProposalTenderScheme = {
   },
 }
 
-export const ProposalRequiredVP = {
-  [ProposalType.LinkedWearables]: requiredVotingPower(VOTING_POWER_TO_PASS_LINKED_WEARABLES, 0),
-  [ProposalType.Catalyst]: requiredVotingPower(VOTING_POWER_TO_PASS_CATALYST, 0),
-  [ProposalType.BanName]: requiredVotingPower(VOTING_POWER_TO_PASS_BAN_NAME, 0),
-  [ProposalType.POI]: requiredVotingPower(VOTING_POWER_TO_PASS_POI, 0),
-  [ProposalType.Hiring]: requiredVotingPower(VOTING_POWER_TO_PASS_HIRING, 0),
-  [ProposalType.Poll]: requiredVotingPower(VOTING_POWER_TO_PASS_POLL, 0),
-  [ProposalType.Draft]: requiredVotingPower(VOTING_POWER_TO_PASS_DRAFT, 0),
-  [ProposalType.Governance]: requiredVotingPower(VOTING_POWER_TO_PASS_GOVERNANCE, 0),
-  [ProposalType.Pitch]: requiredVotingPower(VOTING_POWER_TO_PASS_PITCH, 0),
-  [ProposalType.Tender]: requiredVotingPower(VOTING_POWER_TO_PASS_TENDER, 0),
-  [ProposalType.Bid]: requiredVotingPower(VOTING_POWER_TO_PASS_BID, 0),
-}
-
 export type GrantProposalConfiguration = GrantRequestGeneralInfo &
   GrantRequestDueDiligence &
   GrantRequestTeam & {
@@ -807,7 +722,7 @@ export type ProposalCommentsInDiscourse = {
   comments: ProposalComment[]
 }
 
-export type VestingContractData = {
+type VestingContractData = {
   vestedAmount: number
   releasable: number
   released: number
@@ -853,6 +768,8 @@ export enum PriorityProposalType {
   ActiveBid = 'active_bid',
 }
 
+type LinkedProposal = Pick<ProposalAttributes, 'id' | 'finish_at' | 'start_at' | 'created_at'>
+
 export type PriorityProposal = Pick<
   ProposalAttributes,
   'id' | 'title' | 'finish_at' | 'start_at' | 'type' | 'status' | 'configuration' | 'user' | 'snapshot_proposal'
@@ -861,5 +778,3 @@ export type PriorityProposal = Pick<
   linked_proposals_data?: LinkedProposal[]
   unpublished_bids_data?: UnpublishedBidInfo[]
 }
-
-export type LinkedProposal = Pick<ProposalAttributes, 'id' | 'finish_at' | 'start_at' | 'created_at'>

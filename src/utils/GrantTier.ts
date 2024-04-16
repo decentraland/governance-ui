@@ -1,4 +1,4 @@
-import { GRANT_VP_THRESHOLD, MAX_LOWER_TIER_GRANT_FUNDING } from '../constants/grants'
+import { GRANT_VP_THRESHOLD } from '../constants/grants'
 import {
   GRANT_PROPOSAL_MIN_BUDGET,
   GrantTierType,
@@ -12,6 +12,8 @@ import { isProdEnv } from './governanceEnvs'
 import { isValidGrantBudget } from './grants'
 import { getHighBudgetVpThreshold } from './projects'
 import { asNumber } from './proposal'
+
+const MAX_LOWER_TIER_GRANT_FUNDING = 20000
 
 export enum TransparencyOneTimePaymentTier {
   Tier1 = 'Tier 1',

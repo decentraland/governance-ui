@@ -1,6 +1,5 @@
 import uniqBy from 'lodash/uniqBy'
 
-import { config } from '../config'
 import { SNAPSHOT_API, SNAPSHOT_SPACE } from '../constants/snapshot'
 import {
   SnapshotConfig,
@@ -45,7 +44,7 @@ const GET_VOTES_QUERY = `
 `
 
 export class SnapshotGraphql extends API {
-  static Url = SNAPSHOT_API || 'https://hub.snapshot.org/'
+  static Url = SNAPSHOT_API
   static Cache = new Map<string, SnapshotGraphql>()
 
   static from(baseUrl: string): SnapshotGraphql {
@@ -57,7 +56,7 @@ export class SnapshotGraphql extends API {
   }
 
   static get(): SnapshotGraphql {
-    return this.from(config.get('SNAPSHOT_API', this.Url))
+    return this.from(this.Url)
   }
 
   async getConfig() {

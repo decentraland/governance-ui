@@ -1,4 +1,4 @@
-import { config } from '../config'
+import { TRANSPARENCY_API } from '../constants'
 import { ProjectStatus } from '../types/grants'
 import { TokenInWallet } from '../types/transparency'
 import { ErrorCategory } from '../utils/errorCategories'
@@ -87,12 +87,10 @@ const EMPTY_API: TransparencyData = {
   committees: [],
 }
 
-const API_URL = config.get('DCL_DATA_API') || 'https://data.decentraland.vote/'
-
 export class Transparency {
   static async getData() {
     try {
-      const response = (await (await fetch(`${API_URL}/api.json`)).json()) as TransparencyData
+      const response = (await (await fetch(`${TRANSPARENCY_API}/api.json`)).json()) as TransparencyData
       return response
     } catch (error) {
       ErrorClient.report('Failed to fetch transparency data', { error, category: ErrorCategory.Transparency })
@@ -102,7 +100,7 @@ export class Transparency {
 
   static async getBudgets() {
     try {
-      const response = (await (await fetch(`${API_URL}/budgets.json`)).json()) as TransparencyBudget[]
+      const response = (await (await fetch(`${TRANSPARENCY_API}/budgets.json`)).json()) as TransparencyBudget[]
       return response
     } catch (error) {
       ErrorClient.report('Failed to fetch transparency budgets data', { error, category: ErrorCategory.Transparency })
@@ -112,7 +110,7 @@ export class Transparency {
 
   static async getVestings() {
     try {
-      const response = (await (await fetch(`${API_URL}/vestings.json`)).json()) as TransparencyVesting[]
+      const response = (await (await fetch(`${TRANSPARENCY_API}/vestings.json`)).json()) as TransparencyVesting[]
       return response
     } catch (error) {
       ErrorClient.report('Failed to fetch transparency vestings data', { error, category: ErrorCategory.Transparency })

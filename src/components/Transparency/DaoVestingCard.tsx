@@ -2,7 +2,6 @@ import { useIntl } from 'react-intl'
 
 import isNumber from 'lodash/isNumber'
 
-import { DAO_VESTING_CONTRACT_ADDRESS } from '../../constants'
 import { CURRENCY_FORMAT_OPTIONS, getVestingContractUrl } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useManaPrice from '../../hooks/useManaPrice'
@@ -10,6 +9,8 @@ import useVestingContractData from '../../hooks/useVestingContractData'
 import FinancialCard from '../Updates/FinancialCard'
 
 import DaoFinancial from './DaoFinancial'
+
+const DAO_VESTING_CONTRACT_ADDRESS = '0x7a3abf8897f31b56f09c6f69d074a393a905c1ac'
 
 function DaoVestingCard() {
   const t = useFormatMessage()

@@ -1,8 +1,7 @@
 import { hashMessage, recoverAddress } from 'ethers/lib/utils'
 import capitalize from 'lodash/capitalize'
 
-import { config } from '../config'
-import { FORUM_URL } from '../constants'
+import { DISCOURSE_USER, FORUM_URL } from '../constants'
 import { MESSAGE_TIMEOUT_TIME } from '../constants/users'
 import { DiscoursePostInTopic } from '../types/discourse'
 import { ProposalComment, ProposalCommentsInDiscourse } from '../types/proposals'
@@ -10,8 +9,6 @@ import { AccountType, ValidatedForumAccount, ValidationComment } from '../types/
 
 import { isSameAddress } from './snapshot'
 
-export const DISCOURSE_USER = config.get('DISCOURSE_USER')
-export const DISCOURSE_API = config.get('DISCOURSE_API')
 const DEFAULT_AVATAR_SIZE = '45'
 
 function getDefaultAvatarSizeUrl(avatar_url: string) {

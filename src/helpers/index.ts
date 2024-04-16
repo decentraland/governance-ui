@@ -4,8 +4,7 @@ import { ChainId } from '@dcl/schemas/dist/dapps/chain-id'
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
 import isURL from 'validator/lib/isURL'
 
-import { config } from '../config'
-import { DEFAULT_CHAIN_ID } from '../constants'
+import { DEFAULT_CHAIN_ID, VESTING_DASHBOARD_URL } from '../constants'
 import Time from '../utils/date/Time'
 import logger from '../utils/logger'
 
@@ -111,7 +110,6 @@ export function capitalizeFirstLetter(string: string) {
 }
 
 export function getVestingContractUrl(address: string) {
-  const VESTING_DASHBOARD_URL = config.get('VESTING_DASHBOARD_URL')
   return VESTING_DASHBOARD_URL.replace('%23', '#').concat(address.toLowerCase())
 }
 

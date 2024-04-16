@@ -7,7 +7,7 @@ import 'isomorphic-fetch'
 import numeral from 'numeral'
 
 import { Governance } from '../clients/Governance'
-import { GOVERNANCE_API, GOVERNANCE_URL } from '../constants'
+import { DISCOURSE_API, GOVERNANCE_API, GOVERNANCE_URL } from '../constants'
 import { MAX_NAME_SIZE, MIN_NAME_SIZE } from '../constants/proposals'
 import { SNAPSHOT_SPACE, SNAPSHOT_URL } from '../constants/snapshot'
 import { getEnumDisplayName } from '../helpers'
@@ -20,17 +20,12 @@ import {
   ProposalStatus,
   ProposalType,
   SortingOrder,
-  isCatalystType,
-  isPoiType,
-  isProposalType,
-  isSortingOrder,
 } from '../types/proposals'
 import { UpdateAttributes } from '../types/updates'
 import { VotesForProposals } from '../types/votes'
 import { getTile } from '../utils/Land'
 import Time from '../utils/date/Time'
 import { isSameAddress } from '../utils/snapshot'
-import { DISCOURSE_API } from '../utils/user'
 
 export const MIN_PROPOSAL_OFFSET = 0
 export const MAX_PROPOSAL_LIMIT = 100
@@ -201,6 +196,44 @@ function toCustomType<FinalType, OrElse, ValueType>(
   orElse: () => OrElse
 ): FinalType | OrElse {
   return isType(value) ? (value as unknown as FinalType) : orElse()
+}
+
+function isProposalType(value: string | null | undefined): boolean {
+  if (value === null || value === undefined) {
+    return false
+  }
+
+  return Object.values(ProposalType).includes(value as ProposalType)
+}
+
+function isPoiType(value: string | null | undefined): boolean {
+  switch (value) {
+    case PoiType.AddPOI:
+    case PoiType.RemovePOI:
+      return true
+    default:
+      return false
+  }
+}
+
+function isCatalystType(value: string | null | undefined): boolean {
+  switch (value) {
+    case CatalystType.Add:
+    case CatalystType.Remove:
+      return true
+    default:
+      return false
+  }
+}
+
+function isSortingOrder(value: string | null | undefined): boolean {
+  switch (value) {
+    case SortingOrder.ASC:
+    case SortingOrder.DESC:
+      return true
+    default:
+      return false
+  }
 }
 
 export function toProposalStatus<OrElse>(value: string | null | undefined, orElse: () => OrElse) {

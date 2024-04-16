@@ -134,6 +134,7 @@ export default function Layout({ children }: LayoutProps) {
       track(DROPDOWN_MENU_BALANCE_CLICK_EVENT, { network })
 
       setTimeout(() => {
+        // TODO: Missing variable ACCOUNT_URL
         window.open(config.get('ACCOUNT_URL'), '_blank', 'noopener')
       }, 300)
     },

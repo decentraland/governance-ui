@@ -1,7 +1,6 @@
 import snakeCase from 'lodash/snakeCase'
 
 import { SpecState } from '../components/Debug/UploadBadgeSpec'
-import { config } from '../config'
 import { GOVERNANCE_API } from '../constants'
 import {
   DetailedScores,
@@ -99,7 +98,7 @@ export type GetProposalsFilter = ProposalListFilter & {
 }
 
 const getGovernanceApiUrl = () => {
-  if (config.get('VITE_HEROKU_APP_NAME')) {
+  if (import.meta.env.VITE_HEROKU_APP_NAME) {
     return `https://governance.decentraland.vote/api`
   }
 
@@ -120,7 +119,7 @@ export class Governance extends API {
   }
 
   static get() {
-    return this.from(config.get('GOVERNANCE_API', this.Url))
+    return this.from(this.Url)
   }
 
   async fetchApiResponse<T>(endpoint: string, options: ApiOptions = { method: 'GET', sign: false }): Promise<T> {

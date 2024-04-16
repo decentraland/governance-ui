@@ -51,32 +51,9 @@ If you are running this project locally you only need to check the following env
 
 These environment variables are used by the application backend. The environment variables for the frontend are located in `src/config/env`.
 
-### Setup the required voting power to pass
-
-The minimum amount of voting power require to pass a proposal of each type it's defined in these variables, if they are not defined or are not numbers `0` will be used instead
-
-```bash
-  VOTING_POWER_TO_PASS_LINKED_WEARABLES=0
-  VOTING_POWER_TO_PASS_CATALYST=0
-  VOTING_POWER_TO_PASS_BAN_NAME=0
-  VOTING_POWER_TO_PASS_POI=0
-  VOTING_POWER_TO_PASS_POLL=0
-```
-
-## Database setup
-
-Make sure you have Postgres installed and running:
-
-```shell
-brew install postgresql@14
-brew services start postgresql@14
-createdb
-```
-
 ## Snapshot Setup
 
 - `SNAPSHOT_SPACE`: the snapshot space where the proposals will be published
-- `SNAPSHOT_ADDRESS`: a pair address/key with permissions to publish at that snapshot space
 - The configured SNAPSHOT_PROPOSAL_TYPE for the project is 'single-choice', which means each voter may select only one choice. See [available voting systems](https://docs.snapshot.org/proposals/voting-types#single-choice-voting)
 
 ### Creating a Snapshot space
