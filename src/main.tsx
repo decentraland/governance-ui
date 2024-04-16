@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { IntlProvider } from 'react-intl'
@@ -5,14 +6,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { QueryClient } from '@tanstack/query-core'
 import { QueryClientProvider } from '@tanstack/react-query'
+import 'semantic-ui-css/semantic.min.css'
 import 'balloon-css/balloon.min.css'
+import 'decentraland-ui/dist/themes/base-theme.css'
+import 'decentraland-ui/dist/themes/alternative/light-theme.css'
+
 // These CSS styles must be defined last to avoid overriding other styles
 // import 'core-js/features/set-immediate' // TODO: Check if this is necessary
-import 'decentraland-ui/dist/themes/alternative/light-theme.css'
-import 'decentraland-ui/dist/themes/base-theme.css'
-import 'semantic-ui-css/semantic.min.css'
-import 'semantic-ui-css/semantic.min.css'
-
 import SnapshotStatus from './components/Debug/SnapshotStatus'
 import Layout from './components/Layout/Layout'
 import Segment from './components/Segment'
