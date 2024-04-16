@@ -20,7 +20,6 @@ export const GOVERNANCE_API = config.get('GOVERNANCE_API')
 export const DAO_DISCORD_URL = 'https://dcl.gg/dao-discord'
 export const OPEN_CALL_FOR_DELEGATES_LINK = 'https://forum.decentraland.org/t/open-call-for-delegates-apply-now/5840'
 export const CANDIDATE_ADDRESSES = Candidates.map((delegate) => delegate.address)
-export const DAO_ROLLBAR_TOKEN = process.env.DAO_ROLLBAR_TOKEN
 export const SEGMENT_KEY = config.get('SEGMENT_KEY') || ''
 export const LOCAL_ENV_VAR = config.get('GATSBY_LOCAL_ENV_VAR') || ''
 export const TEST_ENV_VAR = config.get('GATSBY_TEST_ENV_VAR') || ''

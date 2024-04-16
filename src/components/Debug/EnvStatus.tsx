@@ -6,7 +6,6 @@ import { Field } from 'decentraland-ui/dist/components/Field/Field'
 import {
   CANDIDATE_ADDRESSES,
   DAO_DISCORD_URL,
-  DAO_ROLLBAR_TOKEN,
   DOCS_URL,
   FORUM_URL,
   GOVERNANCE_API,
@@ -24,6 +23,7 @@ interface Props {
   className?: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CONSTANTS: Record<string, any> = {
   DOCS_URL,
   FORUM_URL,
@@ -31,7 +31,6 @@ const CONSTANTS: Record<string, any> = {
   DAO_DISCORD_URL,
   OPEN_CALL_FOR_DELEGATES_LINK,
   CANDIDATE_ADDRESSES,
-  DAO_ROLLBAR_TOKEN,
   SEGMENT_KEY,
   LOCAL_ENV_VAR,
   TEST_ENV_VAR,
@@ -40,7 +39,9 @@ const CONSTANTS: Record<string, any> = {
 
 export default function EnvStatus({ className }: Props) {
   const [envName, setEnvName] = useState<string>('')
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [envValue, setEnvValue] = useState<any>('')
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [errorMessage, setErrorMessage] = useState<any>()
 
   async function handleReadVar() {
@@ -50,6 +51,7 @@ export default function EnvStatus({ className }: Props) {
       console.log('constantsEnvValue', CONSTANTS[envName])
       setEnvValue(JSON.stringify(CONSTANTS[envName]))
       setErrorMessage('')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       setErrorMessage(e.message)
     }
