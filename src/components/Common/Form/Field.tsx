@@ -6,6 +6,7 @@ interface Props<T extends FieldValues> extends FieldProps {
   control: Control<T>
   name: Path<T>
   defaultValue?: PathValue<T, Path<T>> | undefined
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rules?: any
 }
 

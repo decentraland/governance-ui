@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 
-import { EMPTY_DELEGATION } from '../clients/SnapshotTypes'
+import { EMPTY_DELEGATION } from '../types/SnapshotTypes'
 import { ProposalAttributes } from '../types/proposals'
 import { getDelegations } from '../utils/snapshot'
 

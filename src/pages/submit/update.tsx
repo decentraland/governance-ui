@@ -86,10 +86,10 @@ export default function Update({ isEdit }: Props) {
 
   const [formDisabled, setFormDisabled] = useState(false)
   const params = useURLSearchParams()
-  const updateId = params.id
+  const updateId = params.get('id')
   const [isPreviewMode, setPreviewMode] = useState(false)
   const { update, isLoadingUpdate, isErrorOnUpdate, refetchUpdate } = useProposalUpdate(updateId)
-  const proposalId = useMemo(() => params.proposalId || update?.proposal_id || '', [update, params])
+  const proposalId = useMemo(() => params.get('proposalId') || update?.proposal_id || '', [update, params])
   const { proposal } = useProposal(proposalId)
   const { publicUpdates } = useProposalUpdates(proposalId)
   const vestingAddresses = proposal?.vesting_addresses || []

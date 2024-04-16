@@ -1,7 +1,7 @@
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { isSameAddress } from '../../utils/snapshot'
-import { CoauthorAttributes } from '../..types/coauthors'
+import { CoauthorAttributes } from '../../types/coauthors'
 
 import { ProposalCreatedList } from './ProposalCreatedList'
 

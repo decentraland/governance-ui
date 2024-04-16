@@ -73,7 +73,7 @@ export default function SubmitTenderProposal() {
   const preventNavigation = useRef(false)
   const [error, setError] = useState('')
 
-  const preselectedLinkedProposalId = params['linked_proposal_id']
+  const preselectedLinkedProposalId = params.get('linked_proposal_id')
   const preselectedProposal = usePreselectedProposal(preselectedLinkedProposalId)
 
   const {

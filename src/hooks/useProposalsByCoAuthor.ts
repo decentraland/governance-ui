@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { Governance } from '../clients/Governance'
-import { CoauthorStatus } from '..types/coauthors'
+import { CoauthorStatus } from '../types/coauthors'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants'
 

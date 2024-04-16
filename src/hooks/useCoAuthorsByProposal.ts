@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 
 import { useAuthContext } from '../context/AuthProvider'
+import { CoauthorStatus } from '../types/coauthors'
 import { ProposalAttributes } from '../types/proposals'
-import { CoauthorStatus } from '..types/coauthors'
 
 import useCoauthors from './useCoauthors'
 

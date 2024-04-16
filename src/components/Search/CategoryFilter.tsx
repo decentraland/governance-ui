@@ -72,8 +72,8 @@ export default function CategoryFilter({
 }: FilterProps & { filterType: FilterType; showAllFilter?: boolean }) {
   const t = useFormatMessage()
   const params = useURLSearchParams()
-  const type = params[FILTER_KEY]
-  const currentSubtype = useMemo(() => toGrantSubtype(params.subtype, () => null), [params])
+  const type = params.get(FILTER_KEY)
+  const currentSubtype = useMemo(() => toGrantSubtype(params.get('subtype'), () => null), [params])
 
   const areProposals = isEqual(filterType, ProposalType)
   const filters = areProposals

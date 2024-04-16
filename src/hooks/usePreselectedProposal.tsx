@@ -16,7 +16,7 @@ const EMPTY_VALUE = {
   ],
 }
 
-export default function usePreselectedProposal(proposalId: ProposalAttributes['id'] | undefined) {
+export default function usePreselectedProposal(proposalId: ProposalAttributes['id'] | null) {
   const { data: preselectedProposal } = useQuery({
     queryKey: [`preselectedProposal#${proposalId}`],
     queryFn: async () => {

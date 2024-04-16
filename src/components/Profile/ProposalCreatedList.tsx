@@ -1,7 +1,7 @@
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useInfiniteProposals from '../../hooks/useInfiniteProposals'
 import { UseProposalsFilter } from '../../hooks/useProposals'
-import { CoauthorAttributes } from '../..types/coauthors'
+import { CoauthorAttributes } from '../../types/coauthors'
 import Empty from '../Common/Empty'
 import FullWidthButton from '../Common/FullWidthButton'
 import SkeletonBars from '../Common/SkeletonBars'

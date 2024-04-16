@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { ErrorCode } from '@ethersproject/logger'
 import { Web3Provider } from '@ethersproject/providers'
@@ -137,7 +138,7 @@ export default function ProposalPage() {
   })
   const [account, { provider }] = useAuthContext()
   const [errorCounter, setErrorCounter] = useState(0)
-  const { proposal, isLoadingProposal, isErrorOnProposal } = useProposal(params.id)
+  const { proposal, isLoadingProposal, isErrorOnProposal } = useProposal(params.get('id'))
   const { isCoauthor } = useIsProposalCoAuthor(proposal)
   const { isOwner } = useIsProposalOwner(proposal)
   const { votes, segmentedVotes, isLoadingVotes, reloadVotes } = useProposalVotes(proposal?.id)

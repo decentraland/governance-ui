@@ -44,7 +44,7 @@ const schema = newProposalDraftScheme.properties
 export default function SubmitDraftProposal() {
   const t = useFormatMessage()
   const params = useURLSearchParams()
-  const preselectedLinkedProposalId = params['linked_proposal_id']
+  const preselectedLinkedProposalId = params.get('linked_proposal_id')
   const [account, accountState] = useAuthContext()
   const { vpDistribution, isLoadingVpDistribution } = useVotingPowerDistribution(account)
   const submissionVpNotMet = useMemo(

@@ -12,7 +12,7 @@ import './submit.css'
 
 export default function Hiring() {
   const params = useURLSearchParams()
-  const request = params.request
+  const request = params.get('request')
 
   const type = toHiringType(request, () => null)
 

@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 
 import { useAuthContext } from '../context/AuthProvider'
+import { CoauthorStatus } from '../types/coauthors'
 import { ProposalAttributes } from '../types/proposals'
 import { isSameAddress } from '../utils/snapshot'
-import { CoauthorStatus } from '..types/coauthors'
 
 import useCoAuthorsByProposal from './useCoAuthorsByProposal'
 

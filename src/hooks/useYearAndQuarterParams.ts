@@ -4,8 +4,8 @@ import useURLSearchParams from './useURLSearchParams'
 
 function useYearAndQuarterParams() {
   const params = useURLSearchParams()
-  const yearParam = params.year
-  const quarterParam = params.quarter
+  const yearParam = params.get('year')
+  const quarterParam = params.get('quarter')
   const year = validateYear(yearParam)
   const quarter = validateQuarter(quarterParam)
   const areValidParams = year !== null && quarter !== null

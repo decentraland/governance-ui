@@ -23,14 +23,14 @@ export function useProposalsSearchParams(): SearchParams {
   const params = useURLSearchParams()
 
   return useMemo(() => {
-    const type = toProposalType(params.type, () => undefined)
-    const subtype = toGrantSubtype(params.subtype, () => undefined)
-    const status = toProposalStatus(params.status, () => undefined)
-    const search = params.search || ''
-    const timeFrame = params.timeFrame || ''
-    const order = toSortingOrder(params.order, () => undefined)
+    const type = toProposalType(params.get('type'), () => undefined)
+    const subtype = toGrantSubtype(params.get('subtype'), () => undefined)
+    const status = toProposalStatus(params.get('status'), () => undefined)
+    const search = params.get('search') || ''
+    const timeFrame = params.get('timeFrame') || ''
+    const order = toSortingOrder(params.get('order'), () => undefined)
     const searching = !!search && search.length > 0
-    const page = toProposalListPage(params.page) ?? undefined
+    const page = toProposalListPage(params.get('page')) ?? undefined
     const filtering = !!type || !!subtype || !!status || searching || !!(timeFrame && timeFrame.length > 0)
 
     return { type, subtype, status, search, searching, timeFrame, order, page, filtering }

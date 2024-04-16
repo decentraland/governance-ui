@@ -7,14 +7,13 @@ import { Desktop, TabletAndBelow, useTabletAndBelowMediaQuery } from 'decentrala
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useProposalComments from '../../hooks/useProposalComments'
+import reactions from '../../images/reactions.png'
 import { forumUrl } from '../../utils/proposal'
 import Link from '../Common/Typography/Link'
 import Forum from '../Icon/Forum'
 import Open from '../Icon/Open'
 
 import './FloatingBar.css'
-
-const reactions = require('../../images/reactions.png').default
 
 interface Props {
   proposalHasReactions: boolean

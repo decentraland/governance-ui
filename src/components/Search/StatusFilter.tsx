@@ -18,7 +18,7 @@ const FILTER_KEY = 'status'
 export default function StatusFilter({ statusType }: FilterProps & { statusType: StatusType }) {
   const t = useFormatMessage()
   const params = useURLSearchParams()
-  const status = params[FILTER_KEY]
+  const status = params.get(FILTER_KEY)
   const isGrantFilter = isEqual(statusType, ProjectStatus)
 
   return (

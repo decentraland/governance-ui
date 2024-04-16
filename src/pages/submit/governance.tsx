@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Header } from 'decentraland-ui/dist/components/Header/Header'
@@ -51,7 +52,7 @@ const schema = newProposalGovernanceScheme.properties
 export default function SubmitGovernanceProposal() {
   const t = useFormatMessage()
   const params = useURLSearchParams()
-  const preselectedLinkedProposalId = params['linked_proposal_id']
+  const preselectedLinkedProposalId = params.get('linked_proposal_id')
   const [account, accountState] = useAuthContext()
   const { vpDistribution, isLoadingVpDistribution } = useVotingPowerDistribution(account)
   const submissionVpNotMet = useMemo(
@@ -69,7 +70,7 @@ export default function SubmitGovernanceProposal() {
   const [error, setError] = useState('')
   const [formDisabled, setFormDisabled] = useState(false)
   const preselectedProposal = usePreselectedProposal(preselectedLinkedProposalId)
-
+  const navigate = useNavigate()
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
 
   useEffect(() => {

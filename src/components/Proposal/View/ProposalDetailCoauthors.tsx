@@ -1,7 +1,7 @@
 import { Popup } from 'decentraland-ui/dist/components/Popup/Popup'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { CoauthorAttributes, CoauthorStatus } from '../../..types/coauthors'
+import { CoauthorAttributes, CoauthorStatus } from '../../../types/coauthors'
 import Username from '../../Common/Username'
 import Cancel from '../../Icon/Cancel'
 import Check from '../../Icon/Check'

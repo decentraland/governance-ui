@@ -17,6 +17,8 @@ import SnapshotStatus from './components/Debug/SnapshotStatus'
 import Layout from './components/Layout/Layout'
 import AuthProvider from './context/AuthProvider'
 import en from './intl/en.json'
+import ProposalPage from './pages/proposal'
+import ProposalsPage from './pages/proposals'
 import TransparencyPage from './pages/transparency'
 import { flattenMessages } from './utils/intl'
 
@@ -38,6 +40,8 @@ const component = (
             <Layout>
               <Routes>
                 <Route path="*" element={<HomePage />} />
+                <Route path="/proposals" element={<ProposalsPage />} />
+                <Route path="/proposal" element={<ProposalPage />} />
                 <Route path="/transparency" element={<TransparencyPage />} />
               </Routes>
             </Layout>

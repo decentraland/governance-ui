@@ -7,6 +7,8 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import NO_IMAGE from '../../images/no-image.png'
+
 import './ImageGallery.css'
 
 type Props = ModalProps & {
@@ -14,8 +16,6 @@ type Props = ModalProps & {
   startIndex?: number
   navigation?: boolean
 }
-
-const NO_IMAGE = require('../../images/no-image.png').default
 
 function ImageGalleryFullscreen({ open, onClose, className, imageUrls, startIndex, navigation }: Props) {
   return (

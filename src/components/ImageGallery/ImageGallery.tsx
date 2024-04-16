@@ -9,6 +9,8 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import NO_IMAGE from '../../images/no-image.png'
+
 import './ImageGallery.css'
 import ImageGalleryFullscreen from './ImageGalleryFullscreen'
 
@@ -16,8 +18,6 @@ interface Props {
   className?: string
   imageUrls: string[]
 }
-
-const NO_IMAGE = require('../../images/no-image.png').default
 
 function ImageGallery({ className, imageUrls }: Props) {
   const isNarrowScreen = useTabletAndBelowMediaQuery()

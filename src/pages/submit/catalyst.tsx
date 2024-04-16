@@ -7,7 +7,7 @@ import './submit.css'
 
 export default function CatalystPage() {
   const params = useURLSearchParams()
-  const request = params.request
+  const request = params.get('request')
 
   const catalystType = toCatalystType(request, () => null)
 

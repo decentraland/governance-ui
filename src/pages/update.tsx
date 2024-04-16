@@ -21,7 +21,7 @@ import './update.css'
 export default function UpdateDetail() {
   const t = useFormatMessage()
   const params = useURLSearchParams()
-  const updateId = params.id
+  const updateId = params.get('id')
   const { update, isLoadingUpdate, isErrorOnUpdate } = useProposalUpdate(updateId)
   const { proposal, isErrorOnProposal, isLoadingProposal } = useProposal(update?.proposal_id)
   const {

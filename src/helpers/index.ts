@@ -1,5 +1,4 @@
 import { FormatNumberOptions } from 'react-intl'
-import { Params } from 'react-router-dom'
 
 import { ChainId } from '@dcl/schemas/dist/dapps/chain-id'
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
@@ -47,12 +46,12 @@ export function getUncappedRoundedPercentage(value: number, total: number): numb
   return Math.round((value * 100) / total)
 }
 
-export function getUrlFilters<T>(filterKey: string, params: Params, value?: T) {
+export function getUrlFilters<T>(filterKey: string, params: URLSearchParams, value?: T) {
   if (typeof window === 'undefined') {
     return ''
   }
 
-  const newParams = new URLSearchParams(params as Record<string, string>)
+  const newParams = new URLSearchParams(params)
   value ? newParams.set(filterKey, String(value)) : newParams.delete(filterKey)
   newParams.delete('page')
   if (filterKey === 'type') {

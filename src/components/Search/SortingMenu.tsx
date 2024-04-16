@@ -17,8 +17,8 @@ const SORT_KEY = 'order'
 export default function SortingMenu() {
   const navigate = useNavigate()
   const params = useURLSearchParams()
-  const isSearching = !!params.search
-  const order = toSortingOrder(params.order, () => (isSearching ? 'RELEVANCE' : SortingOrder.DESC))
+  const isSearching = !!params.get('search')
+  const order = toSortingOrder(params.get('order'), () => (isSearching ? 'RELEVANCE' : SortingOrder.DESC))
   const arrowDirection = order === SortingOrder.ASC ? 'Upwards' : 'Downwards'
   const isMobile = useMobileMediaQuery()
 

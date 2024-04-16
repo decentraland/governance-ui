@@ -35,10 +35,10 @@ import useProposals from '../hooks/useProposals'
 import useProposalsByCoAuthor from '../hooks/useProposalsByCoAuthor'
 import useProposalsCachedVotes from '../hooks/useProposalsCachedVotes'
 import { useProposalsSearchParams } from '../hooks/useProposalsSearchParams'
+import { CoauthorStatus } from '../types/coauthors'
 import { ProposalStatus, ProposalType } from '../types/proposals'
 import locations from '../utils/locations'
 import { isUnderMaintenance } from '../utils/maintenance'
-import { CoauthorStatus } from '..types/coauthors'
 
 import './proposals.css'
 

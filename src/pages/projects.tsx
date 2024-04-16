@@ -94,11 +94,11 @@ function toDateFilter(value: string | null): number | undefined {
 export default function ProjectsPage() {
   const t = useFormatMessage()
   const params = useURLSearchParams()
-  const type = toProjectTypeFilter(params.type)
-  const status = toProjectStatus(params.status)
-  const subtype = toGrantSubtype(params.subtype, () => undefined)
-  const year = toDateFilter(params.year || '')
-  const quarter = toDateFilter(params.quarter || '')
+  const type = toProjectTypeFilter(params.get('type'))
+  const status = toProjectStatus(params.get('status'))
+  const subtype = toGrantSubtype(params.get('subtype'), () => undefined)
+  const year = toDateFilter(params.get('year') || '')
+  const quarter = toDateFilter(params.get('quarter') || '')
 
   const { projects, isLoadingProjects } = useProjects({ year, quarter })
   const displayableProjects = useMemo(

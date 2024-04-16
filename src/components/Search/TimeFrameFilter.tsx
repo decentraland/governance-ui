@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useURLSearchParams from '../../hooks/useURLSearchParams'
 import locations from '../../utils/locations'
@@ -10,7 +8,7 @@ import FilterLabel from './FilterLabel'
 export default function TimeFrameFilter() {
   const t = useFormatMessage()
   const params = useURLSearchParams()
-  const timeFrame = useMemo(() => params.timeFrame || null, [params])
+  const timeFrame = params.get('timeFrame') || null
 
   function handleTimeFrameFilter(timeFrame: string | null) {
     const newParams = new URLSearchParams(params)

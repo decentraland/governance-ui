@@ -45,7 +45,7 @@ export default function CategoryOption({
 }: Props) {
   const t = useFormatMessage()
   const params = useURLSearchParams()
-  const currentType = useMemo(() => params.type, [params])
+  const currentType = useMemo(() => params.get('type'), [params])
   const isGroupSelected = useMemo(
     () => !!subcategories?.includes(currentType as never) || currentType === type,
     [subcategories, currentType, type]
