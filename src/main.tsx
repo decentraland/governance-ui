@@ -15,6 +15,7 @@ import 'semantic-ui-css/semantic.min.css'
 
 import SnapshotStatus from './components/Debug/SnapshotStatus'
 import Layout from './components/Layout/Layout'
+import Segment from './components/Segment'
 import AuthProvider from './context/AuthProvider'
 import en from './intl/en.json'
 import DebugPage from './pages/debug'
@@ -25,7 +26,7 @@ import ProposalsPage from './pages/proposals'
 import TransparencyPage from './pages/transparency'
 import { flattenMessages } from './utils/intl'
 
-import { SSO_URL } from './constants'
+import { SEGMENT_KEY, SSO_URL } from './constants'
 import HomePage from './pages'
 import './theme.css'
 import './ui-overrides.css'
@@ -55,7 +56,7 @@ const component = (
         </BrowserRouter>
       </QueryClientProvider>
     </AuthProvider>
-    {/* {SEGMENT_KEY && <Segment key="segment" segmentKey={SEGMENT_KEY} />} */}
+    {SEGMENT_KEY && <Segment key="segment" segmentKey={SEGMENT_KEY} />}
   </React.StrictMode>
 )
 
