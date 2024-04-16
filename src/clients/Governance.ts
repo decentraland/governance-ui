@@ -99,7 +99,7 @@ export type GetProposalsFilter = ProposalListFilter & {
 }
 
 const getGovernanceApiUrl = () => {
-  if (import.meta.env.VITE_HEROKU_APP_NAME) {
+  if (config.get('VITE_HEROKU_APP_NAME')) {
     return `https://governance.decentraland.vote/api`
   }
 
