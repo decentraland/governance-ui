@@ -46,9 +46,7 @@ If you are running this project locally you only need to check the following env
 
 - `CONNECTION_STRING`: make sure it points to a valid database (see how to create one in the 'Database Setup' section)
 - `COMMITTEE_ADDRESSES`: list of eth addresses separated by `,` that will be able to enact finished proposals
-- `DISCOURSE_API_KEY`: the api key use to publish the proposals on the forum
 - `RPC_PROVIDER_URL`: the rpc provider to get the latest block
-- `BLOCKNATIVE_API_KEY`: api key for [blocknative](https://www.blocknative.com/), a polygon tx gas estimation service we use for calculating airdrops gas fees accurately
 - Snapshot env vars: see snapshot setup
 
 These environment variables are used by the application backend. The environment variables for the frontend are located in `src/config/env`.
@@ -58,11 +56,11 @@ These environment variables are used by the application backend. The environment
 The minimum amount of voting power require to pass a proposal of each type it's defined in these variables, if they are not defined or are not numbers `0` will be used instead
 
 ```bash
-  GATSBY_VOTING_POWER_TO_PASS_LINKED_WEARABLES=0
-  GATSBY_VOTING_POWER_TO_PASS_CATALYST=0
-  GATSBY_VOTING_POWER_TO_PASS_BAN_NAME=0
-  GATSBY_VOTING_POWER_TO_PASS_POI=0
-  GATSBY_VOTING_POWER_TO_PASS_POLL=0
+  VOTING_POWER_TO_PASS_LINKED_WEARABLES=0
+  VOTING_POWER_TO_PASS_CATALYST=0
+  VOTING_POWER_TO_PASS_BAN_NAME=0
+  VOTING_POWER_TO_PASS_POI=0
+  VOTING_POWER_TO_PASS_POLL=0
 ```
 
 ## Database setup
@@ -75,49 +73,10 @@ brew services start postgresql@14
 createdb
 ```
 
-You can create a DB from scratch, or you can use the `import-db.sh` script to create a new DB using the `development.dump` dump.
-
-### Importing DB dump
-
-```bash
-cd scripts/
-bash ./import-db.sh USERNAME [DATABASE_NAME] [DUMP_FILE]
-```
-
-If no DATABASE_NAME and DUMP_FILE arguments are given, the script will use the default values and create a `governance` db using the `development.dump` dump.
-The CONNECTION_STRING should look like this:
-
-```bash
-postgres://USERNAME:PASSWORD@localhost:5432/governance
-```
-
-(the default password should be `postgres`)
-
-### Creating DB from scratch
-
-To create a DB, run in the terminal
-
-```bash
-createdb -U YOUR_USER DATABASE_NAME
-```
-
-The default postgres user is `postgres` or your username, and the default password is `postgres`.
-Use your user and password for the connection string variable, it should look like this:
-
-```bash
-postgres://YOUR_USER:YOUR_PASSWORD@localhost:5432/DATABASE_NAME
-```
-
-Once you have a `CONNECTION_STRING` you can set up your database tables using the following command:
-
-```bash
-npm run migrate up
-```
-
 ## Snapshot Setup
 
-- `GATSBY_SNAPSHOT_SPACE`: the snapshot space where the proposals will be published
-- `SNAPSHOT_PRIVATE_KEY`, `GATSBY_SNAPSHOT_ADDRESS`: a pair address/key with permissions to publish at that snapshot space
+- `SNAPSHOT_SPACE`: the snapshot space where the proposals will be published
+- `SNAPSHOT_ADDRESS`: a pair address/key with permissions to publish at that snapshot space
 - The configured SNAPSHOT_PROPOSAL_TYPE for the project is 'single-choice', which means each voter may select only one choice. See [available voting systems](https://docs.snapshot.org/proposals/voting-types#single-choice-voting)
 
 ### Creating a Snapshot space

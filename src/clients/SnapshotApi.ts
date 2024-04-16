@@ -31,7 +31,7 @@ type CastVote = {
 }
 
 export class SnapshotApi {
-  static Url = process.env.GATSBY_SNAPSHOT_API || 'https://hub.snapshot.org'
+  static Url = config.get('SNAPSHOT_API') || 'https://hub.snapshot.org'
 
   static Cache = new Map<string, SnapshotApi>()
   private readonly client: Client
@@ -51,7 +51,7 @@ export class SnapshotApi {
 
   private static getSpaceName() {
     if (!SNAPSHOT_SPACE) {
-      throw new Error('Failed to determine snapshot space. Please check GATSBY_SNAPSHOT_SPACE env is defined')
+      throw new Error('Failed to determine snapshot space. Please check SNAPSHOT_SPACE env is defined')
     }
     return SNAPSHOT_SPACE
   }

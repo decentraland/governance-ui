@@ -1,5 +1,7 @@
+import { config } from '../config'
+
 export function isUnderMaintenance() {
-  switch (process.env.GATSBY_MAINTENANCE) {
+  switch (config.get('MAINTENANCE')) {
     case 'true':
     case '1':
       return true

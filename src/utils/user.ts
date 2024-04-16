@@ -10,8 +10,8 @@ import { AccountType, ValidatedForumAccount, ValidationComment } from '../types/
 
 import { isSameAddress } from './snapshot'
 
-export const DISCOURSE_USER = process.env.GATSBY_DISCOURSE_USER || config.get('GATSBY_DISCOURSE_USER') || ''
-export const DISCOURSE_API = process.env.GATSBY_DISCOURSE_API || config.get('GATSBY_DISCOURSE_API') || ''
+export const DISCOURSE_USER = config.get('DISCOURSE_USER')
+export const DISCOURSE_API = config.get('DISCOURSE_API')
 const DEFAULT_AVATAR_SIZE = '45'
 
 function getDefaultAvatarSizeUrl(avatar_url: string) {

@@ -12,7 +12,7 @@ export default class RpcService {
       return block.number
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      throw new Error("Couldn't get the latest block: " + err.message, err)
+      throw new Error("Couldn't get the latest block: " + err.message + ' ' + err)
     }
   }
 
@@ -21,9 +21,5 @@ export default class RpcService {
 
     const networkName = network.name === 'homestead' ? 'mainnet' : network.name
     return process.env.RPC_PROVIDER_URL + networkName
-  }
-
-  public static getPolygonProvider() {
-    return new JsonRpcProvider(process.env.POLYGON_RPC_URL)
   }
 }

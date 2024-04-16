@@ -1,3 +1,4 @@
+import { config } from '../config'
 import { ProjectStatus } from '../types/grants'
 import { TokenInWallet } from '../types/transparency'
 import { ErrorCategory } from '../utils/errorCategories'
@@ -86,7 +87,7 @@ const EMPTY_API: TransparencyData = {
   committees: [],
 }
 
-const API_URL = process.env.GATSBY_DCL_DATA_API || 'https://data.decentraland.vote/'
+const API_URL = config.get('DCL_DATA_API') || 'https://data.decentraland.vote/'
 
 export class Transparency {
   static async getData() {

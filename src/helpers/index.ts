@@ -4,8 +4,8 @@ import { ChainId } from '@dcl/schemas/dist/dapps/chain-id'
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
 import isURL from 'validator/lib/isURL'
 
+import { config } from '../config'
 import { DEFAULT_CHAIN_ID } from '../constants'
-import { clientEnv } from '../utils/clientEnv'
 import Time from '../utils/date/Time'
 import logger from '../utils/logger'
 
@@ -111,7 +111,7 @@ export function capitalizeFirstLetter(string: string) {
 }
 
 export function getVestingContractUrl(address: string) {
-  const VESTING_DASHBOARD_URL = clientEnv('GATSBY_VESTING_DASHBOARD_URL')
+  const VESTING_DASHBOARD_URL = config.get('VESTING_DASHBOARD_URL')
   return VESTING_DASHBOARD_URL.replace('%23', '#').concat(address.toLowerCase())
 }
 
@@ -138,7 +138,7 @@ export function getEnvironmentChainId() {
     case ChainId.ETHEREUM_SEPOLIA:
       return ChainId.ETHEREUM_SEPOLIA
     default:
-      throw new Error(`GATSBY_DEFAULT_CHAIN_ID is not a supported network: ${chainId}`)
+      throw new Error(`DEFAULT_CHAIN_ID is not a supported network: ${chainId}`)
   }
 }
 

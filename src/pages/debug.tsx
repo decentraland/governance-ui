@@ -42,7 +42,8 @@ export default function DebugPage() {
       <Navigation activeTab={NavigationTab.Debug} />
       <WiderContainer className="DebugPage">
         <Heading size="sm">{'Version'}</Heading>
-        <Text>{process.env.GATSBY_VERSION_NUMBER}</Text>
+        {/* TODO: Review this */}
+        <Text>{process.env.VERSION_NUMBER}</Text>
         <div className="DebugTabs">
           <BoxTabs>
             <BoxTabs.Left>
