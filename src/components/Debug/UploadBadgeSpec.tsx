@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Field as DCLField } from 'decentraland-ui/dist/components/Field/Field'
 
-import { getIpfsAddress } from '../../back/utils/contractInteractions'
 import { Governance } from '../../clients/Governance'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import Time from '../../utils/date/Time'
@@ -36,10 +35,15 @@ const initialState: SpecState = {
   title: '',
 }
 
+function getIpfsAddress(badgeCid: string) {
+  return `ipfs://${badgeCid}/metadata.json`
+}
+
 export default function UploadBadgeSpec({ className }: Props) {
   const t = useFormatMessage()
   const [formDisabled, setFormDisabled] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [result, setResult] = useState<any>()
 
   const {
@@ -56,6 +60,7 @@ export default function UploadBadgeSpec({ className }: Props) {
     setSubmitError('')
     setFormDisabled(true)
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: any = await Governance.get().uploadBadgeSpec(data)
       setResult(result)
       setFormDisabled(false)

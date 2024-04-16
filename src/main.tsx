@@ -17,6 +17,7 @@ import SnapshotStatus from './components/Debug/SnapshotStatus'
 import Layout from './components/Layout/Layout'
 import AuthProvider from './context/AuthProvider'
 import en from './intl/en.json'
+import DebugPage from './pages/debug'
 import ProposalPage from './pages/proposal'
 import ProposalsPage from './pages/proposals'
 import TransparencyPage from './pages/transparency'
@@ -43,6 +44,7 @@ const component = (
                 <Route path="/proposals" element={<ProposalsPage />} />
                 <Route path="/proposal" element={<ProposalPage />} />
                 <Route path="/transparency" element={<TransparencyPage />} />
+                <Route path="/debug" element={<DebugPage />} />
               </Routes>
             </Layout>
           </IntlProvider>
