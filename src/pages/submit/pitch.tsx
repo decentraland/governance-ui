@@ -73,7 +73,6 @@ export default function SubmitPitchProposal() {
         ...data,
       })
 
-      // TODO: What to do with replace?
       navigate(locations.proposal(proposal.id, { new: 'true' }), {
         replace: true,
       })

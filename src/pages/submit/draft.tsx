@@ -86,7 +86,6 @@ export default function SubmitDraftProposal() {
         linked_proposal_id: data.linked_proposal_id,
       })
 
-      // TODO: what to do with replace?
       navigate(locations.proposal(proposal.id, { new: 'true' }), {
         replace: true,
       })

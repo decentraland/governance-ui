@@ -304,13 +304,11 @@ export default function ProposalPage() {
 
   const closeProposalSuccessModal = () => {
     updatePageState((prevState) => ({ ...prevState, showProposalSuccessModal: false }))
-    // TODO: What replaces replace?
     navigate(locations.proposal(proposal!.id), { replace: true })
   }
 
   const closeUpdateSuccessModal = () => {
     updatePageState((prevState) => ({ ...prevState, showUpdateSuccessModal: false }))
-    // TODO: What replaces replace?
     navigate(locations.proposal(proposal!.id), { replace: true })
   }
 

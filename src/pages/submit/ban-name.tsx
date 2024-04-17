@@ -63,7 +63,6 @@ export default function SubmitBanName() {
       }
 
       const proposal = await Governance.get().createProposalBanName(data)
-      // TODO: what to do with this replace?
       navigate(locations.proposal(proposal.id, { new: 'true' }), { replace: true })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
