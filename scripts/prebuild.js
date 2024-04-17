@@ -59,7 +59,7 @@ function getPublicUrls() {
     }
   }
   // localhost
-  console.log('Using empty pubic url')
+  console.log('Using empty public url')
   return {
     VITE_BASE_URL: '',
   }
