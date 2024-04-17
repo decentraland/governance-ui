@@ -54,7 +54,7 @@ export default defineConfig(({ command, mode }) => {
             },
             rollupOptions: {
               plugins: [rollupNodePolyFill()],
-              external: ['redux-saga/effects'],
+              external: ['redux-saga/effects', 'react-redux'],
             },
             sourcemap: true,
           },
