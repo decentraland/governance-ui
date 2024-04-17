@@ -43,6 +43,9 @@ import { SSO_URL } from './constants'
 import HomePage from './pages'
 import './theme.css'
 import './ui-overrides.css'
+import UpdateDetail from './pages/update'
+import UpdateEditPage from './pages/edit/update'
+import SubmitUpdatePage from './pages/submit/update'
 
 const queryClient = new QueryClient()
 
@@ -60,6 +63,8 @@ const component = (
                 <Route path="/proposals" element={<ProposalsPage />} />
                 <Route path="/proposal" element={<ProposalPage />} />
                 <Route path="/projects" element={<ProjectsPage />} />
+                <Route path="/update" element={<UpdateDetail />} />
+                <Route path="/edit/update" element={<UpdateEditPage />} />
                 <Route path="/submit" element={<SubmitPage />} />
                 <Route path="/submit/catalyst" element={<CatalystPage />} />
                 <Route path="/submit/poi" element={<Poi />} />
@@ -73,6 +78,7 @@ const component = (
                 <Route path="/submit/poll" element={<SubmitPoll />} />
                 <Route path="/submit/draft" element={<SubmitDraftProposal />} />
                 <Route path="/submit/governance" element={<SubmitGovernanceProposal />} />
+                <Route path="/submit/update" element={<SubmitUpdatePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/transparency" element={<TransparencyPage />} />
                 <Route path="/debug" element={<DebugPage />} />

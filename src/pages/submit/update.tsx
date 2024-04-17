@@ -79,7 +79,7 @@ function getInitialUpdateValues<T>(
   return Object.keys(values).length > 0 ? values : undefined
 }
 
-export default function Update({ isEdit }: Props) {
+export default function SubmitUpdatePage({ isEdit }: Props) {
   const t = useFormatMessage()
   const [account, accountState] = useAuthContext()
   const navigate = useNavigate()
