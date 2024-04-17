@@ -100,7 +100,6 @@ dist
 .tern-port
 
 lib
-public
 *.deno.ts
 .DS_Store
 snapshot.*.json
