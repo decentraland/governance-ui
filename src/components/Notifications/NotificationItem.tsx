@@ -24,6 +24,7 @@ function getIcon(metadata: { customType: string }) {
     case NotificationCustomType.Grant:
       return Grant
     case NotificationCustomType.ProposalComment:
+    case NotificationCustomType.ProjectUpdateComment:
       return CircledComment
     case NotificationCustomType.Proposal:
     default:
