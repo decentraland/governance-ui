@@ -6,10 +6,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { QueryClient } from '@tanstack/query-core'
 import { QueryClientProvider } from '@tanstack/react-query'
-import 'semantic-ui-css/semantic.min.css'
 import 'balloon-css/balloon.min.css'
-import 'decentraland-ui/dist/themes/base-theme.css'
 import 'decentraland-ui/dist/themes/alternative/light-theme.css'
+import 'decentraland-ui/dist/themes/base-theme.css'
+import 'semantic-ui-css/semantic.min.css'
 
 // These CSS styles must be defined last to avoid overriding other styles
 // import 'core-js/features/set-immediate' // TODO: Check if this is necessary
@@ -19,6 +19,7 @@ import Segment from './components/Segment'
 import AuthProvider from './context/AuthProvider'
 import en from './intl/en.json'
 import DebugPage from './pages/debug'
+import UpdateEditPage from './pages/edit/update'
 import ProfilePage from './pages/profile'
 import ProjectsPage from './pages/projects'
 import ProposalPage from './pages/proposal'
@@ -36,20 +37,19 @@ import SubmitPitchProposal from './pages/submit/pitch'
 import Poi from './pages/submit/poi'
 import SubmitPoll from './pages/submit/poll'
 import SubmitTenderProposal from './pages/submit/tender'
+import SubmitUpdatePage from './pages/submit/update'
 import TransparencyPage from './pages/transparency'
+import UpdateDetail from './pages/update'
 import { flattenMessages } from './utils/intl'
 
 import { SSO_URL } from './constants'
 import HomePage from './pages'
 import './theme.css'
 import './ui-overrides.css'
-import UpdateDetail from './pages/update'
-import UpdateEditPage from './pages/edit/update'
-import SubmitUpdatePage from './pages/submit/update'
 
 const queryClient = new QueryClient()
 
-const basename = /^decentraland.(zone|org|today)$/.test(window.location.host) ? '/governance' : '/'
+const basename = /^decentraland.(zone|org|today)$/.test(window.location.host) ? '/governance-ui' : '/'
 const component = (
   <React.StrictMode>
     <AuthProvider sso={SSO_URL}>
