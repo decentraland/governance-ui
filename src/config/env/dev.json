@@ -3,7 +3,7 @@
   "BUY_WEARABLES_URL": "https://decentraland.zone/marketplace/browse?assetType=item&section=wearables&vendor=decentraland&page=1&sortBy=newest&status=on_sale",
   "BUY_MANA_URL": "https://decentraland.zone/account",
   "BUY_NAME_URL": "https://decentraland.zone/builder/names",
-  "VESTING_DASHBOARD_URL": "https://vesting.decentraland.org/%23/",
+  "VESTING_DASHBOARD_URL": "https://decentraland.org/vesting/%23/",
   "DCL_DATA_API": "https://data.decentraland.vote/",
   "DEFAULT_CHAIN_ID": "11155111",
   "DISCOURSE_API": "https://forum.decentraland.vote",
