@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+import 'semantic-ui-css/semantic.min.css'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { IntlProvider } from 'react-intl'
@@ -6,11 +8,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { QueryClient } from '@tanstack/query-core'
 import { QueryClientProvider } from '@tanstack/react-query'
-// These CSS styles must be defined last to avoid overriding other styles
-import 'balloon-css/balloon.min.css'
-import 'decentraland-ui/dist/themes/alternative/light-theme.css'
-import 'decentraland-ui/dist/themes/base-theme.css'
-import 'semantic-ui-css/semantic.min.css'
 
 import SnapshotStatus from './components/Debug/SnapshotStatus'
 import Layout from './components/Layout/Layout'
@@ -43,6 +40,11 @@ import { flattenMessages } from './utils/intl'
 
 import { SSO_URL } from './constants'
 import HomePage from './pages'
+
+// These CSS styles must be defined last to avoid overriding other styles
+import 'balloon-css/balloon.min.css'
+import 'decentraland-ui/dist/themes/base-theme.css'
+import 'decentraland-ui/dist/themes/alternative/light-theme.css'
 import './theme.css'
 import './ui-overrides.css'
 
