@@ -122,7 +122,7 @@ export default function SubmitGrant() {
         navigate('/submit/grant')
       }
     }
-  }, [])
+  }, [navigate])
 
   const [grantRequest, patchGrantRequest] = useState<GrantRequest>(initialState)
   const [validationState, setValidationState] = useState<GrantRequestValidationState>(initialValidationState)
@@ -165,7 +165,7 @@ export default function SubmitGrant() {
           setIsFormDisabled(false)
         })
     }
-  }, [allSectionsValid, grantRequest])
+  }, [allSectionsValid, grantRequest, navigate])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
