@@ -1,10 +1,13 @@
 import { useBlocker } from 'react-router-dom'
 
+import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import ConfirmationModal from '../Modal/ConfirmationModal.tsx'
 
 type Props = { preventNavigation: boolean | undefined }
 
 export default function PreventNavigation({ preventNavigation }: Props) {
+  const t = useFormatMessage()
+
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) => !!preventNavigation && currentLocation.pathname !== nextLocation.pathname
   )
@@ -13,14 +16,14 @@ export default function PreventNavigation({ preventNavigation }: Props) {
     <div>
       <ConfirmationModal
         isOpen={true}
-        title={'Are you sure you want to leave? '}
-        description={'You will lose the changes you have made.'}
+        title={t('navigation.prevent_navigation.title')}
+        description={t('navigation.prevent_navigation.description')}
         isLoading={false}
         onPrimaryClick={() => blocker.proceed()}
         onSecondaryClick={() => blocker.reset()}
         onClose={() => blocker.reset()}
-        primaryButtonText={'Yes, leave'}
-        secondaryButtonText={'Cancel'}
+        primaryButtonText={t('navigation.prevent_navigation.confirm')}
+        secondaryButtonText={t('navigation.prevent_navigation.cancel')}
       />
     </div>
   ) : null

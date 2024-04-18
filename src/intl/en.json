@@ -89,7 +89,12 @@
       "empty": "No notifications at this time",
       "load_more": "Load more"
     },
-    "exit": "Are you sure you want to exit? You will lose the changes you have made."
+    "prevent_navigation": {
+      "title": "Are you sure you want to leave?",
+      "description": "You will lose the changes you have made.",
+      "confirm": "Yes, leave",
+      "cancel": "Cancel"
+    }
   },
   "mobile_login": {
     "exclamation": "Oh oh...",
