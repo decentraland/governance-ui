@@ -311,7 +311,7 @@ export default function SubmitLinkedWearables() {
   }
 
   return (
-    <ContentLayout small preventNavigation={preventNavigation.current}>
+    <ContentLayout small preventNavigation={preventNavigation.current} navigateBackUrl="/submit">
       <Head
         title={t('page.submit_linked_wearables.title')}
         description={t('page.submit_linked_wearables.description')}

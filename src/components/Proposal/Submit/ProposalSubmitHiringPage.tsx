@@ -135,7 +135,7 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
   }
 
   return (
-    <ContentLayout small preventNavigation={preventNavigation.current}>
+    <ContentLayout small preventNavigation={preventNavigation.current} navigateBackUrl="/submit">
       <Head
         title={title}
         description={description}

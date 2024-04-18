@@ -163,7 +163,7 @@ export default function ProposalSubmitCatalystPage({ catalystType }: Props) {
   }
 
   return (
-    <ContentLayout small preventNavigation={preventNavigation.current}>
+    <ContentLayout small preventNavigation={preventNavigation.current} navigateBackUrl="/submit">
       <Head
         title={title}
         description={description}

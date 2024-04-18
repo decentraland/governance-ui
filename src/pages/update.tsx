@@ -54,7 +54,7 @@ export default function UpdateDetail() {
         description={update?.introduction}
         links={[{ rel: 'canonical', href: locations.update(update.id) }]}
       />
-      <ContentLayout navigateHref={proposalHref} small>
+      <ContentLayout navigateBackUrl={proposalHref} small>
         <ContentSection className="UpdateDetail__Header">
           <span className="UpdateDetail__ProjectTitle">
             {t('page.update_detail.project_title', { title: <Link href={proposalHref}>{proposal?.title}</Link> })}
