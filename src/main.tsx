@@ -4,7 +4,7 @@ import 'semantic-ui-css/semantic.min.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { IntlProvider } from 'react-intl'
-import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 
 import { QueryClient } from '@tanstack/query-core'
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -98,14 +98,12 @@ const component = (
 
 function LayoutShell() {
   return (
-    <>
       <IntlProvider defaultLocale="en" locale="en" messages={flattenMessages(en)}>
         <SnapshotStatus />
         <Layout>
           <Outlet />
         </Layout>
       </IntlProvider>
-    </>
   )
 }
 
