@@ -4,7 +4,7 @@ import 'semantic-ui-css/semantic.min.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { IntlProvider } from 'react-intl'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import { QueryClient } from '@tanstack/query-core'
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -51,46 +51,62 @@ import './ui-overrides.css'
 const queryClient = new QueryClient()
 
 const basename = /^decentraland.(zone|org|today)$/.test(window.location.host) ? '/governance-ui' : '/'
+
+const router = createBrowserRouter(
+  [
+    {
+      element: <LayoutShell />,
+      children: [
+        { path: '*', element: <HomePage /> },
+        { path: '/proposals', element: <ProposalsPage /> },
+        { path: '/proposal', element: <ProposalPage /> },
+        { path: '/projects', element: <ProjectsPage /> },
+        { path: '/update', element: <UpdateDetail /> },
+        { path: '/edit/update', element: <UpdateEditPage /> },
+        { path: '/submit', element: <SubmitPage /> },
+        { path: '/submit/catalyst', element: <CatalystPage /> },
+        { path: '/submit/poi', element: <Poi /> },
+        { path: '/submit/ban-name', element: <SubmitBanName /> },
+        { path: '/submit/linked-wearables', element: <SubmitLinkedWearables /> },
+        { path: '/submit/grant', element: <SubmitGrant /> },
+        { path: '/submit/hiring', element: <Hiring /> },
+        { path: '/submit/pitch', element: <SubmitPitchProposal /> },
+        { path: '/submit/tender', element: <SubmitTenderProposal /> },
+        { path: '/submit/bid', element: <SubmitBid /> },
+        { path: '/submit/poll', element: <SubmitPoll /> },
+        { path: '/submit/draft', element: <SubmitDraftProposal /> },
+        { path: '/submit/governance', element: <SubmitGovernanceProposal /> },
+        { path: '/submit/update', element: <SubmitUpdatePage /> },
+        { path: '/profile', element: <ProfilePage /> },
+        { path: '/transparency', element: <TransparencyPage /> },
+        { path: '/debug', element: <DebugPage /> },
+      ],
+    },
+  ],
+  { basename }
+)
 const component = (
   <React.StrictMode>
     <AuthProvider sso={SSO_URL}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter basename={basename}>
-          <IntlProvider defaultLocale="en" locale="en" messages={flattenMessages(en)}>
-            <SnapshotStatus />
-            <Layout>
-              <Routes>
-                <Route path="*" element={<HomePage />} />
-                <Route path="/proposals" element={<ProposalsPage />} />
-                <Route path="/proposal" element={<ProposalPage />} />
-                <Route path="/projects" element={<ProjectsPage />} />
-                <Route path="/update" element={<UpdateDetail />} />
-                <Route path="/edit/update" element={<UpdateEditPage />} />
-                <Route path="/submit" element={<SubmitPage />} />
-                <Route path="/submit/catalyst" element={<CatalystPage />} />
-                <Route path="/submit/poi" element={<Poi />} />
-                <Route path="/submit/ban-name" element={<SubmitBanName />} />
-                <Route path="/submit/linked-wearables" element={<SubmitLinkedWearables />} />
-                <Route path="/submit/grant" element={<SubmitGrant />} />
-                <Route path="/submit/hiring" element={<Hiring />} />
-                <Route path="/submit/pitch" element={<SubmitPitchProposal />} />
-                <Route path="/submit/tender" element={<SubmitTenderProposal />} />
-                <Route path="/submit/bid" element={<SubmitBid />} />
-                <Route path="/submit/poll" element={<SubmitPoll />} />
-                <Route path="/submit/draft" element={<SubmitDraftProposal />} />
-                <Route path="/submit/governance" element={<SubmitGovernanceProposal />} />
-                <Route path="/submit/update" element={<SubmitUpdatePage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/transparency" element={<TransparencyPage />} />
-                <Route path="/debug" element={<DebugPage />} />
-              </Routes>
-            </Layout>
-          </IntlProvider>
-        </BrowserRouter>
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </AuthProvider>
     <Segment />
   </React.StrictMode>
 )
+
+function LayoutShell() {
+  return (
+    <>
+      <IntlProvider defaultLocale="en" locale="en" messages={flattenMessages(en)}>
+        <SnapshotStatus />
+        <Layout>
+          <Outlet />
+        </Layout>
+      </IntlProvider>
+    </>
+  )
+}
 
 ReactDOM.render(component, document.getElementById('root') as HTMLElement)
