@@ -29,11 +29,11 @@ import { ContentSection } from '../../components/Layout/ContentLayout'
 import Head from '../../components/Layout/Head'
 import LoadingView from '../../components/Layout/LoadingView'
 import LogIn from '../../components/Layout/LogIn'
+import PreventNavigation from '../../components/Layout/PreventNavigation.tsx'
 import CategorySelector from '../../components/Projects/CategorySelector'
 import { SUBMISSION_THRESHOLD_GRANT } from '../../constants/proposals'
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
-import usePreventNavigation from '../../hooks/usePreventNavigation'
 import useProjectRequestSectionNumber from '../../hooks/useProjectRequestSectionNumber'
 import useVotingPowerDistribution from '../../hooks/useVotingPowerDistribution'
 import {
@@ -141,14 +141,8 @@ export default function SubmitGrant() {
   }, [grantRequest])
 
   const handleCancel = () => {
-    if (preventNavigation.current) {
-      window.history.back()
-    } else {
-      navigate(locations.submit())
-    }
+    navigate(locations.submit())
   }
-
-  usePreventNavigation(!!preventNavigation.current)
 
   if (!isGrantProposalSubmitEnabled(Date.now())) {
     navigate('/submit')
@@ -349,6 +343,8 @@ export default function SubmitGrant() {
           </ContentSection>
         </Container>
       )}
+
+      <PreventNavigation preventNavigation={preventNavigation.current} />
     </div>
   )
 }

@@ -31,11 +31,11 @@ import { ContentSection } from '../../components/Layout/ContentLayout'
 import Head from '../../components/Layout/Head'
 import LoadingView from '../../components/Layout/LoadingView'
 import LogIn from '../../components/Layout/LogIn'
+import PreventNavigation from '../../components/Layout/PreventNavigation.tsx'
 import { BID_MIN_PROJECT_DURATION } from '../../constants/bids'
 import { useAuthContext } from '../../context/AuthProvider'
 import useBidsInfoOnTender from '../../hooks/useBidsInfoOnTender'
 import useFormatMessage from '../../hooks/useFormatMessage'
-import usePreventNavigation from '../../hooks/usePreventNavigation'
 import useProjectRequestSectionNumber from '../../hooks/useProjectRequestSectionNumber'
 import useProposal from '../../hooks/useProposal'
 import useProposalOutcome from '../../hooks/useProposalOutcome'
@@ -123,14 +123,8 @@ export default function SubmitBid() {
     }
   }, [linkedProposalId, patchBidRequest])
 
-  usePreventNavigation(!!preventNavigation.current)
-
   const handleCancel = () => {
-    if (preventNavigation.current) {
-      window.history.back()
-    } else {
-      navigate(locations.submit())
-    }
+    navigate(locations.submit())
   }
 
   const submit = useCallback(async () => {
@@ -314,6 +308,8 @@ export default function SubmitBid() {
           </ContentSection>
         </Container>
       )}
+
+      <PreventNavigation preventNavigation={preventNavigation.current} />
     </div>
   )
 }
