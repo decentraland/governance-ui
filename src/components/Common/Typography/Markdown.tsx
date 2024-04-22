@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo } from 'react'
 import ReactMarkdown, { Components, Options } from 'react-markdown'
 
@@ -125,7 +126,11 @@ function getComponents({ size, componentsClassNames }: MarkdownProps): Component
 
 function Markdown(props: MarkdownProps) {
   const components = useMemo(() => getComponents(props), [props])
-  return <ReactMarkdown {...props} components={components} remarkPlugins={plugins} />
+  return (
+    <ReactMarkdown {...props} components={components} remarkPlugins={plugins}>
+      {props.children}
+    </ReactMarkdown>
+  )
 }
 
 export default Markdown
