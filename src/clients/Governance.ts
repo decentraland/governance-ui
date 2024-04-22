@@ -511,11 +511,11 @@ export class Governance extends API {
     )
   }
 
-  async getUserBidOnTender(tenderId: string) {
+  async getUserBidOnTender(tenderId: string, options = { sign: true }) {
     return await this.fetchApiResponse<Pick<
       UnpublishedBidAttributes,
       'author_address' | 'publish_at' | 'created_at'
-    > | null>(`/bids/${tenderId}/get-user-bid`, { method: 'GET', sign: true })
+    > | null>(`/bids/${tenderId}/get-user-bid`, { method: 'GET', ...options })
   }
 
   async getSnapshotConfigAndSpace(spaceName?: string) {
