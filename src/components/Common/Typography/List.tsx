@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import omit from 'lodash/omit'
 
 import './List.css'
 
@@ -8,10 +7,10 @@ type ListProps = (React.HTMLAttributes<HTMLUListElement> | React.HTMLAttributes<
   depth?: number
 }
 
-export default function List(props: ListProps) {
-  if (props.ordered) {
-    return <ol {...omit(props, ['ordered'])} className={classNames('List', props.className)} />
+export default function List({ ordered, ...props }: ListProps) {
+  if (ordered) {
+    return <ol {...props} className={classNames('List', props.className)} />
   } else {
-    return <ul {...omit(props, ['ordered'])} className={classNames('List', props.className)} />
+    return <ul {...props} className={classNames('List', props.className)} />
   }
 }

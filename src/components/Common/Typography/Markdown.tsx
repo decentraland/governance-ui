@@ -98,7 +98,7 @@ function getComponents({ size, componentsClassNames }: MarkdownProps): Component
     ),
     li: (props) => (
       <ListItem
-        {...omit(props, ['node', 'componentsClassNames'])}
+        {...omit(props, ['node', 'componentsClassNames', 'ordered'])}
         className={classNames([props.className, componentsClassNames && componentsClassNames['li']])}
       />
     ),
