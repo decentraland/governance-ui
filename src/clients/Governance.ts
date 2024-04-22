@@ -418,11 +418,11 @@ export class Governance extends API {
     })
   }
 
-  async reportErrorToServer(message: string, extraInfo?: Record<string, unknown>) {
+  async reportErrorToServer(message: string, extraInfo?: Record<string, unknown>, options = { sign: true }) {
     return await this.fetchApiResponse<string>(`/debug/report-error`, {
       method: 'POST',
-      sign: true,
       json: { message, extraInfo },
+      ...options,
     })
   }
 
