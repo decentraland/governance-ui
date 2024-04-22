@@ -1,9 +1,9 @@
 import { Governance } from './Governance'
 
 export class ErrorClient {
-  public static report(errorMsg: string, extraInfo?: Record<string, unknown>) {
+  public static async report(errorMsg: string, extraInfo?: Record<string, unknown>, options?: { sign: boolean }) {
     try {
-      Governance.get().reportErrorToServer(errorMsg, extraInfo)
+      await Governance.get().reportErrorToServer(errorMsg, extraInfo, options)
     } catch (e) {
       console.error('Error reporting error', e)
     }

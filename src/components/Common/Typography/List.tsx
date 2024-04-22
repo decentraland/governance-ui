@@ -7,8 +7,8 @@ type ListProps = (React.HTMLAttributes<HTMLUListElement> | React.HTMLAttributes<
   depth?: number
 }
 
-export default function List(props: ListProps) {
-  if (props.ordered) {
+export default function List({ ordered, ...props }: ListProps) {
+  if (ordered) {
     return <ol {...props} className={classNames('List', props.className)} />
   } else {
     return <ul {...props} className={classNames('List', props.className)} />

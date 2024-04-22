@@ -47,6 +47,7 @@ import 'decentraland-ui/dist/themes/base-theme.css'
 import 'decentraland-ui/dist/themes/alternative/light-theme.css'
 import './theme.css'
 import './ui-overrides.css'
+import useScrollToHash from './components/Home/useScrollToHash.tsx'
 
 const queryClient = new QueryClient()
 
@@ -97,6 +98,8 @@ const component = (
 )
 
 function LayoutShell() {
+  useScrollToHash()
+
   return (
       <IntlProvider defaultLocale="en" locale="en" messages={flattenMessages(en)}>
         <SnapshotStatus />
