@@ -13,6 +13,7 @@ import ContentSection from '../../components/Layout/ContentSection'
 import Head from '../../components/Layout/Head'
 import LoadingView from '../../components/Layout/LoadingView'
 import NotFound from '../../components/Layout/NotFound'
+import PreventNavigation from '../../components/Layout/PreventNavigation.tsx'
 import { EditUpdateModal } from '../../components/Modal/EditUpdateModal/EditUpdateModal'
 import FinancialSection from '../../components/Updates/FinancialSection'
 import GeneralSection from '../../components/Updates/GeneralSection'
@@ -20,7 +21,6 @@ import UpdateMarkdownView from '../../components/Updates/UpdateMarkdownView'
 import { useAuthContext } from '../../context/AuthProvider'
 import useDclFeatureFlags from '../../hooks/useDclFeatureFlags'
 import useFormatMessage from '../../hooks/useFormatMessage'
-import usePreventNavigation from '../../hooks/usePreventNavigation'
 import useProposal from '../../hooks/useProposal'
 import useProposalUpdate from '../../hooks/useProposalUpdate'
 import useProposalUpdates from '../../hooks/useProposalUpdates'
@@ -103,8 +103,6 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
   const isValidToSubmit = Object.values(validationState).every((valid) => valid)
   const { isFeatureFlagEnabled } = useDclFeatureFlags()
   const isAuthDappEnabled = isFeatureFlagEnabled(FeatureFlags.AuthDapp)
-
-  usePreventNavigation(true)
 
   const releases = useMemo(() => (vestingData ? getReleases(vestingData) : undefined), [vestingData])
 
@@ -310,6 +308,7 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
           }
         />
       )}
+      <PreventNavigation preventNavigation={true} />
     </div>
   )
 }

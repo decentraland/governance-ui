@@ -105,7 +105,7 @@ export default function SubmitDraftProposal() {
   }
 
   return (
-    <ContentLayout small preventNavigation={preventNavigation.current}>
+    <ContentLayout small preventNavigation={preventNavigation.current} navigateBackUrl="/submit">
       <Head
         title={t('page.submit_draft.title')}
         description={t('page.submit_draft.description')}

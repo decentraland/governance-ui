@@ -125,7 +125,7 @@ export default function SubmitGovernanceProposal() {
   }
 
   return (
-    <ContentLayout small preventNavigation={preventNavigation.current}>
+    <ContentLayout small preventNavigation={preventNavigation.current} navigateBackUrl="/submit">
       <Head
         title={t('page.submit_governance.title')}
         description={t('page.submit_governance.description')}

@@ -80,7 +80,7 @@ export default function SubmitBanName() {
   }
 
   return (
-    <ContentLayout small preventNavigation={preventNavigation.current}>
+    <ContentLayout small preventNavigation={preventNavigation.current} navigateBackUrl="/submit">
       <Head
         title={t('page.submit_ban_name.title')}
         description={t('page.submit_ban_name.description')}

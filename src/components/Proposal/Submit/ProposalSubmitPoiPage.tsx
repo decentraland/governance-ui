@@ -150,7 +150,7 @@ export default function ProposalSubmitPoiPage({ poiType }: Props) {
   }
 
   return (
-    <ContentLayout small preventNavigation={preventNavigation.current}>
+    <ContentLayout small preventNavigation={preventNavigation.current} navigateBackUrl="/submit">
       <Head
         title={t(`page.submit_poi.${action}.title`)}
         description={t('page.submit_poi.description')}
