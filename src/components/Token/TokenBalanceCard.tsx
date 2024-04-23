@@ -4,12 +4,34 @@ import { Header } from 'decentraland-ui/dist/components/Header/Header'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { AggregatedTokenBalance } from '../../types/transparency'
+import { Dai, Eth, Mana, Matic, Usdc, Usdt, Weth } from '../Icon/Token'
 
 import './TokenBalanceCard.css'
 import TokensPerWalletPopup from './TokensPerWalletPopup'
 
 export type TokenBalanceCardProps = React.HTMLAttributes<HTMLDivElement> & {
   aggregatedTokenBalance: AggregatedTokenBalance
+}
+
+function getIcon(tokenSymbol: string) {
+  switch (tokenSymbol) {
+    case 'mana':
+      return <Mana />
+    case 'dai':
+      return <Dai />
+    case 'eth':
+      return <Eth />
+    case 'matic':
+      return <Matic />
+    case 'usdc':
+      return <Usdc />
+    case 'usdt':
+      return <Usdt />
+    case 'weth':
+      return <Weth />
+    default:
+      return null
+  }
 }
 
 export default function TokenBalanceCard({ aggregatedTokenBalance }: TokenBalanceCardProps) {
@@ -26,8 +48,7 @@ export default function TokenBalanceCard({ aggregatedTokenBalance }: TokenBalanc
 
   return (
     <div className="TokenBalanceCard" onClick={handleClick}>
-      {/* TODO: Lib doesn't work with Vite. Get icons directly from repo as svgs */}
-      {/* <Icon name={aggregatedTokenBalance.tokenTotal.symbol.toLowerCase()} size={45} /> */}
+      {getIcon(aggregatedTokenBalance.tokenTotal.symbol.toLowerCase())}
       <div className="TokenBalanceCard_description">
         <div className="TokenBalanceCard__Header">
           <Header sub className="TokenBalanceCard__Symbol">
