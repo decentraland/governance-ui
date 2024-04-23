@@ -10,6 +10,7 @@
   "DISCOURSE_USER": "dao",
   "DISCOURSE_CONNECT_THREAD": "1190",
   "GOVERNANCE_API": "https://governance.decentraland.zone/api",
+  "GOVERNANCE_URL": "https://decentraland.zone/governance",
   "JOIN_DISCORD_URL": "https://dcl.gg/discord",
   "MAINTENANCE": "false",
   "SEGMENT_KEY": "CXcLRdj0SnrRBlwYTcyWVBuE9kYaIP47",
