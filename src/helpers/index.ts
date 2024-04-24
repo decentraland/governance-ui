@@ -44,18 +44,20 @@ export function getUncappedRoundedPercentage(value: number, total: number): numb
 }
 
 export function getUrlFilters<T>(filterKey: string, params: URLSearchParams, value?: T) {
-  if (typeof window === 'undefined') {
-    return ''
+  const newParams = new URLSearchParams(params)
+
+  if (value) {
+    newParams.set(filterKey, String(value))
+  } else {
+    newParams.delete(filterKey)
   }
 
-  const newParams = new URLSearchParams(params)
-  value ? newParams.set(filterKey, String(value)) : newParams.delete(filterKey)
   newParams.delete('page')
   if (filterKey === 'type') {
     newParams.delete('subtype')
   }
-  const stringParams = newParams.toString()
-  return `${stringParams === '' ? '' : '?' + stringParams}`
+
+  return newParams
 }
 
 export const fetchWithTimeout = async (url: string, timeout = 10000, options?: RequestInit) => {

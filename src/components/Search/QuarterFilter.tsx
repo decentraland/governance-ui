@@ -81,12 +81,12 @@ function QuarterFilter() {
               setSelectedYear(undefined)
               params.delete('year')
               params.delete('quarter')
-              navigate(`/projects/?${params.toString()}`)
+              navigate(`/projects?${params.toString()}`)
             } else {
               setSelectedYear(Number(value))
               params.set('year', String(value))
               params.delete('quarter')
-              navigate(`/projects/?${params.toString()}`)
+              navigate(`/projects?${params.toString()}`)
             }
           }}
           value={selectedYear}
