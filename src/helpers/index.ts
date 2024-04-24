@@ -8,8 +8,6 @@ import { DEFAULT_CHAIN_ID, VESTING_DASHBOARD_URL } from '../constants'
 import Time from '../utils/date/Time'
 import logger from '../utils/logger'
 
-import { toGovernancePathname } from './browser'
-
 export const CURRENCY_FORMAT_OPTIONS = {
   style: 'currency',
   currency: 'USD',
@@ -57,8 +55,7 @@ export function getUrlFilters<T>(filterKey: string, params: URLSearchParams, val
     newParams.delete('subtype')
   }
   const stringParams = newParams.toString()
-  const pathname = toGovernancePathname(location.pathname)
-  return `${pathname}${stringParams === '' ? '' : '?' + stringParams}`
+  return `${stringParams === '' ? '' : '?' + stringParams}`
 }
 
 export const fetchWithTimeout = async (url: string, timeout = 10000, options?: RequestInit) => {
