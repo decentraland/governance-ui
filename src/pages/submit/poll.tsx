@@ -106,8 +106,8 @@ export default function SubmitPoll() {
   }
 
   useEffect(() => {
-    preventNavigation.current = isDirty
-  }, [isDirty])
+    preventNavigation.current = isDirty && !isSubmitting
+  }, [isDirty, isSubmitting])
 
   const isValidChoices = useCallback(
     (choices: Record<string, string>) => {

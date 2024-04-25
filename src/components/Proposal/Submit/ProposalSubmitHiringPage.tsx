@@ -99,8 +99,8 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
   }, [committees, setValue, type])
 
   useEffect(() => {
-    preventNavigation.current = isDirty
-  }, [isDirty])
+    preventNavigation.current = isDirty && !isSubmitting
+  }, [isDirty, isSubmitting])
 
   const onSubmit: SubmitHandler<HiringState> = async (data) => {
     setFormDisabled(true)

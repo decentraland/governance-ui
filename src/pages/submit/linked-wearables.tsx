@@ -126,8 +126,8 @@ export default function SubmitLinkedWearables() {
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
 
   useEffect(() => {
-    preventNavigation.current = isDirty
-  }, [isDirty])
+    preventNavigation.current = isDirty && !isSubmitting
+  }, [isDirty, isSubmitting])
 
   const handleAddOption = (e: React.MouseEvent<HTMLButtonElement>, field: ListSectionType['section']) => {
     e.preventDefault()

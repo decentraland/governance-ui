@@ -150,6 +150,7 @@ export default function SubmitGrant() {
 
   const submit = useCallback(() => {
     if (allSectionsValid) {
+      preventNavigation.current = false
       setIsFormDisabled(true)
       Promise.resolve()
         .then(async () => {
@@ -163,6 +164,7 @@ export default function SubmitGrant() {
           console.error(err, { ...err })
           setSubmitError(err.body?.error || err.message)
           setIsFormDisabled(false)
+          preventNavigation.current = true
         })
     }
   }, [allSectionsValid, grantRequest, navigate])

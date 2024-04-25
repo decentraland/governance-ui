@@ -93,7 +93,7 @@ export default function ProposalSubmitPoiPage({ poiType }: Props) {
 
   const {
     handleSubmit,
-    formState: { isDirty, errors },
+    formState: { isDirty, errors, isSubmitting },
     control,
     setValue,
     watch,
@@ -138,8 +138,8 @@ export default function ProposalSubmitPoiPage({ poiType }: Props) {
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
 
   useEffect(() => {
-    preventNavigation.current = isDirty
-  }, [isDirty])
+    preventNavigation.current = isDirty && !isSubmitting
+  }, [isDirty, isSubmitting])
 
   if (accountState.loading) {
     return <LoadingView />
