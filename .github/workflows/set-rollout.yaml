@@ -24,7 +24,7 @@ jobs:
           packageVersion: ${{ github.event.deployment.payload.packageVersion }}
 
           # Rollout information
-          deploymentPath: 'governance-ui'
+          deploymentPath: 'governance'
           deploymentEnvironment: 'zone'
           deploymentName: '_site'
           percentage: 100
