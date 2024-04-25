@@ -51,7 +51,7 @@ import useScrollToHash from './components/Home/useScrollToHash.tsx'
 
 const queryClient = new QueryClient()
 
-const basename = /^decentraland.(zone|org|today)$/.test(window.location.host) ? '/governance-ui' : '/'
+const basename = /^decentraland.(zone|org|today)$/.test(window.location.host) ? '/governance' : '/'
 
 const router = createBrowserRouter(
   [
