@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
 
-import { isLocalLink, isMetaClick, toGovernancePathname } from '../../../helpers/browser'
+import { isLocalLink, isMetaClick } from '../../../helpers/browser'
 
 import './Link.css'
 
@@ -22,9 +22,8 @@ export default function Link({ target, rel, href, onClick, className, ...props }
 
     const isBlank = e.currentTarget.target === TARGET_BLANK
     if (isLocal && href && !isBlank && !isMetaClick(e)) {
-      const internalPath = toGovernancePathname(href)
       e.preventDefault()
-      navigate(internalPath)
+      navigate(href)
     }
   }
 

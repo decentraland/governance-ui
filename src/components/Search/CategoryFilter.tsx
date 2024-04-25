@@ -8,6 +8,7 @@ import useFormatMessage from '../../hooks/useFormatMessage'
 import useURLSearchParams from '../../hooks/useURLSearchParams'
 import { NewGrantCategory, SubtypeAlternativeOptions, toGrantSubtype } from '../../types/grants'
 import { BiddingProcessType, GovernanceProcessType, ProposalType } from '../../types/proposals'
+import locations from '../../utils/locations'
 import { categoryIcons } from '../Category/CategoryBanner'
 import CategoryOption from '../Category/CategoryOption'
 import All from '../Icon/ProposalCategories/All'
@@ -61,7 +62,7 @@ function getGrantSubtypeHref(href: string | undefined, subtype: string) {
   } else {
     url.searchParams.set('subtype', subtype)
   }
-  const newHref = url.pathname + '?' + url.searchParams.toString()
+  const newHref = '?' + url.searchParams.toString()
   return newHref
 }
 
@@ -103,7 +104,7 @@ export default function CategoryFilter({
       {showAllFilter && (
         <CategoryOption
           type="all_proposals"
-          href={getUrlFilters(FILTER_KEY, params)}
+          href={locations.proposals(getUrlFilters(FILTER_KEY, params))}
           active={!type}
           className="CategoryFilter__CategoryOption"
           icon={<All />}
@@ -111,13 +112,17 @@ export default function CategoryFilter({
         />
       )}
       {filters.map((filter, index) => {
+        const isAllProjectsSelected = filter === 'all_projects' && !params.toString().includes('type')
+        const newParams = getUrlFilters(FILTER_KEY, params, filter === 'all_projects' ? undefined : filter)
+        const projectParams = newParams ? `?${newParams.toString()}` : ''
+
         return (
           <CategoryOption
             key={'category_filter' + index}
             className="CategoryFilter__CategoryOption"
             type={filter}
-            href={getUrlFilters(FILTER_KEY, params, filter === ProjectTypeFilter.All ? undefined : filter)}
-            active={type === filter}
+            href={areProposals ? locations.proposals(newParams) : projectParams}
+            active={type === filter || isAllProjectsSelected}
             count={categoryCount?.[filter]}
             icon={getCategoryIcon(filter, 24)}
             title={t(`category.${filter}_title`)}
@@ -141,12 +146,12 @@ export default function CategoryFilter({
             title={t(`category.governance_process_title`)}
             subcategories={GOVERNANCE_GROUP}
             isSubcategoryActive={isGroupActive}
-            subcategoryHref={(_, subcategory) => getUrlFilters(FILTER_KEY, params, subcategory)}
+            subcategoryHref={(_, subcategory) => locations.proposals(getUrlFilters(FILTER_KEY, params, subcategory))}
           />
           <CategoryOption
             className="CategoryFilter__CategoryOption"
             type={ProposalType.Grant}
-            href={getUrlFilters(FILTER_KEY, params, ProposalType.Grant)}
+            href={locations.proposals(getUrlFilters(FILTER_KEY, params, ProposalType.Grant))}
             active={type === ProposalType.Grant}
             count={categoryCount?.[ProposalType.Grant]}
             icon={getCategoryIcon(ProposalType.Grant, 24)}
@@ -167,7 +172,7 @@ export default function CategoryFilter({
             title={t(`category.${ProjectTypeFilter.BiddingAndTendering}_title`)}
             subcategories={BIDDING_GROUP}
             isSubcategoryActive={isGroupActive}
-            subcategoryHref={(_, subcategory) => getUrlFilters(FILTER_KEY, params, subcategory)}
+            subcategoryHref={(_, subcategory) => locations.proposals(getUrlFilters(FILTER_KEY, params, subcategory))}
           />
         </>
       )}
