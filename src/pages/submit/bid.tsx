@@ -129,6 +129,7 @@ export default function SubmitBid() {
 
   const submit = useCallback(async () => {
     if (allSectionsValid) {
+      preventNavigation.current = false
       setIsFormDisabled(true)
       setIsLoading(true)
       const bidRequestParsed = parseStringsAsNumbers(bidRequest as BidRequest)
@@ -141,6 +142,7 @@ export default function SubmitBid() {
         setSubmitError(error.body?.error || error.message)
         setIsLoading(false)
         setIsFormDisabled(false)
+        preventNavigation.current = true
       }
     }
   }, [allSectionsValid, bidRequest, navigate])

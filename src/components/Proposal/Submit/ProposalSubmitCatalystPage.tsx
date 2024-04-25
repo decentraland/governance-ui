@@ -113,8 +113,8 @@ export default function ProposalSubmitCatalystPage({ catalystType }: Props) {
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
 
   useEffect(() => {
-    preventNavigation.current = isDirty
-  }, [isDirty])
+    preventNavigation.current = isDirty && !isSubmitting
+  }, [isDirty, isSubmitting])
 
   const onSubmit: SubmitHandler<NewProposalCatalyst> = async (data) => {
     const errors = [isErrorOnContentStatus, isErrorOnLambdasStatus].filter(Boolean)

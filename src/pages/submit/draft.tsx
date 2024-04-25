@@ -68,8 +68,8 @@ export default function SubmitDraftProposal() {
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
 
   useEffect(() => {
-    preventNavigation.current = isDirty
-  }, [isDirty])
+    preventNavigation.current = isDirty && !isSubmitting
+  }, [isDirty, isSubmitting])
 
   useEffect(() => {
     if (preselectedLinkedProposalId) {

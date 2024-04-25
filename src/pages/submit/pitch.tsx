@@ -53,7 +53,7 @@ export default function SubmitPitchProposal() {
 
   const {
     handleSubmit,
-    formState: { isDirty, errors },
+    formState: { isDirty, isSubmitting, errors },
     control,
     setValue,
     watch,
@@ -62,8 +62,8 @@ export default function SubmitPitchProposal() {
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
 
   useEffect(() => {
-    preventNavigation.current = isDirty
-  }, [isDirty])
+    preventNavigation.current = isDirty && !isSubmitting
+  }, [isDirty, isSubmitting])
 
   const onSubmit: SubmitHandler<NewProposalPitch> = async (data) => {
     setFormDisabled(true)
