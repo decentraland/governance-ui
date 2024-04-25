@@ -8,6 +8,7 @@ import { getUrlFilters } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useURLSearchParams from '../../hooks/useURLSearchParams'
 import { SortingOrder } from '../../types/proposals'
+import locations from '../../utils/locations'
 import { toSortingOrder } from '../../utils/proposal'
 
 import './SortingMenu.css'
@@ -18,7 +19,9 @@ export default function SortingMenu() {
   const navigate = useNavigate()
   const params = useURLSearchParams()
   const isSearching = !!params.get('search')
-  const order = toSortingOrder(params.get('order'), () => (isSearching ? 'RELEVANCE' : SortingOrder.DESC))
+  const order: SortingOrder | 'RELEVANCE' = toSortingOrder(params.get('order'), () =>
+    isSearching ? 'RELEVANCE' : SortingOrder.DESC
+  )
   const arrowDirection = order === SortingOrder.ASC ? 'Upwards' : 'Downwards'
   const isMobile = useMobileMediaQuery()
 
@@ -34,16 +37,16 @@ export default function SortingMenu() {
         {isSearching && (
           <Dropdown.Item
             text={t('navigation.search.sorting.RELEVANCE')}
-            onClick={() => navigate(getUrlFilters(SORT_KEY, params, undefined))}
+            onClick={() => navigate(locations.proposals(getUrlFilters(SORT_KEY, params, undefined)))}
           />
         )}
         <Dropdown.Item
           text={t('navigation.search.sorting.DESC')}
-          onClick={() => navigate(getUrlFilters(SORT_KEY, params, SortingOrder.DESC))}
+          onClick={() => navigate(locations.proposals(getUrlFilters(SORT_KEY, params, SortingOrder.DESC)))}
         />
         <Dropdown.Item
           text={t('navigation.search.sorting.ASC')}
-          onClick={() => navigate(getUrlFilters(SORT_KEY, params, SortingOrder.ASC))}
+          onClick={() => navigate(locations.proposals(getUrlFilters(SORT_KEY, params, SortingOrder.ASC)))}
         />
       </Dropdown.Menu>
     </Dropdown>
