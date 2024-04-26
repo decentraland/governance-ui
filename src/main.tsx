@@ -11,7 +11,6 @@ import { QueryClientProvider } from '@tanstack/react-query'
 
 import SnapshotStatus from './components/Debug/SnapshotStatus'
 import Layout from './components/Layout/Layout'
-import Segment from './components/Segment'
 import AuthProvider from './context/AuthProvider'
 import en from './intl/en.json'
 import DebugPage from './pages/debug'
@@ -41,6 +40,7 @@ import { flattenMessages } from './utils/intl'
 import { SSO_URL } from './constants'
 import HomePage from './pages'
 
+import './utils/analytics/snippet'
 // These CSS styles must be defined last to avoid overriding other styles
 import 'balloon-css/balloon.min.css'
 import 'decentraland-ui/dist/themes/base-theme.css'
@@ -48,6 +48,10 @@ import 'decentraland-ui/dist/themes/alternative/light-theme.css'
 import './theme.css'
 import './ui-overrides.css'
 import useScrollToHash from './components/Home/useScrollToHash.tsx'
+import { config } from './config/index.ts'
+import { getAnalytics } from './utils/analytics/segment.ts'
+
+getAnalytics().load(config.get('SEGMENT_KEY'))
 
 const queryClient = new QueryClient()
 
@@ -93,7 +97,6 @@ const component = (
         <RouterProvider router={router} />
       </QueryClientProvider>
     </AuthProvider>
-    <Segment />
   </React.StrictMode>
 )
 

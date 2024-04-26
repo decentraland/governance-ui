@@ -25,6 +25,7 @@ import useAnalyticsTrackLink from '../../hooks/useAnalyticsTrackLink'
 import useDclFeatureFlags from '../../hooks/useDclFeatureFlags'
 import useDclIdentity from '../../hooks/useDclIdentity'
 import useDclProfile from '../../hooks/useDclProfile'
+import { getAnalytics } from '../../utils/analytics/segment'
 import { FeatureFlags } from '../../utils/features'
 import { fetchManaBalance } from '../../utils/mana'
 import AvatarComponent from '../Common/Avatar'
@@ -44,11 +45,11 @@ export default function Layout({ children }: LayoutProps) {
   const { isFeatureFlagEnabled } = useDclFeatureFlags()
   const location = useLocation()
 
+  const analytics = getAnalytics()
+
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.analytics) {
-      window.analytics.page()
-    }
-  }, [location])
+    analytics.page()
+  }, [analytics, location])
 
   const handleClickUserMenuOption = useAnalyticsTrackLink(function (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
