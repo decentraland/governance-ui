@@ -33,7 +33,7 @@ export default function Link({ target, rel, href, onClick, className, ...props }
       className={classNames('Link', (onClick || href) && 'Link--pointer', className)}
       target={linkTarget}
       rel={linkRel}
-      href={toGovernancePathname(href || '')}
+      href={isLocal ? toGovernancePathname(href || '') : href}
       onClick={handleClick}
     />
   )
