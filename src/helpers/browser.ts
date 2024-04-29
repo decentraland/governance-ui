@@ -23,7 +23,7 @@ export function isMetaClick(event: React.MouseEvent<HTMLAnchorElement>) {
   return event.metaKey || event.altKey || event.ctrlKey || event.shiftKey
 }
 
-export function isLocalLink(href?: string | null) {
+export function isRelativeLink(href?: string | null) {
   return (
     typeof href === 'string' && !href.startsWith('https://') && !href.startsWith('http://') && !href.startsWith('//')
   )
