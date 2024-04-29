@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
 
-import { isLocalLink, isMetaClick } from '../../../helpers/browser'
+import { isLocalLink, isMetaClick, toGovernancePathname } from '../../../helpers/browser'
 
 import './Link.css'
 
@@ -33,7 +33,7 @@ export default function Link({ target, rel, href, onClick, className, ...props }
       className={classNames('Link', (onClick || href) && 'Link--pointer', className)}
       target={linkTarget}
       rel={linkRel}
-      href={href || ''}
+      href={toGovernancePathname(href || '')}
       onClick={handleClick}
     />
   )
