@@ -1,7 +1,7 @@
 import { Helmet, HelmetProps } from 'react-helmet'
 
 import { DCL_META_IMAGE_URL, GOVERNANCE_URL } from '../../constants'
-import { isLocalLink } from '../../helpers/browser'
+import { isRelativeLink } from '../../helpers/browser'
 
 // TODO: Review how this data is built in non-gatsby DCL apps for consistency.
 
@@ -18,7 +18,7 @@ function getAbsoluteUrls(linkProps?: HelmetProps['link']) {
   return linkProps.map((props) => {
     const href = props.href
     if (href === undefined) return props
-    return isLocalLink(href) ? { ...props, href: `${GOVERNANCE_URL}${href}` } : props
+    return isRelativeLink(href) ? { ...props, href: `${GOVERNANCE_URL}${href}` } : props
   })
 }
 
