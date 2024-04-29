@@ -11,9 +11,9 @@ type Props = React.AnchorHTMLAttributes<HTMLAnchorElement>
 const TARGET_BLANK = '_blank'
 
 export default function Link({ target, rel, href, onClick, className, ...props }: Props) {
-  const isLocal = isRelativeLink(href)
-  const linkTarget = !isLocal ? target || TARGET_BLANK : undefined
-  const linkRel = !isLocal ? classNames(rel, 'noopener', 'noreferrer') : rel
+  const isRelative = isRelativeLink(href)
+  const linkTarget = !isRelative ? target || TARGET_BLANK : undefined
+  const linkRel = !isRelative ? classNames(rel, 'noopener', 'noreferrer') : rel
   const navigate = useNavigate()
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (onClick) {
@@ -21,7 +21,7 @@ export default function Link({ target, rel, href, onClick, className, ...props }
     }
 
     const isBlank = e.currentTarget.target === TARGET_BLANK
-    if (isLocal && href && !isBlank && !isMetaClick(e)) {
+    if (isRelative && href && !isBlank && !isMetaClick(e)) {
       e.preventDefault()
       navigate(href)
     }
@@ -33,7 +33,7 @@ export default function Link({ target, rel, href, onClick, className, ...props }
       className={classNames('Link', (onClick || href) && 'Link--pointer', className)}
       target={linkTarget}
       rel={linkRel}
-      href={isLocal ? toGovernancePathname(href || '') : href}
+      href={isRelative ? toGovernancePathname(href || '') : href}
       onClick={handleClick}
     />
   )
