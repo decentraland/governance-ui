@@ -19,3 +19,8 @@
   padding-right: 0 !important;
   min-width: 0 !important;
 }
+
+.QuarterFilter__Button.ui.active.button,
+.QuarterFilter__Button.ui.active.button:focus {
+  background-color: var(--black-400) !important;
+}
