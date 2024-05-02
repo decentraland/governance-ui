@@ -12,7 +12,7 @@ export default function useProposalUpdates(proposalId?: string | null) {
     isError,
     refetch,
   } = useQuery({
-    queryKey: [`proposalUpdates#${proposalId}`],
+    queryKey: ['proposalUpdates', proposalId],
     queryFn: async () => {
       if (!proposalId) {
         return {} as UpdateResponse

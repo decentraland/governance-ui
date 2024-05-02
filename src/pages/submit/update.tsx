@@ -1,7 +1,8 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
+import { useQueryClient } from '@tanstack/react-query'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Container } from 'decentraland-ui/dist/components/Container/Container'
 import { SignIn } from 'decentraland-ui/dist/components/SignIn/SignIn'
@@ -28,6 +29,7 @@ import useURLSearchParams from '../../hooks/useURLSearchParams'
 import useVestingContractData from '../../hooks/useVestingContractData'
 import {
   GeneralUpdateSectionSchema,
+  ProjectHealth,
   UpdateAttributes,
   UpdateFinancialSection,
   UpdateGeneralSection,
@@ -36,6 +38,7 @@ import {
 } from '../../types/updates'
 import { FeatureFlags } from '../../utils/features'
 import locations from '../../utils/locations'
+import { userModifiedForm } from '../../utils/proposal.ts'
 import { getLatestUpdate, getReleases } from '../../utils/updates'
 
 import './submit.css'
@@ -57,8 +60,15 @@ const intialValidationState: UpdateValidationState = {
   financialSectionValid: false,
 }
 
-const initialGeneralState: Partial<UpdateGeneralSection> | undefined = undefined
-const initialFinancialState: UpdateFinancialSection | undefined = undefined
+const initialGeneralState: Partial<UpdateGeneralSection> | undefined = {
+  additional_notes: '',
+  blockers: '',
+  health: ProjectHealth.OnTrack,
+  highlights: '',
+  introduction: '',
+  next_steps: '',
+}
+const initialFinancialState: UpdateFinancialSection | undefined = { financial_records: [] }
 
 function getInitialUpdateValues<T>(
   update: UpdateAttributes | null | undefined,
@@ -83,12 +93,13 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
   const t = useFormatMessage()
   const [account, accountState] = useAuthContext()
   const navigate = useNavigate()
+  const preventNavigation = useRef(false)
 
   const [formDisabled, setFormDisabled] = useState(false)
   const params = useURLSearchParams()
   const updateId = params.get('id')
   const [isPreviewMode, setPreviewMode] = useState(false)
-  const { update, isLoadingUpdate, isErrorOnUpdate, refetchUpdate } = useProposalUpdate(updateId)
+  const { update, isLoadingUpdate, isErrorOnUpdate } = useProposalUpdate(updateId)
   const proposalId = useMemo(() => params.get('proposalId') || update?.proposal_id || '', [update, params])
   const { proposal } = useProposal(proposalId)
   const { publicUpdates } = useProposalUpdates(proposalId)
@@ -103,6 +114,12 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
   const isValidToSubmit = Object.values(validationState).every((valid) => valid)
   const { isFeatureFlagEnabled } = useDclFeatureFlags()
   const isAuthDappEnabled = isFeatureFlagEnabled(FeatureFlags.AuthDapp)
+  const queryClient = useQueryClient()
+
+  useEffect(() => {
+    preventNavigation.current =
+      userModifiedForm(generalSection, initialGeneralState) || userModifiedForm(financialSection, initialFinancialState)
+  }, [generalSection, financialSection])
 
   const releases = useMemo(() => (vestingData ? getReleases(vestingData) : undefined), [vestingData])
 
@@ -140,6 +157,7 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
       return
     }
 
+    preventNavigation.current = false
     setFormDisabled(true)
 
     const newUpdate: UpdateSubmissionDetails & UpdateGeneralSection & UpdateFinancialSection = {
@@ -162,12 +180,15 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
       } else {
         await Governance.get().createProposalUpdate(proposalId, newUpdate)
       }
-      await refetchUpdate()
+      queryClient.invalidateQueries({
+        queryKey: ['proposalUpdates', proposalId],
+      })
       navigate(locations.proposal(proposalId, { newUpdate: 'true' }), { replace: true })
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message)
         setFormDisabled(false)
+        preventNavigation.current = true
       }
     }
   }
@@ -184,11 +205,7 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
     return <LoadingView />
   }
 
-  const isDisabled =
-    !isEdit &&
-    updateId &&
-    (isErrorOnUpdate || update?.status === UpdateStatus.Late || update?.status === UpdateStatus.Done)
-
+  const isDisabled = !isEdit && updateId && isErrorOnUpdate
   const isUserEnabledToEdit = update?.author === account
 
   if (isDisabled || (isEdit && !isUserEnabledToEdit)) {
@@ -234,13 +251,10 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
         <>
           <GeneralSection
             isFormDisabled={formDisabled}
-            intialValues={
-              generalSection ||
-              getInitialUpdateValues<UpdateGeneralSection>(
-                update,
-                (key) => key in GeneralUpdateSectionSchema.properties
-              )
-            }
+            intialValues={getInitialUpdateValues<UpdateGeneralSection>(
+              update,
+              (key) => key in GeneralUpdateSectionSchema.properties
+            )}
             sectionNumber={1}
             onValidation={handleGeneralSectionValidation}
           />
@@ -248,13 +262,10 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
             isFormDisabled={formDisabled}
             sectionNumber={2}
             onValidation={handleFinancialSectionValidation}
-            intialValues={
-              financialSection ||
-              getInitialUpdateValues<UpdateFinancialSection>(
-                update,
-                (key) => key in ({ financial_records: [] } as UpdateFinancialSection)
-              )
-            }
+            intialValues={getInitialUpdateValues<UpdateFinancialSection>(
+              update,
+              (key) => key in ({ financial_records: [] } as UpdateFinancialSection)
+            )}
             releases={releases}
             latestUpdate={latestUpdate}
             csvInputField={csvInputField}
@@ -308,7 +319,7 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
           }
         />
       )}
-      <PreventNavigation preventNavigation={true} />
+      <PreventNavigation preventNavigation={preventNavigation.current} />
     </div>
   )
 }
