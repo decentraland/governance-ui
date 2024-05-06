@@ -435,10 +435,11 @@ export class Governance extends API {
   }
 
   async invalidateCache(key: string) {
-    return await this.fetchApiResponse<number>(`/debug/invalidate-cache`, {
+    const params = new URLSearchParams()
+    params.append('key', key)
+    return await this.fetchApiResponse<number>(`/debug/invalidate-cache?${params.toString()}`, {
       method: 'DELETE',
       sign: true,
-      json: { key },
     })
   }
 
