@@ -456,6 +456,8 @@ export default function ProposalPage() {
             isOwner={isOwner}
             shouldGiveReason={shouldGiveReason}
             votingSectionRef={votingSectionRef}
+            projectId={proposal?.project_id}
+            projectStatus={proposal?.project_status}
           />
         </div>
         <TabletAndBelow>

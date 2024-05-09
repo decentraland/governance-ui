@@ -39,6 +39,7 @@ import {
   ProposalCommentsInDiscourse,
   ProposalListFilter,
   ProposalStatus,
+  ProposalWithProject,
 } from '../types/proposals'
 import { QuarterBudgetAttributes } from '../types/quarterBudgets'
 import { SubscriptionAttributes } from '../types/subscriptions'
@@ -145,9 +146,15 @@ export class Governance extends API {
     }
   }
 
-  async getProposal(proposalId: string) {
-    const result = await this.fetch<ApiResponse<ProposalAttributes>>(`/proposals/${proposalId}`)
-    return result.data ? Governance.parseProposal(result.data) : null
+  async getProposal(proposalId: string): Promise<ProposalWithProject | null> {
+    const result = await this.fetch<ApiResponse<ProposalWithProject>>(`/proposals/${proposalId}`)
+    return result.data
+      ? {
+          ...Governance.parseProposal(result.data),
+          project_id: result.data?.project_id,
+          project_status: result.data.project_status,
+        }
+      : null
   }
 
   async getProposals(filters: Partial<GetProposalsFilter> = {}) {

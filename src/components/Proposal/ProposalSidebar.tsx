@@ -6,6 +6,7 @@ import useProposalChoices from '../../hooks/useProposalChoices'
 import useProposalVotes from '../../hooks/useProposalVotes'
 import { ProposalPageState } from '../../pages/proposal'
 import { SegmentEvent } from '../../types/events'
+import { ProjectStatus } from '../../types/grants.ts'
 import { ProposalAttributes, ProposalStatus } from '../../types/proposals'
 import { SubscriptionAttributes } from '../../types/subscriptions'
 import { Survey } from '../../types/surveyTopics'
@@ -20,6 +21,7 @@ import VotesListModal from '../Modal/Votes/VotesListModal'
 import ProjectSidebar from '../Projects/ProjectSidebar'
 
 import CalendarAlertButton from './View/CalendarAlertButton'
+import ProjectSheetLink from './View/ProjectSheetLink.tsx'
 import ProposalCoAuthorStatus from './View/ProposalCoAuthorStatus'
 import ProposalDetailSection from './View/ProposalDetailSection'
 import ProposalGovernanceSection from './View/ProposalGovernanceSection'
@@ -53,6 +55,8 @@ interface Props {
   isCoauthor: boolean
   shouldGiveReason?: boolean
   votingSectionRef: React.MutableRefObject<HTMLDivElement | null>
+  projectId?: string | null
+  projectStatus?: ProjectStatus | null
 }
 
 export default function ProposalSidebar({
@@ -76,6 +80,8 @@ export default function ProposalSidebar({
   isCoauthor,
   shouldGiveReason,
   votingSectionRef,
+  projectId,
+  projectStatus,
 }: Props) {
   const [account] = useAuthContext()
   const subscribed = useMemo(
@@ -134,10 +140,20 @@ export default function ProposalSidebar({
 
   const showVestingContract = proposal?.vesting_addresses && proposal?.vesting_addresses.length > 0
   const isCalendarButtonDisabled = !proposal || proposal.status !== ProposalStatus.Active
+  const hasProject = !!projectId && !!projectStatus
+  // const isGrantee = isSameAddress(proposal?.configuration.beneficiary, account) TODO: or coauthor
   const [showProjectSidebar, setshowProjectSidebar] = useState(false)
 
   return (
     <>
+      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Pending} isGrantee={true} />}
+      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Pending} isGrantee={false} />}
+      {hasProject && (
+        <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.InProgress} isGrantee={true} />
+      )}
+      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Paused} isGrantee={true} />}
+      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Revoked} isGrantee={true} />}
+      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Finished} isGrantee={true} />}
       {showVestingContract && (
         <>
           <button

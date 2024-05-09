@@ -1270,6 +1270,33 @@
           "view_more_grants": "View more grants"
         }
       },
+      "project_sheet_link": {
+        "action": "view project sheet",
+        "pending": {
+          "grantee": {
+            "title": "congratulations, grantee!",
+            "description": "**Given this Proposal has passed,** \nyou are now required to complete\na couple of tasks to get rollin’"
+          },
+          "title": "refinement in progress",
+          "description": "**Core-units and Grantees** are \ncollaborating in setting up this \nnew Project before beginning work"
+        },
+        "in_progress": {
+          "title": "ongoing project",
+          "description": "**Funded by the Decentraland DAO,**\nenabled by its Community."
+        },
+        "finished": {
+          "title": "project ended",
+          "description": "**Grantees have Signed-off**\n10 days ago, with the GSS having\nconfirmed satisfactory delivery"
+        },
+        "paused": {
+          "title": "project paused",
+          "description": "**Vesting for this project has been**\nput on hold preventively."
+        },
+        "revoked": {
+          "title": "project revoked",
+          "description": "**After careful consideration,**\nfunding for this project has been\ncancelled."
+        }
+      },
       "grant": {
         "requested_budget": {
           "active_title": "Requesting",
