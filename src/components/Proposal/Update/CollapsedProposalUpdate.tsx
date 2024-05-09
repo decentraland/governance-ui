@@ -89,7 +89,7 @@ const CollapsedProposalUpdate = ({
           <UpdateIcon size="40" />
         </div>
         <div className="ProposalUpdate__Description">
-          <Text as="div" className="ProposalUpdate__Index" weight="medium">
+          <Text as="span" className="ProposalUpdate__Index" weight="medium">
             {showHealth ? (
               <>
                 {t('page.proposal_update.health_label')}: {t(getHealthTextKey(health))}
