@@ -141,19 +141,12 @@ export default function ProposalSidebar({
   const showVestingContract = proposal?.vesting_addresses && proposal?.vesting_addresses.length > 0
   const isCalendarButtonDisabled = !proposal || proposal.status !== ProposalStatus.Active
   const hasProject = !!projectId && !!projectStatus
-  // const isGrantee = isSameAddress(proposal?.configuration.beneficiary, account) TODO: or coauthor
+  const isGrantee = isOwner || isCoauthor
   const [showProjectSidebar, setshowProjectSidebar] = useState(false)
 
   return (
     <>
-      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Pending} isGrantee={true} />}
-      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Pending} isGrantee={false} />}
-      {hasProject && (
-        <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.InProgress} isGrantee={true} />
-      )}
-      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Paused} isGrantee={true} />}
-      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Revoked} isGrantee={true} />}
-      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={ProjectStatus.Finished} isGrantee={true} />}
+      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={projectStatus} isGrantee={isGrantee} />}
       {showVestingContract && (
         <>
           <button
