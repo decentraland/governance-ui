@@ -1,0 +1,8 @@
+.ProjectSidebar > .GovernanceSidebar__ContentContainer {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ProjectSidebar__ContentContainer {
+  padding: 32px;
+}

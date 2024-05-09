@@ -5,7 +5,7 @@
   flex-direction: row;
   border: 1px solid var(--black-300);
   border-radius: 8px;
-  padding: 0 16px;
+  padding: 16px;
   min-height: 44px;
   margin-bottom: 8px;
   cursor: pointer;
@@ -50,9 +50,8 @@
 }
 
 .ProposalUpdate__IconContainer {
-  width: 16px;
-  height: 16px;
   margin-right: 12px;
+  display: flex;
 }
 
 .ProposalUpdate__Description {
@@ -78,15 +77,6 @@
   margin-bottom: 8px;
 }
 
-.ProposalUpdate__Index {
-  font-size: 13px;
-  line-height: 13px;
-  font-weight: var(--weight-semi-bold);
-  color: var(--black-600);
-  text-transform: uppercase;
-  margin-right: 5px;
-}
-
 .ProposalUpdate__Index--expanded {
   font-size: 13px;
   font-style: normal;
@@ -109,9 +99,13 @@
   gap: 8px;
 }
 
+.ProposalUpdate__Details {
+  display: flex;
+  gap: 5px;
+}
+
 .ProposalUpdate__DateText {
   color: var(--black-400);
-  text-transform: uppercase;
   opacity: 0.5;
 }
 

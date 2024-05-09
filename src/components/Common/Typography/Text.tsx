@@ -20,7 +20,7 @@ interface Props {
   weight?: FontWeight
   color?: TextColor
   style?: FontStyle
-  as?: 'span'
+  as?: 'span' | 'div'
   title?: string
 }
 

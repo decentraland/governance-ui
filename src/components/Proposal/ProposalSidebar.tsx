@@ -17,6 +17,7 @@ import { calculateResult } from '../../utils/votes/utils'
 import { NotDesktop1200 } from '../Layout/Desktop1200'
 import CalendarAlertModal from '../Modal/CalendarAlertModal'
 import VotesListModal from '../Modal/Votes/VotesListModal'
+import ProjectSidebar from '../Projects/ProjectSidebar'
 
 import CalendarAlertButton from './View/CalendarAlertButton'
 import ProposalCoAuthorStatus from './View/ProposalCoAuthorStatus'
@@ -36,6 +37,7 @@ interface Props {
   proposalPageState: ProposalPageState
   updatePageState: React.Dispatch<React.SetStateAction<ProposalPageState>>
   pendingUpdates?: UpdateAttributes[]
+  publicUpdates?: UpdateAttributes[]
   nextUpdate?: UpdateAttributes
   currentUpdate?: UpdateAttributes | null
   castingVote: boolean
@@ -58,6 +60,7 @@ export default function ProposalSidebar({
   proposalLoading,
   proposalPageState,
   updatePageState,
+  publicUpdates,
   pendingUpdates,
   nextUpdate,
   currentUpdate,
@@ -131,9 +134,28 @@ export default function ProposalSidebar({
 
   const showVestingContract = proposal?.vesting_addresses && proposal?.vesting_addresses.length > 0
   const isCalendarButtonDisabled = !proposal || proposal.status !== ProposalStatus.Active
+  const [showProjectSidebar, setshowProjectSidebar] = useState(false)
 
   return (
     <>
+      {showVestingContract && (
+        <>
+          <button
+            className="ProposalSidebar__VestingButton"
+            onClick={() => setshowProjectSidebar(true)}
+            disabled={proposalLoading}
+          >
+            Show Project{' '}
+          </button>
+          <ProjectSidebar
+            title={proposal.title}
+            isSidebarVisible={showProjectSidebar}
+            onClose={() => setshowProjectSidebar(false)}
+            proposal={proposal}
+            updates={publicUpdates}
+          />
+        </>
+      )}
       {showVestingContract && <VestingContract vestingAddresses={proposal.vesting_addresses} />}
       {proposal && <ProposalCoAuthorStatus proposalId={proposal.id} proposalFinishDate={proposal.finish_at} />}
       <div className="ProposalSidebar">

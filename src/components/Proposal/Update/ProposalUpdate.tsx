@@ -26,6 +26,7 @@ interface Props {
   onUpdateDeleted?: () => void
   isCoauthor?: boolean
   isLinkable?: boolean
+  showHealth?: boolean
 }
 
 export const getStatusIcon = (
@@ -55,6 +56,7 @@ const ProposalUpdate = ({
   onUpdateDeleted,
   isCoauthor,
   isLinkable = true,
+  showHealth,
 }: Props) => {
   const [isDeletingUpdate, setIsDeletingUpdate] = useState(false)
   const [isDeleteUpdateModalOpen, setIsDeleteUpdateModalOpen] = useState(false)
@@ -100,6 +102,7 @@ const ProposalUpdate = ({
           index={index}
           isCoauthor={isCoauthor}
           isLinkable={isLinkable}
+          showHealth={showHealth}
         />
       )}
       <DeleteUpdateModal
