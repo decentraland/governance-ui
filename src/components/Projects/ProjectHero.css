@@ -1,0 +1,67 @@
+@media (min-width: 768px) {
+  .ProjectHero__Container {
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 16px;
+  }
+
+  .ProjectHero__Title {
+    font-size: 24px !important;
+    letter-spacing: 0.3px !important;
+    font-weight: 600;
+    line-height: 42px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .ProjectHero__Text {
+    padding: 3em 0 !important;
+  }
+}
+
+.ProjectHero__Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 24px;
+  isolation: isolate;
+}
+
+.ProjectHero__Text {
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.3em 0;
+}
+
+.ProjectHero__Title {
+  color: var(--white-900);
+  font-weight: var(--weight-semi-bold);
+  font-size: 18px;
+  line-height: 26px;
+  letter-spacing: 0.3px;
+  text-align: center;
+  padding: 0 2em;
+  margin: 8px 0;
+}
+
+@media (min-width: 768px) {
+  .ProjectHero__Title {
+    margin-bottom: 0.3em;
+    margin-top: unset;
+  }
+}
+
+.ProjectHero__Title::first-letter {
+  text-transform: capitalize;
+}
+
+.ProjectHero__Title--finished {
+  color: var(--black-700);
+}
+
+.ProjectHeroBanner {
+  border-radius: 16px;
+  background: linear-gradient(90deg, #d80027 0%, #a524b3 100%);
+}

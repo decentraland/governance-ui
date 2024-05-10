@@ -1,0 +1,23 @@
+.ProjectStatusPill {
+  display: inline-flex;
+  padding: 0px 5px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.ProjectStatusPill--in_progress,
+.ProjectStatusPill--pending {
+  border-radius: 4px;
+  background: var(--red-200);
+}
+
+.ProjectStatusPill--in_progress,
+.ProjectStatusPill--pending {
+  color: var(--red-800);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px;
+  text-transform: uppercase;
+}
