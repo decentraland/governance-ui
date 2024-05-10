@@ -441,7 +441,6 @@ export default function ProposalPage() {
             proposalPageState={proposalPageState}
             updatePageState={updatePageState}
             pendingUpdates={pendingUpdates}
-            publicUpdates={publicUpdates}
             currentUpdate={currentUpdate}
             nextUpdate={nextUpdate}
             castingVote={castingVote}

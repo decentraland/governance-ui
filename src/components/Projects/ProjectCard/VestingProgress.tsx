@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { Project } from '../../../types/proposals'
+import { ProposalProject } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import '../../Modal/VotingPowerDelegationDetail/VotingPowerDistribution.css'
 
@@ -9,7 +9,7 @@ import PercentageLabel from './PercentageLabel'
 import './VestingProgress.css'
 
 type Props = {
-  project: Project
+  project: ProposalProject
   basic?: boolean
 }
 

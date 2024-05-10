@@ -3,8 +3,6 @@ import { Button } from 'decentraland-ui/dist/components/Button/Button'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import { ProjectStatus } from '../../../types/grants.ts'
-import { projectUrl } from '../../../utils/proposal.ts'
-import Link from '../../Common/Typography/Link'
 import Markdown from '../../Common/Typography/Markdown'
 import ProjectSheetLinkArrow from '../../Icon/ProjectSheetLinkArrow.tsx'
 
@@ -13,12 +11,12 @@ import './ProjectSheetLink.css'
 import SidebarHeaderLabel from './SidebarHeaderLabel.tsx'
 
 interface Props {
-  projectId: string
   projectStatus: ProjectStatus
   isGrantee: boolean
+  onClick?: () => void
 }
 
-function ProjectSheetLink({ projectId, projectStatus, isGrantee }: Props) {
+function ProjectSheetLink({ projectStatus, isGrantee, onClick }: Props) {
   const t = useFormatMessage()
 
   return (
@@ -48,8 +46,7 @@ function ProjectSheetLink({ projectId, projectStatus, isGrantee }: Props) {
           )}
         </Markdown>
         <Button
-          href={projectUrl(projectId)}
-          as={Link}
+          onClick={onClick}
           primary
           size="small"
           className={classNames(['ProjectSheetLink__Action', `ProjectSheetLink__Action--${projectStatus}`])}

@@ -4,7 +4,7 @@ import { Desktop } from 'decentraland-ui/dist/components/Media/Media'
 
 import { CURRENCY_FORMAT_OPTIONS } from '../../../helpers'
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { Project } from '../../../types/proposals'
+import { ProposalProject } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import ProjectPill from '../../Projects/ProjectPill'
 import ProjectStatusPill from '../../Projects/ProjectStatusPill'
@@ -13,7 +13,7 @@ import './ProjectCard.css'
 import ProposalCardContainer from './ProposalCardContainer'
 
 interface Props {
-  project: Project
+  project: ProposalProject
 }
 
 export default function ProjectCard({ project }: Props) {

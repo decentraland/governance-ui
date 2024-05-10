@@ -1,13 +1,13 @@
 import classNames from 'classnames'
 import { Header } from 'decentraland-ui/dist/components/Header/Header'
 
-import { ProjectWithUpdate } from '../../../types/proposals'
+import { ProposalProjectWithUpdate } from '../../../types/proposals'
 import Username from '../../Common/Username'
 
 import './ProjectCardHeadline.css'
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-  project: ProjectWithUpdate
+  project: ProposalProjectWithUpdate
   hoverable?: boolean
   expanded?: boolean
 }

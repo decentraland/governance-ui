@@ -39,7 +39,6 @@ interface Props {
   proposalPageState: ProposalPageState
   updatePageState: React.Dispatch<React.SetStateAction<ProposalPageState>>
   pendingUpdates?: UpdateAttributes[]
-  publicUpdates?: UpdateAttributes[]
   nextUpdate?: UpdateAttributes
   currentUpdate?: UpdateAttributes | null
   castingVote: boolean
@@ -64,7 +63,6 @@ export default function ProposalSidebar({
   proposalLoading,
   proposalPageState,
   updatePageState,
-  publicUpdates,
   pendingUpdates,
   nextUpdate,
   currentUpdate,
@@ -142,26 +140,21 @@ export default function ProposalSidebar({
   const isCalendarButtonDisabled = !proposal || proposal.status !== ProposalStatus.Active
   const hasProject = !!projectId && !!projectStatus
   const isGrantee = isOwner || isCoauthor
-  const [showProjectSidebar, setshowProjectSidebar] = useState(false)
+  const [showProjectSidebar, setShowProjectSidebar] = useState(false)
 
   return (
     <>
-      {hasProject && <ProjectSheetLink projectId={projectId} projectStatus={projectStatus} isGrantee={isGrantee} />}
-      {showVestingContract && (
+      {hasProject && (
         <>
-          <button
-            className="ProposalSidebar__VestingButton"
-            onClick={() => setshowProjectSidebar(true)}
-            disabled={proposalLoading}
-          >
-            Show Project{' '}
-          </button>
+          <ProjectSheetLink
+            projectStatus={projectStatus}
+            isGrantee={isGrantee}
+            onClick={() => setShowProjectSidebar(true)}
+          />
           <ProjectSidebar
-            title={proposal.title}
+            projectId={projectId}
             isSidebarVisible={showProjectSidebar}
-            onClose={() => setshowProjectSidebar(false)}
-            proposal={proposal}
-            updates={publicUpdates}
+            onClose={() => setShowProjectSidebar(false)}
           />
         </>
       )}

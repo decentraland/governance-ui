@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import classNames from 'classnames'
 
-import { ProjectWithUpdate } from '../../../types/proposals'
+import { ProposalProjectWithUpdate } from '../../../types/proposals'
 import locations from '../../../utils/locations'
 import { isProposalInCliffPeriod } from '../../../utils/proposal'
 import Link from '../../Common/Typography/Link'
@@ -15,7 +15,7 @@ import ProjectCardHeadline from './ProjectCardHeadline'
 import VestingProgress from './VestingProgress'
 
 interface Props {
-  project: ProjectWithUpdate
+  project: ProposalProjectWithUpdate
   hoverable?: boolean
 }
 

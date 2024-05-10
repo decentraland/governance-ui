@@ -1,14 +1,14 @@
 import { useIntl } from 'react-intl'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { ProjectWithUpdate } from '../../../types/proposals'
+import { ProposalProjectWithUpdate } from '../../../types/proposals'
 import Username from '../../Common/Username'
 import ProjectPill from '../ProjectPill'
 
 import './ProjectCardHeader.css'
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-  project: ProjectWithUpdate
+  project: ProposalProjectWithUpdate
 }
 
 const ProjectCardHeader = ({ project }: Props) => {

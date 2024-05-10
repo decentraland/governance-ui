@@ -3,12 +3,12 @@ import { useIntl } from 'react-intl'
 import { Popup } from 'decentraland-ui/dist/components/Popup/Popup'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { Project } from '../../../types/proposals'
+import { ProposalProject } from '../../../types/proposals'
 import Time, { formatDate } from '../../../utils/date/Time'
 import { CLIFF_PERIOD_IN_DAYS } from '../../../utils/proposal'
 
 interface Props {
-  grant: Project
+  grant: ProposalProject
   isInCliff: boolean
   children: React.ReactNode
 }

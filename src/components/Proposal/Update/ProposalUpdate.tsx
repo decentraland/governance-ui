@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Governance } from '../../../clients/Governance'
 import { useAuthContext } from '../../../context/AuthProvider'
-import { Project, ProposalAttributes } from '../../../types/proposals'
+import { ProposalAttributes, ProposalProject } from '../../../types/proposals'
 import { ProjectHealth, UpdateAttributes } from '../../../types/updates'
 import locations from '../../../utils/locations'
 import { isSameAddress } from '../../../utils/snapshot'
@@ -19,7 +19,7 @@ import ExpandedProposalUpdate from './ExpandedProposalUpdate'
 import './ProposalUpdate.css'
 
 interface Props {
-  proposal: ProposalAttributes | Project
+  proposal: ProposalAttributes | ProposalProject
   update?: UpdateAttributes | null
   expanded: boolean
   index?: number

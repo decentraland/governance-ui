@@ -14,7 +14,7 @@ import useVestings from '../../../hooks/useVestings'
 import useVotesByAddress from '../../../hooks/useVotesByAddress'
 import useVotingStats from '../../../hooks/useVotingStats'
 import { ProjectStatus } from '../../../types/grants'
-import { Project, ProposalStatus, ProposalType } from '../../../types/proposals'
+import { ProposalProject, ProposalStatus, ProposalType } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
 import { createProject } from '../../../utils/projects'
@@ -72,7 +72,7 @@ export default function AuthorDetails({ address }: Props) {
         const items = projects?.filter((item) => item.status === cur)
         const total = items?.length || 0
         return total > 0 ? { ...acc, [cur]: { items, total } } : acc
-      }, {} as Record<string, { items: Project[]; total: number }>),
+      }, {} as Record<string, { items: ProposalProject[]; total: number }>),
     [projects]
   )
 

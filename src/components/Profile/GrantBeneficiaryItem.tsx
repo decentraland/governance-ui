@@ -5,7 +5,7 @@ import { Mobile, NotMobile } from 'decentraland-ui/dist/components/Media/Media'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { GrantTierType } from '../../types/grants'
-import { Project } from '../../types/proposals'
+import { ProposalProject } from '../../types/proposals'
 import { abbreviateTimeDifference, formatDate } from '../../utils/date/Time'
 import locations from '../../utils/locations'
 import { isProposalInCliffPeriod } from '../../utils/proposal'
@@ -22,7 +22,7 @@ import './GrantBeneficiaryItem.css'
 import VestingPill from './VestingPill'
 
 interface Props {
-  grant: Project
+  grant: ProposalProject
 }
 
 const TRANSPARENCY_TIERS_IN_MANA: string[] = [GrantTierType.Tier1, GrantTierType.Tier2, GrantTierType.Tier3]
