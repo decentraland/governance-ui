@@ -15,11 +15,20 @@ type Props = {
   onShow?: () => void
   onHide?: () => void
   onClose: () => void
+  className?: string
 }
 
 const ANIMATION_DURATION = 500
 
-export default function GovernanceSidebar({ visible = false, title, onShow, onHide, onClose, children }: Props) {
+export default function GovernanceSidebar({
+  visible = false,
+  title,
+  onShow,
+  onHide,
+  onClose,
+  children,
+  className,
+}: Props) {
   const prevVisible = useRef(visible)
   useEffect(() => {
     if (prevVisible.current && !visible) {
@@ -37,7 +46,7 @@ export default function GovernanceSidebar({ visible = false, title, onShow, onHi
   return (
     <>
       <Overlay isOpen={visible} onClick={onClose} />
-      <div className={classNames('GovernanceSidebar', visible && 'GovernanceSidebar--open')}>
+      <div className={classNames(className, 'GovernanceSidebar', visible && 'GovernanceSidebar--open')}>
         <div className="GovernanceSidebar__TitleContainer">
           {typeof title === 'string' ? (
             <Heading size="xs" className="GovernanceSidebar__Title" weight="semi-bold">
@@ -48,7 +57,7 @@ export default function GovernanceSidebar({ visible = false, title, onShow, onHi
           )}
           <Close onClick={onClose} />
         </div>
-        {children}
+        <div className="GovernanceSidebar__ContentContainer">{children}</div>
       </div>
     </>
   )

@@ -4,6 +4,7 @@ import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
 
 import { useAuthContext } from '../../../../context/AuthProvider'
+import useDclFeatureFlags from '../../../../hooks/useDclFeatureFlags'
 import useDelegationOnProposal from '../../../../hooks/useDelegationOnProposal'
 import useFormatMessage from '../../../../hooks/useFormatMessage'
 import useVotesMatch from '../../../../hooks/useVotesMatch'
@@ -12,6 +13,7 @@ import { ProposalPageState } from '../../../../pages/proposal'
 import { ProposalAttributes, ProposalStatus } from '../../../../types/proposals'
 import { SelectedVoteChoice, VoteByAddress } from '../../../../types/votes'
 import Time from '../../../../utils/date/Time'
+import { FeatureFlags } from '../../../../utils/features'
 import { getPartyVotes, getVotingSectionConfig } from '../../../../utils/votes/utils'
 import Markdown from '../../../Common/Typography/Markdown'
 import SidebarHeaderLabel from '../SidebarHeaderLabel'
@@ -89,10 +91,12 @@ const ProposalVotingSection = ({
     () => getPartyVotes(delegators, votes, choices),
     [delegators, votes, choices]
   )
+  const { isFeatureFlagEnabled } = useDclFeatureFlags()
 
   const proposalVotingSectionLoading = loading || accountState.loading || isDelegationResultLoading || isLoadingVp
   const showGetInvolvedQuestion = !!proposal && !proposalVotingSectionLoading && !hasVoted && !finished
   const isProposalPending = proposal?.status === ProposalStatus.Pending
+  const isAuthDappEnabled = isFeatureFlagEnabled(FeatureFlags.AuthDapp)
 
   return (
     <div className="DetailsSection__Content ProposalVotingSection">
@@ -117,7 +121,7 @@ const ProposalVotingSection = ({
               basic
               loading={accountState.loading}
               disabled={accountState.loading}
-              onClick={() => accountState.select()}
+              onClick={() => (isAuthDappEnabled ? accountState.authorize() : accountState.select())}
             >
               {t('general.sign_in')}
             </Button>

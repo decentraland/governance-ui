@@ -2,18 +2,18 @@ import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
-import { Button } from 'decentraland-ui/dist/components/Button/Button'
 
 import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import { Project, ProposalAttributes } from '../../../types/proposals'
-import { UpdateAttributes, UpdateStatus } from '../../../types/updates'
+import { ProjectHealth, UpdateAttributes, UpdateStatus } from '../../../types/updates'
 import { formatDate } from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
-import { isBetweenLateThresholdDate } from '../../../utils/updates'
 import DateTooltip from '../../Common/DateTooltip'
 import Link from '../../Common/Typography/Link'
-import ChevronRight from '../../Icon/ChevronRight'
+import Text from '../../Common/Typography/Text'
+import Username from '../../Common/Username'
+import ChevronRightCircleOutline from '../../Icon/ChevronRightCircleOutline'
 
 import { getStatusIcon } from './ProposalUpdate'
 import './ProposalUpdate.css'
@@ -25,8 +25,20 @@ interface Props {
   index?: number
   isCoauthor?: boolean
   isLinkable?: boolean
+  showHealth?: boolean
   onEditClick: () => void
   onDeleteUpdateClick: () => void
+}
+
+const getHealthTextKey = (health: UpdateAttributes['health']) => {
+  switch (health) {
+    case ProjectHealth.OnTrack:
+      return 'page.proposal_update.on_track_label'
+    case ProjectHealth.AtRisk:
+      return 'page.proposal_update.at_risk_label'
+    case ProjectHealth.OffTrack:
+      return 'page.proposal_update.off_track_label'
+  }
 }
 
 const CollapsedProposalUpdate = ({
@@ -35,6 +47,7 @@ const CollapsedProposalUpdate = ({
   index,
   isCoauthor,
   isLinkable,
+  showHealth,
   onEditClick,
   onDeleteUpdateClick,
 }: Props) => {
@@ -42,17 +55,13 @@ const CollapsedProposalUpdate = ({
   const [account] = useAuthContext()
   const navigate = useNavigate()
 
-  const { introduction, status, health, completion_date, due_date } = update
+  const { status, health, completion_date, author } = update
   const updateLocation = locations.update(update.id)
   const Component = isLinkable && completion_date ? Link : 'div'
   const UpdateIcon = getStatusIcon(health, completion_date)
 
   const isAllowedToPostUpdate = account && (proposal.user === account || isCoauthor)
-  const missedUpdateText = isAllowedToPostUpdate
-    ? t('page.proposal_detail.grant.update_missed_owner')
-    : t('page.proposal_detail.grant.update_missed')
   const formattedCompletionDate = completion_date ? formatDate(completion_date) : ''
-  const showPostUpdateButton = !completion_date && isAllowedToPostUpdate && isBetweenLateThresholdDate(due_date)
 
   const handleUpdateClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
@@ -77,33 +86,39 @@ const CollapsedProposalUpdate = ({
     >
       <div className="ProposalUpdate__Left">
         <div className="ProposalUpdate__IconContainer">
-          <UpdateIcon size="16" />
+          <UpdateIcon size="40" />
         </div>
         <div className="ProposalUpdate__Description">
-          <span className="ProposalUpdate__Index">{t('page.proposal_detail.grant.update_index', { index })}:</span>
-          <span>{completion_date ? introduction : missedUpdateText}</span>
+          <Text as="span" className="ProposalUpdate__Index" weight="medium">
+            {showHealth ? (
+              <>
+                {t('page.proposal_update.health_label')}: {t(getHealthTextKey(health))}
+              </>
+            ) : (
+              t('page.proposal_detail.grant.update_index', { index })
+            )}
+          </Text>
+          {completion_date && (
+            <div className="ProposalUpdate__Details">
+              <Text as="span" className="ProposalUpdate__DateText">
+                <DateTooltip date={completion_date}>
+                  {t('page.update_detail.completion_date', { date: formattedCompletionDate })}
+                </DateTooltip>
+              </Text>
+              {author && <Username address={author} />}
+            </div>
+          )}
         </div>
       </div>
       {completion_date && (
         <div className="ProposalUpdate__Date">
-          <span className="ProposalUpdate__DateText">
-            <DateTooltip date={completion_date}>{formattedCompletionDate}</DateTooltip>
-          </span>
-          {status === UpdateStatus.Late && (
-            <span className="ProposalUpdate__Late">{t('page.proposal_detail.grant.update_late')}</span>
-          )}
           {isAllowedToPostUpdate && (
             <div className="ProposalUpdate__Menu">
               <UpdateMenu author={update.author} onEditClick={onEditClick} onDeleteClick={onDeleteUpdateClick} />
             </div>
           )}
-          <ChevronRight color="var(--black-300)" />
+          <ChevronRightCircleOutline />
         </div>
-      )}
-      {showPostUpdateButton && (
-        <Button as={Link} basic href={locations.submitUpdate({ id: update.id, proposalId: proposal.id })}>
-          {t('page.proposal_detail.grant.update_button')}
-        </Button>
       )}
     </Component>
   )
