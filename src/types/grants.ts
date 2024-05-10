@@ -58,11 +58,11 @@ export const VALID_CATEGORIES = [NewGrantCategory.CoreUnit, NewGrantCategory.Pla
 export const INVALID_CATEGORIES = Object.values(NewGrantCategory).filter((item) => !VALID_CATEGORIES.includes(item))
 
 export enum ProjectStatus {
-  Pending = 'Pending',
-  InProgress = 'In Progress',
-  Finished = 'Finished',
-  Paused = 'Paused',
-  Revoked = 'Revoked',
+  Pending = 'pending',
+  InProgress = 'in_progress',
+  Finished = 'finished',
+  Paused = 'paused',
+  Revoked = 'revoked',
 }
 
 export function isGrantSubtype(value: string | null | undefined) {

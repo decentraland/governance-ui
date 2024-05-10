@@ -52,6 +52,11 @@ export type ProposalAttributes<C extends Record<string, unknown> = any> = {
   textsearch: string | null | undefined
 }
 
+export interface ProposalWithProject extends ProposalAttributes {
+  project_id?: string | null
+  project_status?: ProjectStatus | null
+}
+
 export type ProposalListFilter = {
   user: string
   type: ProposalType
@@ -731,7 +736,7 @@ type VestingContractData = {
   vesting_total_amount: number
 }
 
-export type Project = {
+export type ProposalProject = {
   id: string
   title: string
   user: string
@@ -751,7 +756,20 @@ export type Project = {
   tx_date?: number
 }
 
-export type ProjectWithUpdate = Project & {
+export type ProjectAttributes = {
+  id: string
+  proposal_id: string
+  title: string
+  status: ProjectStatus
+  links: string[]
+  about?: string
+  about_updated_by?: string
+  about_updated_at?: Date
+  updated_at?: Date
+  created_at: Date
+}
+
+export type ProposalProjectWithUpdate = ProposalProject & {
   update?: IndexedUpdate | null
   update_timestamp?: number
 }

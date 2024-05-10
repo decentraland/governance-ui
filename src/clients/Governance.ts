@@ -33,12 +33,14 @@ import {
   NewProposalTender,
   PendingProposalsQuery,
   PriorityProposal,
-  Project,
-  ProjectWithUpdate,
+  ProjectAttributes,
   ProposalAttributes,
   ProposalCommentsInDiscourse,
   ProposalListFilter,
+  ProposalProject,
+  ProposalProjectWithUpdate,
   ProposalStatus,
+  ProposalWithProject,
 } from '../types/proposals'
 import { QuarterBudgetAttributes } from '../types/quarterBudgets'
 import { SubscriptionAttributes } from '../types/subscriptions'
@@ -145,9 +147,15 @@ export class Governance extends API {
     }
   }
 
-  async getProposal(proposalId: string) {
-    const result = await this.fetch<ApiResponse<ProposalAttributes>>(`/proposals/${proposalId}`)
-    return result.data ? Governance.parseProposal(result.data) : null
+  async getProposal(proposalId: string): Promise<ProposalWithProject | null> {
+    const result = await this.fetch<ApiResponse<ProposalWithProject>>(`/proposals/${proposalId}`)
+    return result.data
+      ? {
+          ...Governance.parseProposal(result.data),
+          project_id: result.data?.project_id,
+          project_status: result.data.project_status,
+        }
+      : null
   }
 
   async getProposals(filters: Partial<GetProposalsFilter> = {}) {
@@ -173,9 +181,14 @@ export class Governance extends API {
       params.append('to', to.toISOString().split('T')[0])
     }
     const paramsStr = params.toString()
-    const proposals = await this.fetchApiResponse<ProjectWithUpdate[]>(`/projects${paramsStr ? `?${paramsStr}` : ''}`)
+    const proposals = await this.fetchApiResponse<ProposalProjectWithUpdate[]>(
+      `/projects${paramsStr ? `?${paramsStr}` : ''}`
+    )
 
     return proposals
+  }
+  async getProject(projectId: string) {
+    return await this.fetchApiResponse<ProjectAttributes>(`/projects/${projectId}`)
   }
 
   async getOpenPitchesTotal() {
@@ -193,7 +206,7 @@ export class Governance extends API {
   }
 
   async getGrantsByUser(user: string) {
-    return await this.fetchApiResponse<{ total: number; data: Project[] }>(`/proposals/grants/${user}`)
+    return await this.fetchApiResponse<{ total: number; data: ProposalProject[] }>(`/proposals/grants/${user}`)
   }
 
   async createProposal<P extends keyof NewProposalMap>(path: P, proposal: NewProposalMap[P]) {

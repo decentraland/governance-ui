@@ -441,7 +441,6 @@ export default function ProposalPage() {
             proposalPageState={proposalPageState}
             updatePageState={updatePageState}
             pendingUpdates={pendingUpdates}
-            publicUpdates={publicUpdates}
             currentUpdate={currentUpdate}
             nextUpdate={nextUpdate}
             castingVote={castingVote}
@@ -456,6 +455,8 @@ export default function ProposalPage() {
             isOwner={isOwner}
             shouldGiveReason={shouldGiveReason}
             votingSectionRef={votingSectionRef}
+            projectId={proposal?.project_id}
+            projectStatus={proposal?.project_status}
           />
         </div>
         <TabletAndBelow>

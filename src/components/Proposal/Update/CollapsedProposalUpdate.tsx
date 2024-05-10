@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { Project, ProposalAttributes } from '../../../types/proposals'
+import { ProposalAttributes, ProposalProject } from '../../../types/proposals'
 import { ProjectHealth, UpdateAttributes, UpdateStatus } from '../../../types/updates'
 import { formatDate } from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
@@ -20,7 +20,7 @@ import './ProposalUpdate.css'
 import UpdateMenu from './UpdateMenu'
 
 interface Props {
-  proposal: ProposalAttributes | Project
+  proposal: ProposalAttributes | ProposalProject
   update: UpdateAttributes
   index?: number
   isCoauthor?: boolean

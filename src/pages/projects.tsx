@@ -24,7 +24,7 @@ import {
   SubtypeOptions,
   toGrantSubtype,
 } from '../types/grants'
-import { ProjectWithUpdate, ProposalType } from '../types/proposals'
+import { ProposalProjectWithUpdate, ProposalType } from '../types/proposals'
 import { toProjectStatus } from '../utils/grants'
 import locations from '../utils/locations'
 import { isUnderMaintenance } from '../utils/maintenance'
@@ -32,7 +32,7 @@ import { isUnderMaintenance } from '../utils/maintenance'
 import './projects.css'
 
 function filterDisplayableProjects(
-  projects: ProjectWithUpdate[] | undefined,
+  projects: ProposalProjectWithUpdate[] | undefined,
   type: string | undefined,
   subtype: SubtypeOptions | undefined,
   status: ProjectStatus | undefined
@@ -67,7 +67,7 @@ function filterDisplayableProjects(
   }
 }
 
-function getCounter(projects: ProjectWithUpdate[] | undefined) {
+function getCounter(projects: ProposalProjectWithUpdate[] | undefined) {
   return {
     [ProjectTypeFilter.All]: projects?.length || 0,
     [ProjectTypeFilter.Grants]: projects?.filter((item) => item.type === ProposalType.Grant).length || 0,

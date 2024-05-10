@@ -6,6 +6,7 @@ import useProposalChoices from '../../hooks/useProposalChoices'
 import useProposalVotes from '../../hooks/useProposalVotes'
 import { ProposalPageState } from '../../pages/proposal'
 import { SegmentEvent } from '../../types/events'
+import { ProjectStatus } from '../../types/grants.ts'
 import { ProposalAttributes, ProposalStatus } from '../../types/proposals'
 import { SubscriptionAttributes } from '../../types/subscriptions'
 import { Survey } from '../../types/surveyTopics'
@@ -20,6 +21,7 @@ import VotesListModal from '../Modal/Votes/VotesListModal'
 import ProjectSidebar from '../Projects/ProjectSidebar'
 
 import CalendarAlertButton from './View/CalendarAlertButton'
+import ProjectSheetLink from './View/ProjectSheetLink.tsx'
 import ProposalCoAuthorStatus from './View/ProposalCoAuthorStatus'
 import ProposalDetailSection from './View/ProposalDetailSection'
 import ProposalGovernanceSection from './View/ProposalGovernanceSection'
@@ -37,7 +39,6 @@ interface Props {
   proposalPageState: ProposalPageState
   updatePageState: React.Dispatch<React.SetStateAction<ProposalPageState>>
   pendingUpdates?: UpdateAttributes[]
-  publicUpdates?: UpdateAttributes[]
   nextUpdate?: UpdateAttributes
   currentUpdate?: UpdateAttributes | null
   castingVote: boolean
@@ -53,6 +54,8 @@ interface Props {
   isCoauthor: boolean
   shouldGiveReason?: boolean
   votingSectionRef: React.MutableRefObject<HTMLDivElement | null>
+  projectId?: string | null
+  projectStatus?: ProjectStatus | null
 }
 
 export default function ProposalSidebar({
@@ -60,7 +63,6 @@ export default function ProposalSidebar({
   proposalLoading,
   proposalPageState,
   updatePageState,
-  publicUpdates,
   pendingUpdates,
   nextUpdate,
   currentUpdate,
@@ -76,6 +78,8 @@ export default function ProposalSidebar({
   isCoauthor,
   shouldGiveReason,
   votingSectionRef,
+  projectId,
+  projectStatus,
 }: Props) {
   const [account] = useAuthContext()
   const subscribed = useMemo(
@@ -134,25 +138,23 @@ export default function ProposalSidebar({
 
   const showVestingContract = proposal?.vesting_addresses && proposal?.vesting_addresses.length > 0
   const isCalendarButtonDisabled = !proposal || proposal.status !== ProposalStatus.Active
-  const [showProjectSidebar, setshowProjectSidebar] = useState(false)
+  const hasProject = !!projectId && !!projectStatus
+  const isGrantee = isOwner || isCoauthor
+  const [showProjectSidebar, setShowProjectSidebar] = useState(false)
 
   return (
     <>
-      {showVestingContract && (
+      {hasProject && (
         <>
-          <button
-            className="ProposalSidebar__VestingButton"
-            onClick={() => setshowProjectSidebar(true)}
-            disabled={proposalLoading}
-          >
-            Show Project{' '}
-          </button>
+          <ProjectSheetLink
+            projectStatus={projectStatus}
+            isGrantee={isGrantee}
+            onClick={() => setShowProjectSidebar(true)}
+          />
           <ProjectSidebar
-            title={proposal.title}
+            projectId={projectId}
             isSidebarVisible={showProjectSidebar}
-            onClose={() => setshowProjectSidebar(false)}
-            proposal={proposal}
-            updates={publicUpdates}
+            onClose={() => setShowProjectSidebar(false)}
           />
         </>
       )}
