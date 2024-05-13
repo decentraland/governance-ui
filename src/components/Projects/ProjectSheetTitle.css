@@ -1,8 +1,6 @@
 @media (min-width: 768px) {
   .ProjectHero__Container {
-    margin-left: 16px;
-    margin-right: 16px;
-    margin-top: 16px;
+    margin: 16px 16px 0;
   }
 
   .ProjectHero__Title {
@@ -57,11 +55,41 @@
   text-transform: capitalize;
 }
 
-.ProjectHero__Title--finished {
-  color: var(--black-700);
-}
-
-.ProjectHeroBanner {
+.ProjectHero__Banner {
   border-radius: 16px;
   background: linear-gradient(90deg, #d80027 0%, #a524b3 100%);
+}
+
+.ProjectHero__Menu {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ProjectTitle__Container {
+  margin: 8px 32px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ProjectTitle__Text {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 42px;
+}
+
+.ProjectTitle__Menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
 }

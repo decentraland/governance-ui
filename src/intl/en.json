@@ -2223,6 +2223,17 @@
       "delegated_voting_power_list_description": "The following individuals have decided to delegate their Voting Power. Remember they may overrule your vote without any notice."
     }
   },
+  "project": {
+    "sheet": {
+      "status_pill": {
+        "pending": "In refinement",
+        "in_progress": "Ongoing for {days} {days, plural, one {day} other {days}}",
+        "paused": "Paused {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}",
+        "revoked": "Revoked {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}",
+        "finished": "Ended {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}"
+      }
+    }
+  },
   "csv_file": {
     "drag_and_drop": "Drag and drop a CSV file or",
     "choose_file": "choose a file"

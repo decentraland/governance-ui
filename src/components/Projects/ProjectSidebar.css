@@ -7,3 +7,7 @@
 .ProjectSidebar__ContentContainer {
   padding: 32px;
 }
+
+.ProjectSidebar__Tabs {
+  padding: 0 32px !important;
+}

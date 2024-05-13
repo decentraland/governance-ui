@@ -1,21 +1,35 @@
 import classNames from 'classnames'
 
-import { getEnumDisplayName } from '../../helpers'
+import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import { ProjectStatus } from '../../types/grants'
+import { ProjectAttributes } from '../../types/proposals.ts'
+import { getDaysBetweenDates } from '../../utils/date/getDaysBetweenDates.ts'
 
 import './ProjectSheetStatusPill.css'
 
 interface Props {
-  status: ProjectStatus
+  project: ProjectAttributes
+  hero?: boolean
 }
 
-export default function ProjectSheetStatusPill({ status }: Props) {
-  const displayedStatus = getEnumDisplayName(status)
+function getPillTextData(status: ProjectStatus, created_at: Date, updated_at: Date | undefined) {
+  switch (status) {
+    case ProjectStatus.Pending:
+      return {}
+    case ProjectStatus.InProgress:
+      return { days: getDaysBetweenDates(created_at, new Date()) }
+    default:
+      return { days: updated_at ? getDaysBetweenDates(updated_at, new Date()) : undefined }
+  }
+}
 
-  //TODO texts and styles for each status
+export default function ProjectSheetStatusPill({ project, hero = false }: Props) {
+  const { status, created_at, updated_at } = project
+  const t = useFormatMessage()
+
   return (
-    <div className={classNames(['ProjectStatusPill', `ProjectStatusPill--${status}`])}>
-      {displayedStatus + ' FOR XX DAYS'}
+    <div className={classNames(['ProjectSheetStatusPill', `ProjectSheetStatusPill--${status}${hero ? '--hero' : ''}`])}>
+      {t(`project.sheet.status_pill.${status}`, getPillTextData(status, created_at, updated_at))}
     </div>
   )
 }
