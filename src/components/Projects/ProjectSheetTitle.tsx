@@ -29,18 +29,18 @@ export default function ProjectSheetTitle({ project, onClose }: Props) {
             <Loader active={!project} />
             {project && <ProjectSheetStatusPill project={project} hero />}
           </div>
-          <button className="ProjectHero__Menu" onClick={onClose}>
-            <DotsMenu color="var(--white-900)" />
-            <Cross size={14} color="var(--white-900)" />
-          </button>
+          <div className="ProjectHero__Menu">
+            <DotsMenu color="var(--white-900)" className="ProjectSheet__MenuDots" />
+            <Cross size={14} color="var(--white-900)" onClick={onClose} className="ProjectSheet__MenuCross" />
+          </div>
         </div>
       ) : (
         <div className="ProjectTitle__Container">
           <span className="ProjectTitle__Text">{project?.title || ''}</span>
           <div className="ProjectTitle__Menu">
             <ProjectSheetStatusPill project={project} />
-            <DotsMenu color="var(--black-700)" />
-            <Cross size={14} color="var(--black-700)" onClick={onClose} />
+            <DotsMenu color="var(--black-700)" className="ProjectSheet__MenuDots" />
+            <Cross size={14} color="var(--black-700)" onClick={onClose} className="ProjectSheet__MenuCross" />
           </div>
         </div>
       )}

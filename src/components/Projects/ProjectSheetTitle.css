@@ -93,3 +93,8 @@
   align-items: center;
   gap: 18px;
 }
+
+.ProjectSheet__MenuDots,
+.ProjectSheet__MenuCross {
+  cursor: pointer;
+}
