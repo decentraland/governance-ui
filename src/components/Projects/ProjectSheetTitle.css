@@ -21,7 +21,6 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-bottom: 24px;
   isolation: isolate;
 }
 
@@ -58,6 +57,7 @@
 .ProjectHero__Banner {
   border-radius: 16px;
   background: linear-gradient(90deg, #d80027 0%, #a524b3 100%);
+  box-shadow: none;
 }
 
 .ProjectHero__Menu {
@@ -74,7 +74,7 @@
 }
 
 .ProjectTitle__Container {
-  margin: 8px 32px 14px;
+  margin: 8px 32px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
