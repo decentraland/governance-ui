@@ -3,8 +3,8 @@ import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
 import { ProjectStatus } from '../../types/grants.ts'
 import { ProjectAttributes } from '../../types/proposals.ts'
 import { PillColor } from '../Common/Pill.tsx'
-import Cross from '../Icon/Cross.tsx'
 import DotsMenu from '../Icon/DotsMenu.tsx'
+import SlimCross from '../Icon/SlimCross.tsx'
 import HeroBanner from '../Proposal/HeroBanner.tsx'
 
 import ProjectSheetStatusPill from './ProjectSheetStatusPill.tsx'
@@ -31,7 +31,7 @@ export default function ProjectSheetTitle({ project, onClose }: Props) {
           </div>
           <div className="ProjectHero__Menu">
             <DotsMenu color="var(--white-900)" className="ProjectSheet__MenuDots" />
-            <Cross size={14} color="var(--white-900)" onClick={onClose} className="ProjectSheet__MenuCross" />
+            <SlimCross size={14} color="var(--white-900)" onClick={onClose} className="ProjectSheet__MenuCross" />
           </div>
         </div>
       ) : (
@@ -40,7 +40,7 @@ export default function ProjectSheetTitle({ project, onClose }: Props) {
           <div className="ProjectTitle__Menu">
             <ProjectSheetStatusPill project={project} />
             <DotsMenu color="var(--black-700)" className="ProjectSheet__MenuDots" />
-            <Cross size={14} color="var(--black-700)" onClick={onClose} className="ProjectSheet__MenuCross" />
+            <SlimCross size={14} color="var(--black-700)" onClick={onClose} className="ProjectSheet__MenuCross" />
           </div>
         </div>
       )}
