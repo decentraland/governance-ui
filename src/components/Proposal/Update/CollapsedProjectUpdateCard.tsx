@@ -5,22 +5,22 @@ import classNames from 'classnames'
 
 import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { ProposalAttributes, ProposalProject } from '../../../types/proposals'
 import { ProjectHealth, UpdateAttributes, UpdateStatus } from '../../../types/updates'
 import { formatDate } from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
+import { isSameAddress } from '../../../utils/snapshot'
 import DateTooltip from '../../Common/DateTooltip'
 import Link from '../../Common/Typography/Link'
 import Text from '../../Common/Typography/Text'
 import Username from '../../Common/Username'
 import ChevronRightCircleOutline from '../../Icon/ChevronRightCircleOutline'
 
-import { getStatusIcon } from './ProposalUpdate'
-import './ProposalUpdate.css'
+import { getStatusIcon } from './ProjectUpdateCard'
+import './ProjectUpdateCard.css'
 import UpdateMenu from './UpdateMenu'
 
 interface Props {
-  proposal: ProposalAttributes | ProposalProject
+  authorAddress: string
   update: UpdateAttributes
   index?: number
   isCoauthor?: boolean
@@ -41,8 +41,8 @@ const getHealthTextKey = (health: UpdateAttributes['health']) => {
   }
 }
 
-const CollapsedProposalUpdate = ({
-  proposal,
+const CollapsedProjectUpdateCard = ({
+  authorAddress,
   update,
   index,
   isCoauthor,
@@ -60,7 +60,7 @@ const CollapsedProposalUpdate = ({
   const Component = isLinkable && completion_date ? Link : 'div'
   const UpdateIcon = getStatusIcon(health, completion_date)
 
-  const isAllowedToPostUpdate = account && (proposal.user === account || isCoauthor)
+  const isAllowedToPostUpdate = account && (isSameAddress(authorAddress, account) || isCoauthor)
   const formattedCompletionDate = completion_date ? formatDate(completion_date) : ''
 
   const handleUpdateClick = useCallback(
@@ -79,17 +79,17 @@ const CollapsedProposalUpdate = ({
       href={completion_date ? updateLocation : undefined}
       onClick={isLinkable ? undefined : handleUpdateClick}
       className={classNames(
-        'ProposalUpdate',
-        status === UpdateStatus.Pending && 'ProposalUpdate--pending',
-        !completion_date && 'ProposalUpdate--missed'
+        'ProjectUpdateCard',
+        status === UpdateStatus.Pending && 'ProjectUpdateCard--pending',
+        !completion_date && 'ProjectUpdateCard--missed'
       )}
     >
-      <div className="ProposalUpdate__Left">
-        <div className="ProposalUpdate__IconContainer">
+      <div className="ProjectUpdateCard__Left">
+        <div className="ProjectUpdateCard__IconContainer">
           <UpdateIcon size="40" />
         </div>
-        <div className="ProposalUpdate__Description">
-          <Text as="span" className="ProposalUpdate__Index" weight="medium">
+        <div className="ProjectUpdateCard__Description">
+          <Text as="span" className="ProjectUpdateCard__Index" weight="medium">
             {showHealth ? (
               <>
                 {t('page.proposal_update.health_label')}: {t(getHealthTextKey(health))}
@@ -99,8 +99,8 @@ const CollapsedProposalUpdate = ({
             )}
           </Text>
           {completion_date && (
-            <div className="ProposalUpdate__Details">
-              <Text as="span" className="ProposalUpdate__DateText">
+            <div className="ProjectUpdateCard__Details">
+              <Text as="span" className="ProjectUpdateCard__DateText">
                 <DateTooltip date={completion_date}>
                   {t('page.update_detail.completion_date', { date: formattedCompletionDate })}
                 </DateTooltip>
@@ -111,9 +111,9 @@ const CollapsedProposalUpdate = ({
         </div>
       </div>
       {completion_date && (
-        <div className="ProposalUpdate__Date">
+        <div className="ProjectUpdateCard__Date">
           {isAllowedToPostUpdate && (
-            <div className="ProposalUpdate__Menu">
+            <div className="ProjectUpdateCard__Menu">
               <UpdateMenu author={update.author} onEditClick={onEditClick} onDeleteClick={onDeleteUpdateClick} />
             </div>
           )}
@@ -124,4 +124,4 @@ const CollapsedProposalUpdate = ({
   )
 }
 
-export default CollapsedProposalUpdate
+export default CollapsedProjectUpdateCard

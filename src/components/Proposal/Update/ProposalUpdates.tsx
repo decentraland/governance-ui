@@ -5,7 +5,7 @@ import Empty from '../../Common/Empty'
 import Megaphone from '../../Icon/Megaphone'
 import Section from '../View/Section'
 
-import ProposalUpdate from './ProposalUpdate'
+import ProjectUpdateCard from './ProjectUpdateCard'
 import './ProposalUpdates.css'
 
 interface Props {
@@ -35,12 +35,11 @@ export default function ProposalUpdates({ proposal, updates, isCoauthor, onUpdat
       )}
       {hasUpdates &&
         updates.map((item, index) => (
-          <ProposalUpdate
+          <ProjectUpdateCard
             key={item.id}
             index={updates.length - index}
-            proposal={proposal}
+            authorAddress={proposal.user}
             update={item}
-            expanded={index === 0}
             isCoauthor={isCoauthor}
             onUpdateDeleted={onUpdateDeleted}
           />

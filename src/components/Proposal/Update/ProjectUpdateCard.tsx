@@ -2,26 +2,20 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Governance } from '../../../clients/Governance'
-import { useAuthContext } from '../../../context/AuthProvider'
-import { ProposalAttributes, ProposalProject } from '../../../types/proposals'
 import { ProjectHealth, UpdateAttributes } from '../../../types/updates'
 import locations from '../../../utils/locations'
-import { isSameAddress } from '../../../utils/snapshot'
 import CancelIcon from '../../Icon/Cancel'
 import CheckCircleIcon from '../../Icon/CheckCircle'
 import QuestionCircleIcon from '../../Icon/QuestionCircle'
 import WarningIcon from '../../Icon/Warning'
 import { DeleteUpdateModal } from '../../Modal/DeleteUpdateModal/DeleteUpdateModal'
 
-import CollapsedProposalUpdate from './CollapsedProposalUpdate'
-import EmptyProposalUpdate from './EmptyProposalUpdate'
-import ExpandedProposalUpdate from './ExpandedProposalUpdate'
-import './ProposalUpdate.css'
+import CollapsedProjectUpdateCard from './CollapsedProjectUpdateCard'
+import EmptyProjectUpdate from './EmptyProjectUpdate'
 
 interface Props {
-  proposal: ProposalAttributes | ProposalProject
+  authorAddress: string
   update?: UpdateAttributes | null
-  expanded: boolean
   index?: number
   onUpdateDeleted?: () => void
   isCoauthor?: boolean
@@ -48,10 +42,9 @@ export const getStatusIcon = (
   }
 }
 
-const ProposalUpdate = ({
-  proposal,
+const ProjectUpdateCard = ({
+  authorAddress,
   update,
-  expanded,
   index,
   onUpdateDeleted,
   isCoauthor,
@@ -60,11 +53,10 @@ const ProposalUpdate = ({
 }: Props) => {
   const [isDeletingUpdate, setIsDeletingUpdate] = useState(false)
   const [isDeleteUpdateModalOpen, setIsDeleteUpdateModalOpen] = useState(false)
-  const [account] = useAuthContext()
   const navigate = useNavigate()
 
   if (!update) {
-    return <EmptyProposalUpdate />
+    return <EmptyProjectUpdate />
   }
 
   const handleEditClick = () => navigate(locations.edit.update(update.id))
@@ -85,26 +77,16 @@ const ProposalUpdate = ({
 
   return (
     <>
-      {expanded && update?.completion_date ? (
-        <ExpandedProposalUpdate
-          update={update}
-          index={index}
-          showMenu={isSameAddress(proposal?.user, account) || isCoauthor}
-          onEditClick={handleEditClick}
-          onDeleteUpdateClick={() => setIsDeleteUpdateModalOpen(true)}
-        />
-      ) : (
-        <CollapsedProposalUpdate
-          onEditClick={handleEditClick}
-          onDeleteUpdateClick={() => setIsDeleteUpdateModalOpen(true)}
-          proposal={proposal}
-          update={update}
-          index={index}
-          isCoauthor={isCoauthor}
-          isLinkable={isLinkable}
-          showHealth={showHealth}
-        />
-      )}
+      <CollapsedProjectUpdateCard
+        onEditClick={handleEditClick}
+        onDeleteUpdateClick={() => setIsDeleteUpdateModalOpen(true)}
+        authorAddress={authorAddress}
+        update={update}
+        index={index}
+        isCoauthor={isCoauthor}
+        isLinkable={isLinkable}
+        showHealth={showHealth}
+      />
       <DeleteUpdateModal
         loading={isDeletingUpdate}
         open={isDeleteUpdateModalOpen}
@@ -115,4 +97,4 @@ const ProposalUpdate = ({
   )
 }
 
-export default ProposalUpdate
+export default ProjectUpdateCard

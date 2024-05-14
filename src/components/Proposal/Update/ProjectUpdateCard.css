@@ -1,0 +1,81 @@
+.ProjectUpdateCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid var(--black-300);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 44px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.ProjectUpdateCard--pending {
+  cursor: default;
+}
+
+.ProjectUpdateCard--missed {
+  cursor: default !important;
+  border: 1px solid #f3b3be;
+}
+
+.ProjectUpdateCard:last-child {
+  margin-bottom: 36px;
+}
+
+.ProjectUpdateCard__Left {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+
+.ProjectUpdateCard__IconContainer {
+  margin-right: 12px;
+  display: flex;
+}
+
+.ProjectUpdateCard__Description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--black-600);
+  max-width: 570px;
+  padding-right: 10px;
+}
+
+.ProjectUpdateCard__Date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+  line-height: 24px;
+  color: var(--black-400);
+  text-transform: uppercase;
+  gap: 8px;
+}
+
+.ProjectUpdateCard__Details {
+  display: flex;
+  gap: 5px;
+}
+
+.ProjectUpdateCard__DateText {
+  color: var(--black-400);
+  opacity: 0.5;
+}
+
+.ProjectUpdateCard .ui.basic.button {
+  padding-right: 0;
+}
+
+.EmptyProjectUpdateCard__Icon path {
+  fill: var(--black-600);
+  opacity: 0.8;
+}
+
+.ProjectUpdateCard__Menu {
+  padding: 0 5px 0 10px;
+}
