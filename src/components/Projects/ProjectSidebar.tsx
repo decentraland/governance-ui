@@ -2,6 +2,7 @@ import useProject from '../../hooks/useProject.ts'
 import BoxTabs from '../Common/BoxTabs'
 import GovernanceSidebar from '../Sidebar/GovernanceSidebar'
 
+import ProjectSheetTitle from './ProjectSheetTitle.tsx'
 import './ProjectSidebar.css'
 
 interface Props {
@@ -13,7 +14,6 @@ interface Props {
 function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
   const { project, isLoadingProject } = useProject(projectId)
 
-  // const hasUpdates = updates && updates.length > 0
   return (
     <GovernanceSidebar
       className="ProjectSidebar"
@@ -21,8 +21,11 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
       visible={isSidebarVisible}
       onClose={onClose}
       isLoading={isLoadingProject}
+      showTitle={false}
     >
-      <BoxTabs>
+      {project && <ProjectSheetTitle project={project} onClose={onClose} />}
+
+      <BoxTabs className="ProjectSidebar__Tabs">
         <BoxTabs.Left>
           <BoxTabs.Tab active={true}>General Info</BoxTabs.Tab>
           <BoxTabs.Tab active={false}>Milestones</BoxTabs.Tab>
