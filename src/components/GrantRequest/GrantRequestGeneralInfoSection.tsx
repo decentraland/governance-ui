@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
 import isEmail from 'validator/lib/isEmail'
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
-import { GrantRequestGeneralInfo, GrantRequestGeneralInfoSchema } from '../../types/grants'
+import { GrantRequestGeneralInfo, GrantRequestGeneralInfoSchema, Milestone } from '../../types/grants'
 import Field from '../Common/Form/Field'
 import MarkdownField from '../Common/Form/MarkdownField'
 import SubLabel from '../Common/SubLabel'
@@ -15,13 +15,17 @@ import PostLabel from '../PostLabel'
 import ProjectRequestSection from '../ProjectRequest/ProjectRequestSection'
 import CoAuthors from '../Proposal/Submit/CoAuthor/CoAuthors'
 
+import AddBox from './AddBox'
+import AddMilestoneModal from './AddMilestoneModal'
+import BreakdownItem from './BreakdownItem'
+
 export const INITIAL_GRANT_REQUEST_GENERAL_INFO_STATE: GrantRequestGeneralInfo = {
   title: '',
   abstract: '',
   description: '',
   beneficiary: '',
   email: '',
-  roadmap: '',
+  milestones: [],
 }
 
 const schema = GrantRequestGeneralInfoSchema
@@ -43,6 +47,8 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
     defaultValues: INITIAL_GRANT_REQUEST_GENERAL_INFO_STATE,
     mode: 'onTouched',
   })
+  const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null)
+  const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false)
 
   const values = useWatch({ control })
 
@@ -189,33 +195,24 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
         <PostLabel>{t('page.submit_grant.general_info.email_note')}</PostLabel>
       </ContentSection>
       <ContentSection className="ProjectRequestSection__Field">
-        <Label>{t('page.submit_grant.general_info.roadmap_label')}</Label>
-        <SubLabel>{t('page.submit_grant.general_info.roadmap_detail')}</SubLabel>
-        <MarkdownField
-          name="roadmap"
-          control={control}
-          error={!!errors.roadmap}
-          message={
-            (errors.roadmap?.message || '') +
-            ' ' +
-            t('page.submit.character_counter', {
-              current: watch('roadmap').length,
-              limit: schema.roadmap.maxLength,
-            })
-          }
-          disabled={isFormDisabled}
-          rules={{
-            required: { value: true, message: t('error.grant.general_info.roadmap_empty') },
-            minLength: {
-              value: schema.roadmap.minLength,
-              message: t('error.grant.general_info.roadmap_too_short'),
-            },
-            maxLength: {
-              value: schema.roadmap.maxLength,
-              message: t('error.grant.general_info.roadmap_too_large'),
-            },
-          }}
-        />
+        <Label>{t('page.submit_grant.general_info.milestone_label')}</Label>
+        <SubLabel>{t('page.submit_grant.general_info.milestone_detail')}</SubLabel>
+        {values.milestones &&
+          values.milestones.length > 0 &&
+          values.milestones.map((item, index) => (
+            <BreakdownItem
+              key={`${item.title}-${index}`}
+              title={`${item.date!} - ${item.title!}`}
+              subtitle={item.description!}
+              onClick={() => {
+                setSelectedMilestone(item as Milestone)
+                setIsMilestoneModalOpen(true)
+              }}
+            />
+          ))}
+        <AddBox disabled={isFormDisabled} onClick={() => setIsMilestoneModalOpen(true)}>
+          {t('page.submit_grant.general_info.milestone_button')}
+        </AddBox>
       </ContentSection>
       <ContentSection>
         <CoAuthors
@@ -223,6 +220,36 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
           isDisabled={isFormDisabled}
         />
       </ContentSection>
+      {isMilestoneModalOpen && (
+        <AddMilestoneModal
+          isOpen={isMilestoneModalOpen}
+          onClose={() => {
+            if (selectedMilestone) {
+              setSelectedMilestone(null)
+            }
+            setIsMilestoneModalOpen(false)
+          }}
+          onSubmit={(item: Milestone) => {
+            if (selectedMilestone) {
+              const replaceEditedItem = (i: Milestone) => (i.title === selectedMilestone.title ? item : i)
+              const value = (values.milestones as Milestone[]).map(replaceEditedItem)
+              setValue('milestones', value)
+              setSelectedMilestone(null)
+            } else {
+              const value = [...(values.milestones as Milestone[]), item]
+              setValue('milestones', value)
+            }
+          }}
+          onDelete={() => {
+            if (selectedMilestone) {
+              const value = (values.milestones as Milestone[]).filter((i) => i.title !== selectedMilestone.title)
+              setValue('milestones', value)
+              setIsMilestoneModalOpen(false)
+            }
+          }}
+          selectedMilestone={selectedMilestone}
+        />
+      )}
     </ProjectRequestSection>
   )
 }

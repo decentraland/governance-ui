@@ -48,3 +48,15 @@
   text-align: right;
   color: var(--black-400);
 }
+
+.AddModal .dcl .field {
+  width: 100%;
+}
+
+.AddModal .ui.icon.input > i {
+  height: 100% !important;
+}
+
+.AddModal .ui.icon.input > i.icon {
+  top: unset;
+}

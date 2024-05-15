@@ -124,6 +124,7 @@
   border-radius: 6px;
 }
 
+/* TODO: What is this overriding??? It makes Date field icon looks off */
 .ui.icon.input > i.icon {
   right: 5px;
   top: 9px;
