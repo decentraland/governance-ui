@@ -6,6 +6,7 @@ import {
   GrantRequestTeamSchema,
   Milestone,
   MilestoneItemSchema,
+  ProposalRequestTeam,
 } from './grants'
 
 export enum UnpublishedBidStatus {
@@ -46,25 +47,13 @@ export type BidRequestGeneralInfo = {
   coAuthors?: string[]
 }
 
-export type TeamMember = {
-  name: string
-  role: string
-  about: string
-  address?: string
-  relevantLink?: string
-}
-
-export type BidRequestTeam = {
-  members: TeamMember[]
-}
-
 export type BidRequestDueDiligence = {
   budgetBreakdown: BudgetBreakdownConcept[]
 }
 
 export type BidRequest = BidRequestFunding &
   BidRequestGeneralInfo &
-  BidRequestTeam &
+  ProposalRequestTeam &
   BidRequestDueDiligence & {
     linked_proposal_id: string
     coAuthors?: string[]

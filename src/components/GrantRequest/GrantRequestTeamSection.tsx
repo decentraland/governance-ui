@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
-import { GrantRequestTeam, TeamMember } from '../../types/grants'
+import { ProposalRequestTeam, TeamMember } from '../../types/grants'
 import { userModifiedForm } from '../../utils/proposal'
 import SubLabel from '../Common/SubLabel'
 import Label from '../Common/Typography/Label'
@@ -13,13 +13,13 @@ import AddBox from './AddBox'
 import AddTeamMemberModal from './AddTeamMemberModal'
 import BreakdownItem from './BreakdownItem'
 
-export const INITIAL_GRANT_REQUEST_TEAM_STATE: GrantRequestTeam = {
+export const INITIAL_GRANT_REQUEST_TEAM_STATE: ProposalRequestTeam = {
   members: [],
 }
 
 interface Props {
   sectionNumber: number
-  onValidation: (data: GrantRequestTeam, sectionValid: boolean) => void
+  onValidation: (data: ProposalRequestTeam, sectionValid: boolean) => void
   isDisabled?: boolean
 }
 
