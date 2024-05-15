@@ -18,6 +18,7 @@ type Props = {
   onHide?: () => void
   onClose: () => void
   className?: string
+  showTitle?: boolean
 }
 
 const ANIMATION_DURATION = 500
@@ -31,6 +32,7 @@ export default function GovernanceSidebar({
   onClose,
   children,
   className,
+  showTitle = true,
 }: Props) {
   const prevVisible = useRef(visible)
   useEffect(() => {
@@ -53,16 +55,18 @@ export default function GovernanceSidebar({
         <Loader />
       ) : (
         <div className={classNames(className, 'GovernanceSidebar', visible && 'GovernanceSidebar--open')}>
-          <div className="GovernanceSidebar__TitleContainer">
-            {typeof title === 'string' ? (
-              <Heading size="xs" className="GovernanceSidebar__Title" weight="semi-bold">
-                {title}
-              </Heading>
-            ) : (
-              title
-            )}
-            <Close onClick={onClose} />
-          </div>
+          {!!showTitle && (
+            <div className="GovernanceSidebar__TitleContainer">
+              {typeof title === 'string' ? (
+                <Heading size="xs" className="GovernanceSidebar__Title" weight="semi-bold">
+                  {title}
+                </Heading>
+              ) : (
+                title
+              )}
+              <Close onClick={onClose} />
+            </div>
+          )}
           <div className="GovernanceSidebar__ContentContainer">{children}</div>
         </div>
       )}

@@ -8,6 +8,7 @@ import GovernanceSidebar from '../Sidebar/GovernanceSidebar'
 
 import UpdatesTabView from './Updates/UpdatesTabView.tsx'
 
+import ProjectSheetTitle from './ProjectSheetTitle.tsx'
 import './ProjectSidebar.css'
 
 interface Props {
@@ -40,8 +41,11 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
       visible={isSidebarVisible}
       onClose={onClose}
       isLoading={isLoadingProject}
+      showTitle={false}
     >
-      <BoxTabs>
+      {project && <ProjectSheetTitle project={project} onClose={onClose} />}
+
+      <BoxTabs className="ProjectSidebar__Tabs">
         <BoxTabs.Left>
           {MENU_ITEMS.map((item, idx) => (
             <BoxTabs.Tab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
