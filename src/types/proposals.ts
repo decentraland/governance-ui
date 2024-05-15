@@ -769,6 +769,11 @@ export type ProjectAttributes = {
   created_at: Date
 }
 
+export type Project = ProjectAttributes & {
+  author: string
+  coauthors: string[] | null
+}
+
 export type ProposalProjectWithUpdate = ProposalProject & {
   update?: IndexedUpdate | null
   update_timestamp?: number

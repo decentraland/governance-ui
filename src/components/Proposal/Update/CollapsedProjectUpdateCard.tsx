@@ -20,7 +20,7 @@ import './ProjectUpdateCard.css'
 import UpdateMenu from './UpdateMenu'
 
 interface Props {
-  authorAddress: string
+  authorAddress?: string
   update: UpdateAttributes
   index?: number
   isCoauthor?: boolean

@@ -1,3 +1,6 @@
+import React, { useMemo, useState } from 'react'
+
+import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import useProject from '../../hooks/useProject.ts'
 import useProposalUpdates from '../../hooks/useProposalUpdates.ts'
 import BoxTabs from '../Common/BoxTabs'
@@ -16,8 +19,20 @@ interface Props {
 function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
   const { project, isLoadingProject } = useProject(projectId)
   const { publicUpdates } = useProposalUpdates(project?.proposal_id)
+  const t = useFormatMessage()
 
-  const hasUpdates = publicUpdates && publicUpdates.length > 0
+  const [viewIdx, setViewIdx] = useState(0)
+
+  const MENU_ITEMS: { labelKey: string; view: React.ReactNode }[] = useMemo(
+    () => [
+      { labelKey: 'page.project_sidebar.general_info', view: <></> },
+      { labelKey: 'page.project_sidebar.milestones', view: <></> },
+      { labelKey: 'page.project_sidebar.updates', view: <UpdatesTabView publicUpdates={publicUpdates} /> },
+      { labelKey: 'page.project_sidebar.activity', view: <></> },
+    ],
+    [publicUpdates]
+  )
+
   return (
     <GovernanceSidebar
       className="ProjectSidebar"
@@ -28,13 +43,14 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
     >
       <BoxTabs>
         <BoxTabs.Left>
-          <BoxTabs.Tab active={true}>General Info</BoxTabs.Tab>
-          <BoxTabs.Tab active={false}>Milestones</BoxTabs.Tab>
-          <BoxTabs.Tab active={false}>Reports</BoxTabs.Tab>
-          <BoxTabs.Tab active={false}>Activity</BoxTabs.Tab>
+          {MENU_ITEMS.map((item, idx) => (
+            <BoxTabs.Tab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
+              {t(item.labelKey)}
+            </BoxTabs.Tab>
+          ))}
         </BoxTabs.Left>
       </BoxTabs>
-      {hasUpdates && <UpdatesTabView publicUpdates={publicUpdates} />}
+      {MENU_ITEMS[viewIdx].view}
     </GovernanceSidebar>
   )
 }

@@ -14,7 +14,7 @@ import CollapsedProjectUpdateCard from './CollapsedProjectUpdateCard'
 import EmptyProjectUpdate from './EmptyProjectUpdate'
 
 interface Props {
-  authorAddress: string
+  authorAddress?: string
   update?: UpdateAttributes | null
   index?: number
   onUpdateDeleted?: () => void

@@ -1116,6 +1116,12 @@
       "rejected_description": "You've rejected being involved in this initiative.",
       "revert_label": "Revert"
     },
+    "project_sidebar": {
+      "general_info": "General Info",
+      "milestones": "Milestones",
+      "updates": "Updates",
+      "activity": "Activity"
+    },
     "proposal_detail": {
       "title": "Decentraland DAO",
       "description": "The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse.",
