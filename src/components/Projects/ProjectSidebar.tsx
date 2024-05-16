@@ -34,12 +34,7 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
           <BoxTabs.Tab active={false}>Activity</BoxTabs.Tab>
         </BoxTabs.Left>
       </BoxTabs>
-      <div className="ProjectSidebar__ContentContainer">
-        {/*{hasUpdates && (*/}
-        {/*  <ProposalUpdate expanded={false} index={updates.length} update={updates[0]} proposal={proposal} showHealth />*/}
-        {/*)}*/}
-        {project && <ProjectGeneralInfo project={project} />}
-      </div>
+      {project && <ProjectGeneralInfo project={project} />}
     </GovernanceSidebar>
   )
 }
