@@ -1117,10 +1117,23 @@
       "revert_label": "Revert"
     },
     "project_sidebar": {
-      "general_info": "General Info",
-      "milestones": "Milestones",
-      "updates": "Updates",
-      "activity": "Activity"
+      "general_info": {
+        "title": "General Info"
+      },
+      "milestones": {
+        "title": "Milestones"
+      },
+      "updates": {
+        "title": "Updates",
+        "banner": {
+          "title": "Update #{number} due in {days} {days, plural, one {day} other {days}}",
+          "description": "Improve your reputation by posting timely updates",
+          "button": "Post Update"
+        }
+      },
+      "activity": {
+        "title": "Activity"
+      }
     },
     "proposal_detail": {
       "title": "Decentraland DAO",
