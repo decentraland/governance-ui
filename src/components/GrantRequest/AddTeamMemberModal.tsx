@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form'
 
+import { isEthereumAddress } from 'validator'
+
 import { isHttpsURL } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { TeamMember, TeamMemberItemSchema } from '../../types/grants'
@@ -15,6 +17,7 @@ const INITIAL_TEAM_MEMBER_ITEM: TeamMember = {
   name: '',
   role: '',
   about: '',
+  address: '',
   relevantLink: '',
 }
 
@@ -61,10 +64,11 @@ export default function AddTeamMemberModal({ isOpen, onClose, onSubmit, selected
 
   useEffect(() => {
     if (selectedTeamMember) {
-      const { name, role, about, relevantLink } = selectedTeamMember
+      const { name, role, about, address, relevantLink } = selectedTeamMember
       setValue('name', name)
       setValue('role', role)
       setValue('about', about)
+      setValue('address', address)
       setValue('relevantLink', relevantLink)
     }
   }, [selectedTeamMember, setValue])
@@ -146,6 +150,26 @@ export default function AddTeamMemberModal({ isOpen, onClose, onSubmit, selected
                 message: t('error.grant.team.about_too_short'),
               },
               maxLength: { value: schema.about.maxLength, message: t('error.grant.team.about_too_large') },
+            }}
+          />
+        </ContentSection>
+        <ContentSection className="ProjectRequestSection__Field">
+          <div className="LabelContainer">
+            <Label>{t('page.submit_grant.team.team_modal.address_label')}</Label>
+            <span className="Optional">{t('page.submit_grant.team.team_modal.optional_label')}</span>
+          </div>
+          <Field
+            name="address"
+            control={control}
+            placeholder={t('page.submit_grant.team.team_modal.address_placeholder')}
+            error={!!errors.address}
+            message={errors.address?.message || ''}
+            rules={{
+              validate: (value: string) => {
+                if (value !== '' && !isEthereumAddress(value)) {
+                  return t('error.grant.team.address_invalid')
+                }
+              },
             }}
           />
         </ContentSection>
