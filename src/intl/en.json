@@ -254,6 +254,7 @@
         "about_empty": "About them is empty",
         "about_too_large": "About them is too large",
         "about_too_short": "About them is too short",
+        "address_invalid": "Address is invalid",
         "relevant_link_invalid": "URL is invalid, it must start with 'https://'"
       },
       "title_empty": "Title is empty",
@@ -2044,6 +2045,8 @@
           "role_placeholder": "Developer, marketing, designer...",
           "about_label": "About them",
           "about_placeholder": "Highlight relevant information",
+          "address_label": "Their address",
+          "address_placeholder": "0x...",
           "relevant_link_label": "Relevant Link",
           "optional_label": "Optional",
           "relevant_link_placeholder": "https://"

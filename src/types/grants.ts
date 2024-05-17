@@ -303,6 +303,10 @@ export const TeamMemberItemSchema = {
     minLength: 1,
     maxLength: 750,
   },
+  address: {
+    type: 'string',
+    format: 'address',
+  },
   relevantLink: {
     type: 'string',
     minLength: 0,
@@ -399,6 +403,7 @@ export type TeamMember = {
   name: string
   role: string
   about: string
+  address?: string
   relevantLink?: string
 }
 
