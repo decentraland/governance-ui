@@ -17,7 +17,7 @@ export function DetailItem({ name, value, description, ...props }: DetailItemPro
       <Text size="lg" color="secondary" className="DetailItem__Name">
         {name}
       </Text>
-      <Text size="lg" color="secondary" className="DetailItem__Value">
+      <Text as="span" size="lg" color="secondary" className="DetailItem__Value">
         <span>{value}</span>
         {description && (
           <Helper position="left center" text={description} size="20" containerClassName="DetailItemHelper" />

@@ -2,13 +2,11 @@ import { useMemo } from 'react'
 
 import { Card } from 'decentraland-ui/dist/components/Card/Card'
 
-import useFormatMessage from '../../hooks/useFormatMessage'
 import useProposals from '../../hooks/useProposals'
-import { ProposalStatus, ProposalType } from '../../types/proposals'
-import locations from '../../utils/locations'
+import { NewGrantCategory } from '../../types/grants'
+import { ProposalAttributes, ProposalStatus, ProposalType } from '../../types/proposals'
 import { formatBalance } from '../../utils/proposal'
 import Heading from '../Common/Typography/Heading'
-import Link from '../Common/Typography/Link'
 import Text from '../Common/Typography/Text'
 import { DetailItem } from '../Proposal/View/DetailItem'
 
@@ -20,46 +18,48 @@ type Props = {
   title: string
 }
 
-const ITEMS_PER_PAGE = 5
+const GRANT_CATEGORIES = Object.values(NewGrantCategory)
 
 export default function GrantList({ status, title }: Props) {
-  const t = useFormatMessage()
-  const { proposals: grantsList } = useProposals({
+  const { proposals: grants } = useProposals({
     type: ProposalType.Grant,
-    status: status,
-    page: 1,
-    itemsPerPage: ITEMS_PER_PAGE,
+    status,
   })
-  const additionalGrants = useMemo(() => (grantsList ? grantsList.total - grantsList.data.length : 0), [grantsList])
 
-  if (!grantsList) {
+  const data = useMemo(
+    () =>
+      grants?.data.reduce((acc, item) => {
+        const category = item.configuration.category as NewGrantCategory
+        if (GRANT_CATEGORIES.includes(category)) {
+          if (!acc[category]) {
+            acc[category] = []
+          }
+          acc[category].push(item)
+        }
+        return acc
+      }, {} as Record<NewGrantCategory, ProposalAttributes[]>),
+    [grants?.data]
+  )
+
+  if (!grants || !data) {
     return null
   }
 
   return (
     <Card.Content className="GrantList__Content">
       <Heading size="md" weight="semi-bold" className="GrantList__Total">
-        {grantsList.total}
+        {grants.total}
       </Heading>
       <Text size="sm" className="GrantList__Title">
         {title}
       </Text>
       <ItemsList>
-        {grantsList.data &&
-          grantsList.data.map((grant, index) => {
-            return (
-              <DetailItem
-                name={grant.title}
-                value={'$' + formatBalance(grant.configuration.size)}
-                key={[title.trim(), index].join('::')}
-              />
-            )
-          })}
-        {additionalGrants > 0 && (
-          <Link href={locations.proposals({ type: ProposalType.Grant, status: status })} className="GrantList__Link">
-            {t('page.transparency.funding.view_more', { count: additionalGrants })}
-          </Link>
-        )}
+        {GRANT_CATEGORIES.map((category) => {
+          const grantsPerCategory = data[category]
+          const funding = grantsPerCategory.reduce((acc, item) => item.configuration.size + acc, 0)
+
+          return <DetailItem key={category} name={category} value={`$${formatBalance(funding)}`} />
+        })}
       </ItemsList>
     </Card.Content>
   )
