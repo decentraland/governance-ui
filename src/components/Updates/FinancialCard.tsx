@@ -27,7 +27,7 @@ function FinancialCard({ type, title, value, subtitle, href, helper }: Props) {
   return (
     <Card className="FinancialCard" as={href ? Link : undefined} href={href}>
       <div>
-        <Text className="FinancialCard__Text FinancialCard__Text--upper" size="sm">
+        <Text as="span" className="FinancialCard__Text FinancialCard__Text--upper" size="sm">
           {title}
           {helper && <Helper text={helper} size="16" position="bottom center" />}
         </Text>

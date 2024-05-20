@@ -155,10 +155,6 @@ export default function TransparencyPage() {
                     status={ProposalStatus.Enacted}
                     title={t('page.transparency.funding.proposals_funded_label') || ''}
                   />
-                  <GrantList
-                    status={ProposalStatus.Active}
-                    title={t('page.transparency.funding.active_grants_label') || ''}
-                  />
                 </Card>
               </div>
             </div>
