@@ -11,7 +11,7 @@ import AddModal from './AddModal'
 
 const INITIAL_MILESTONE_ITEM: Milestone = {
   title: '',
-  date: '',
+  delivery_date: '',
   description: '',
 }
 
@@ -48,10 +48,10 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
 
   useEffect(() => {
     if (selectedMilestone) {
-      const { title, description, date } = selectedMilestone
+      const { title, description, delivery_date } = selectedMilestone
       setValue('title', title)
       setValue('description', description)
-      setValue('date', date)
+      setValue('delivery_date', delivery_date)
     }
   }, [selectedMilestone, setValue])
 
@@ -120,24 +120,24 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
         <ContentSection className="ProjectRequestSection__Field">
           <Label>{t('page.submit_grant.general_info.milestone_modal.date_label')}</Label>
           <Field
-            name="date"
+            name="delivery_date"
             type="date"
             onChange={(_event, props) => {
               if (props.value) {
-                clearErrors('date')
+                clearErrors('delivery_date')
               }
-              setValue('date', props.value)
+              setValue('delivery_date', props.value)
             }}
             control={control}
-            error={!!errors.date?.message}
-            message={errors.date?.message || ''}
+            error={!!errors.delivery_date?.message}
+            message={errors.delivery_date?.message || ''}
             rules={{
               required: { value: true, message: t('error.grant.milestone.date_empty') },
               minLength: {
-                value: schema.date.minLength,
+                value: schema.delivery_date.minLength,
                 message: t('error.grant.milestone.date_too_short'),
               },
-              maxLength: { value: schema.date.maxLength, message: t('error.grant.milestone.date_too_large') },
+              maxLength: { value: schema.delivery_date.maxLength, message: t('error.grant.milestone.date_too_large') },
             }}
           />
         </ContentSection>
