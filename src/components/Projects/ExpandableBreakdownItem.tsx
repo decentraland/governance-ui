@@ -6,14 +6,14 @@ import ChevronRightCircleOutline from '../Icon/ChevronRightCircleOutline.tsx'
 
 import './ExpandableBreakdownItem.css'
 
-export interface BreakdownItem {
-  title: string
+interface ExpandableBreakdownItemProps {
+  title: React.ReactNode
   subtitle: string
   content: React.ReactNode
 }
 
 interface Props {
-  item: BreakdownItem
+  item: ExpandableBreakdownItemProps
   initiallyExpanded?: boolean
 }
 
