@@ -15,10 +15,10 @@ function MilestonesView({ milestones }: Props) {
   const t = useFormatMessage()
   const items = useMemo(
     () =>
-      milestones.map(({ title, description, delivery_date }) => ({
+      milestones.map(({ title, tasks, delivery_date }) => ({
         title: `${delivery_date} - ${title}`,
-        subtitle: description,
-        content: <BreakdownContent description={description} />,
+        subtitle: tasks,
+        content: <BreakdownContent description={tasks} />,
       })),
     [milestones]
   )

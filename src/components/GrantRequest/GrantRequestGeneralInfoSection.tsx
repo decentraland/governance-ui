@@ -203,7 +203,7 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
             <BreakdownItem
               key={`${item.title}-${index}`}
               title={`${item.delivery_date!} - ${item.title!}`}
-              subtitle={item.description!}
+              subtitle={item.tasks!}
               onClick={() => {
                 setSelectedMilestone(item as Milestone)
                 setIsMilestoneModalOpen(true)

@@ -12,7 +12,7 @@ import AddModal from './AddModal'
 const INITIAL_MILESTONE_ITEM: Milestone = {
   title: '',
   delivery_date: '',
-  description: '',
+  tasks: '',
 }
 
 const schema = MilestoneItemSchema
@@ -48,9 +48,9 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
 
   useEffect(() => {
     if (selectedMilestone) {
-      const { title, description, delivery_date } = selectedMilestone
+      const { title, tasks, delivery_date } = selectedMilestone
       setValue('title', title)
-      setValue('description', description)
+      setValue('tasks', tasks)
       setValue('delivery_date', delivery_date)
     }
   }, [selectedMilestone, setValue])
@@ -90,29 +90,29 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
           />
         </ContentSection>
         <ContentSection className="ProjectRequestSection__Field">
-          <Label>{t('page.submit_grant.general_info.milestone_modal.description_label')}</Label>
+          <Label>{t('page.submit_grant.general_info.milestone_modal.tasks_label')}</Label>
           <Field
-            name="description"
+            name="tasks"
             control={control}
-            placeholder={t('page.submit_grant.general_info.milestone_modal.description_placeholder')}
-            error={!!errors.description}
+            placeholder={t('page.submit_grant.general_info.milestone_modal.tasks_placeholder')}
+            error={!!errors.tasks}
             message={
-              (errors.description?.message || '') +
+              (errors.tasks?.message || '') +
               ' ' +
               t('page.submit.character_counter', {
-                current: watch('description').length,
-                limit: schema.description.maxLength,
+                current: watch('tasks').length,
+                limit: schema.tasks.maxLength,
               })
             }
             rules={{
-              required: { value: true, message: t('error.grant.milestone.description_empty') },
+              required: { value: true, message: t('error.grant.milestone.tasks_empty') },
               minLength: {
-                value: schema.description.minLength,
-                message: t('error.grant.milestone.description_too_short'),
+                value: schema.tasks.minLength,
+                message: t('error.grant.milestone.tasks_too_short'),
               },
               maxLength: {
-                value: schema.description.maxLength,
-                message: t('error.grant.milestone.description_too_large'),
+                value: schema.tasks.maxLength,
+                message: t('error.grant.milestone.tasks_too_large'),
               },
             }}
           />
