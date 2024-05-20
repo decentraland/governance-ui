@@ -5,6 +5,7 @@ import useFormatMessage from '../../../../hooks/useFormatMessage'
 import { NewGrantCategory } from '../../../../types/grants'
 import { GrantProposalConfiguration } from '../../../../types/proposals'
 import BudgetBreakdownView from '../../../GrantRequest/BudgetBreakdownView'
+import MilestonesView from '../../../GrantRequest/MilestonesView'
 import PersonnelView from '../../../GrantRequest/PersonnelView'
 import CategoryAssessment from '../../CategoryAssessment'
 import ProposalDescriptionItem from '../ProposalDescriptionItem'
@@ -30,6 +31,7 @@ function GrantProposalView({ config }: Props) {
     members,
     personnel,
     roadmap,
+    milestones,
     categoryAssessment,
     paymentToken,
   } = config
@@ -80,7 +82,8 @@ function GrantProposalView({ config }: Props) {
       {!hasMembers && personnel && (
         <ProposalDescriptionItem title={t('page.proposal_view.grant.personnel_title')} body={personnel} />
       )}
-      <ProposalDescriptionItem title={t('page.proposal_view.grant.roadmap_title')} body={roadmap} />
+      {roadmap && <ProposalDescriptionItem title={t('page.proposal_view.grant.roadmap_title')} body={roadmap} />}
+      {milestones && <MilestonesView milestones={milestones} />}
       {categoryAssessment && (
         <CategoryAssessment
           category={category as NewGrantCategory}
