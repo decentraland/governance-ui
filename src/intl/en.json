@@ -865,6 +865,10 @@
     "markdown_field": {
       "preview_button": "Preview",
       "edit_button": "Edit"
+    },
+    "expandable_breakdown_item": {
+      "relevant_link_label": "Relevant Link",
+      "edit_action_label": "Edit"
     }
   },
   "page": {
