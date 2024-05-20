@@ -11,8 +11,10 @@ interface Props {
   allowedAddresses: Set<string>
 }
 
+const SHOW_BANNER_THRESHOLD = 15
+
 function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
-  const { publicUpdates, nextUpdate } = useProposalUpdates(proposalId)
+  const { publicUpdates, nextUpdate, currentUpdate } = useProposalUpdates(proposalId)
   const nextDueDateRemainingDays = Time(nextUpdate?.due_date).diff(new Date(), 'days')
   const updates = publicUpdates || []
   const hasUpdates = updates.length > 0
@@ -20,8 +22,13 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
   const isAllowedToPostUpdate = !!account && allowedAddresses.has(account)
   return (
     <>
-      {isAllowedToPostUpdate && nextDueDateRemainingDays <= 7 && (
-        <PostUpdateBanner updateNumber={updates.length + 1} dueDays={nextDueDateRemainingDays} />
+      {isAllowedToPostUpdate && nextDueDateRemainingDays <= SHOW_BANNER_THRESHOLD && (
+        <PostUpdateBanner
+          updateNumber={updates.length + 1}
+          dueDays={nextDueDateRemainingDays}
+          currentUpdate={currentUpdate}
+          proposalId={proposalId || ''}
+        />
       )}
       {hasUpdates ? (
         updates.map((update, idx) => (
