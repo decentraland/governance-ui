@@ -22,6 +22,7 @@ interface Props {
   style?: FontStyle
   as?: 'span'
   title?: string
+  uppercase?: boolean
 }
 
 const Text = React.forwardRef<HTMLParagraphElement, Props>(
@@ -35,6 +36,7 @@ const Text = React.forwardRef<HTMLParagraphElement, Props>(
       className,
       as,
       title,
+      uppercase = false,
     },
     ref
   ) => {
@@ -44,6 +46,7 @@ const Text = React.forwardRef<HTMLParagraphElement, Props>(
       `Text--weight-${weight}`,
       `Text--color-${color}`,
       `Text--style-${style}`,
+      uppercase && `Text--uppercase`,
       className
     )
     const Component = as ?? 'p'

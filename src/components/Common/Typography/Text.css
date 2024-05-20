@@ -2,6 +2,10 @@
   font-stretch: normal;
 }
 
+.Text.Text--uppercase {
+  text-transform: uppercase;
+}
+
 .Text.Text--size-xs {
   font-size: 11px;
   line-height: 16px;

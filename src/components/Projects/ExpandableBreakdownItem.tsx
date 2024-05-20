@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import classNames from 'classnames'
 
-import ChevronRightCircleOutline from '../Icon/ChevronRightCircleOutline'
+import ChevronRightCircleOutline from '../Icon/ChevronRightCircleOutline.tsx'
 
 import './ExpandableBreakdownItem.css'
 

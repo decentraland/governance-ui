@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { TeamMember } from '../../types/grants'
-import ProposalMarkdown from '../Proposal/View/ProposalMarkdown'
+import EditableBreakdownContent from '../Projects/EditableBreakdownContent.tsx'
+import ExpandableBreakdownItem from '../Projects/ExpandableBreakdownItem.tsx'
+import ProjectSidebarTitle from '../Projects/ProjectSidebarTitle.tsx'
 
 import { BreakdownItem } from './BreakdownAccordion'
-import EditableBreakdownContent from './EditableBreakdownContent.tsx'
-import ExpandableBreakdownItem from './ExpandableBreakdownItem.tsx'
 
 interface Props {
   members: TeamMember[]
@@ -26,7 +26,7 @@ function PersonnelView({ members }: Props) {
 
   return (
     <>
-      <ProposalMarkdown text={`## ${t('page.proposal_view.grant.personnel_title')}`} />
+      <ProjectSidebarTitle text={t('page.proposal_view.grant.personnel_title')} />
       {items.map((item, key) => {
         return <ExpandableBreakdownItem key={key} item={item} />
       })}
