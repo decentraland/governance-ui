@@ -121,7 +121,7 @@ export default function BidRequestGeneralInfoSection({ onValidation, isFormDisab
           values.milestones.map((item, index) => (
             <BreakdownItem
               key={`${item.title}-${index}`}
-              title={`${item.date!} - ${item.title!}`}
+              title={`${item.delivery_date!} - ${item.title!}`}
               subtitle={item.description!}
               onClick={() => {
                 setSelectedMilestone(item as Milestone)
