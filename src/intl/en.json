@@ -1714,9 +1714,11 @@
       "financial_details": "Financial details",
       "additional_notes": "Additional notes and links",
       "completion_date": "Posted {date} by",
+      "late_completion_date": "Late update, {date} by",
       "edit_date": "Update last edited **{date}**",
       "due_date": "Update shared **{date} late**, after it was due.",
-      "delete_update": "Delete update"
+      "delete_update": "Delete update",
+      "failed_update": "Team failed to report progress"
     },
     "submit": {
       "title": "Submit Proposal",

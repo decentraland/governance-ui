@@ -14,8 +14,11 @@ import Link from '../../Common/Typography/Link'
 import Text from '../../Common/Typography/Text'
 import Username from '../../Common/Username'
 import ChevronRightCircleOutline from '../../Icon/ChevronRightCircleOutline'
+import LateClock from '../../Icon/LateClock'
+import ThumbDownCircle from '../../Icon/ThumbDownCircle'
+import ThumbUpCircle from '../../Icon/ThumbUpCircle'
+import Warning from '../../Icon/Warning'
 
-import { getStatusIcon } from './ProjectUpdateCard'
 import './ProjectUpdateCard.css'
 import UpdateMenu from './UpdateMenu'
 
@@ -25,19 +28,23 @@ interface Props {
   index?: number
   isCoauthor?: boolean
   isLinkable?: boolean
-  showHealth?: boolean
   onEditClick: () => void
   onDeleteUpdateClick: () => void
 }
 
-const getHealthTextKey = (health: UpdateAttributes['health']) => {
+const getStatusIcon = (health: UpdateAttributes['health'], completion_date: UpdateAttributes['completion_date']) => {
+  if (!completion_date) {
+    return Warning
+  }
+
   switch (health) {
     case ProjectHealth.OnTrack:
-      return 'page.proposal_update.on_track_label'
+      return ThumbUpCircle
     case ProjectHealth.AtRisk:
-      return 'page.proposal_update.at_risk_label'
+      return Warning
     case ProjectHealth.OffTrack:
-      return 'page.proposal_update.off_track_label'
+    default:
+      return ThumbDownCircle
   }
 }
 
@@ -47,7 +54,6 @@ const CollapsedProjectUpdateCard = ({
   index,
   isCoauthor,
   isLinkable,
-  showHealth,
   onEditClick,
   onDeleteUpdateClick,
 }: Props) => {
@@ -86,28 +92,36 @@ const CollapsedProjectUpdateCard = ({
     >
       <div className="ProjectUpdateCard__Left">
         <div className="ProjectUpdateCard__IconContainer">
-          <UpdateIcon size="40" />
+          <UpdateIcon size="40" className={classNames(!completion_date && 'ProjectUpdateCard__Icon--missed')} />
+          {status === UpdateStatus.Late && <LateClock className="ProjectUpdateCard__LateClock" />}
         </div>
         <div className="ProjectUpdateCard__Description">
-          <Text as="span" className="ProjectUpdateCard__Index" weight="medium">
-            {showHealth ? (
+          <Text
+            as="span"
+            className={classNames('ProjectUpdateCard__Index', !completion_date && 'ProjectUpdateCard__Index--missed')}
+            weight="medium"
+          >
+            {t('page.proposal_detail.grant.update_index', { index })}
+          </Text>
+          <div className="ProjectUpdateCard__Details">
+            {completion_date ? (
               <>
-                {t('page.proposal_update.health_label')}: {t(getHealthTextKey(health))}
+                <Text size="sm" as="span" className="ProjectUpdateCard__DateText">
+                  <DateTooltip date={completion_date}>
+                    {t(
+                      `page.update_detail.${status === UpdateStatus.Late ? 'late_completion_date' : 'completion_date'}`,
+                      { date: formattedCompletionDate }
+                    )}
+                  </DateTooltip>
+                </Text>
+                <>{author && <Username size="xxs" address={author} />}</>
               </>
             ) : (
-              t('page.proposal_detail.grant.update_index', { index })
-            )}
-          </Text>
-          {completion_date && (
-            <div className="ProjectUpdateCard__Details">
-              <Text as="span" className="ProjectUpdateCard__DateText">
-                <DateTooltip date={completion_date}>
-                  {t('page.update_detail.completion_date', { date: formattedCompletionDate })}
-                </DateTooltip>
+              <Text as="span" size="sm" className="ProjectUpdateCard__DateText">
+                {t('page.update_detail.failed_update')}
               </Text>
-              {author && <Username address={author} />}
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       {completion_date && (
