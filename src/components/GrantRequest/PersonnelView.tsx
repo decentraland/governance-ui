@@ -2,11 +2,10 @@ import { useMemo } from 'react'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { TeamMember } from '../../types/grants'
-import EditableBreakdownContent from '../Projects/EditableBreakdownContent.tsx'
-import ExpandableBreakdownItem from '../Projects/ExpandableBreakdownItem.tsx'
-import ProjectSidebarTitle from '../Projects/ProjectSidebarTitle.tsx'
+import ProposalMarkdown from '../Proposal/View/ProposalMarkdown'
 
-import { BreakdownItem } from './BreakdownAccordion'
+import BreakdownAccordion, { BreakdownItem } from './BreakdownAccordion'
+import BreakdownContent from './BreakdownContent'
 
 interface Props {
   members: TeamMember[]
@@ -16,20 +15,17 @@ function PersonnelView({ members }: Props) {
   const t = useFormatMessage()
   const items = useMemo(
     () =>
-      members.map<BreakdownItem>(({ name, role, about, relevantLink, address }) => ({
-        title: name + (address || ''),
+      members.map<BreakdownItem>(({ name, role, about, relevantLink }) => ({
+        title: name,
         subtitle: role,
-        content: <EditableBreakdownContent about={about} onClick={() => {}} relevantLink={relevantLink} />,
+        content: <BreakdownContent description={about} url={relevantLink} />,
       })),
     [members]
   )
-
   return (
     <>
-      <ProjectSidebarTitle text={t('page.proposal_view.grant.personnel_title')} />
-      {items.map((item, key) => {
-        return <ExpandableBreakdownItem key={key} item={item} />
-      })}
+      <ProposalMarkdown text={`## ${t('page.proposal_view.grant.personnel_title')}`} />
+      <BreakdownAccordion items={items} />
     </>
   )
 }
