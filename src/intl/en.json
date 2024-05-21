@@ -2277,5 +2277,21 @@
     "title": "Stay updated, wherever you are",
     "description": "Connect your Discord and Push accounts to receive real-time notifications about the latest developments in the Decentraland DAO.",
     "button": "Connect accounts"
+  },
+  "project_sheet": {
+    "general_info": {
+      "title": "General info",
+      "about": "About",
+      "personnel": "Personnel"
+    },
+    "milestones": {
+      "title": "Milestones"
+    },
+    "updates": {
+      "title": "Updates"
+    },
+    "activity": {
+      "title": "Activity"
+    }
   }
 }

@@ -31,12 +31,12 @@ function EditablePersonnelView({ members }: Props) {
   )
 
   return (
-    <>
+    <div>
       <ProjectSidebarSectionTitle text={t('page.proposal_view.grant.personnel_title')} />
       {items.map((item, key) => {
         return <ExpandableBreakdownItem key={key} item={item} />
       })}
-    </>
+    </div>
   )
 }
 
