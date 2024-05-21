@@ -6,7 +6,7 @@ import { ProposalProjectWithUpdate } from '../../../types/proposals'
 import locations from '../../../utils/locations'
 import { isProposalInCliffPeriod } from '../../../utils/proposal'
 import Link from '../../Common/Typography/Link'
-import ProjectUpdateCard from '../../Proposal/Update/ProjectUpdateCard'
+import MiniProjectUpdateCard from '../../Proposal/Update/MiniProjectUpdateCard'
 
 import CliffProgress from './CliffProgress'
 import './ProjectCard.css'
@@ -36,9 +36,11 @@ const ProjectCard = ({ project, hoverable = false }: Props) => {
         <ProjectCardHeadline project={project} expanded={expanded} hoverable={hoverable} />
         {proposalInCliffPeriod ? <CliffProgress enactedAt={enacted_at} /> : <VestingProgress project={project} />}
       </div>
-      <div className="ProjectCard__UpdateContainer">
-        <ProjectUpdateCard isAllowedToPostUpdate={false} update={update} index={update?.index} isLinkable={false} />
-      </div>
+      {update && (
+        <div className="ProjectCard__UpdateContainer">
+          <MiniProjectUpdateCard update={update} index={update?.index} />
+        </div>
+      )}
     </Link>
   )
 }

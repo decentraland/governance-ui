@@ -15,7 +15,7 @@ function ProjectGeneralInfo({ project }: Props) {
   const t = useFormatMessage()
 
   return (
-    <div className="ProjectSidebar__ContentContainer">
+    <>
       {about && (
         <div>
           <ProjectSidebarSectionTitle text={t('project_sheet.general_info.about')} />
@@ -23,7 +23,7 @@ function ProjectGeneralInfo({ project }: Props) {
         </div>
       )}
       <EditablePersonnelView members={personnel} />
-    </div>
+    </>
   )
 }
 
