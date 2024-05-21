@@ -10,7 +10,7 @@ import ChevronRightCircleOutline from '../Icon/ChevronRightCircleOutline'
 import './BreakdownAccordion.css'
 
 export interface BreakdownItem {
-  title: string
+  title: React.ReactNode
   subtitle: string
   value?: string
   content: React.ReactNode

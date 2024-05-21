@@ -76,6 +76,24 @@ export function toGrantSubtype<OrElse>(value: string | null | undefined, orElse:
   return isGrantSubtype(value) ? (value as SubtypeOptions) : orElse()
 }
 
+export const MilestoneItemSchema = {
+  title: {
+    type: 'string',
+    minLength: 1,
+    maxLength: 80,
+  },
+  tasks: {
+    type: 'string',
+    minLength: 1,
+    maxLength: 750,
+  },
+  delivery_date: {
+    type: 'string',
+    minLength: 1,
+    maxLength: 10,
+  },
+}
+
 export const GrantRequestGeneralInfoSchema = {
   title: {
     type: 'string',
@@ -96,10 +114,14 @@ export const GrantRequestGeneralInfoSchema = {
     type: 'string',
     format: 'email',
   },
-  roadmap: {
-    type: 'string',
-    minLength: 20,
-    maxLength: 2000,
+  milestones: {
+    type: 'array',
+    items: {
+      type: 'object',
+      additionalProperties: false,
+      required: [...Object.keys(MilestoneItemSchema)],
+      properties: MilestoneItemSchema,
+    },
   },
   coAuthors: {
     type: 'array',
@@ -303,6 +325,10 @@ export const TeamMemberItemSchema = {
     minLength: 1,
     maxLength: 750,
   },
+  address: {
+    type: 'string',
+    format: 'address',
+  },
   relevantLink: {
     type: 'string',
     minLength: 0,
@@ -360,7 +386,7 @@ export type GrantRequest = {
   category: NewGrantCategory | null
 } & GrantRequestFunding &
   GrantRequestGeneralInfo &
-  GrantRequestTeam &
+  ProposalRequestTeam &
   GrantRequestCategoryAssessment &
   GrantRequestDueDiligence
 
@@ -379,7 +405,8 @@ export type GrantRequestGeneralInfo = {
   email: string
   specification?: string
   personnel?: string
-  roadmap: string
+  roadmap?: string
+  milestones: Milestone[]
   coAuthors?: string[]
 }
 
@@ -397,12 +424,19 @@ export type GrantRequestDueDiligence = {
 
 export type TeamMember = {
   name: string
+  address?: string
   role: string
   about: string
   relevantLink?: string
 }
 
-export type GrantRequestTeam = {
+export type Milestone = {
+  title: string
+  delivery_date: string
+  tasks: string
+}
+
+export type ProposalRequestTeam = {
   members: TeamMember[]
 }
 
