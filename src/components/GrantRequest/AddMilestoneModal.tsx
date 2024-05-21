@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { Milestone, MilestoneItemSchema } from '../../types/grants'
 import Field from '../Common/Form/Field'
+import TextArea from '../Common/Form/TextArea'
 import Label from '../Common/Typography/Label'
 import { ContentSection } from '../Layout/ContentLayout'
 
@@ -91,11 +92,11 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
         </ContentSection>
         <ContentSection className="ProjectRequestSection__Field">
           <Label>{t('page.submit_grant.general_info.milestone_modal.tasks_label')}</Label>
-          <Field
+          <TextArea
             name="tasks"
             control={control}
             placeholder={t('page.submit_grant.general_info.milestone_modal.tasks_placeholder')}
-            error={!!errors.tasks}
+            error={errors.tasks?.message}
             message={
               (errors.tasks?.message || '') +
               ' ' +
