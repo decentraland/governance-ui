@@ -30,7 +30,7 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
         labelKey: 'page.project_sidebar.updates.title',
         view: (
           <UpdatesTabView
-            proposalId={project?.proposal_id}
+            proposalId={project?.proposal_id || ''}
             allowedAddresses={new Set([project?.author || '', ...(project?.coauthors || [])])}
           />
         ),

@@ -10,16 +10,15 @@ import CollapsedProjectUpdateCard from './CollapsedProjectUpdateCard'
 import EmptyProjectUpdate from './EmptyProjectUpdate'
 
 interface Props {
-  authorAddress?: string
   update?: UpdateAttributes | null
   index?: number
   onUpdateDeleted?: () => void
-  isCoauthor?: boolean
   isLinkable?: boolean
   showHealth?: boolean
+  isAllowedToPostUpdate: boolean
 }
 
-const ProjectUpdateCard = ({ authorAddress, update, index, onUpdateDeleted, isCoauthor, isLinkable = true }: Props) => {
+const ProjectUpdateCard = ({ update, index, onUpdateDeleted, isAllowedToPostUpdate, isLinkable = true }: Props) => {
   const [isDeletingUpdate, setIsDeletingUpdate] = useState(false)
   const [isDeleteUpdateModalOpen, setIsDeleteUpdateModalOpen] = useState(false)
   const navigate = useNavigate()
@@ -49,10 +48,9 @@ const ProjectUpdateCard = ({ authorAddress, update, index, onUpdateDeleted, isCo
       <CollapsedProjectUpdateCard
         onEditClick={handleEditClick}
         onDeleteUpdateClick={() => setIsDeleteUpdateModalOpen(true)}
-        authorAddress={authorAddress}
+        isAllowedToPostUpdate={isAllowedToPostUpdate}
         update={update}
         index={index}
-        isCoauthor={isCoauthor}
         isLinkable={isLinkable}
       />
       <DeleteUpdateModal

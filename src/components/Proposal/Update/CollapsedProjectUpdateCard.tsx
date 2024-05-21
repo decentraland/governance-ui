@@ -3,12 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
 
-import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import { ProjectHealth, UpdateAttributes, UpdateStatus } from '../../../types/updates'
 import { formatDate } from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
-import { isSameAddress } from '../../../utils/snapshot'
 import DateTooltip from '../../Common/DateTooltip'
 import Link from '../../Common/Typography/Link'
 import Text from '../../Common/Typography/Text'
@@ -23,10 +21,9 @@ import './ProjectUpdateCard.css'
 import UpdateMenu from './UpdateMenu'
 
 interface Props {
-  authorAddress?: string
   update: UpdateAttributes
+  isAllowedToPostUpdate: boolean
   index?: number
-  isCoauthor?: boolean
   isLinkable?: boolean
   onEditClick: () => void
   onDeleteUpdateClick: () => void
@@ -49,16 +46,14 @@ const getStatusIcon = (health: UpdateAttributes['health'], completion_date: Upda
 }
 
 const CollapsedProjectUpdateCard = ({
-  authorAddress,
   update,
+  isAllowedToPostUpdate,
   index,
-  isCoauthor,
   isLinkable,
   onEditClick,
   onDeleteUpdateClick,
 }: Props) => {
   const t = useFormatMessage()
-  const [account] = useAuthContext()
   const navigate = useNavigate()
 
   const { status, health, completion_date, author } = update
@@ -66,7 +61,6 @@ const CollapsedProjectUpdateCard = ({
   const Component = isLinkable && completion_date ? Link : 'div'
   const UpdateIcon = getStatusIcon(health, completion_date)
 
-  const isAllowedToPostUpdate = account && (isSameAddress(authorAddress, account) || isCoauthor)
   const formattedCompletionDate = completion_date ? formatDate(completion_date) : ''
 
   const handleUpdateClick = useCallback(

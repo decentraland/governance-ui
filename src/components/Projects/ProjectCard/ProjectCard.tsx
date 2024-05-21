@@ -37,7 +37,7 @@ const ProjectCard = ({ project, hoverable = false }: Props) => {
         {proposalInCliffPeriod ? <CliffProgress enactedAt={enacted_at} /> : <VestingProgress project={project} />}
       </div>
       <div className="ProjectCard__UpdateContainer">
-        <ProjectUpdateCard authorAddress={project.user} update={update} index={update?.index} isLinkable={false} />
+        <ProjectUpdateCard isAllowedToPostUpdate={false} update={update} index={update?.index} isLinkable={false} />
       </div>
     </Link>
   )

@@ -10,10 +10,7 @@ import { ProjectStatus } from '../../types/grants.ts'
 import { ProposalAttributes, ProposalStatus } from '../../types/proposals'
 import { SubscriptionAttributes } from '../../types/subscriptions'
 import { Survey } from '../../types/surveyTopics'
-import { UpdateAttributes } from '../../types/updates'
 import { SelectedVoteChoice, VoteByAddress } from '../../types/votes'
-import { isProjectProposal } from '../../utils/proposal'
-import { isProposalStatusWithUpdates } from '../../utils/updates'
 import { calculateResult } from '../../utils/votes/utils'
 import { NotDesktop1200 } from '../Layout/Desktop1200'
 import CalendarAlertModal from '../Modal/CalendarAlertModal'
@@ -26,7 +23,6 @@ import ProposalCoAuthorStatus from './View/ProposalCoAuthorStatus'
 import ProposalDetailSection from './View/ProposalDetailSection'
 import ProposalGovernanceSection from './View/ProposalGovernanceSection'
 import ProposalThresholdsSummary from './View/ProposalThresholdsSummary'
-import ProposalUpdatesActions from './View/ProposalUpdatesActions'
 import SubscribeButton from './View/SubscribeButton'
 import VestingContract from './View/VestingContract'
 
@@ -38,9 +34,6 @@ interface Props {
   proposalLoading: boolean
   proposalPageState: ProposalPageState
   updatePageState: React.Dispatch<React.SetStateAction<ProposalPageState>>
-  pendingUpdates?: UpdateAttributes[]
-  nextUpdate?: UpdateAttributes
-  currentUpdate?: UpdateAttributes | null
   castingVote: boolean
   castVote: (selectedChoice: SelectedVoteChoice, survey?: Survey | undefined) => void
   voteWithSurvey: boolean
@@ -63,9 +56,6 @@ export default function ProposalSidebar({
   proposalLoading,
   proposalPageState,
   updatePageState,
-  pendingUpdates,
-  nextUpdate,
-  currentUpdate,
   castingVote,
   castVote,
   voteWithSurvey,
@@ -123,11 +113,6 @@ export default function ProposalSidebar({
     setIsVotesListModalOpen(true)
   }
 
-  const showProposalUpdatesActions =
-    proposal &&
-    isProposalStatusWithUpdates(proposal?.status) &&
-    isProjectProposal(proposal?.type) &&
-    (isOwner || isCoauthor)
   const showProposalThresholdsSummary = !!(
     proposal &&
     proposal?.required_to_pass !== null &&
@@ -161,14 +146,6 @@ export default function ProposalSidebar({
       {showVestingContract && <VestingContract vestingAddresses={proposal.vesting_addresses} />}
       {proposal && <ProposalCoAuthorStatus proposalId={proposal.id} proposalFinishDate={proposal.finish_at} />}
       <div className="ProposalSidebar">
-        {showProposalUpdatesActions && (
-          <ProposalUpdatesActions
-            nextUpdate={nextUpdate}
-            currentUpdate={currentUpdate}
-            pendingUpdates={pendingUpdates}
-            proposal={proposal}
-          />
-        )}
         <div ref={votingSectionRef}>
           <ProposalGovernanceSection
             disabled={!proposal || !votes}
