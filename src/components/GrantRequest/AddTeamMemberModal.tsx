@@ -17,7 +17,7 @@ const INITIAL_TEAM_MEMBER_ITEM: TeamMember = {
   name: '',
   role: '',
   about: '',
-  address: '',
+  address: undefined,
   relevantLink: '',
 }
 
@@ -57,7 +57,10 @@ export default function AddTeamMemberModal({ isOpen, onClose, onSubmit, selected
       return
     }
 
-    onSubmit(data)
+    onSubmit({
+      ...data,
+      ...{ address: data.address === '' ? undefined : data.address },
+    })
     onClose()
     reset()
   }
@@ -166,7 +169,7 @@ export default function AddTeamMemberModal({ isOpen, onClose, onSubmit, selected
             message={errors.address?.message || ''}
             rules={{
               validate: (value: string) => {
-                if (value !== '' && !isEthereumAddress(value)) {
+                if (value !== undefined && value !== '' && !isEthereumAddress(value)) {
                   return t('error.grant.team.address_invalid')
                 }
               },
