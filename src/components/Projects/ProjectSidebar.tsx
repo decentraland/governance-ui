@@ -1,3 +1,4 @@
+import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import useProject from '../../hooks/useProject.ts'
 import BoxTabs from '../Common/BoxTabs'
 import GovernanceSidebar from '../Sidebar/GovernanceSidebar'
@@ -14,6 +15,7 @@ interface Props {
 
 function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
   const { project, isLoadingProject } = useProject(projectId)
+  const t = useFormatMessage()
 
   return (
     <GovernanceSidebar
@@ -28,10 +30,10 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
 
       <BoxTabs className="ProjectSidebar__Tabs">
         <BoxTabs.Left>
-          <BoxTabs.Tab active={true}>General Info</BoxTabs.Tab>
-          <BoxTabs.Tab active={false}>Milestones</BoxTabs.Tab>
-          <BoxTabs.Tab active={false}>Reports</BoxTabs.Tab>
-          <BoxTabs.Tab active={false}>Activity</BoxTabs.Tab>
+          <BoxTabs.Tab active={true}>{t('project_sheet.general_info.title')}</BoxTabs.Tab>
+          <BoxTabs.Tab active={false}>{t('project_sheet.milestones.title')}</BoxTabs.Tab>
+          <BoxTabs.Tab active={false}>{t('project_sheet.updates.title')}</BoxTabs.Tab>
+          <BoxTabs.Tab active={false}>{t('project_sheet.activity.title')}</BoxTabs.Tab>
         </BoxTabs.Left>
       </BoxTabs>
       {project && <ProjectGeneralInfo project={project} />}
