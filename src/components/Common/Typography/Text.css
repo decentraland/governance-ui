@@ -2,6 +2,22 @@
   font-stretch: normal;
 }
 
+.Text.Text--transform-none {
+  text-transform: none;
+}
+
+.Text.Text--transform-uppercase {
+  text-transform: uppercase;
+}
+
+.Text.Text--transform-lowercase {
+  text-transform: lowercase;
+}
+
+.Text.Text--transform-capitalize {
+  text-transform: capitalize;
+}
+
 .Text.Text--size-xs {
   font-size: 11px;
   line-height: 16px;

@@ -2,6 +2,7 @@ import useProject from '../../hooks/useProject.ts'
 import BoxTabs from '../Common/BoxTabs'
 import GovernanceSidebar from '../Sidebar/GovernanceSidebar'
 
+import ProjectGeneralInfo from './ProjectGeneralInfo.tsx'
 import ProjectSheetTitle from './ProjectSheetTitle.tsx'
 import './ProjectSidebar.css'
 
@@ -33,11 +34,7 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
           <BoxTabs.Tab active={false}>Activity</BoxTabs.Tab>
         </BoxTabs.Left>
       </BoxTabs>
-      <div className="ProjectSidebar__ContentContainer">
-        {/*{hasUpdates && (*/}
-        {/*  <ProposalUpdate expanded={false} index={updates.length} update={updates[0]} proposal={proposal} showHealth />*/}
-        {/*)}*/}
-      </div>
+      {project && <ProjectGeneralInfo project={project} />}
     </GovernanceSidebar>
   )
 }

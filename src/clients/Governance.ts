@@ -33,7 +33,7 @@ import {
   NewProposalTender,
   PendingProposalsQuery,
   PriorityProposal,
-  ProjectAttributes,
+  Project,
   ProposalAttributes,
   ProposalCommentsInDiscourse,
   ProposalListFilter,
@@ -188,7 +188,7 @@ export class Governance extends API {
     return proposals
   }
   async getProject(projectId: string) {
-    return await this.fetchApiResponse<ProjectAttributes>(`/projects/${projectId}`)
+    return await this.fetchApiResponse<Project>(`/projects/${projectId}`)
   }
 
   async getOpenPitchesTotal() {

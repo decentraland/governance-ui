@@ -6,12 +6,13 @@ import {
   CategoryAssessmentQuestions,
   GrantRequestDueDiligence,
   GrantRequestGeneralInfo,
-  GrantRequestTeam,
   GrantTierType,
   PaymentToken,
   ProjectStatus,
   ProposalGrantCategory,
+  ProposalRequestTeam,
   SubtypeOptions,
+  TeamMember,
   VestingStartDate,
 } from './grants'
 import { IndexedUpdate } from './updates'
@@ -598,7 +599,7 @@ export const newProposalTenderScheme = {
 
 export type GrantProposalConfiguration = GrantRequestGeneralInfo &
   GrantRequestDueDiligence &
-  GrantRequestTeam & {
+  ProposalRequestTeam & {
     category: ProposalGrantCategory | null
     size: number
     paymentToken?: PaymentToken
@@ -769,6 +770,8 @@ export type ProjectAttributes = {
   created_at: Date
 }
 
+export type Project = ProjectAttributes & { personnel: PersonnelAttributes[] }
+
 export type ProposalProjectWithUpdate = ProposalProject & {
   update?: IndexedUpdate | null
   update_timestamp?: number
@@ -795,4 +798,13 @@ export type PriorityProposal = Pick<
   priority_type: PriorityProposalType
   linked_proposals_data?: LinkedProposal[]
   unpublished_bids_data?: UnpublishedBidInfo[]
+}
+
+export type PersonnelAttributes = TeamMember & {
+  id: string
+  project_id: string
+  deleted: boolean
+  updated_by?: string
+  updated_at?: Date
+  created_at: Date
 }

@@ -1,8 +1,8 @@
-function Open({ className }: { className?: string }) {
+function Open({ className, size = 12 }: { className?: string; size?: number }) {
   return (
     <svg
-      width="12"
-      height="12"
+      width={size}
+      height={size}
       viewBox="0 0 12 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -12,6 +12,7 @@ export type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type FontWeight = 'bold' | 'semi-bold' | 'normal' | 'medium' | 'light'
 type TextColor = 'default' | 'primary' | 'secondary' | 'error' | 'white-900'
 type FontStyle = 'normal' | 'italic'
+type TransformOptions = 'uppercase' | 'lowercase' | 'capitalize' | 'none'
 
 interface Props {
   children?: React.ReactNode
@@ -22,6 +23,7 @@ interface Props {
   style?: FontStyle
   as?: 'span'
   title?: string
+  transform?: TransformOptions
 }
 
 const Text = React.forwardRef<HTMLParagraphElement, Props>(
@@ -35,6 +37,7 @@ const Text = React.forwardRef<HTMLParagraphElement, Props>(
       className,
       as,
       title,
+      transform = 'none',
     },
     ref
   ) => {
@@ -44,6 +47,7 @@ const Text = React.forwardRef<HTMLParagraphElement, Props>(
       `Text--weight-${weight}`,
       `Text--color-${color}`,
       `Text--style-${style}`,
+      `Text--transform-${transform}`,
       className
     )
     const Component = as ?? 'p'
