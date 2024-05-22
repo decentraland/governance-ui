@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom'
 import { ChainId } from '@dcl/schemas/dist/dapps/chain-id'
 import { Network } from '@dcl/schemas/dist/dapps/network'
 import { Avatar } from '@dcl/schemas/dist/platform/profile'
-import { useQuery } from '@tanstack/react-query'
 import {
   DROPDOWN_MENU_BALANCE_CLICK_EVENT,
   DROPDOWN_MENU_DISPLAY_EVENT,
@@ -14,7 +13,6 @@ import {
 import useNotifications from 'decentraland-dapps/dist/hooks/useNotifications'
 import { Footer } from 'decentraland-ui/dist/components/Footer/Footer'
 import { Navbar } from 'decentraland-ui/dist/components/Navbar/Navbar'
-import { ManaBalancesProps } from 'decentraland-ui/dist/components/UserMenu/ManaBalances/ManaBalances.types'
 import { config } from 'decentraland-ui/dist/config'
 import { isEmpty } from 'lodash'
 
@@ -27,7 +25,6 @@ import useDclIdentity from '../../hooks/useDclIdentity'
 import useDclProfile from '../../hooks/useDclProfile'
 import { getAnalytics } from '../../utils/analytics/segment'
 import { FeatureFlags } from '../../utils/features'
-import { fetchManaBalance } from '../../utils/mana'
 import AvatarComponent from '../Common/Avatar'
 import ExternalLinkWarningModal from '../Modal/ExternalLinkWarningModal'
 import { LinkDiscordModal } from '../Modal/LinkDiscordModal/LinkDiscordModal'
@@ -86,45 +83,6 @@ export default function Layout({ children }: LayoutProps) {
   const chainId = userState.chainId
   const isAuthDappEnabled = isFeatureFlagEnabled(FeatureFlags.AuthDapp)
 
-  const { data: manaBalances } = useQuery({
-    queryKey: ['manaBalances', user, chainId],
-    queryFn: async () => {
-      if (!user) {
-        return {}
-      }
-
-      switch (chainId) {
-        case ChainId.ETHEREUM_MAINNET: {
-          const [ETHEREUM, MATIC] = await Promise.all([
-            fetchManaBalance(user, chainId),
-            fetchManaBalance(user, ChainId.MATIC_MAINNET),
-          ])
-
-          return { ETHEREUM, MATIC }
-        }
-
-        case ChainId.ETHEREUM_SEPOLIA: {
-          const [ETHEREUM, MATIC] = await Promise.all([
-            fetchManaBalance(user, chainId),
-            fetchManaBalance(user, ChainId.MATIC_AMOY),
-          ])
-
-          return { ETHEREUM, MATIC }
-        }
-
-        case ChainId.MATIC_MAINNET:
-        case ChainId.MATIC_AMOY: {
-          const MATIC = await fetchManaBalance(user, chainId)
-          return { MATIC }
-        }
-
-        default:
-          return {}
-      }
-    },
-    enabled: !!user,
-  })
-
   const handleClickBalance = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event: any, network: Network) => {
@@ -175,7 +133,6 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <>
       <Navbar
-        manaBalances={manaBalances as ManaBalancesProps['manaBalances']}
         address={user || undefined}
         avatar={hasProfile ? (profile as unknown as Avatar) : undefined}
         activePage="governance"
