@@ -1125,6 +1125,25 @@
       "rejected_description": "You've rejected being involved in this initiative.",
       "revert_label": "Revert"
     },
+    "project_sidebar": {
+      "general_info": {
+        "title": "General Info"
+      },
+      "milestones": {
+        "title": "Milestones"
+      },
+      "updates": {
+        "title": "Updates",
+        "banner": {
+          "title": "Update #{number} due in {days} {days, plural, one {day} other {days}}",
+          "description": "Improve your reputation by posting timely updates",
+          "button": "Post Update"
+        }
+      },
+      "activity": {
+        "title": "Activity"
+      }
+    },
     "proposal_detail": {
       "title": "Decentraland DAO",
       "description": "The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse.",
@@ -1704,9 +1723,11 @@
       "financial_details": "Financial details",
       "additional_notes": "Additional notes and links",
       "completion_date": "Posted {date} by",
+      "late_completion_date": "Late update, {date} by",
       "edit_date": "Update last edited **{date}**",
       "due_date": "Update shared **{date} late**, after it was due.",
-      "delete_update": "Delete update"
+      "delete_update": "Delete update",
+      "failed_update": "Team failed to report progress"
     },
     "submit": {
       "title": "Submit Proposal",

@@ -13,6 +13,10 @@
   background-color: var(--blue-200);
 }
 
+.Banner--red {
+  background-color: var(--red-200);
+}
+
 .Banner--purple {
   background: var(--alpha-purple-200);
 }
@@ -47,6 +51,10 @@
 
 .Banner__Button--blue {
   background-color: var(--blue-800) !important;
+}
+
+.Banner__Button--red {
+  background-color: var(--red-800) !important;
 }
 
 .Banner__Button--purple {

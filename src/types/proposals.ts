@@ -770,7 +770,11 @@ export type ProjectAttributes = {
   created_at: Date
 }
 
-export type Project = ProjectAttributes & { personnel: PersonnelAttributes[] }
+export type Project = ProjectAttributes & {
+  author: string
+  coauthors: string[] | null
+  personnel: PersonnelAttributes[]
+}
 
 export type ProposalProjectWithUpdate = ProposalProject & {
   update?: IndexedUpdate | null

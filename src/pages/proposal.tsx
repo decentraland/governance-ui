@@ -33,7 +33,6 @@ import ProposalHero from '../components/Proposal/ProposalHero'
 import ProposalSidebar from '../components/Proposal/ProposalSidebar'
 import VotingRationaleSection from '../components/Proposal/Rationale/VotingRationaleSection'
 import SurveyResults from '../components/Proposal/SentimentSurvey/SurveyResults'
-import ProposalUpdates from '../components/Proposal/Update/ProposalUpdates'
 import AuthorDetails from '../components/Proposal/View/AuthorDetails'
 import BiddingAndTendering from '../components/Proposal/View/BiddingAndTendering'
 import ProposalBudget from '../components/Proposal/View/Budget/ProposalBudget'
@@ -66,9 +65,8 @@ import { SelectedVoteChoice } from '../types/votes'
 import { ErrorCategory } from '../utils/errorCategories'
 import locations from '../utils/locations'
 import { isUnderMaintenance } from '../utils/maintenance'
-import { isBiddingAndTenderingProposal, isGovernanceProcessProposal, isProjectProposal } from '../utils/proposal'
+import { isBiddingAndTenderingProposal, isGovernanceProcessProposal } from '../utils/proposal'
 import { SurveyEncoder } from '../utils/surveyTopics'
-import { isProposalStatusWithUpdates } from '../utils/updates'
 
 import './proposal.css'
 
@@ -159,10 +157,7 @@ export default function ProposalPage() {
   })
   const { budgetWithContestants, isLoadingBudgetWithContestants } = useBudgetWithContestants(proposal?.id)
 
-  const { publicUpdates, pendingUpdates, nextUpdate, currentUpdate, refetchUpdates } = useProposalUpdates(proposal?.id)
-  const showProposalUpdates =
-    publicUpdates && isProposalStatusWithUpdates(proposal?.status) && isProjectProposal(proposal?.type)
-
+  const { publicUpdates, refetchUpdates } = useProposalUpdates(proposal?.id)
   const { surveyTopics, isLoadingSurveyTopics, voteWithSurvey, showSurveyResults } = useSurvey(
     proposal,
     votes,
@@ -384,14 +379,6 @@ export default function ProposalPage() {
           {proposal?.type === ProposalType.POI && <ProposalFooterPoi configuration={proposal.configuration} />}
           {proposal && isBiddingAndTenderingProposal(proposal?.type) && <BiddingAndTendering proposal={proposal} />}
           {showAuthorDetails && <AuthorDetails address={proposal?.user} />}
-          {showProposalUpdates && (
-            <ProposalUpdates
-              proposal={proposal}
-              updates={publicUpdates}
-              onUpdateDeleted={refetchUpdates}
-              isCoauthor={isCoauthor}
-            />
-          )}
           <Desktop>
             {showVotesChart && (
               <ProposalVPChart
@@ -440,9 +427,6 @@ export default function ProposalPage() {
             proposalLoading={isLoadingProposal}
             proposalPageState={proposalPageState}
             updatePageState={updatePageState}
-            pendingUpdates={pendingUpdates}
-            currentUpdate={currentUpdate}
-            nextUpdate={nextUpdate}
             castingVote={castingVote}
             castVote={castVote}
             voteWithSurvey={voteWithSurvey}

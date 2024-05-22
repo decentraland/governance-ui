@@ -1,21 +1,18 @@
 function Warning({ className, size = '32' }: { size?: string; className?: string }) {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
+      className={className}
       width={size}
       height={size}
+      viewBox="0 0 40 40"
       fill="none"
-      viewBox="0 0 32 32"
-      aria-hidden="true"
-      className={className}
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="16" cy="16" r="16" fill="#FFBC5B"></circle>
+      <circle cx="20" cy="20" r="20" fill="#FFE9DF" />
       <path
-        fill="#fff"
-        fillRule="evenodd"
-        d="M18 9a2 2 0 10-4 0v8a2 2 0 104 0V9zm-2 16a2 2 0 100-4 2 2 0 000 4z"
-        clipRule="evenodd"
-      ></path>
+        d="M21.75 12.5C21.75 11.8086 21.1914 11.25 20.5 11.25C19.8086 11.25 19.25 11.8086 19.25 12.5V22.5C19.25 23.1914 19.8086 23.75 20.5 23.75C21.1914 23.75 21.75 23.1914 21.75 22.5V12.5ZM20.5 28.75C20.9144 28.75 21.3118 28.5854 21.6049 28.2924C21.8979 27.9993 22.0625 27.6019 22.0625 27.1875C22.0625 26.7731 21.8979 26.3757 21.6049 26.0826C21.3118 25.7896 20.9144 25.625 20.5 25.625C20.0856 25.625 19.6882 25.7896 19.3951 26.0826C19.1021 26.3757 18.9375 26.7731 18.9375 27.1875C18.9375 27.6019 19.1021 27.9993 19.3951 28.2924C19.6882 28.5854 20.0856 28.75 20.5 28.75Z"
+        fill="#FF7439"
+      />
     </svg>
   )
 }

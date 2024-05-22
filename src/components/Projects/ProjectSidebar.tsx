@@ -1,7 +1,11 @@
+import React, { useMemo, useState } from 'react'
+
 import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import useProject from '../../hooks/useProject.ts'
 import BoxTabs from '../Common/BoxTabs'
 import GovernanceSidebar from '../Sidebar/GovernanceSidebar'
+
+import UpdatesTabView from './Updates/UpdatesTabView.tsx'
 
 import ProjectGeneralInfo from './ProjectGeneralInfo.tsx'
 import ProjectSheetTitle from './ProjectSheetTitle.tsx'
@@ -17,6 +21,29 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
   const { project, isLoadingProject } = useProject(projectId)
   const t = useFormatMessage()
 
+  const [viewIdx, setViewIdx] = useState(0)
+
+  const MENU_ITEMS: { labelKey: string; view: React.ReactNode }[] = useMemo(
+    () => [
+      {
+        labelKey: 'page.project_sidebar.general_info.title',
+        view: project && <ProjectGeneralInfo project={project} />,
+      },
+      { labelKey: 'page.project_sidebar.milestones.title', view: <></> },
+      {
+        labelKey: 'page.project_sidebar.updates.title',
+        view: (
+          <UpdatesTabView
+            proposalId={project?.proposal_id || ''}
+            allowedAddresses={new Set([project?.author || '', ...(project?.coauthors || [])])}
+          />
+        ),
+      },
+      { labelKey: 'page.project_sidebar.activity.title', view: <></> },
+    ],
+    [project]
+  )
+
   return (
     <GovernanceSidebar
       className="ProjectSidebar"
@@ -30,13 +57,14 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
 
       <BoxTabs className="ProjectSidebar__Tabs">
         <BoxTabs.Left>
-          <BoxTabs.Tab active={true}>{t('project_sheet.general_info.title')}</BoxTabs.Tab>
-          <BoxTabs.Tab active={false}>{t('project_sheet.milestones.title')}</BoxTabs.Tab>
-          <BoxTabs.Tab active={false}>{t('project_sheet.updates.title')}</BoxTabs.Tab>
-          <BoxTabs.Tab active={false}>{t('project_sheet.activity.title')}</BoxTabs.Tab>
+          {MENU_ITEMS.map((item, idx) => (
+            <BoxTabs.Tab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
+              {t(item.labelKey)}
+            </BoxTabs.Tab>
+          ))}
         </BoxTabs.Left>
       </BoxTabs>
-      {project && <ProjectGeneralInfo project={project} />}
+      <div className="ProjectSidebar__ContentContainer">{MENU_ITEMS[viewIdx].view}</div>
     </GovernanceSidebar>
   )
 }
