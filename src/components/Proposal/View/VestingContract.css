@@ -36,7 +36,7 @@
   font-style: normal;
   font-stretch: normal;
   letter-spacing: normal;
-  font-weight: 600;
+  font-weight: var(--weight-semi-bold);
   text-align: center;
 }
 

@@ -72,7 +72,7 @@ function ActionablePersonnelView({ members, isEditor }: Props) {
           />
         ),
       })),
-    [members, isEditor]
+    [members, isEditor, t]
   )
 
   const personnelSchema: ZodSchema<Pick<PersonnelAttributes, 'name' | 'role' | 'about' | 'relevantLink'>> = z.object({
