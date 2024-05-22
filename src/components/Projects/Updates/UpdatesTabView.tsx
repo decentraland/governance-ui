@@ -60,7 +60,7 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
   const handlePendingModalSecondaryClick = () => {
     navigateToNextUpdateSubmit()
   }
-  const onPostUpdateClick = useCallback(() => {
+  const handlePostUpdateClick = useCallback(() => {
     if (latePendingUpdate) {
       setIsLateUpdateModalOpen(true)
 
@@ -76,7 +76,7 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
         <PostUpdateBanner
           updateNumber={updates.length + 1}
           dueDays={nextDueDateRemainingDays}
-          onClick={onPostUpdateClick}
+          onClick={handlePostUpdateClick}
         />
       )}
       {hasUpdates ? (
