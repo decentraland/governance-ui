@@ -32,6 +32,7 @@ import {
   NewProposalPoll,
   NewProposalTender,
   PendingProposalsQuery,
+  PersonnelAttributes,
   PriorityProposal,
   Project,
   ProposalAttributes,
@@ -700,5 +701,13 @@ export class Governance extends API {
       method: 'GET',
       sign: true,
     })
+  }
+
+  async deletePersonnel(memberId: string) {
+    console.log('delete memberId', memberId)
+  }
+
+  async createPersonnel(personnel: PersonnelAttributes) {
+    console.log('create personnel', personnel)
   }
 }

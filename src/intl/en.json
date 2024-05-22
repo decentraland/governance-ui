@@ -868,7 +868,7 @@
     },
     "expandable_breakdown_item": {
       "relevant_link_label": "Relevant Link",
-      "edit_action_label": "Edit"
+      "delete_action_label": "Delete"
     }
   },
   "page": {
@@ -2271,6 +2271,12 @@
         "paused": "Paused {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}",
         "revoked": "Revoked {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}",
         "finished": "Ended {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}"
+      },
+      "general_info": {
+        "personnel": {
+          "title": "Personnel",
+          "add_label": "+ Add Personnel"
+        }
       }
     }
   },
