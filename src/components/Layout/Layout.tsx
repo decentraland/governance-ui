@@ -55,9 +55,9 @@ export default function Layout({ children }: LayoutProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     event: any,
     options: {
-      eventTrackingName: string
+      type: string
       url?: string
-      trackingId?: string
+      track_uuid?: string
     }
   ) {
     event.preventDefault()
