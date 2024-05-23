@@ -21,3 +21,20 @@
   border: 1px solid var(--black-300);
   background: #fff !important;
 }
+
+.ProjectSidebarForm__Actions {
+  display: flex;
+  gap: 23px;
+}
+
+.ProjectSidebarForm__Submit {
+  padding: 4px 11px !important;
+  border-radius: 8px !important;
+  min-width: 54px !important;
+  min-height: 34px !important;
+  font-weight: var(--weight-semi-bold);
+}
+
+.ProjectSidebarForm__Cancel {
+  font-weight: var(--weight-semi-bold) !important;
+}

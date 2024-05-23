@@ -66,10 +66,10 @@ function ProjectSidebarForm<T extends FieldValues>({
     <div className="ProjectSidebarForm">
       {fields.map((field) => renderField(field))}
       <div className="ProjectSidebarForm__Actions">
-        <Button primary onClick={handleSubmit(onSave)}>
+        <Button className="ProjectSidebarForm__Submit" primary onClick={handleSubmit(onSave)}>
           Save
         </Button>
-        <Button basic onClick={onCancel}>
+        <Button className="ProjectSidebarForm__Cancel" basic onClick={onCancel}>
           Cancel
         </Button>
       </div>
