@@ -55,9 +55,9 @@ export default function Layout({ children }: LayoutProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     event: any,
     options: {
-      eventTrackingName: string
+      type: string
       url?: string
-      trackingId?: string
+      track_uuid?: string
     }
   ) {
     event.preventDefault()
@@ -89,38 +89,10 @@ export default function Layout({ children }: LayoutProps) {
   const { data: manaBalances } = useQuery({
     queryKey: ['manaBalances', user, chainId],
     queryFn: async () => {
-      if (!user) {
+      if (!user || !chainId) {
         return {}
       }
-
-      switch (chainId) {
-        case ChainId.ETHEREUM_MAINNET: {
-          const [ETHEREUM, MATIC] = await Promise.all([
-            fetchManaBalance(user, chainId),
-            fetchManaBalance(user, ChainId.MATIC_MAINNET),
-          ])
-
-          return { ETHEREUM, MATIC }
-        }
-
-        case ChainId.ETHEREUM_SEPOLIA: {
-          const [ETHEREUM, MATIC] = await Promise.all([
-            fetchManaBalance(user, chainId),
-            fetchManaBalance(user, ChainId.MATIC_AMOY),
-          ])
-
-          return { ETHEREUM, MATIC }
-        }
-
-        case ChainId.MATIC_MAINNET:
-        case ChainId.MATIC_AMOY: {
-          const MATIC = await fetchManaBalance(user, chainId)
-          return { MATIC }
-        }
-
-        default:
-          return {}
-      }
+      return Promise.resolve(fetchManaBalance(user, chainId))
     },
     enabled: !!user,
   })
