@@ -10,7 +10,7 @@ import locations from '../../../utils/locations'
 import { isBetweenLateThresholdDate } from '../../../utils/updates'
 import Empty from '../../Common/Empty'
 import ConfirmationModal from '../../Modal/ConfirmationModal'
-import ProjectUpdateCard from '../../Proposal/Update/ProjectUpdateCard'
+import ProjectUpdateCardWrapper from '../../Proposal/Update/ProjectUpdateCardWrapper'
 
 import PostUpdateBanner from './PostUpdateBanner'
 
@@ -81,7 +81,7 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
       )}
       {hasUpdates ? (
         updates.map((update, idx) => (
-          <ProjectUpdateCard
+          <ProjectUpdateCardWrapper
             key={update.id}
             update={update}
             isAllowedToPostUpdate={isAllowedToPostUpdate}
