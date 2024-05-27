@@ -11,7 +11,7 @@ import './BreakdownAccordion.css'
 
 export interface BreakdownItem {
   title: React.ReactNode
-  subtitle: string
+  subtitle: string | React.ReactNode
   value?: string
   content: React.ReactNode
 }

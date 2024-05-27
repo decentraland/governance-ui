@@ -8,7 +8,7 @@ import './ExpandableBreakdownItem.css'
 
 interface ExpandableBreakdownItemProps {
   title: React.ReactNode
-  subtitle: string
+  subtitle: string | React.ReactNode
   content: React.ReactNode
 }
 
