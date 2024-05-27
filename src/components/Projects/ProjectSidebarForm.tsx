@@ -42,45 +42,35 @@ function ProjectSidebarForm<T extends FieldValues>({
   })
 
   const renderField = (field: { name: Path<T>; label: string; type: string }) => {
-    return (
-      <div key={field.name.toString()} className="ProjectSidebarForm__Field">
-        <label>{field.label}</label>
-        {field.type === 'text' ? (
-          <Field
-            className="ProjectSidebarForm__Input"
-            name={field.name}
-            control={control}
-            error={!!errors[field.name]}
-            message={(errors[field.name]?.message as ReactNode) || ''}
-            disabled={isFormDisabled}
-          />
-        ) : field.type === 'textarea' ? (
-          <TextArea
-            className="ProjectSidebarForm__Input"
-            name={field.name}
-            control={control}
-            error={errors[field.name]?.message?.toString() || ''}
-            message={(errors[field.name]?.message as ReactNode) || ''}
-            disabled={isFormDisabled}
-          />
-        ) : (
-          <Field
-            name={field.name}
-            control={control}
-            className="ProjectSidebarForm__Input"
-            type="address"
-            message={(errors[field.name]?.message as ReactNode) || ''}
-            error={!!errors[field.name]}
-            disabled={isFormDisabled}
-          />
-        )}
-      </div>
-    )
+    const commonProps = {
+      name: field.name,
+      control: control,
+      className: 'ProjectSidebarForm__Input',
+      message: (errors[field.name]?.message as ReactNode) || '',
+      error: !!errors[field.name],
+      disabled: isFormDisabled,
+    }
+
+    switch (field.type) {
+      case 'text':
+        return <Field {...commonProps} />
+      case 'textarea':
+        return <TextArea {...commonProps} error={errors[field.name]?.message?.toString() || ''} />
+      case 'address':
+        return <Field {...commonProps} type="address" />
+      default:
+        return <Field {...commonProps} />
+    }
   }
 
   return (
     <div className="ProjectSidebarForm">
-      {fields.map((field) => renderField(field))}
+      {fields.map((field) => (
+        <div key={field.name.toString()} className="ProjectSidebarForm__Field">
+          <label>{field.label}</label>
+          {renderField(field)}
+        </div>
+      ))}
       <div className="ProjectSidebarForm__Actions">
         <Button className="ProjectSidebarForm__Submit" primary onClick={handleSubmit(onSave)}>
           {t('project.sheet.form.save')}
