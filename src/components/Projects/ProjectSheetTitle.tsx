@@ -12,7 +12,7 @@ import './ProjectSheetTitle.css'
 
 interface Props {
   project: ProjectAttributes
-  onClose: () => void
+  onClose?: () => void
 }
 
 const HIGHLIGHTED_STATUSES = [ProjectStatus.Pending, ProjectStatus.InProgress]
@@ -31,7 +31,9 @@ export default function ProjectSheetTitle({ project, onClose }: Props) {
           </div>
           <div className="ProjectHero__Menu">
             <DotsMenu color="var(--white-900)" className="ProjectSheet__MenuDots" />
-            <SlimCross size={14} color="var(--white-900)" onClick={onClose} className="ProjectSheet__MenuCross" />
+            {onClose && (
+              <SlimCross size={14} color="var(--white-900)" onClick={onClose} className="ProjectSheet__MenuCross" />
+            )}
           </div>
         </div>
       ) : (

@@ -25,7 +25,7 @@ export enum NavigationTab {
   Profile = 'profile',
   Enacted = 'enacted',
   Transparency = 'transparency',
-  Grants = 'grants',
+  Projects = 'grants',
   Debug = 'debug',
 }
 
@@ -83,7 +83,7 @@ const Navigation = ({ activeTab }: NavigationProps) => {
             </li>
             <li>
               <Link href={locations.projects()}>
-                <Tabs.Tab active={activeTab === NavigationTab.Grants}>{t('navigation.projects')}</Tabs.Tab>
+                <Tabs.Tab active={activeTab === NavigationTab.Projects}>{t('navigation.projects')}</Tabs.Tab>
               </Link>
             </li>
             {user && (

@@ -3,14 +3,3 @@
   padding-right: 0;
   padding-top: 0;
 }
-
-.ProjectSidebar__ContentContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 32px;
-}
-
-.ProjectSidebar__Tabs {
-  padding: 0 32px !important;
-}

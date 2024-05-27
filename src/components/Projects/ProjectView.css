@@ -1,0 +1,10 @@
+.ProjectView__ContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+}
+
+.ProjectView__Tabs {
+  padding: 0 32px !important;
+}

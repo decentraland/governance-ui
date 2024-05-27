@@ -50,6 +50,7 @@ import './ui-overrides.css'
 import useScrollToHash from './components/Home/useScrollToHash.tsx'
 import { config } from './config/index.ts'
 import { getAnalytics } from './utils/analytics/segment.ts'
+import ProjectPage from './pages/project.tsx'
 
 getAnalytics().load(config.get('SEGMENT_KEY'))
 
@@ -66,6 +67,7 @@ const router = createBrowserRouter(
         { path: '/proposals', element: <ProposalsPage /> },
         { path: '/proposal', element: <ProposalPage /> },
         { path: '/projects', element: <ProjectsPage /> },
+        { path: '/project', element: <ProjectPage /> },
         { path: '/update', element: <UpdateDetail /> },
         { path: '/edit/update', element: <UpdateEditPage /> },
         { path: '/submit', element: <SubmitPage /> },
