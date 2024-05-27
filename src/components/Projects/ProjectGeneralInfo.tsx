@@ -1,5 +1,5 @@
-import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
 import useFormatMessage from '../../hooks/useFormatMessage.ts'
+import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
 import { Project } from '../../types/proposals.ts'
 import Text from '../Common/Typography/Text.tsx'
 
@@ -24,7 +24,7 @@ function ProjectGeneralInfo({ project }: Props) {
           <Text color="secondary">{about}</Text>
         </div>
       )}
-      <ActionablePersonnelView members={personnel} isEditor={isEditor} />
+      <ActionablePersonnelView members={personnel} projectId={project.id} isEditor={isEditor} />
     </>
   )
 }

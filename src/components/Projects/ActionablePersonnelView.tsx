@@ -18,6 +18,7 @@ import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
 
 interface Props {
   members: PersonnelAttributes[]
+  projectId: string
   isEditor: boolean
 }
 
@@ -25,7 +26,7 @@ function getTitle(name: string, address?: string) {
   return address && address.length > 0 ? <Username address={address} size="sm" linked variant="address" /> : name
 }
 
-function ActionablePersonnelView({ members, isEditor }: Props) {
+function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
   const t = useFormatMessage()
   const [showCreatePersonnelForm, setShowCreatePersonnelForm] = useState(false)
   const [isFormDisabled, setIsFormDisabled] = useState(false)
@@ -37,7 +38,8 @@ function ActionablePersonnelView({ members, isEditor }: Props) {
 
   const handleSavePersonnel = async (personnel: PersonnelAttributes) => {
     setIsFormDisabled(true)
-    await Governance.get().createPersonnel(personnel)
+    const newPersonnel = await Governance.get().createPersonnel({ ...personnel, project_id: projectId }) //TODO: try/catch handle error vs success
+    console.log('newPersonnel', newPersonnel)
     setIsFormDisabled(false)
     setShowCreatePersonnelForm(false)
   }
@@ -49,7 +51,7 @@ function ActionablePersonnelView({ members, isEditor }: Props) {
   const getDeletePersonnelHandler = (id: string) => {
     return async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
-      await Governance.get().deletePersonnel(id)
+      await Governance.get().deletePersonnel(id) //TODO: try/catch handle error vs success
     }
   }
 
