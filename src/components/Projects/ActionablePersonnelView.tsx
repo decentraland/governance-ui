@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
+import isEthereumAddress from 'validator/lib/isEthereumAddress'
 import { ZodSchema, z } from 'zod'
 
 import { Governance } from '../../clients/Governance'
@@ -27,6 +28,7 @@ function getTitle(name: string, address?: string) {
 function ActionablePersonnelView({ members, isEditor }: Props) {
   const t = useFormatMessage()
   const [showCreatePersonnelForm, setShowCreatePersonnelForm] = useState(false)
+  const [isFormDisabled, setIsFormDisabled] = useState(false)
 
   const handleAddPersonnel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -34,7 +36,9 @@ function ActionablePersonnelView({ members, isEditor }: Props) {
   }
 
   const handleSavePersonnel = async (personnel: PersonnelAttributes) => {
+    setIsFormDisabled(true)
     await Governance.get().createPersonnel(personnel)
+    setIsFormDisabled(false)
     setShowCreatePersonnelForm(false)
   }
 
@@ -75,17 +79,21 @@ function ActionablePersonnelView({ members, isEditor }: Props) {
     [members, isEditor, t]
   )
 
-  const personnelSchema: ZodSchema<Pick<PersonnelAttributes, 'name' | 'role' | 'about' | 'relevantLink'>> = z.object({
-    name: z.string().min(1).max(25),
-    role: z.string().min(1),
-    about: z.string().min(1),
-    relevantLink: z.string().url('Invalid url').optional(),
-  })
+  const addressCheck = (data: string) => !data || data.length === 0 || (!!data && isEthereumAddress(data))
+  const personnelSchema: ZodSchema<Pick<PersonnelAttributes, 'name' | 'address' | 'role' | 'about' | 'relevantLink'>> =
+    z.object({
+      name: z.string().min(1, 'Name is required').max(80),
+      address: z.string().refine(addressCheck, { message: 'Invalid address' }),
+      role: z.string().min(1, 'Role is required').max(80),
+      about: z.string().min(1, 'About is required').max(750),
+      relevantLink: z.string().min(0).max(200).url().optional().or(z.literal('')),
+    })
 
   const personnelFields: ProjectSidebarFormFields<PersonnelAttributes> = [
-    { name: 'name', label: 'Name', type: 'text' },
-    { name: 'role', label: 'Role', type: 'text' },
-    { name: 'about', label: 'About', type: 'textarea' },
+    { name: 'name', label: 'Name/Alias', type: 'text' },
+    { name: 'address', label: 'Address', type: 'address' },
+    { name: 'role', label: 'Role/Position', type: 'text' },
+    { name: 'about', label: 'Bio/About', type: 'textarea' },
     { name: 'relevantLink', label: 'Relevant Link', type: 'text' },
   ]
 
@@ -102,11 +110,14 @@ function ActionablePersonnelView({ members, isEditor }: Props) {
       )}
       {showCreatePersonnelForm && (
         <ProjectSidebarForm
-          initialValues={{ name: '', role: '', about: '', relevantLink: '' } as Partial<PersonnelAttributes>}
+          initialValues={
+            { name: '', address: '', role: '', about: '', relevantLink: '' } as Partial<PersonnelAttributes>
+          }
           fields={personnelFields}
           onSave={handleSavePersonnel}
           onCancel={handleCancelPersonnel}
           validationSchema={personnelSchema}
+          isFormDisabled={isFormDisabled}
         />
       )}
     </>

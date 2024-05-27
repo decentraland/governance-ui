@@ -2277,6 +2277,10 @@
           "title": "Personnel",
           "add_label": "+ Add Personnel"
         }
+      },
+      "form": {
+        "save": "Save",
+        "cancel": "Cancel"
       }
     }
   },

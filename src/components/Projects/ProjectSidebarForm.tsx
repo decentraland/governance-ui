@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { ZodSchema } from 'zod'
 
+import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import Field from '../Common/Form/Field'
 import TextArea from '../Common/Form/TextArea.tsx'
 
@@ -18,6 +19,7 @@ interface ProjectSidebarFormProps<T extends FieldValues> {
   onSave: (values: T) => void
   onCancel: () => void
   validationSchema: ZodSchema<Partial<T>>
+  isFormDisabled: boolean
 }
 
 function ProjectSidebarForm<T extends FieldValues>({
@@ -26,7 +28,9 @@ function ProjectSidebarForm<T extends FieldValues>({
   onSave,
   onCancel,
   validationSchema,
+  isFormDisabled,
 }: ProjectSidebarFormProps<T>) {
+  const t = useFormatMessage()
   const {
     control,
     handleSubmit,
@@ -41,21 +45,33 @@ function ProjectSidebarForm<T extends FieldValues>({
     return (
       <div key={field.name.toString()} className="ProjectSidebarForm__Field">
         <label>{field.label}</label>
-        {field.type === 'textarea' ? (
-          <TextArea
-            className="ProjectSidebarForm__Input"
-            name={field.name}
-            control={control}
-            error={errors[field.name]?.message?.toString() || ''}
-            message={(errors[field.name]?.message as ReactNode) || ''}
-          />
-        ) : (
+        {field.type === 'text' ? (
           <Field
             className="ProjectSidebarForm__Input"
             name={field.name}
             control={control}
             error={!!errors[field.name]}
             message={(errors[field.name]?.message as ReactNode) || ''}
+            disabled={isFormDisabled}
+          />
+        ) : field.type === 'textarea' ? (
+          <TextArea
+            className="ProjectSidebarForm__Input"
+            name={field.name}
+            control={control}
+            error={errors[field.name]?.message?.toString() || ''}
+            message={(errors[field.name]?.message as ReactNode) || ''}
+            disabled={isFormDisabled}
+          />
+        ) : (
+          <Field
+            name={field.name}
+            control={control}
+            className="ProjectSidebarForm__Input"
+            type="address"
+            message={(errors[field.name]?.message as ReactNode) || ''}
+            error={!!errors[field.name]}
+            disabled={isFormDisabled}
           />
         )}
       </div>
@@ -67,10 +83,10 @@ function ProjectSidebarForm<T extends FieldValues>({
       {fields.map((field) => renderField(field))}
       <div className="ProjectSidebarForm__Actions">
         <Button className="ProjectSidebarForm__Submit" primary onClick={handleSubmit(onSave)}>
-          Save
+          {t('project.sheet.form.save')}
         </Button>
         <Button className="ProjectSidebarForm__Cancel" basic onClick={onCancel}>
-          Cancel
+          {t('project.sheet.form.cancel')}
         </Button>
       </div>
     </div>
