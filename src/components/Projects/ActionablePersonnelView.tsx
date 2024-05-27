@@ -100,7 +100,7 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
   ]
 
   return (
-    <>
+    <div>
       <ProjectSidebarSectionTitle text={t('project.sheet.general_info.personnel.title')} />
       {items.map((item, key) => (
         <ExpandableBreakdownItem key={key} item={item} />
@@ -122,7 +122,7 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
           isFormDisabled={isFormDisabled}
         />
       )}
-    </>
+    </div>
   )
 }
 
