@@ -1,8 +1,9 @@
 import useFormatMessage from '../../hooks/useFormatMessage.ts'
+import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
 import { Project } from '../../types/proposals.ts'
 import Text from '../Common/Typography/Text.tsx'
 
-import EditablePersonnelView from './EditablePersonnelView.tsx'
+import ActionablePersonnelView from './ActionablePersonnelView.tsx'
 import './ProjectSidebar.css'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
 
@@ -11,6 +12,7 @@ interface Props {
 }
 
 function ProjectGeneralInfo({ project }: Props) {
+  const isEditor = useIsProjectEditor(project)
   const { about, personnel } = project
   const t = useFormatMessage()
 
@@ -22,7 +24,7 @@ function ProjectGeneralInfo({ project }: Props) {
           <Text color="secondary">{about}</Text>
         </div>
       )}
-      <EditablePersonnelView members={personnel} />
+      <ActionablePersonnelView members={personnel} projectId={project.id} isEditor={isEditor} />
     </>
   )
 }

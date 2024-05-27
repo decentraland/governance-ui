@@ -90,6 +90,6 @@
 .AuthorDetails__SidebarSubtitle {
   color: var(--black-800);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: var(--weight-semi-bold);
   line-height: 24px;
 }

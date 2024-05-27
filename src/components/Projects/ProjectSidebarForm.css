@@ -1,0 +1,64 @@
+.ProjectSidebarForm {
+  display: flex;
+  padding: 8px 16px 16px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 8px;
+  border: 1px solid var(--black-100);
+  background: var(--black-200);
+}
+
+.ProjectSidebarForm__Field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ProjectSidebarForm__Field > label {
+  color: var(--black-700);
+  font-size: 11px;
+  font-weight: var(--weight-semi-bold);
+  line-height: 24px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.ui.input.ProjectSidebarForm__Input > input,
+.dcl.text-area > textarea.ProjectSidebarForm__Input {
+  border-radius: 4px;
+  border: 1px solid var(--black-300);
+  background: #fff !important;
+}
+
+.dcl.text-area:not(.error) > textarea.ProjectSidebarForm__Input:active,
+.dcl.text-area:not(.error) > textarea.ProjectSidebarForm__Input:focus {
+  border-color: var(--black-800) !important;
+}
+
+.ProjectSidebarForm__Actions {
+  display: flex;
+  gap: 23px;
+}
+
+.ProjectSidebarForm__Submit {
+  padding: 4px 11px !important;
+  border-radius: 8px !important;
+  min-width: 54px !important;
+  min-height: 34px !important;
+  font-weight: var(--weight-semi-bold);
+}
+
+.ProjectSidebarForm__Cancel {
+  font-weight: var(--weight-semi-bold) !important;
+}
+
+.dcl.field.address > .ui.input.ProjectSidebarForm__Input > input {
+  padding-right: 8px !important;
+  background: var(--white-900);
+}
+
+.ProjectSidebarForm__Field > .dcl.field.address > canvas.dcl.blockie.tiny {
+  position: absolute;
+  right: 8px;
+  top: 15px;
+}
