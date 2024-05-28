@@ -703,8 +703,11 @@ export class Governance extends API {
     })
   }
 
-  async deletePersonnel(memberId: string) {
-    console.log('delete memberId', memberId) //TODO: delete personnel
+  async deletePersonnel(personnelId: PersonnelAttributes['id']) {
+    return await this.fetchApiResponse<PersonnelAttributes['id'] | null>(`/projects/personnel/${personnelId}`, {
+      method: 'DELETE',
+      sign: true,
+    })
   }
 
   async createPersonnel(personnel: PersonnelAttributes) {

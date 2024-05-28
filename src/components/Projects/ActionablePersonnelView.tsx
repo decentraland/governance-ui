@@ -64,18 +64,10 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
     mutationFn: async (personnel: PersonnelAttributes) => {
       setIsFormDisabled(true)
       setError('')
-      try {
-        const newPersonnel = await Governance.get().createPersonnel({ ...personnel, project_id: projectId })
-        setShowCreatePersonnelForm(false)
-        return newPersonnel
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        setIsFormDisabled(false)
-        console.error(error)
-        setError(error.body?.error || error.message)
-      }
+      return await Governance.get().createPersonnel({ ...personnel, project_id: projectId })
     },
     onSuccess: (newPersonnel) => {
+      setShowCreatePersonnelForm(false)
       setIsFormDisabled(false)
       if (newPersonnel) {
         queryClient.setQueryData(getProjectQueryKey(projectId), (oldData?: Project) => {
@@ -95,6 +87,30 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
     mutationKey: [`createPersonnel`],
   })
 
+  const { mutate: deletePersonnel } = useMutation({
+    mutationFn: async (personnelId: string) => {
+      setIsFormDisabled(true)
+      setError('')
+      return await Governance.get().deletePersonnel(personnelId)
+    },
+    onSuccess: (personnelId) => {
+      setIsFormDisabled(false)
+      queryClient.setQueryData(getProjectQueryKey(projectId), (oldData?: Project) => {
+        if (!oldData) return oldData
+        return {
+          ...oldData,
+          personnel: oldData.personnel?.filter((p) => p.id !== personnelId),
+        }
+      })
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      setIsFormDisabled(false)
+      setError(error.body?.error || error.message)
+    },
+    mutationKey: [`deletePersonnel`],
+  })
+
   const handleSavePersonnel = async (personnel: PersonnelAttributes) => {
     createPersonnel(personnel)
   }
@@ -103,21 +119,13 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
     setShowCreatePersonnelForm(false)
   }
 
-  const getDeletePersonnelHandler = (id: string) => {
+  const getDeletePersonnelHandler = (personnelId: string) => {
     return async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
-      await Governance.get().deletePersonnel(id) //TODO: try/catch handle error vs success
-      queryClient.setQueryData(getProjectQueryKey(projectId), (oldData?: Project) => {
-        if (!oldData) return oldData
-        return {
-          ...oldData,
-          personnel: oldData.personnel?.filter((p) => p.id !== id),
-        }
-      })
+      deletePersonnel(personnelId)
     }
   }
 
-  //TODO: sorted members
   const items = useMemo(
     () =>
       members.map<BreakdownItem>(({ id, name, role, about, relevantLink, address }) => ({
@@ -141,10 +149,9 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
           />
         ),
       })),
-    [members, isEditor, t]
+    [members, isEditor, getDeletePersonnelHandler, t]
   )
 
-  //TODO display error
   //TODO: is loading
   return (
     <div>
