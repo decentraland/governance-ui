@@ -739,6 +739,7 @@ type VestingContractData = {
 
 export type ProposalProject = {
   id: string
+  project_id?: string | null
   title: string
   user: string
   size: number

@@ -20,13 +20,13 @@ interface Props {
 }
 
 const ProjectCard = ({ project, hoverable = false }: Props) => {
-  const { id, enacted_at, update } = project
+  const { id, project_id, enacted_at, update } = project
   const [expanded, setExpanded] = useState(!hoverable)
   const proposalInCliffPeriod = !!enacted_at && isProposalInCliffPeriod(enacted_at)
 
   return (
     <Link
-      href={locations.proposal(id)}
+      href={project_id ? locations.project({ id: project_id }) : locations.proposal(id)}
       onMouseEnter={() => hoverable && setExpanded(true)}
       onMouseLeave={() => hoverable && setExpanded(false)}
       className={classNames('ProjectCard', hoverable && 'ProjectCard__Expanded')}
