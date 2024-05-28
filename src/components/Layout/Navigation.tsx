@@ -23,9 +23,8 @@ export enum NavigationTab {
   Home = 'home',
   Proposals = 'proposals',
   Profile = 'profile',
-  Enacted = 'enacted',
   Transparency = 'transparency',
-  Projects = 'grants',
+  Projects = 'projects',
   Debug = 'debug',
 }
 
