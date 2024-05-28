@@ -11,7 +11,7 @@ import TextArea from '../Common/Form/TextArea.tsx'
 
 import './ProjectSidebarForm.css'
 
-export type ProjectSidebarFormFields<T> = { name: Path<T>; label: string; type: string }[]
+export type ProjectSidebarFormFields<T> = { name: Path<T>; label: string; type: string; optional?: boolean }[]
 
 interface ProjectSidebarFormProps<T extends FieldValues> {
   initialValues: DefaultValues<T>
@@ -67,7 +67,11 @@ function ProjectSidebarForm<T extends FieldValues>({
     <div className="ProjectSidebarForm">
       {fields.map((field) => (
         <div key={field.name.toString()} className="ProjectSidebarForm__Field">
-          <label>{field.label}</label>
+          <div className="ProjectSidebarForm__LabelContainer">
+            <label className="ProjectSidebarForm__FieldLabel">{field.label}</label>
+            {field.optional && <span className="ProjectSidebarForm__Optional">{t('project.sheet.form.optional')}</span>}
+          </div>
+
           {renderField(field)}
         </div>
       ))}

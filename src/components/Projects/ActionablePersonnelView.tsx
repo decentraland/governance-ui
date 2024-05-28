@@ -41,11 +41,19 @@ const NewPersonnelSchema: ZodSchema<Pick<PersonnelAttributes, 'name' | 'address'
 
 const NewPersonnelFields: ProjectSidebarFormFields<PersonnelAttributes> = [
   { name: 'name', label: 'Name/Alias', type: 'text' },
-  { name: 'address', label: 'Address', type: 'address' },
+  { name: 'address', label: 'Address', type: 'address', optional: true },
   { name: 'role', label: 'Role/Position', type: 'text' },
   { name: 'about', label: 'Bio/About', type: 'textarea' },
-  { name: 'relevantLink', label: 'Relevant Link', type: 'text' },
+  { name: 'relevantLink', label: 'Relevant Link', type: 'text', optional: true },
 ]
+
+const PERSONNEL_INITIAL_VALUES = {
+  name: '',
+  address: '',
+  role: '',
+  about: '',
+  relevantLink: '',
+} as Partial<PersonnelAttributes>
 
 function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
   const t = useFormatMessage()
@@ -125,7 +133,7 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
         deletePersonnel(personnelId)
       }
     }
-  }, [])
+  }, [deletePersonnel])
 
   const items = useMemo(
     () =>
@@ -167,9 +175,7 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
       )}
       {showCreatePersonnelForm && (
         <ProjectSidebarForm
-          initialValues={
-            { name: '', address: '', role: '', about: '', relevantLink: '' } as Partial<PersonnelAttributes>
-          }
+          initialValues={PERSONNEL_INITIAL_VALUES}
           fields={NewPersonnelFields}
           onSave={handleSavePersonnel}
           onCancel={handleCancelPersonnel}
