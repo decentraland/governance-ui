@@ -7,6 +7,7 @@ import GovernanceSidebar from '../Sidebar/GovernanceSidebar'
 
 import UpdatesTabView from './Updates/UpdatesTabView.tsx'
 
+import MilestonesTab from './MilestonesTab.tsx'
 import ProjectGeneralInfo from './ProjectGeneralInfo.tsx'
 import ProjectSheetTitle from './ProjectSheetTitle.tsx'
 import './ProjectSidebar.css'
@@ -29,7 +30,10 @@ function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
         labelKey: 'page.project_sidebar.general_info.title',
         view: project && <ProjectGeneralInfo project={project} />,
       },
-      { labelKey: 'page.project_sidebar.milestones.title', view: <></> },
+      {
+        labelKey: 'page.project_sidebar.milestones.title',
+        view: !!project?.milestones && <MilestonesTab milestones={project?.milestones} />,
+      },
       {
         labelKey: 'page.project_sidebar.updates.title',
         view: (
