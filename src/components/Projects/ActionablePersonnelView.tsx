@@ -118,12 +118,14 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
     setShowCreatePersonnelForm(false)
   }
 
-  const getDeletePersonnelHandler = (personnelId: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault()
-      deletePersonnel(personnelId)
+  const getDeletePersonnelHandler = useMemo(() => {
+    return (personnelId: string) => {
+      return async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        deletePersonnel(personnelId)
+      }
     }
-  }
+  }, [])
 
   const items = useMemo(
     () =>
