@@ -11,7 +11,7 @@ interface Props {
   title: string | React.ReactNode
   content: string | React.ReactNode | null
   titleExtra?: string
-  subtitle: string | React.ReactNode
+  subtitle: React.ReactNode
   helper?: React.ReactNode
   subtitleVariant?: 'normal' | 'uppercase'
   error?: boolean
