@@ -30,17 +30,16 @@ function getTitle(name: string, address?: string | null) {
 }
 
 const addressCheck = (data: string) => !data || data.length === 0 || (!!data && isEthereumAddress(data))
-const NEW_PERSONNEL_SCHEMA: ZodSchema<
-  Pick<PersonnelAttributes, 'name' | 'address' | 'role' | 'about' | 'relevantLink'>
-> = z.object({
-  name: z.string().min(1, 'Name is required').max(80),
-  address: z.string().refine(addressCheck, { message: 'Invalid address' }).optional().or(z.null()),
-  role: z.string().min(1, 'Role is required').max(80),
-  about: z.string().min(1, 'About is required').max(750),
-  relevantLink: z.string().min(0).max(200).url().optional().or(z.literal('')),
-})
+const NewPersonnelSchema: ZodSchema<Pick<PersonnelAttributes, 'name' | 'address' | 'role' | 'about' | 'relevantLink'>> =
+  z.object({
+    name: z.string().min(1, 'Name is required').max(80),
+    address: z.string().refine(addressCheck, { message: 'Invalid address' }).optional().or(z.null()),
+    role: z.string().min(1, 'Role is required').max(80),
+    about: z.string().min(1, 'About is required').max(750),
+    relevantLink: z.string().min(0).max(200).url().optional().or(z.literal('')),
+  })
 
-const NEW_PERSONNEL_FIELDS: ProjectSidebarFormFields<PersonnelAttributes> = [
+const NewPersonnelFields: ProjectSidebarFormFields<PersonnelAttributes> = [
   { name: 'name', label: 'Name/Alias', type: 'text' },
   { name: 'address', label: 'Address', type: 'address' },
   { name: 'role', label: 'Role/Position', type: 'text' },
@@ -169,10 +168,10 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
           initialValues={
             { name: '', address: '', role: '', about: '', relevantLink: '' } as Partial<PersonnelAttributes>
           }
-          fields={NEW_PERSONNEL_FIELDS}
+          fields={NewPersonnelFields}
           onSave={handleSavePersonnel}
           onCancel={handleCancelPersonnel}
-          validationSchema={NEW_PERSONNEL_SCHEMA}
+          validationSchema={NewPersonnelSchema}
           isFormDisabled={isFormDisabled}
         />
       )}
