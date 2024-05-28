@@ -28,7 +28,7 @@ export default function useGovernanceProfile(profileAddress?: string | null) {
           ErrorClient.report(
             'Error getting governance profile',
             {
-              error,
+              error: `${error}`,
               address: profileAddress,
               category: ErrorCategory.Profile,
             },

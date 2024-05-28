@@ -32,6 +32,7 @@ import {
   NewProposalPoll,
   NewProposalTender,
   PendingProposalsQuery,
+  PersonnelAttributes,
   PriorityProposal,
   Project,
   ProposalAttributes,
@@ -699,6 +700,18 @@ export class Governance extends API {
     return await this.fetchApiResponse<AirdropJobAttributes[]>(`/airdrops/all`, {
       method: 'GET',
       sign: true,
+    })
+  }
+
+  async deletePersonnel(memberId: string) {
+    console.log('delete memberId', memberId) //TODO: delete personnel
+  }
+
+  async createPersonnel(personnel: PersonnelAttributes) {
+    return await this.fetchApiResponse<PersonnelAttributes>(`/projects/personnel/`, {
+      method: 'POST',
+      sign: true,
+      json: { personnel },
     })
   }
 }

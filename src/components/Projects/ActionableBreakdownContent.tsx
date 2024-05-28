@@ -4,21 +4,22 @@ import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import Link from '../Common/Typography/Link.tsx'
 import Open from '../Icon/Open.tsx'
 
-import './EditableBreakdownContent.css'
+import './ActionableBreakdownContent.css'
 
 interface Props {
   about: string
   relevantLink?: string
-  onClick: () => void
+  actionLabel?: React.ReactNode
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-function EditableBreakdownContent({ about, relevantLink, onClick }: Props) {
+function ActionableBreakdownContent({ about, relevantLink, onClick, actionLabel }: Props) {
   const t = useFormatMessage()
 
   return (
     <div>
-      <div className="EditableBreakdownContent__Text">{about}</div>
-      <div className="EditableBreakdownContent__Footer">
+      <div className="ActionableBreakdownContent__Text">{about}</div>
+      <div className="ActionableBreakdownContent__Footer">
         {relevantLink ? (
           <Link className="RelevantLink" href={relevantLink} target="_blank">
             <div className="RelevantLink__Text">{t('component.expandable_breakdown_item.relevant_link_label')}</div>
@@ -28,11 +29,11 @@ function EditableBreakdownContent({ about, relevantLink, onClick }: Props) {
           <div></div>
         )}
         <Button basic onClick={onClick}>
-          {t('component.expandable_breakdown_item.edit_action_label')}
+          {actionLabel}
         </Button>
       </div>
     </div>
   )
 }
 
-export default EditableBreakdownContent
+export default ActionableBreakdownContent

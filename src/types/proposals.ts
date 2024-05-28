@@ -770,10 +770,30 @@ export type ProjectAttributes = {
   created_at: Date
 }
 
+export enum ProjectMilestoneStatus {
+  Pending = 'pending',
+  InProgress = 'in_progress',
+  Done = 'done',
+}
+
+export type ProjectMilestone = {
+  id: string
+  project_id: string
+  title: string
+  description: string
+  delivery_date: Date
+  status: ProjectMilestoneStatus
+  updated_by?: string
+  updated_at?: Date
+  created_by: string
+  created_at: Date
+}
+
 export type Project = ProjectAttributes & {
   author: string
   coauthors: string[] | null
   personnel: PersonnelAttributes[]
+  milestones: ProjectMilestone[]
 }
 
 export type ProposalProjectWithUpdate = ProposalProject & {

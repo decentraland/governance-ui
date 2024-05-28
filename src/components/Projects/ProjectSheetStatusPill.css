@@ -6,7 +6,7 @@
   gap: 10px;
   font-size: 11px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: var(--weight-semi-bold);
   line-height: 18px;
   text-transform: uppercase;
   border-radius: 4px;

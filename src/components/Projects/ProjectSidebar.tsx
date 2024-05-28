@@ -12,7 +12,6 @@ interface Props {
 
 function ProjectSidebar({ projectId, isSidebarVisible, onClose }: Props) {
   const { project, isLoadingProject } = useProject(projectId)
-  console.log(project?.id)
 
   return (
     <GovernanceSidebar
