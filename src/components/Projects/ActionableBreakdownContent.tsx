@@ -28,12 +28,10 @@ function ActionableBreakdownContent({ about, relevantLink, onClick, actionLabel 
         ) : (
           <div></div>
         )}
-        {onClick ? (
+        {onClick && (
           <Button basic onClick={onClick}>
             {actionLabel}
           </Button>
-        ) : (
-          <></>
         )}
       </div>
     </div>
