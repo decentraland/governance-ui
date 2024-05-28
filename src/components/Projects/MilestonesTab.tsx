@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { ProjectMilestone } from '../../types/proposals'
 import { BreakdownItem } from '../GrantRequest/BreakdownAccordion.tsx'
 
-import EditableBreakdownContent from './EditableBreakdownContent.tsx'
+import ActionableBreakdownContent from './ActionableBreakdownContent.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem.tsx'
 import MilestoneStatusPill from './MilestoneStatusPill.tsx'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
@@ -18,7 +18,7 @@ function Milestonesab({ milestones }: Props) {
       milestones.map<BreakdownItem>(({ title, description, status }) => ({
         title,
         subtitle: <MilestoneStatusPill status={status} />,
-        content: <EditableBreakdownContent about={description} onClick={() => {}} />,
+        content: <ActionableBreakdownContent about={description} onClick={() => {}} />,
       })),
     [milestones]
   )
