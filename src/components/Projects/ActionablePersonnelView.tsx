@@ -1,13 +1,16 @@
 import React, { useMemo, useState } from 'react'
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
 import { ZodSchema, z } from 'zod'
 
 import { Governance } from '../../clients/Governance'
 import useFormatMessage from '../../hooks/useFormatMessage'
-import { PersonnelAttributes } from '../../types/proposals'
+import { getProjectQueryKey } from '../../hooks/useProject.ts'
+import { PersonnelAttributes, Project } from '../../types/proposals'
 import Username from '../Common/Username'
+import ErrorMessage from '../Error/ErrorMessage.tsx'
 import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
 import Trashcan from '../Icon/Trashcan'
 
@@ -22,56 +25,115 @@ interface Props {
   isEditor: boolean
 }
 
-function getTitle(name: string, address?: string) {
+function getTitle(name: string, address?: string | null) {
   return address && address.length > 0 ? <Username address={address} size="sm" linked variant="address" /> : name
 }
 
 const addressCheck = (data: string) => !data || data.length === 0 || (!!data && isEthereumAddress(data))
-const personnelSchema: ZodSchema<Pick<PersonnelAttributes, 'name' | 'address' | 'role' | 'about' | 'relevantLink'>> =
+const NewPersonnelSchema: ZodSchema<Pick<PersonnelAttributes, 'name' | 'address' | 'role' | 'about' | 'relevantLink'>> =
   z.object({
     name: z.string().min(1, 'Name is required').max(80),
-    address: z.string().refine(addressCheck, { message: 'Invalid address' }),
+    address: z.string().refine(addressCheck, { message: 'Invalid address' }).optional().or(z.null()),
     role: z.string().min(1, 'Role is required').max(80),
     about: z.string().min(1, 'About is required').max(750),
     relevantLink: z.string().min(0).max(200).url().optional().or(z.literal('')),
   })
 
-const personnelFields: ProjectSidebarFormFields<PersonnelAttributes> = [
+const NewPersonnelFields: ProjectSidebarFormFields<PersonnelAttributes> = [
   { name: 'name', label: 'Name/Alias', type: 'text' },
-  { name: 'address', label: 'Address', type: 'address' },
+  { name: 'address', label: 'Address', type: 'address', optional: true },
   { name: 'role', label: 'Role/Position', type: 'text' },
   { name: 'about', label: 'Bio/About', type: 'textarea' },
-  { name: 'relevantLink', label: 'Relevant Link', type: 'text' },
+  { name: 'relevantLink', label: 'Relevant Link', type: 'text', optional: true },
 ]
+
+const PERSONNEL_INITIAL_VALUES = {
+  name: '',
+  address: '',
+  role: '',
+  about: '',
+  relevantLink: '',
+} as Partial<PersonnelAttributes>
 
 function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
   const t = useFormatMessage()
   const [showCreatePersonnelForm, setShowCreatePersonnelForm] = useState(false)
   const [isFormDisabled, setIsFormDisabled] = useState(false)
+  const [error, setError] = useState('')
+  const queryClient = useQueryClient()
 
   const handleAddPersonnel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setShowCreatePersonnelForm(true)
   }
 
+  const { mutate: createPersonnel } = useMutation({
+    mutationFn: async (personnel: PersonnelAttributes) => {
+      setIsFormDisabled(true)
+      setError('')
+      return await Governance.get().createPersonnel({ ...personnel, project_id: projectId })
+    },
+    onSuccess: (newPersonnel) => {
+      setShowCreatePersonnelForm(false)
+      setIsFormDisabled(false)
+      if (newPersonnel) {
+        queryClient.setQueryData(getProjectQueryKey(projectId), (oldData?: Project) => {
+          if (!oldData) return oldData
+          return {
+            ...oldData,
+            personnel: [...(oldData.personnel || []), newPersonnel],
+          }
+        })
+      }
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      setIsFormDisabled(false)
+      setError(error.body?.error || error.message)
+    },
+    mutationKey: [`createPersonnel`],
+  })
+
+  const { mutate: deletePersonnel } = useMutation({
+    mutationFn: async (personnelId: string) => {
+      setIsFormDisabled(true)
+      setError('')
+      return await Governance.get().deletePersonnel(personnelId)
+    },
+    onSuccess: (personnelId) => {
+      setIsFormDisabled(false)
+      queryClient.setQueryData(getProjectQueryKey(projectId), (oldData?: Project) => {
+        if (!oldData) return oldData
+        return {
+          ...oldData,
+          personnel: oldData.personnel?.filter((p) => p.id !== personnelId),
+        }
+      })
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      setIsFormDisabled(false)
+      setError(error.body?.error || error.message)
+    },
+    mutationKey: [`deletePersonnel`],
+  })
+
   const handleSavePersonnel = async (personnel: PersonnelAttributes) => {
-    setIsFormDisabled(true)
-    const newPersonnel = await Governance.get().createPersonnel({ ...personnel, project_id: projectId }) //TODO: try/catch handle error vs success
-    console.log('newPersonnel', newPersonnel)
-    setIsFormDisabled(false)
-    setShowCreatePersonnelForm(false)
+    createPersonnel(personnel)
   }
 
   const handleCancelPersonnel = () => {
     setShowCreatePersonnelForm(false)
   }
 
-  const getDeletePersonnelHandler = (id: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault()
-      await Governance.get().deletePersonnel(id) //TODO: try/catch handle error vs success
+  const getDeletePersonnelHandler = useMemo(() => {
+    return (personnelId: string) => {
+      return async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        deletePersonnel(personnelId)
+      }
     }
-  }
+  }, [deletePersonnel])
 
   const items = useMemo(
     () =>
@@ -96,9 +158,10 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
           />
         ),
       })),
-    [members, isEditor, t]
+    [members, isEditor, getDeletePersonnelHandler, t]
   )
 
+  //TODO: is loading
   return (
     <div>
       <ProjectSidebarSectionTitle text={t('project.sheet.general_info.personnel.title')} />
@@ -112,16 +175,15 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
       )}
       {showCreatePersonnelForm && (
         <ProjectSidebarForm
-          initialValues={
-            { name: '', address: '', role: '', about: '', relevantLink: '' } as Partial<PersonnelAttributes>
-          }
-          fields={personnelFields}
+          initialValues={PERSONNEL_INITIAL_VALUES}
+          fields={NewPersonnelFields}
           onSave={handleSavePersonnel}
           onCancel={handleCancelPersonnel}
-          validationSchema={personnelSchema}
+          validationSchema={NewPersonnelSchema}
           isFormDisabled={isFormDisabled}
         />
       )}
+      {!!error && <ErrorMessage label="Personnel Error" errorMessage={error} />}
     </div>
   )
 }
