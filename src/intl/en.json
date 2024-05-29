@@ -869,6 +869,7 @@
     },
     "expandable_breakdown_item": {
       "relevant_link_label": "Relevant Link",
+      "edit_action_label": "Edit",
       "delete_action_label": "Delete"
     }
   },
@@ -2278,6 +2279,9 @@
           "title": "Personnel",
           "add_label": "+ Add Personnel"
         }
+      },
+      "milestones": {
+        "add_label": "+ Add Milestone"
       },
       "form": {
         "optional": "Optional",

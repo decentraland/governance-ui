@@ -35,6 +35,8 @@ function ProjectSidebarForm<T extends FieldValues>({
     control,
     handleSubmit,
     formState: { errors },
+    clearErrors,
+    setValue,
   } = useForm<T>({
     defaultValues: initialValues,
     resolver: zodResolver(validationSchema),
@@ -58,6 +60,20 @@ function ProjectSidebarForm<T extends FieldValues>({
         return <TextArea {...commonProps} error={errors[field.name]?.message?.toString() || ''} />
       case 'address':
         return <Field {...commonProps} type="address" />
+      case 'date':
+        return (
+          <Field
+            {...commonProps}
+            type="date"
+            onChange={(_event, props) => {
+              if (props.value) {
+                clearErrors(field.name)
+              }
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              setValue(field.name, props.value as any)
+            }}
+          />
+        )
       default:
         return <Field {...commonProps} />
     }
