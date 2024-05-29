@@ -1,6 +1,8 @@
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import Banner from '../../Banner/Banner'
 
+import './PostUpdateBanner.css'
+
 interface Props {
   updateNumber: number
   dueDays: number
@@ -12,6 +14,7 @@ function PostUpdateBanner({ updateNumber, dueDays, onClick }: Props) {
 
   return (
     <Banner
+      className="PostUpdateBanner"
       isVisible
       title={t('page.project_sidebar.updates.banner.title', { number: updateNumber, days: dueDays })}
       description={t('page.project_sidebar.updates.banner.description')}

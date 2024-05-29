@@ -72,7 +72,7 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
 
   return (
     <>
-      {isAllowedToPostUpdate && !hasSubmittedUpdate && (
+      {isAllowedToPostUpdate && hasUpdates && !hasSubmittedUpdate && (
         <PostUpdateBanner
           updateNumber={updates.length + 1}
           dueDays={nextDueDateRemainingDays}
@@ -90,7 +90,7 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
           />
         ))
       ) : (
-        <Empty title="No updates" />
+        <Empty title={t('page.project_sidebar.updates.no_updates')} />
       )}
       <ConfirmationModal
         isOpen={isLateUpdateModalOpen}
