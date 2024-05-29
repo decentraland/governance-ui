@@ -35,6 +35,7 @@ import {
   PersonnelAttributes,
   PriorityProposal,
   Project,
+  ProjectLink,
   ProposalAttributes,
   ProposalCommentsInDiscourse,
   ProposalListFilter,
@@ -716,5 +717,15 @@ export class Governance extends API {
       sign: true,
       json: { personnel },
     })
+  }
+
+  async createProjectLink(projectLink: ProjectLink) {
+    console.log('create project link', projectLink)
+    return Promise.resolve(undefined)
+  }
+
+  async deleteProjectLink(projectLinkId: string) {
+    console.log('delete projectLinkId', projectLinkId)
+    return Promise.resolve(undefined)
   }
 }

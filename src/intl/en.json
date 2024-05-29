@@ -2275,6 +2275,10 @@
         "finished": "Ended {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}"
       },
       "general_info": {
+        "links": {
+          "title": "Project Links",
+          "add_label": "+ Add Link"
+        },
         "personnel": {
           "title": "Personnel",
           "add_label": "+ Add Personnel"
