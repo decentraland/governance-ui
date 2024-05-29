@@ -26,8 +26,6 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
   const [isLateUpdateModalOpen, setIsLateUpdateModalOpen] = useState(false)
   const { publicUpdates, nextUpdate, currentUpdate, pendingUpdates, refetchUpdates } = useProposalUpdates(proposalId)
 
-  console.log(publicUpdates, nextUpdate, currentUpdate, pendingUpdates)
-
   const updates = publicUpdates || []
   const hasUpdates = updates.length > 0
   const hasSubmittedUpdate = !!currentUpdate?.completion_date
