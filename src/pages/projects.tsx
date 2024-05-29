@@ -113,7 +113,7 @@ export default function ProjectsPage() {
       <MaintenanceLayout
         title={t('page.grants.title')}
         description={t('page.grants.description')}
-        activeTab={NavigationTab.Grants}
+        activeTab={NavigationTab.Projects}
       />
     )
   }
@@ -125,7 +125,7 @@ export default function ProjectsPage() {
         description={t('page.grants.description')}
         links={[{ rel: 'canonical', href: locations.projects() }]}
       />
-      <Navigation activeTab={NavigationTab.Grants} />
+      <Navigation activeTab={NavigationTab.Projects} />
       {isLoadingProjects && <LoadingView withNavigation />}
       {!isLoadingProjects && (
         <WiderContainer>

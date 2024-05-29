@@ -64,6 +64,7 @@ export default {
     const anchorFragment = anchor ? `#${anchor}` : ''
     return url(`/proposal/`, { id: proposalId, ...otherOptions }) + anchorFragment
   },
+  project: (options: Partial<{ id: string }> = {}) => url('/project/', options),
   submit: (
     type?: ProposalType,
     options: {
