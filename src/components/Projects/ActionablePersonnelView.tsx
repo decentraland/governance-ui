@@ -161,6 +161,8 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
     [members, isEditor, getDeletePersonnelHandler, t]
   )
 
+  console.log('m', members)
+
   //TODO: is loading
   return (
     <div>

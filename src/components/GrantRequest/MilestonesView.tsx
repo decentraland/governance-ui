@@ -17,7 +17,6 @@ function MilestonesView({ milestones }: Props) {
     () =>
       milestones.map(({ title, tasks, delivery_date }) => ({
         title: `${delivery_date} - ${title}`,
-        subtitle: tasks,
         content: <BreakdownContent description={tasks} />,
       })),
     [milestones]
