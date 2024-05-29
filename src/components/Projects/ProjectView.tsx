@@ -40,7 +40,6 @@ function ProjectView({ project, onClose }: Props) {
           />
         ),
       },
-      { labelKey: 'page.project_sidebar.activity.title', view: <></> },
     ],
     [project]
   )
