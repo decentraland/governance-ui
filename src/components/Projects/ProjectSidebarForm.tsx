@@ -11,7 +11,14 @@ import TextArea from '../Common/Form/TextArea.tsx'
 
 import './ProjectSidebarForm.css'
 
-export type ProjectSidebarFormFields<T> = { name: Path<T>; label: string; type: string; optional?: boolean }[]
+type ProjectSidebarFormField<T> = {
+  name: Path<T>
+  label: string
+  type: string
+  optional?: boolean
+  placeholder?: string
+}
+export type ProjectSidebarFormFields<T> = ProjectSidebarFormField<T>[]
 
 interface ProjectSidebarFormProps<T extends FieldValues> {
   initialValues: DefaultValues<T>
@@ -41,21 +48,22 @@ function ProjectSidebarForm<T extends FieldValues>({
     mode: 'onTouched',
   })
 
-  const renderField = (field: { name: Path<T>; label: string; type: string }) => {
+  const renderField = ({ name, type, placeholder }: ProjectSidebarFormField<T>) => {
     const commonProps = {
-      name: field.name,
+      name,
       control: control,
       className: 'ProjectSidebarForm__Input',
-      message: (errors[field.name]?.message as ReactNode) || '',
-      error: !!errors[field.name],
+      message: (errors[name]?.message as ReactNode) || '',
+      error: !!errors[name],
       disabled: isFormDisabled,
+      placeholder,
     }
 
-    switch (field.type) {
+    switch (type) {
       case 'text':
         return <Field {...commonProps} />
       case 'textarea':
-        return <TextArea {...commonProps} error={errors[field.name]?.message?.toString() || ''} />
+        return <TextArea {...commonProps} error={errors[name]?.message?.toString() || ''} />
       case 'address':
         return <Field {...commonProps} type="address" />
       default:
@@ -65,7 +73,7 @@ function ProjectSidebarForm<T extends FieldValues>({
 
   return (
     <div className="ProjectSidebarForm">
-      {fields.map((field) => (
+      {fields.map((field: ProjectSidebarFormField<T>) => (
         <div key={field.name.toString()} className="ProjectSidebarForm__Field">
           <div className="ProjectSidebarForm__LabelContainer">
             <label className="ProjectSidebarForm__FieldLabel">{field.label}</label>
