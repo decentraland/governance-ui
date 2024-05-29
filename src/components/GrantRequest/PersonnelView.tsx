@@ -22,6 +22,7 @@ function PersonnelView({ members }: Props) {
       })),
     [members]
   )
+
   return (
     <>
       <ProposalMarkdown text={`## ${t('page.proposal_view.grant.personnel_title')}`} />
