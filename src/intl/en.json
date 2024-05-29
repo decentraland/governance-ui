@@ -236,7 +236,8 @@
         "tasks_empty": "Tasks field is empty",
         "tasks_too_large": "Tasks field is too large",
         "tasks_short": "Tasks field is too short",
-        "date_empty": "Date is empty"
+        "date_empty": "Date is empty",
+        "date_invalid": "Delivery date must be in the future"
       },
       "due_diligence": {
         "concept_empty": "Concept is empty",
