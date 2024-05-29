@@ -6,6 +6,7 @@ import BoxTabs from '../Common/BoxTabs'
 
 import UpdatesTabView from './Updates/UpdatesTabView'
 
+import MilestonesTab from './MilestonesTab'
 import ProjectGeneralInfo from './ProjectGeneralInfo'
 import ProjectSheetTitle from './ProjectSheetTitle'
 import './ProjectView.css'
@@ -26,7 +27,10 @@ function ProjectView({ project, onClose }: Props) {
         labelKey: 'page.project_sidebar.general_info.title',
         view: project && <ProjectGeneralInfo project={project} />,
       },
-      { labelKey: 'page.project_sidebar.milestones.title', view: <></> },
+      {
+        labelKey: 'page.project_sidebar.milestones.title',
+        view: project?.milestones && <MilestonesTab milestones={project?.milestones} />,
+      },
       {
         labelKey: 'page.project_sidebar.updates.title',
         view: (

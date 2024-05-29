@@ -12,7 +12,7 @@ interface Props {
   milestones: ProjectMilestone[]
 }
 
-function Milestonesab({ milestones }: Props) {
+function MilestonesTab({ milestones }: Props) {
   const items = useMemo(
     () =>
       milestones.map<BreakdownItem>(({ title, description, status }) => ({
@@ -33,4 +33,4 @@ function Milestonesab({ milestones }: Props) {
   )
 }
 
-export default Milestonesab
+export default MilestonesTab
