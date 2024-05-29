@@ -41,7 +41,9 @@ export default function ProjectPage() {
         links={[{ rel: 'canonical', href: locations.project({ id: project?.id }) }]}
       />
       <Navigation activeTab={NavigationTab.Projects} />
-      <ProjectView project={project} />
+      <WiderContainer>
+        <ProjectView project={project} />
+      </WiderContainer>
     </>
   )
 }
