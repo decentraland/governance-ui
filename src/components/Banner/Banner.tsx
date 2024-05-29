@@ -22,6 +22,7 @@ export type BannerProps = {
   buttonHref?: string
   color?: BannerColor
   isClosable?: boolean
+  className?: string
 }
 
 function Banner({
@@ -35,6 +36,7 @@ function Banner({
   buttonHref,
   color = 'blue',
   isClosable = true,
+  className,
 }: BannerProps) {
   const [show, setShow] = useState(isVisible)
 
@@ -55,7 +57,7 @@ function Banner({
   return (
     <>
       {show && (
-        <div className={classNames('Banner', `Banner--${color}`)}>
+        <div className={classNames(className, 'Banner', `Banner--${color}`)}>
           {icon && <div className="Banner__Icon">{icon}</div>}
           <div className="Banner__Content">
             <div className="Banner__Description">

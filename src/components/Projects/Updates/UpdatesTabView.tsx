@@ -26,6 +26,8 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
   const [isLateUpdateModalOpen, setIsLateUpdateModalOpen] = useState(false)
   const { publicUpdates, nextUpdate, currentUpdate, pendingUpdates, refetchUpdates } = useProposalUpdates(proposalId)
 
+  console.log(publicUpdates, nextUpdate, currentUpdate, pendingUpdates)
+
   const updates = publicUpdates || []
   const hasUpdates = updates.length > 0
   const hasSubmittedUpdate = !!currentUpdate?.completion_date
@@ -72,7 +74,7 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
 
   return (
     <>
-      {isAllowedToPostUpdate && !hasSubmittedUpdate && (
+      {isAllowedToPostUpdate && hasUpdates && !hasSubmittedUpdate && (
         <PostUpdateBanner
           updateNumber={updates.length + 1}
           dueDays={nextDueDateRemainingDays}
@@ -90,7 +92,7 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
           />
         ))
       ) : (
-        <Empty title="No updates" />
+        <Empty title={t('page.project_sidebar.updates.no_updates')} />
       )}
       <ConfirmationModal
         isOpen={isLateUpdateModalOpen}

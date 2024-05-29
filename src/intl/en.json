@@ -1139,7 +1139,8 @@
           "title": "Update #{number} due in {days} {days, plural, one {day} other {days}}",
           "description": "Improve your reputation by posting timely updates",
           "button": "Post Update"
-        }
+        },
+        "no_updates": "No updates yet"
       },
       "activity": {
         "title": "Activity"
