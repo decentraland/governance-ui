@@ -4,9 +4,13 @@ import { Governance } from '../clients/Governance'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants'
 
+export function getProjectQueryKey(projectId?: string | null) {
+  return ['project', projectId]
+}
+
 export default function useProject(projectId?: string | null) {
   const { data: project, isLoading: isLoadingProject } = useQuery({
-    queryKey: ['project', projectId],
+    queryKey: getProjectQueryKey(projectId),
     queryFn: async () => {
       if (!projectId) {
         return null
