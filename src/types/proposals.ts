@@ -762,7 +762,6 @@ export type ProjectAttributes = {
   proposal_id: string
   title: string
   status: ProjectStatus
-  links: string[]
   about?: string
   about_updated_by?: string
   about_updated_at?: Date
@@ -789,11 +788,23 @@ export type ProjectMilestone = {
   created_at: Date
 }
 
+export type ProjectLink = {
+  id: string
+  project_id: string
+  label: string
+  url: string
+  updated_by?: string
+  updated_at?: Date
+  created_by: string
+  created_at: Date
+}
+
 export type Project = ProjectAttributes & {
   author: string
   coauthors: string[] | null
   personnel: PersonnelAttributes[]
   milestones: ProjectMilestone[]
+  links: ProjectLink[]
 }
 
 export type ProposalProjectWithUpdate = ProposalProject & {
