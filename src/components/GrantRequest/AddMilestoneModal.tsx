@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { Milestone, MilestoneItemSchema } from '../../types/grants'
+import Time from '../../utils/date/Time'
 import Field from '../Common/Form/Field'
 import TextArea from '../Common/Form/TextArea'
 import Label from '../Common/Typography/Label'
@@ -47,6 +48,11 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
     reset()
   }
 
+  const handleDelete = () => {
+    onDelete()
+    onClose()
+  }
+
   useEffect(() => {
     if (selectedMilestone) {
       const { title, tasks, delivery_date } = selectedMilestone
@@ -62,7 +68,7 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
       isOpen={isOpen}
       onClose={onClose}
       onPrimaryClick={handleSubmit(onSubmitForm)}
-      onSecondaryClick={selectedMilestone ? onDelete : undefined}
+      onSecondaryClick={selectedMilestone ? handleDelete : undefined}
     >
       <div>
         <ContentSection className="ProjectRequestSection__Field">
@@ -130,6 +136,11 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
             message={errors.delivery_date?.message || ''}
             rules={{
               required: { value: true, message: t('error.grant.milestone.date_empty') },
+              validate: (value: string) => {
+                if (Time(value).isBefore(Time())) {
+                  return t('error.grant.milestone.date_invalid')
+                }
+              },
               minLength: {
                 value: schema.delivery_date.minLength,
                 message: t('error.grant.milestone.date_too_short'),
