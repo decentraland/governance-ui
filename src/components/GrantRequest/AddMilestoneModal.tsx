@@ -97,14 +97,10 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
             control={control}
             placeholder={t('page.submit_grant.general_info.milestone_modal.tasks_placeholder')}
             error={errors.tasks?.message}
-            message={
-              (errors.tasks?.message || '') +
-              ' ' +
-              t('page.submit.character_counter', {
-                current: watch('tasks').length,
-                limit: schema.tasks.maxLength,
-              })
-            }
+            info={t('page.submit.character_counter', {
+              current: watch('tasks').length,
+              limit: schema.tasks.maxLength,
+            })}
             rules={{
               required: { value: true, message: t('error.grant.milestone.tasks_empty') },
               minLength: {
