@@ -10,6 +10,8 @@ import HeroBanner from '../Proposal/HeroBanner.tsx'
 import ProjectSheetStatusPill from './ProjectSheetStatusPill.tsx'
 import './ProjectSheetTitle.css'
 
+const IS_DOTS_MENU_ENABLED = false
+
 interface Props {
   project: ProjectAttributes
   onClose?: () => void
@@ -19,6 +21,7 @@ const HIGHLIGHTED_STATUSES = [ProjectStatus.Pending, ProjectStatus.InProgress]
 
 export default function ProjectSheetTitle({ project, onClose }: Props) {
   const showHero = HIGHLIGHTED_STATUSES.includes(project.status)
+
   return (
     <>
       {showHero ? (
@@ -30,7 +33,7 @@ export default function ProjectSheetTitle({ project, onClose }: Props) {
             {project && <ProjectSheetStatusPill project={project} hero />}
           </div>
           <div className="ProjectHero__Menu">
-            <DotsMenu color="var(--white-900)" className="ProjectSheet__MenuDots" />
+            {IS_DOTS_MENU_ENABLED && <DotsMenu color="var(--white-900)" className="ProjectSheet__MenuDots" />}
             {onClose && (
               <SlimCross size={14} color="var(--white-900)" onClick={onClose} className="ProjectSheet__MenuCross" />
             )}
@@ -41,7 +44,7 @@ export default function ProjectSheetTitle({ project, onClose }: Props) {
           <span className="ProjectTitle__Text">{project?.title || ''}</span>
           <div className="ProjectTitle__Menu">
             <ProjectSheetStatusPill project={project} />
-            <DotsMenu color="var(--black-700)" className="ProjectSheet__MenuDots" />
+            {IS_DOTS_MENU_ENABLED && <DotsMenu color="var(--black-700)" className="ProjectSheet__MenuDots" />}
             <SlimCross size={14} color="var(--black-700)" onClick={onClose} className="ProjectSheet__MenuCross" />
           </div>
         </div>
