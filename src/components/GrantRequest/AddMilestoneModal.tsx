@@ -48,6 +48,11 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
     reset()
   }
 
+  const handleDelete = () => {
+    onDelete()
+    onClose()
+  }
+
   useEffect(() => {
     if (selectedMilestone) {
       const { title, tasks, delivery_date } = selectedMilestone
@@ -63,7 +68,7 @@ export default function AddMilestoneModal({ isOpen, onClose, onSubmit, selectedM
       isOpen={isOpen}
       onClose={onClose}
       onPrimaryClick={handleSubmit(onSubmitForm)}
-      onSecondaryClick={selectedMilestone ? onDelete : undefined}
+      onSecondaryClick={selectedMilestone ? handleDelete : undefined}
     >
       <div>
         <ContentSection className="ProjectRequestSection__Field">
