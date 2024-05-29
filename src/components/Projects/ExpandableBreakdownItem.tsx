@@ -8,7 +8,7 @@ import './ExpandableBreakdownItem.css'
 
 interface ExpandableBreakdownItemProps {
   title: React.ReactNode
-  subtitle: React.ReactNode
+  subtitle?: React.ReactNode
   content: React.ReactNode
 }
 
@@ -26,7 +26,7 @@ function ExpandableBreakdownItem({ item, initiallyExpanded = false }: Props) {
       <div role="button" className="ExpandableBreakdownItem__Header" onClick={() => setIsActive((prev) => !prev)}>
         <div>
           <div className="BreakdownItem__Title">{title}</div>
-          <div className="BreakdownItem__Subtitle">{subtitle}</div>
+          {subtitle && <div className="BreakdownItem__Subtitle">{subtitle}</div>}
         </div>
         <div>
           <span>
