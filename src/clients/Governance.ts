@@ -720,12 +720,18 @@ export class Governance extends API {
   }
 
   async createProjectLink(projectLink: ProjectLink) {
-    console.log('create project link', projectLink)
-    return Promise.resolve(undefined)
+    return await this.fetchApiResponse<ProjectLink>(`/projects/links/`, {
+      method: 'POST',
+      sign: true,
+      json: { project_link: projectLink },
+    })
   }
 
-  async deleteProjectLink(projectLinkId: string) {
-    console.log('delete projectLinkId', projectLinkId)
-    return Promise.resolve(undefined)
+  async deleteProjectLink(projectLinkId: ProjectLink['id']) {
+    console.log('projectLinkId', projectLinkId)
+    return await this.fetchApiResponse<ProjectLink['id'] | null>(`/projects/links/${projectLinkId}`, {
+      method: 'DELETE',
+      sign: true,
+    })
   }
 }
