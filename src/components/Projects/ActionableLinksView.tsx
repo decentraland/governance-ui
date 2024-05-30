@@ -8,8 +8,10 @@ import { Governance } from '../../clients/Governance'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { getProjectQueryKey } from '../../hooks/useProject.ts'
 import { Project, ProjectLink } from '../../types/proposals'
+import Link from '../Common/Typography/Link.tsx'
 import ErrorMessage from '../Error/ErrorMessage.tsx'
 import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
+import BlueLinkIcon from '../Icon/BlueLinkIcon.tsx'
 import Trashcan from '../Icon/Trashcan'
 
 import ActionableBreakdownContent from './ActionableBreakdownContent'
@@ -116,13 +118,15 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
   const items = useMemo(
     () =>
       links.map<BreakdownItem>(({ id, label, url }) => ({
-        title: label,
-        subtitle: url,
+        title: (
+          <Link className="ExpandableBreakdownItem__Title" href={url} target="_blank">
+            <BlueLinkIcon /> {label}
+          </Link>
+        ),
         content: (
           <ActionableBreakdownContent
             about={url}
             onClick={isEditor ? getDeleteProjectLinkHandler(id) : undefined}
-            relevantLink={url}
             actionLabel={
               isEditor ? (
                 <div className="ActionableBreakdownContent__Button">
