@@ -1,7 +1,7 @@
 import { TransparencyVesting } from '../clients/Transparency'
 import { getQuarterDates } from '../helpers'
 import { ProjectStatus } from '../types/grants'
-import { ProposalAttributes, ProposalProject } from '../types/proposals'
+import { ProjectVestingData, ProposalAttributes, ProposalProject } from '../types/proposals'
 
 import Time from './date/Time'
 
@@ -49,7 +49,7 @@ export function isCurrentQuarterProject(year: number, quarter: number, startAt?:
   return Time.unix(startAt || 0).isAfter(startDate) && Time.unix(startAt || 0).isBefore(endDate)
 }
 
-function getProjectVestingData(proposal: ProposalAttributes, vesting: TransparencyVesting) {
+function getProjectVestingData(proposal: ProposalAttributes, vesting?: TransparencyVesting): ProjectVestingData {
   if (proposal.enacting_tx) {
     return {
       status: ProjectStatus.Finished,
@@ -80,7 +80,7 @@ function getProjectVestingData(proposal: ProposalAttributes, vesting: Transparen
     enacted_at: Time(vesting_start_at).unix(),
     contract: {
       vesting_total_amount: Math.round(vesting_total_amount),
-      vestedAmount: Math.round(vesting_released + vesting_releasable),
+      vested_amount: Math.round(vesting_released + vesting_releasable),
       releasable: Math.round(vesting_releasable),
       released: Math.round(vesting_released),
       start_at: Time(vesting_start_at).unix(),
@@ -90,7 +90,7 @@ function getProjectVestingData(proposal: ProposalAttributes, vesting: Transparen
 }
 
 export function createProject(proposal: ProposalAttributes, vesting?: TransparencyVesting): ProposalProject {
-  const vestingData = vesting ? getProjectVestingData(proposal, vesting) : {}
+  const vestingData = getProjectVestingData(proposal, vesting)
 
   return {
     id: proposal.id,
