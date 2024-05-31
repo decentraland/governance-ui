@@ -21,11 +21,11 @@ const VestingProgress = ({ project, basic }: Props) => {
   if (!enacted_at) return null
 
   const total = contract?.vesting_total_amount || 100
-  const vestedPercentage = contract ? getRoundedPercentage(contract.vestedAmount, total) : 100
+  const vestedPercentage = contract ? getRoundedPercentage(contract.vested_amount, total) : 100
   const releasedPercentage = contract ? getRoundedPercentage(contract.released, total) : null
   const vestedAmountText = contract
     ? `${t(`general.number`, {
-        value: contract.vestedAmount || 0,
+        value: contract.vested_amount || 0,
       })} ${token}`
     : null
   const releasedText = contract

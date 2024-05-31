@@ -19,7 +19,7 @@ function ProgressBarTooltip({ grant, isInCliff, children }: Props) {
 
   const { contract, tx_amount, token, enacted_at, enacting_tx } = grant
   const isOneTimePayment = !contract && enacting_tx
-  const vestedAmount = (contract ? contract.vestedAmount : tx_amount) || 0
+  const vestedAmount = (contract ? contract.vested_amount : tx_amount) || 0
   const releasedAmount = !isOneTimePayment && contract ? contract.released : 0
 
   let textToShow = ''

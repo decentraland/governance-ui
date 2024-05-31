@@ -1,7 +1,7 @@
 import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
 import { Project } from '../../types/proposals.ts'
-import Text from '../Common/Typography/Text.tsx'
+import Markdown from '../Common/Typography/Markdown.tsx'
 
 import ActionablePersonnelView from './ActionablePersonnelView.tsx'
 import './ProjectSidebar.css'
@@ -21,7 +21,7 @@ function ProjectGeneralInfo({ project }: Props) {
       {about && (
         <div>
           <ProjectSidebarSectionTitle text={t('project_sheet.general_info.about')} />
-          <Text color="secondary">{about}</Text>
+          <Markdown>{about}</Markdown>
         </div>
       )}
       <ActionablePersonnelView members={personnel} projectId={project.id} isEditor={isEditor} />
