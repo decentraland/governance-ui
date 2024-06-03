@@ -57,20 +57,23 @@ function MilestonesTab({ project }: Props) {
   }
 
   const { mutate: createMilestone } = useMutation({
-    mutationFn: async (personnel: ProjectMilestone) => {
+    mutationFn: async (milestone: ProjectMilestone) => {
       setIsFormDisabled(true)
       setError('')
-      return await Governance.get().createMilestone({ ...personnel, project_id: projectId })
+      return await Governance.get().createMilestone({
+        ...milestone,
+        project_id: projectId,
+      })
     },
-    onSuccess: (newPersonnel) => {
+    onSuccess: (newMilestone) => {
       setShowForm(false)
       setIsFormDisabled(false)
-      if (newPersonnel) {
+      if (newMilestone) {
         queryClient.setQueryData(getProjectQueryKey(projectId), (oldData?: Project) => {
           if (!oldData) return oldData
           return {
             ...oldData,
-            milestones: [...(oldData.milestones || []), newPersonnel],
+            milestones: [...(oldData.milestones || []), newMilestone],
           }
         })
       }
@@ -83,11 +86,11 @@ function MilestonesTab({ project }: Props) {
     mutationKey: [`createMilestone`],
   })
 
-  const { mutate: deletePersonnel } = useMutation({
+  const { mutate: deleteMilestone } = useMutation({
     mutationFn: async (milestoneId: string) => {
       setIsFormDisabled(true)
       setError('')
-      return await Governance.get().deletePersonnel(milestoneId)
+      return await Governance.get().deleteMilestone(milestoneId)
     },
     onSuccess: (milestoneId) => {
       setIsFormDisabled(false)
@@ -95,7 +98,7 @@ function MilestonesTab({ project }: Props) {
         if (!oldData) return oldData
         return {
           ...oldData,
-          personnel: oldData.personnel?.filter((p) => p.id !== milestoneId),
+          milestones: oldData.milestones?.filter((m) => m.id !== milestoneId),
         }
       })
     },
@@ -118,20 +121,20 @@ function MilestonesTab({ project }: Props) {
   const handleDeleteMilestone = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>, milestoneId: string) => {
       e.preventDefault()
-      deletePersonnel(milestoneId)
+      deleteMilestone(milestoneId)
     },
-    [deletePersonnel]
+    [deleteMilestone]
   )
 
   const items = useMemo(
     () =>
-      milestones.map<BreakdownItem>(({ id, title, description }) => ({
-        title,
+      milestones.map<BreakdownItem>(({ id, title, description, delivery_date }) => ({
+        title: `${Time(delivery_date).format('YYYY-MM-DD')} - ${title}`,
         content: (
           <ActionableBreakdownContent
             about={description}
             onClick={isEditor ? (e) => handleDeleteMilestone(e, id) : undefined}
-            actionLabel={isEditor && <span>{t('component.expandable_breakdown_item.edit_action_label')}</span>}
+            actionLabel={isEditor && <span>{t('component.expandable_breakdown_item.delete_action_label')}</span>}
           />
         ),
       })),
