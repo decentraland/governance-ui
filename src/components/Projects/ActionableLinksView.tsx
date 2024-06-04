@@ -165,7 +165,7 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
           isFormDisabled={isFormDisabled}
         />
       )}
-      {!!error && <ErrorMessage label="Personnel Error" errorMessage={error} />}
+      {!!error && <ErrorMessage label="Link Error" errorMessage={error} />}
     </div>
   )
 }

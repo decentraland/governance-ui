@@ -728,7 +728,6 @@ export class Governance extends API {
   }
 
   async deleteProjectLink(projectLinkId: ProjectLink['id']) {
-    console.log('projectLinkId', projectLinkId)
     return await this.fetchApiResponse<ProjectLink['id'] | null>(`/projects/links/${projectLinkId}`, {
       method: 'DELETE',
       sign: true,
