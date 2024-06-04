@@ -1,3 +1,5 @@
+import { MILESTONE_SUBMIT_LIMIT } from '../constants/proposals'
+
 export const GRANT_PROPOSAL_MIN_BUDGET = 100
 export const GRANT_PROPOSAL_MAX_BUDGET = 240000
 export const MIN_PROJECT_DURATION = 1
@@ -121,6 +123,7 @@ export const GrantRequestGeneralInfoSchema = {
       additionalProperties: false,
       required: [...Object.keys(MilestoneItemSchema)],
       properties: MilestoneItemSchema,
+      maxItems: MILESTONE_SUBMIT_LIMIT,
     },
   },
   coAuthors: {
