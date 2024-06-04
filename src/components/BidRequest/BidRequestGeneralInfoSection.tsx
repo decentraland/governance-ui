@@ -44,6 +44,7 @@ export default function BidRequestGeneralInfoSection({ onValidation, isFormDisab
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false)
 
   const values = useWatch({ control })
+  const hasReachedMilestoneLimit = values.milestones && values.milestones.length === 10
 
   useEffect(() => {
     onValidation({ ...(values as BidRequestGeneralInfo) }, isValid)
@@ -129,8 +130,10 @@ export default function BidRequestGeneralInfoSection({ onValidation, isFormDisab
               }}
             />
           ))}
-        <AddBox disabled={isFormDisabled} onClick={() => setIsMilestoneModalOpen(true)}>
-          {t('page.submit_grant.general_info.milestone_button')}
+        <AddBox disabled={hasReachedMilestoneLimit || isFormDisabled} onClick={() => setIsMilestoneModalOpen(true)}>
+          {hasReachedMilestoneLimit
+            ? t('page.submit_grant.general_info.milestone_button_limit')
+            : t('page.submit_grant.general_info.milestone_button')}
         </AddBox>
       </ContentSection>
       <ContentSection>
