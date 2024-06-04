@@ -4,6 +4,7 @@ import { useForm, useWatch } from 'react-hook-form'
 import isEmail from 'validator/lib/isEmail'
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
 
+import { MILESTONE_SUBMIT_LIMIT } from '../../constants/proposals'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { GrantRequestGeneralInfo, GrantRequestGeneralInfoSchema, Milestone } from '../../types/grants'
 import Field from '../Common/Form/Field'
@@ -51,7 +52,7 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false)
 
   const values = useWatch({ control })
-  const hasReachedMilestoneLimit = values.milestones && values.milestones.length === 10
+  const hasReachedMilestoneLimit = values.milestones && values.milestones.length === MILESTONE_SUBMIT_LIMIT
 
   useEffect(() => {
     onValidation({ ...(values as GrantRequestGeneralInfo) }, isValid)

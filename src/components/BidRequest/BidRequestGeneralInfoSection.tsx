@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
+import { MILESTONE_SUBMIT_LIMIT } from '../../constants/proposals'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { BidRequestGeneralInfo, BidRequestGeneralInfoSchema } from '../../types/bids'
 import { Milestone } from '../../types/grants'
@@ -44,7 +45,7 @@ export default function BidRequestGeneralInfoSection({ onValidation, isFormDisab
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false)
 
   const values = useWatch({ control })
-  const hasReachedMilestoneLimit = values.milestones && values.milestones.length === 10
+  const hasReachedMilestoneLimit = values.milestones && values.milestones.length === MILESTONE_SUBMIT_LIMIT
 
   useEffect(() => {
     onValidation({ ...(values as BidRequestGeneralInfo) }, isValid)
