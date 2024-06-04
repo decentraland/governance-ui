@@ -20,6 +20,12 @@
   width: 100%;
 }
 
+.ExpandableBreakdownItem--slim {
+  padding: 7px 12px;
+  min-height: unset;
+  margin-bottom: 8px;
+}
+
 .ExpandableBreakdownItem__Content {
   display: none;
   min-height: 64px;
@@ -33,4 +39,30 @@
   background: var(--white-900);
   width: 100%;
   border-top: 1px solid var(--black-300);
+}
+
+.ExpandableBreakdownItem__Content--expanded--slim {
+  margin-top: 8px;
+}
+
+.ExpandableBreakdownItem__Title {
+  margin: 0;
+  font-weight: var(--weight-medium);
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  color: var(--black-700);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ExpandableBreakdownItem__Subtitle {
+  margin: 0;
+  font-weight: var(--weight-normal);
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--black-600);
 }
