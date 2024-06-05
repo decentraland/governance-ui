@@ -27,6 +27,10 @@ const FUNCTION_NAME_OPTIONS = [
     text: 'giveTopVoterBadges',
     value: 'giveTopVoterBadges',
   },
+  {
+    text: 'migrateProjects',
+    value: 'migrateProjects',
+  },
 ]
 
 export default function TriggerFunction({ className }: Props) {

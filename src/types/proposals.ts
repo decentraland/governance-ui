@@ -728,8 +728,8 @@ export type ProposalCommentsInDiscourse = {
   comments: ProposalComment[]
 }
 
-type VestingContractData = {
-  vestedAmount: number
+export type VestingContractData = {
+  vested_amount: number
   releasable: number
   released: number
   start_at: number
@@ -737,19 +737,7 @@ type VestingContractData = {
   vesting_total_amount: number
 }
 
-export type ProposalProject = {
-  id: string
-  project_id?: string | null
-  title: string
-  user: string
-  size: number
-  type: ProposalType
-  created_at: number
-  configuration: {
-    category: ProposalGrantCategory
-    tier: string
-  }
-  status?: ProjectStatus
+export type ProjectVestingData = {
   contract?: VestingContractData
   enacting_tx?: string
   token?: string
@@ -757,6 +745,22 @@ export type ProposalProject = {
   tx_amount?: number
   tx_date?: number
 }
+
+export type ProposalProject = {
+  id: string
+  project_id?: string | null
+  status: ProjectStatus
+  title: string
+  user: string
+  size: number
+  type: ProposalType
+  about: string
+  created_at: number
+  configuration: {
+    category: ProposalGrantCategory
+    tier: string
+  }
+} & ProjectVestingData
 
 export type ProjectAttributes = {
   id: string

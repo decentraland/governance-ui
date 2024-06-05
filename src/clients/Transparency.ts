@@ -1,5 +1,5 @@
 import { TRANSPARENCY_API } from '../constants'
-import { ProjectStatus } from '../types/grants'
+import { TransparencyProjectStatus } from '../types/grants'
 import { TokenInWallet } from '../types/transparency'
 import { ErrorCategory } from '../utils/errorCategories'
 
@@ -64,7 +64,7 @@ export type TransparencyVesting = {
   vesting_finish_at: string
   vesting_contract_token_balance: number
   vesting_total_amount: number
-  vesting_status: ProjectStatus
+  vesting_status: TransparencyProjectStatus
   duration_in_months: number
 }
 
