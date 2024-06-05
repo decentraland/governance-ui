@@ -62,6 +62,10 @@
   background: var(--white-900);
 }
 
+.ProjectSidebarForm__Field .field {
+  width: 100%;
+}
+
 .ProjectSidebarForm__Field > .dcl.field.address > canvas.dcl.blockie.tiny {
   position: absolute;
   right: 8px;
@@ -75,4 +79,12 @@
   line-height: 24px;
   letter-spacing: 0.2px;
   font-style: italic;
+}
+
+.ProjectSidebarForm__Field .ui.icon.input > i {
+  height: 100% !important;
+}
+
+.ProjectSidebarForm__Field .ui.icon.input > i.icon {
+  top: unset;
 }

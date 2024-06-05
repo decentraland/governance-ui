@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
@@ -17,6 +17,7 @@ import Trashcan from '../Icon/Trashcan'
 import ActionableBreakdownContent from './ActionableBreakdownContent'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
+import ProjectSidebarFormContainer from './ProjectSidebarFormContainer.tsx'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
 
 interface Props {
@@ -137,14 +138,13 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
     setShowCreatePersonnelForm(false)
   }
 
-  const getDeletePersonnelHandler = useMemo(() => {
-    return (personnelId: string) => {
-      return async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        deletePersonnel(personnelId)
-      }
-    }
-  }, [deletePersonnel])
+  const handleDeletePersonnel = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>, personnelId: string) => {
+      e.preventDefault()
+      deletePersonnel(personnelId)
+    },
+    [deletePersonnel]
+  )
 
   const items = useMemo(
     () =>
@@ -154,22 +154,20 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
         content: (
           <ActionableBreakdownContent
             about={about}
-            onClick={isEditor ? getDeletePersonnelHandler(id) : undefined}
+            onClick={isEditor ? (e) => handleDeletePersonnel(e, id) : undefined}
             relevantLink={relevantLink}
             actionLabel={
-              isEditor ? (
+              isEditor && (
                 <div className="ActionableBreakdownContent__Button">
                   <Trashcan />
                   {t('component.expandable_breakdown_item.delete_action_label')}
                 </div>
-              ) : (
-                <></>
               )
             }
           />
         ),
       })),
-    [members, isEditor, getDeletePersonnelHandler, t]
+    [members, handleDeletePersonnel, isEditor, t]
   )
 
   //TODO: is loading
@@ -184,17 +182,19 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
           {t('project.sheet.general_info.personnel.add_label')}
         </Button>
       )}
-      {showCreatePersonnelForm && (
-        <ProjectSidebarForm
-          initialValues={PERSONNEL_INITIAL_VALUES}
-          fields={NewPersonnelFields}
-          onSave={handleSavePersonnel}
-          onCancel={handleCancelPersonnel}
-          validationSchema={NewPersonnelSchema}
-          isFormDisabled={isFormDisabled}
-        />
-      )}
-      {!!error && <ErrorMessage label="Personnel Error" errorMessage={error} />}
+      <ProjectSidebarFormContainer>
+        {showCreatePersonnelForm && (
+          <ProjectSidebarForm
+            initialValues={PERSONNEL_INITIAL_VALUES}
+            fields={NewPersonnelFields}
+            onSave={handleSavePersonnel}
+            onCancel={handleCancelPersonnel}
+            validationSchema={NewPersonnelSchema}
+            isFormDisabled={isFormDisabled}
+          />
+        )}
+        {!!error && <ErrorMessage label="Personnel Error" errorMessage={error} />}
+      </ProjectSidebarFormContainer>
     </div>
   )
 }

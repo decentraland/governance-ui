@@ -36,6 +36,7 @@ import {
   PriorityProposal,
   Project,
   ProjectLink,
+  ProjectMilestone,
   ProposalAttributes,
   ProposalCommentsInDiscourse,
   ProposalListFilter,
@@ -716,6 +717,21 @@ export class Governance extends API {
       method: 'POST',
       sign: true,
       json: { personnel },
+    })
+  }
+
+  async createMilestone(milestone: ProjectMilestone) {
+    return await this.fetchApiResponse<ProjectMilestone>(`/projects/milestones/`, {
+      method: 'POST',
+      sign: true,
+      json: { milestone },
+    })
+  }
+
+  async deleteMilestone(milestoneId: ProjectMilestone['id']) {
+    return await this.fetchApiResponse<PersonnelAttributes['id'] | null>(`/projects/milestones/${milestoneId}`, {
+      method: 'DELETE',
+      sign: true,
     })
   }
 
