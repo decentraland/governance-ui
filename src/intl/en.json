@@ -227,7 +227,10 @@
         "beneficiary_empty": "Beneficiary is empty",
         "beneficiary_invalid": "Beneficiary is invalid",
         "email_empty": "Email address is empty",
-        "email_invalid": "Email address is invalid"
+        "email_invalid": "Email address is invalid",
+        "roadmap_empty": "Roadmap is empty",
+        "roadmap_too_large": "Roadmap is too large",
+        "roadmap_too_short": "Roadmap is too short"
       },
       "milestone": {
         "title_empty": "Title is empty",
@@ -381,7 +384,10 @@
         "beneficiary_empty": "Beneficiary is empty",
         "beneficiary_invalid": "Beneficiary is invalid",
         "email_empty": "Email address is empty",
-        "email_invalid": "Email address is invalid"
+        "email_invalid": "Email address is invalid",
+        "roadmap_empty": "Roadmap is empty",
+        "roadmap_too_large": "Roadmap is too large",
+        "roadmap_too_short": "Roadmap is too short"
       },
       "submission_finished": "Submission period for this tender has finished",
       "user_has_placed_bid": "You have already placed a bid for this tender"
@@ -1956,6 +1962,9 @@
         "abstract_placeholder": "Enter a quick, non-technical overview of your project here.",
         "beneficiary_label": "Beneficiary address",
         "beneficiary_detail": "The address that will receive the grant funds. This must be an Ethereum address! Entering a non-Ethereum address that cannot receive MANA may result in a permanent loss of funds.",
+        "roadmap_label": "Roadmap",
+        "roadmap_detail": "Describe the roadmap of your project. Clearly communicating progress for long-term projects funded by vesting contracts will help prevent the removal of your funding.",
+        "roadmap_placeholder": "Your estimated timeline. Include your plan for reporting progress to the community.",
         "milestone_label": "Milestones",
         "milestone_detail": "Describe the roadmap of your project, making sure to include any relevant milestones that the community should be aware of and how you will share the progress you have made. Clearly communicating progress for long-term projects funded by vesting contracts will help prevent the removal of your funding.",
         "milestone_button": "Add milestone",

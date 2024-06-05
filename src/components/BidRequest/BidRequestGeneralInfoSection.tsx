@@ -19,6 +19,7 @@ import CoAuthors from '../Proposal/Submit/CoAuthor/CoAuthors'
 export const INITIAL_BID_REQUEST_GENERAL_INFO_STATE: BidRequestGeneralInfo = {
   teamName: '',
   deliverables: '',
+  roadmap: '',
   milestones: [],
 }
 
@@ -111,6 +112,35 @@ export default function BidRequestGeneralInfoSection({ onValidation, isFormDisab
             maxLength: {
               value: schema.deliverables.maxLength,
               message: t('error.bid.general_info.deliverables_too_large'),
+            },
+          }}
+        />
+      </ContentSection>
+      <ContentSection className="ProjectRequestSection__Field">
+        <Label>{t('page.submit_bid.general_info.roadmap_label')}</Label>
+        <SubLabel>{t('page.submit_bid.general_info.roadmap_detail')}</SubLabel>
+        <MarkdownField
+          name="roadmap"
+          control={control}
+          error={!!errors.roadmap}
+          message={
+            (errors.roadmap?.message || '') +
+            ' ' +
+            t('page.submit.character_counter', {
+              current: watch('roadmap').length,
+              limit: schema.roadmap.maxLength,
+            })
+          }
+          disabled={isFormDisabled}
+          rules={{
+            required: { value: true, message: t('error.bid.general_info.roadmap_empty') },
+            minLength: {
+              value: schema.roadmap.minLength,
+              message: t('error.bid.general_info.roadmap_too_short'),
+            },
+            maxLength: {
+              value: schema.roadmap.maxLength,
+              message: t('error.bid.general_info.roadmap_too_large'),
             },
           }}
         />
