@@ -26,6 +26,7 @@ export const INITIAL_GRANT_REQUEST_GENERAL_INFO_STATE: GrantRequestGeneralInfo =
   description: '',
   beneficiary: '',
   email: '',
+  roadmap: '',
   milestones: [],
 }
 
@@ -194,6 +195,35 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
           }}
         />
         <PostLabel>{t('page.submit_grant.general_info.email_note')}</PostLabel>
+      </ContentSection>
+      <ContentSection className="ProjectRequestSection__Field">
+        <Label>{t('page.submit_grant.general_info.roadmap_label')}</Label>
+        <SubLabel>{t('page.submit_grant.general_info.roadmap_detail')}</SubLabel>
+        <MarkdownField
+          name="roadmap"
+          control={control}
+          error={!!errors.roadmap}
+          message={
+            (errors.roadmap?.message || '') +
+            ' ' +
+            t('page.submit.character_counter', {
+              current: watch('roadmap').length,
+              limit: schema.roadmap.maxLength,
+            })
+          }
+          disabled={isFormDisabled}
+          rules={{
+            required: { value: true, message: t('error.grant.general_info.roadmap_empty') },
+            minLength: {
+              value: schema.roadmap.minLength,
+              message: t('error.grant.general_info.roadmap_too_short'),
+            },
+            maxLength: {
+              value: schema.roadmap.maxLength,
+              message: t('error.grant.general_info.roadmap_too_large'),
+            },
+          }}
+        />
       </ContentSection>
       <ContentSection className="ProjectRequestSection__Field">
         <Label>{t('page.submit_grant.general_info.milestone_label')}</Label>
