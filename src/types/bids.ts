@@ -1,4 +1,5 @@
 import { BID_MIN_PROJECT_DURATION } from '../constants/bids'
+import { MILESTONE_SUBMIT_LIMIT } from '../constants/proposals'
 
 import {
   BudgetBreakdownConcept,
@@ -101,6 +102,7 @@ export const BidRequestGeneralInfoSchema = {
       additionalProperties: false,
       required: [...Object.keys(MilestoneItemSchema)],
       properties: MilestoneItemSchema,
+      maxItems: MILESTONE_SUBMIT_LIMIT,
     },
   },
   coAuthors: {
