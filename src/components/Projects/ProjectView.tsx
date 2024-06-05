@@ -18,7 +18,6 @@ interface Props {
 
 function ProjectView({ project, onClose }: Props) {
   const t = useFormatMessage()
-
   const [viewIdx, setViewIdx] = useState(0)
 
   const MENU_ITEMS: { labelKey: string; view: React.ReactNode }[] = useMemo(
@@ -29,7 +28,7 @@ function ProjectView({ project, onClose }: Props) {
       },
       {
         labelKey: 'page.project_sidebar.milestones.title',
-        view: project?.milestones && <MilestonesTab milestones={project?.milestones} />,
+        view: project && <MilestonesTab project={project} />,
       },
       {
         labelKey: 'page.project_sidebar.updates.title',

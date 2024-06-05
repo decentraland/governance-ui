@@ -3,6 +3,7 @@ import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
 import { Project } from '../../types/proposals.ts'
 import Markdown from '../Common/Typography/Markdown.tsx'
 
+import ActionableLinksView from './ActionableLinksView.tsx'
 import ActionablePersonnelView from './ActionablePersonnelView.tsx'
 import './ProjectSidebar.css'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
@@ -13,7 +14,7 @@ interface Props {
 
 function ProjectGeneralInfo({ project }: Props) {
   const isEditor = useIsProjectEditor(project)
-  const { about, personnel } = project
+  const { about, personnel, links } = project
   const t = useFormatMessage()
 
   return (
@@ -24,6 +25,7 @@ function ProjectGeneralInfo({ project }: Props) {
           <Markdown>{about}</Markdown>
         </div>
       )}
+      <ActionableLinksView links={links} projectId={project.id} isEditor={isEditor} />
       <ActionablePersonnelView members={personnel} projectId={project.id} isEditor={isEditor} />
     </>
   )

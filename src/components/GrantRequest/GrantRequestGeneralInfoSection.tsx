@@ -4,6 +4,7 @@ import { useForm, useWatch } from 'react-hook-form'
 import isEmail from 'validator/lib/isEmail'
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
 
+import { MILESTONE_SUBMIT_LIMIT } from '../../constants/proposals'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { GrantRequestGeneralInfo, GrantRequestGeneralInfoSchema, Milestone } from '../../types/grants'
 import Field from '../Common/Form/Field'
@@ -51,11 +52,11 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
   const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false)
 
   const values = useWatch({ control })
+  const hasReachedMilestoneLimit = values.milestones && values.milestones.length === MILESTONE_SUBMIT_LIMIT
 
   useEffect(() => {
     onValidation({ ...(values as GrantRequestGeneralInfo) }, isValid)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values, isValid])
+  }, [values, isValid, onValidation])
 
   return (
     <ProjectRequestSection
@@ -210,8 +211,10 @@ export default function GrantRequestGeneralInfoSection({ onValidation, isFormDis
               }}
             />
           ))}
-        <AddBox disabled={isFormDisabled} onClick={() => setIsMilestoneModalOpen(true)}>
-          {t('page.submit_grant.general_info.milestone_button')}
+        <AddBox disabled={hasReachedMilestoneLimit || isFormDisabled} onClick={() => setIsMilestoneModalOpen(true)}>
+          {hasReachedMilestoneLimit
+            ? t('page.submit_grant.general_info.milestone_button_limit')
+            : t('page.submit_grant.general_info.milestone_button')}
         </AddBox>
       </ContentSection>
       <ContentSection>

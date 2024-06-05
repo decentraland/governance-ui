@@ -869,6 +869,7 @@
     },
     "expandable_breakdown_item": {
       "relevant_link_label": "Relevant Link",
+      "edit_action_label": "Edit",
       "delete_action_label": "Delete"
     }
   },
@@ -1301,7 +1302,7 @@
         }
       },
       "project_sheet_link": {
-        "action": "view project sheet",
+        "action": "view project insights",
         "pending": {
           "grantee": {
             "title": "congratulations, grantee!",
@@ -1958,6 +1959,7 @@
         "milestone_label": "Milestones",
         "milestone_detail": "Describe the roadmap of your project, making sure to include any relevant milestones that the community should be aware of and how you will share the progress you have made. Clearly communicating progress for long-term projects funded by vesting contracts will help prevent the removal of your funding.",
         "milestone_button": "Add milestone",
+        "milestone_button_limit": "Milestones limit reached",
         "email_label": "Contact Email Address",
         "email_detail": "This email address will be used by the Grant Support teams to contact you to check the progress of the grant, set up meetings, and maintain an open communication channel.",
         "email_placeholder": "Enter your email address",
@@ -1968,7 +1970,7 @@
           "title_label": "Title",
           "title_placeholder": "Title",
           "tasks_label": "Tasks",
-          "tasks_placeholder": "// TODO: MISSING PLACEHOLDER",
+          "tasks_placeholder": "Please be as detailed as possible",
           "date_label": "Delivery date"
         }
       },
@@ -2275,10 +2277,17 @@
         "finished": "Ended {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}"
       },
       "general_info": {
+        "links": {
+          "title": "Project Links",
+          "add_label": "+ Add Link"
+        },
         "personnel": {
           "title": "Personnel",
           "add_label": "+ Add Personnel"
         }
+      },
+      "milestones": {
+        "add_label": "+ Add Milestone"
       },
       "form": {
         "optional": "Optional",

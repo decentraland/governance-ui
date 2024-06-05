@@ -784,7 +784,7 @@ export type ProjectMilestone = {
   project_id: string
   title: string
   description: string
-  delivery_date: Date
+  delivery_date: Date | string
   status: ProjectMilestoneStatus
   updated_by?: string
   updated_at?: Date
