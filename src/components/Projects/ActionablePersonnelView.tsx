@@ -17,6 +17,7 @@ import Trashcan from '../Icon/Trashcan'
 import ActionableBreakdownContent from './ActionableBreakdownContent'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
+import ProjectSidebarFormContainer from './ProjectSidebarFormContainer.tsx'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
 
 interface Props {
@@ -170,7 +171,7 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
           {t('project.sheet.general_info.personnel.add_label')}
         </Button>
       )}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <ProjectSidebarFormContainer>
         {showCreatePersonnelForm && (
           <ProjectSidebarForm
             initialValues={PERSONNEL_INITIAL_VALUES}
@@ -182,7 +183,7 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
           />
         )}
         {!!error && <ErrorMessage label="Personnel Error" errorMessage={error} />}
-      </div>
+      </ProjectSidebarFormContainer>
     </div>
   )
 }

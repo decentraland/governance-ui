@@ -16,6 +16,7 @@ import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
 import ActionableBreakdownContent from './ActionableBreakdownContent'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
+import ProjectSidebarFormContainer from './ProjectSidebarFormContainer.tsx'
 
 interface Props {
   project: Project
@@ -152,7 +153,7 @@ function MilestonesTab({ project }: Props) {
           {t('project.sheet.milestones.add_label')}
         </Button>
       )}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <ProjectSidebarFormContainer>
         {showForm && (
           <ProjectSidebarForm
             initialValues={MILESTONE_INITIAL_VALUES}
@@ -164,7 +165,7 @@ function MilestonesTab({ project }: Props) {
           />
         )}
         {!!error && <ErrorMessage label="Milestone error" errorMessage={error} />}
-      </div>
+      </ProjectSidebarFormContainer>
     </div>
   )
 }
