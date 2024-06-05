@@ -738,7 +738,6 @@ export type VestingContractData = {
 }
 
 export type ProjectVestingData = {
-  status: ProjectStatus
   contract?: VestingContractData
   enacting_tx?: string
   token?: string
@@ -750,10 +749,12 @@ export type ProjectVestingData = {
 export type ProposalProject = {
   id: string
   project_id?: string | null
+  status: ProjectStatus
   title: string
   user: string
   size: number
   type: ProposalType
+  about: string
   created_at: number
   configuration: {
     category: ProposalGrantCategory

@@ -17,7 +17,7 @@ import { ProjectStatus } from '../../../types/grants'
 import { ProposalProject, ProposalStatus, ProposalType } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
-import { createProject } from '../../../utils/projects'
+import { createProposalProject } from '../../../utils/projects'
 import FullWidthButton from '../../Common/FullWidthButton'
 import InvertedButton from '../../Common/InvertedButton'
 import Heading from '../../Common/Typography/Heading'
@@ -54,7 +54,7 @@ export default function AuthorDetails({ address }: Props) {
   const projects = useMemo(
     () =>
       grants?.data.map((grant) =>
-        createProject(
+        createProposalProject(
           grant,
           vestings?.find((item) => grant.id === item.proposal_id)
         )

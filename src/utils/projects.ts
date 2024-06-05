@@ -1,7 +1,7 @@
 import { TransparencyVesting } from '../clients/Transparency'
 import { getQuarterDates } from '../helpers'
-import { ProjectStatus } from '../types/grants'
-import { ProjectVestingData, ProposalAttributes, ProposalProject } from '../types/proposals'
+import { ProjectStatus, TransparencyProjectStatus } from '../types/grants'
+import { ProjectVestingData, ProposalAttributes, ProposalProject, ProposalWithProject } from '../types/proposals'
 
 import Time from './date/Time'
 
@@ -49,33 +49,37 @@ export function isCurrentQuarterProject(year: number, quarter: number, startAt?:
   return Time.unix(startAt || 0).isAfter(startDate) && Time.unix(startAt || 0).isBefore(endDate)
 }
 
+function toGovernanceProjectStatus(status: TransparencyProjectStatus) {
+  switch (status) {
+    case TransparencyProjectStatus.Pending:
+      return ProjectStatus.Pending
+    case TransparencyProjectStatus.InProgress:
+      return ProjectStatus.InProgress
+    case TransparencyProjectStatus.Finished:
+      return ProjectStatus.Finished
+    case TransparencyProjectStatus.Paused:
+      return ProjectStatus.Paused
+    case TransparencyProjectStatus.Revoked:
+      return ProjectStatus.Revoked
+  }
+}
+
 function getProjectVestingData(proposal: ProposalAttributes, vesting?: TransparencyVesting): ProjectVestingData {
   if (proposal.enacting_tx) {
     return {
-      status: ProjectStatus.Finished,
       enacting_tx: proposal.enacting_tx,
       enacted_at: Time(proposal.updated_at).unix(),
     }
   }
 
   if (!vesting) {
-    return {
-      status: ProjectStatus.Pending,
-    }
+    return {}
   }
 
-  const {
-    vesting_status: status,
-    token,
-    vesting_start_at,
-    vesting_finish_at,
-    vesting_total_amount,
-    vesting_released,
-    vesting_releasable,
-  } = vesting
+  const { token, vesting_start_at, vesting_finish_at, vesting_total_amount, vesting_released, vesting_releasable } =
+    vesting
 
   return {
-    status,
     token,
     enacted_at: Time(vesting_start_at).unix(),
     contract: {
@@ -89,13 +93,31 @@ function getProjectVestingData(proposal: ProposalAttributes, vesting?: Transpare
   }
 }
 
-export function createProject(proposal: ProposalAttributes, vesting?: TransparencyVesting): ProposalProject {
+function getProjectStatus(proposal: ProposalAttributes, vesting?: TransparencyVesting) {
+  if (proposal.enacting_tx) {
+    return ProjectStatus.Finished
+  }
+
+  if (!vesting) {
+    return ProjectStatus.Pending
+  }
+
+  const { vesting_status } = vesting
+
+  return toGovernanceProjectStatus(vesting_status)
+}
+
+export function createProposalProject(proposal: ProposalWithProject, vesting?: TransparencyVesting): ProposalProject {
   const vestingData = getProjectVestingData(proposal, vesting)
+  const status = getProjectStatus(proposal, vesting)
 
   return {
     id: proposal.id,
+    project_id: proposal.project_id,
+    status,
     title: proposal.title,
     user: proposal.user,
+    about: proposal.configuration.abstract,
     type: proposal.type,
     size: proposal.configuration.size || proposal.configuration.funding,
     created_at: proposal.created_at.getTime(),
