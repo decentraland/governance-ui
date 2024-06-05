@@ -75,10 +75,10 @@ function ProjectSidebarForm<T extends FieldValues>({
             type="date"
             onChange={(_event, props) => {
               if (props.value) {
-                clearErrors(field.name)
+                clearErrors(name)
               }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              setValue(field.name, props.value as any)
+              setValue(name, props.value as any)
             }}
           />
         )
