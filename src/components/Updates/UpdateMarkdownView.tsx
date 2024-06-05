@@ -22,9 +22,9 @@ import SummaryItems from './SummaryItems'
 import './UpdateMarkdownView.css'
 
 interface Props {
-  update: Omit<UpdateAttributes, 'id' | 'proposal_id'>
+  update: Omit<UpdateAttributes, 'id' | 'proposal_id' | 'project_id'>
   author?: string
-  previousUpdate?: Omit<UpdateAttributes, 'id' | 'proposal_id'>
+  previousUpdate?: Omit<UpdateAttributes, 'id' | 'proposal_id' | 'project_id'>
   proposal: ProposalAttributes | null
   className?: string
 }

@@ -282,22 +282,22 @@ export class Governance extends API {
     return Governance.parseProposal(proposal)
   }
 
-  async getProposalUpdate(update_id: string) {
+  async getProjectUpdate(update_id: string) {
     return await this.fetchApiResponse<UpdateAttributes>(`/updates/${update_id}`)
   }
 
-  async getProposalUpdates(proposal_id: string) {
-    return await this.fetchApiResponse<UpdateResponse>(`/proposals/${proposal_id}/updates`)
+  async getProjectUpdates(project_id: string) {
+    return await this.fetchApiResponse<UpdateResponse>(`/updates?project_id=${project_id}`)
   }
 
   async createProposalUpdate(
-    proposal_id: string,
+    project_id: string,
     update: UpdateSubmissionDetails & UpdateGeneralSection & UpdateFinancialSection
   ) {
-    return await this.fetchApiResponse<UpdateAttributes>(`/proposals/${proposal_id}/update`, {
+    return await this.fetchApiResponse<UpdateAttributes>(`/updates`, {
       method: 'POST',
       sign: true,
-      json: update,
+      json: { project_id, ...update },
     })
   }
 

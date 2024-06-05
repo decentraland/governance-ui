@@ -4,7 +4,7 @@ import { Governance } from '../clients/Governance'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants'
 
-export default function useProposalUpdate(updateId?: string | null) {
+export default function useProjectUpdate(updateId?: string | null) {
   const {
     data: update,
     isLoading: isLoadingUpdate,
@@ -16,7 +16,7 @@ export default function useProposalUpdate(updateId?: string | null) {
       if (!updateId) {
         return null
       }
-      return Governance.get().getProposalUpdate(updateId)
+      return Governance.get().getProjectUpdate(updateId)
     },
     staleTime: DEFAULT_QUERY_STALE_TIME,
     enabled: !!updateId,

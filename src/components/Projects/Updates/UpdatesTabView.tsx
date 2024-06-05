@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import useProposalUpdates from '../../../hooks/useProposalUpdates'
+import useProjectUpdates from '../../../hooks/useProjectUpdates'
+import { Project } from '../../../types/proposals'
 import { UpdateStatus } from '../../../types/updates'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
@@ -15,16 +16,16 @@ import ProjectUpdateCardWrapper from '../../Proposal/Update/ProjectUpdateCardWra
 import PostUpdateBanner from './PostUpdateBanner'
 
 interface Props {
-  proposalId: string
+  project?: Project | null
   allowedAddresses: Set<string>
 }
 
-function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
+function UpdatesTabView({ allowedAddresses, project }: Props) {
   const t = useFormatMessage()
   const navigate = useNavigate()
   const [account] = useAuthContext()
   const [isLateUpdateModalOpen, setIsLateUpdateModalOpen] = useState(false)
-  const { publicUpdates, nextUpdate, currentUpdate, pendingUpdates, refetchUpdates } = useProposalUpdates(proposalId)
+  const { publicUpdates, nextUpdate, currentUpdate, pendingUpdates, refetchUpdates } = useProjectUpdates(project?.id)
 
   const updates = publicUpdates || []
   const hasUpdates = updates.length > 0
@@ -45,15 +46,15 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
     navigate(
       locations.submitUpdate({
         ...(hasUpcomingPendingUpdate && { id: currentUpdate?.id }),
-        proposalId,
+        proposalId: project?.proposal_id || '',
       })
     )
-  }, [currentUpdate?.id, currentUpdate?.status, navigate, proposalId])
+  }, [currentUpdate?.id, currentUpdate?.status, navigate, project?.proposal_id])
   const handlePendingModalPrimaryClick = () => {
     navigate(
       locations.submitUpdate({
         id: latePendingUpdate?.id,
-        proposalId,
+        proposalId: project?.proposal_id || '',
       })
     )
   }

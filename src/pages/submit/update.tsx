@@ -22,9 +22,9 @@ import UpdateMarkdownView from '../../components/Updates/UpdateMarkdownView'
 import { useAuthContext } from '../../context/AuthProvider'
 import useDclFeatureFlags from '../../hooks/useDclFeatureFlags'
 import useFormatMessage from '../../hooks/useFormatMessage'
+import useProjectUpdate from '../../hooks/useProjectUpdate.ts'
+import useProjectUpdates from '../../hooks/useProjectUpdates.ts'
 import useProposal from '../../hooks/useProposal'
-import useProposalUpdate from '../../hooks/useProposalUpdate'
-import useProposalUpdates from '../../hooks/useProposalUpdates'
 import useURLSearchParams from '../../hooks/useURLSearchParams'
 import useVestingContractData from '../../hooks/useVestingContractData'
 import {
@@ -99,10 +99,11 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
   const params = useURLSearchParams()
   const updateId = params.get('id')
   const [isPreviewMode, setPreviewMode] = useState(false)
-  const { update, isLoadingUpdate, isErrorOnUpdate } = useProposalUpdate(updateId)
+  const { update, isLoadingUpdate, isErrorOnUpdate } = useProjectUpdate(updateId)
   const proposalId = useMemo(() => params.get('proposalId') || update?.proposal_id || '', [update, params])
   const { proposal } = useProposal(proposalId)
-  const { publicUpdates } = useProposalUpdates(proposalId)
+  const projectId = proposal?.project_id
+  const { publicUpdates } = useProjectUpdates(projectId)
   const vestingAddresses = proposal?.vesting_addresses || []
   const { vestingData } = useVestingContractData(vestingAddresses)
   const [error, setError] = useState('')
@@ -178,7 +179,7 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
           setIsEditModalOpen(false)
         }
       } else {
-        await Governance.get().createProposalUpdate(proposalId, newUpdate)
+        await Governance.get().createProposalUpdate(projectId!, newUpdate)
       }
       queryClient.invalidateQueries({
         queryKey: ['proposalUpdates', proposalId],
