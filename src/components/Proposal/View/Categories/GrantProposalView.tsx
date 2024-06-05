@@ -82,7 +82,7 @@ function GrantProposalView({ config }: Props) {
       {!hasMembers && personnel && (
         <ProposalDescriptionItem title={t('page.proposal_view.grant.personnel_title')} body={personnel} />
       )}
-      {roadmap && <ProposalDescriptionItem title={t('page.proposal_view.grant.roadmap_title')} body={roadmap} />}
+      <ProposalDescriptionItem title={t('page.proposal_view.grant.roadmap_title')} body={roadmap} />
       {milestones && <MilestonesView milestones={milestones} />}
       {categoryAssessment && (
         <CategoryAssessment
