@@ -1302,7 +1302,7 @@
         }
       },
       "project_sheet_link": {
-        "action": "view project sheet",
+        "action": "view project insights",
         "pending": {
           "grantee": {
             "title": "congratulations, grantee!",
