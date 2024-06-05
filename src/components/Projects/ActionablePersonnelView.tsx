@@ -27,7 +27,18 @@ interface Props {
 }
 
 function getTitle(name: string, address?: string | null) {
-  return address && address.length > 0 ? <Username address={address} size="sm" linked variant="address" /> : name
+  return (
+    <>
+      {name}
+      {address && address.length > 0 ? (
+        <>
+          {' ('}
+          <Username address={address} size="sm" linked variant="address" />
+          {')'}
+        </>
+      ) : undefined}
+    </>
+  )
 }
 
 const addressCheck = (data: string) => !data || data.length === 0 || (!!data && isEthereumAddress(data))

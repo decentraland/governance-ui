@@ -35,6 +35,7 @@ import {
   PersonnelAttributes,
   PriorityProposal,
   Project,
+  ProjectLink,
   ProjectMilestone,
   ProposalAttributes,
   ProposalCommentsInDiscourse,
@@ -729,6 +730,21 @@ export class Governance extends API {
 
   async deleteMilestone(milestoneId: ProjectMilestone['id']) {
     return await this.fetchApiResponse<PersonnelAttributes['id'] | null>(`/projects/milestones/${milestoneId}`, {
+      method: 'DELETE',
+      sign: true,
+    })
+  }
+
+  async createProjectLink(projectLink: ProjectLink) {
+    return await this.fetchApiResponse<ProjectLink>(`/projects/links/`, {
+      method: 'POST',
+      sign: true,
+      json: { project_link: projectLink },
+    })
+  }
+
+  async deleteProjectLink(projectLinkId: ProjectLink['id']) {
+    return await this.fetchApiResponse<ProjectLink['id'] | null>(`/projects/links/${projectLinkId}`, {
       method: 'DELETE',
       sign: true,
     })

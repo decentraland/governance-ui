@@ -22,24 +22,21 @@ function ExpandableBreakdownItem({ item, initiallyExpanded = false }: Props) {
   const [isActive, setIsActive] = useState(initiallyExpanded)
 
   return (
-    <div className="ExpandableBreakdownItem">
+    <div className={classNames(['ExpandableBreakdownItem', !subtitle && 'ExpandableBreakdownItem--slim'])}>
       <div role="button" className="ExpandableBreakdownItem__Header" onClick={() => setIsActive((prev) => !prev)}>
         <div>
-          <div className="BreakdownItem__Title">{title}</div>
-          {subtitle && <div className="BreakdownItem__Subtitle">{subtitle}</div>}
+          <div className="ExpandableBreakdownItem__Title">{title}</div>
+          {subtitle && <div className="ExpandableBreakdownItem__Subtitle">{subtitle}</div>}
         </div>
-        <div>
-          <span>
-            <ChevronRightCircleOutline
-              className={classNames('BreakdownAccordion__Arrow', isActive && 'BreakdownAccordion__Arrow--selected')}
-            />
-          </span>
-        </div>
+        <ChevronRightCircleOutline
+          className={classNames('BreakdownAccordion__Arrow', isActive && 'BreakdownAccordion__Arrow--selected')}
+        />
       </div>
       <div
         className={classNames(
           'ExpandableBreakdownItem__Content',
-          isActive && 'ExpandableBreakdownItem__Content--expanded'
+          isActive && 'ExpandableBreakdownItem__Content--expanded',
+          isActive && !subtitle && 'ExpandableBreakdownItem__Content--expanded--slim'
         )}
       >
         {content}
