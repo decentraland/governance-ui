@@ -4,7 +4,6 @@ import classNames from 'classnames'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useVestingContractData from '../../hooks/useVestingContractData'
-import { ProposalAttributes } from '../../types/proposals'
 import { UpdateAttributes, UpdateStatus } from '../../types/updates'
 import Time, { formatDate } from '../../utils/date/Time'
 import { getDisclosedAndUndisclosedFunds, getFundsReleasedSinceLatestUpdate, getReleases } from '../../utils/updates'
@@ -22,18 +21,18 @@ import SummaryItems from './SummaryItems'
 import './UpdateMarkdownView.css'
 
 interface Props {
-  update: Omit<UpdateAttributes, 'id' | 'proposal_id'>
+  update: Omit<UpdateAttributes, 'id' | 'proposal_id' | 'project_id'>
   author?: string
-  previousUpdate?: Omit<UpdateAttributes, 'id' | 'proposal_id'>
-  proposal: ProposalAttributes | null
+  previousUpdate?: Omit<UpdateAttributes, 'id' | 'proposal_id' | 'project_id'>
+  vestingAddresses?: string[]
   className?: string
 }
 
 const UPDATE_DETAIL_MARKDOWN_STYLES = { p: 'UpdateDetail__ContentText', li: 'UpdateDetail__ListItem' }
 
-const UpdateMarkdownView = ({ update, author, previousUpdate, proposal, className }: Props) => {
+const UpdateMarkdownView = ({ update, author, previousUpdate, vestingAddresses, className }: Props) => {
   const t = useFormatMessage()
-  const { vestingData } = useVestingContractData(proposal?.vesting_addresses || [])
+  const { vestingData } = useVestingContractData(vestingAddresses || [])
 
   const formattedCompletionDate = update?.completion_date ? formatDate(update.completion_date) : ''
   const formattedEditDate = update?.updated_at ? formatDate(update.updated_at) : ''

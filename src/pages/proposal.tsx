@@ -50,9 +50,9 @@ import useBudgetWithContestants from '../hooks/useBudgetWithContestants'
 import useFormatMessage from '../hooks/useFormatMessage'
 import useIsProposalCoAuthor from '../hooks/useIsProposalCoAuthor'
 import useIsProposalOwner from '../hooks/useIsProposalOwner'
+import useProjectUpdates from '../hooks/useProjectUpdates'
 import useProposal from '../hooks/useProposal'
 import useProposalChoices from '../hooks/useProposalChoices'
-import useProposalUpdates from '../hooks/useProposalUpdates'
 import useProposalVotes from '../hooks/useProposalVotes'
 import { PROPOSAL_CACHED_VOTES_QUERY_KEY } from '../hooks/useProposalsCachedVotes'
 import useSurvey from '../hooks/useSurvey'
@@ -157,7 +157,7 @@ export default function ProposalPage() {
   })
   const { budgetWithContestants, isLoadingBudgetWithContestants } = useBudgetWithContestants(proposal?.id)
 
-  const { publicUpdates, refetchUpdates } = useProposalUpdates(proposal?.id)
+  const { publicUpdates, refetchUpdates } = useProjectUpdates(proposal?.project_id)
   const { surveyTopics, isLoadingSurveyTopics, voteWithSurvey, showSurveyResults } = useSurvey(
     proposal,
     votes,

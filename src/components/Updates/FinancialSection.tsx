@@ -30,7 +30,7 @@ interface Props {
   sectionNumber: number
   intialValues?: Partial<UpdateFinancialSection>
   releases?: VestingLog[]
-  latestUpdate?: Omit<UpdateAttributes, 'id' | 'proposal_id'>
+  latestUpdate?: Omit<UpdateAttributes, 'id' | 'proposal_id' | 'project_id'>
   csvInputField: string | undefined
   setCSVInputField: (value?: string) => void
 }

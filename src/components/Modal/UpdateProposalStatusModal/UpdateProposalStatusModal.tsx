@@ -13,7 +13,7 @@ import isEthereumAddress from 'validator/lib/isEthereumAddress'
 
 import { Governance } from '../../../clients/Governance'
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { ProposalAttributes, ProposalStatus } from '../../../types/proposals'
+import { ProposalStatus, ProposalWithProject } from '../../../types/proposals'
 import { isProjectProposal } from '../../../utils/proposal'
 import { validateUniqueAddresses } from '../../../utils/transparency'
 import Label from '../../Common/Typography/Label'
@@ -33,7 +33,7 @@ type UpdateData = {
 }
 
 type Props = Omit<ModalProps, 'children'> & {
-  proposal: ProposalAttributes | null
+  proposal: ProposalWithProject | null
   status: ProposalStatus | null
   loading?: boolean
   isDAOCommittee: boolean
@@ -152,7 +152,7 @@ export function UpdateProposalStatusModal({
       setIsSubmitting(false)
       if (proposal) {
         queryClient.setQueryData([proposalKey], proposal)
-        queryClient.invalidateQueries([`proposalUpdates#${proposal.id}`])
+        queryClient.invalidateQueries(['projectUpdates', proposal?.project_id])
       }
     },
     mutationKey: [`updatingProposal#${proposal?.id}`],

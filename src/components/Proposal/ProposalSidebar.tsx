@@ -7,7 +7,7 @@ import useProposalVotes from '../../hooks/useProposalVotes'
 import { ProposalPageState } from '../../pages/proposal'
 import { SegmentEvent } from '../../types/events'
 import { ProjectStatus } from '../../types/grants.ts'
-import { ProposalAttributes, ProposalStatus } from '../../types/proposals'
+import { ProposalStatus, ProposalWithProject } from '../../types/proposals'
 import { SubscriptionAttributes } from '../../types/subscriptions'
 import { Survey } from '../../types/surveyTopics'
 import { SelectedVoteChoice, VoteByAddress } from '../../types/votes'
@@ -30,7 +30,7 @@ import ProposalActions from './ProposalActions'
 import './ProposalSidebar.css'
 
 interface Props {
-  proposal: ProposalAttributes | null
+  proposal: ProposalWithProject | null
   proposalLoading: boolean
   proposalPageState: ProposalPageState
   updatePageState: React.Dispatch<React.SetStateAction<ProposalPageState>>

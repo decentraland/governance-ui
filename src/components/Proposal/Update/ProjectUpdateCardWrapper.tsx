@@ -38,7 +38,7 @@ const ProjectUpdateCardWrapper = ({
   const handleDeleteUpdateClick = async () => {
     try {
       setIsDeletingUpdate(true)
-      await Governance.get().deleteProposalUpdate(update.id)
+      await Governance.get().deleteProjectUpdate(update.id)
       setIsDeleteUpdateModalOpen(false)
       if (onUpdateDeleted) {
         onUpdateDeleted()

@@ -8,9 +8,9 @@ import NotFound from '../components/Layout/NotFound'
 import UpdateComments from '../components/Updates/UpdateComments'
 import UpdateMarkdownView from '../components/Updates/UpdateMarkdownView'
 import useFormatMessage from '../hooks/useFormatMessage'
+import useProjectUpdate from '../hooks/useProjectUpdate'
+import useProjectUpdates from '../hooks/useProjectUpdates'
 import useProposal from '../hooks/useProposal'
-import useProposalUpdate from '../hooks/useProposalUpdate'
-import useProposalUpdates from '../hooks/useProposalUpdates'
 import useURLSearchParams from '../hooks/useURLSearchParams'
 import Time from '../utils/date/Time'
 import locations from '../utils/locations'
@@ -22,13 +22,13 @@ export default function UpdateDetail() {
   const t = useFormatMessage()
   const params = useURLSearchParams()
   const updateId = params.get('id')
-  const { update, isLoadingUpdate, isErrorOnUpdate } = useProposalUpdate(updateId)
+  const { update, isLoadingUpdate, isErrorOnUpdate } = useProjectUpdate(updateId)
   const { proposal, isErrorOnProposal, isLoadingProposal } = useProposal(update?.proposal_id)
   const {
     publicUpdates,
     isLoading: isLoadingPublicUpdates,
     isError: isErrorOnPublicUpdates,
-  } = useProposalUpdates(update?.proposal_id)
+  } = useProjectUpdates(update?.project_id)
 
   if (isErrorOnUpdate || isErrorOnProposal || isErrorOnPublicUpdates) {
     return (
@@ -67,7 +67,7 @@ export default function UpdateDetail() {
               update={update}
               author={update.author}
               previousUpdate={previousUpdate}
-              proposal={proposal}
+              vestingAddresses={proposal?.vesting_addresses}
             />
             <UpdateComments update={update} />
           </>
