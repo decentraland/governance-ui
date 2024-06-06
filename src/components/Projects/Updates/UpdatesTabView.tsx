@@ -79,6 +79,7 @@ function UpdatesTabView({ allowedAddresses, project }: Props) {
           updateNumber={updates.length + 1}
           dueDays={nextDueDateRemainingDays}
           onClick={handlePostUpdateClick}
+          isNonMandatory={!currentUpdate}
         />
       )}
       <ProjectInfoCardsContainer>
