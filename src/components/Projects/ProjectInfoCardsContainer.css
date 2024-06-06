@@ -1,0 +1,9 @@
+.ProjectInfoCardsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ProjectInfoCardsContainer--slim {
+  gap: 8px;
+}

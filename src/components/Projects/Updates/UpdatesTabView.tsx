@@ -11,6 +11,7 @@ import { isBetweenLateThresholdDate } from '../../../utils/updates'
 import Empty from '../../Common/Empty'
 import ConfirmationModal from '../../Modal/ConfirmationModal'
 import ProjectUpdateCardWrapper from '../../Proposal/Update/ProjectUpdateCardWrapper'
+import ProjectInfoCardsContainer from '../ProjectInfoCardsContainer'
 
 import PostUpdateBanner from './PostUpdateBanner'
 
@@ -79,19 +80,21 @@ function UpdatesTabView({ allowedAddresses, proposalId }: Props) {
           onClick={handlePostUpdateClick}
         />
       )}
-      {hasUpdates ? (
-        updates.map((update, idx) => (
-          <ProjectUpdateCardWrapper
-            key={update.id}
-            update={update}
-            isAllowedToPostUpdate={isAllowedToPostUpdate}
-            index={updates.length - idx}
-            onUpdateDeleted={refetchUpdates}
-          />
-        ))
-      ) : (
-        <Empty title={t('page.project_sidebar.updates.no_updates')} />
-      )}
+      <ProjectInfoCardsContainer>
+        {hasUpdates ? (
+          updates.map((update, idx) => (
+            <ProjectUpdateCardWrapper
+              key={update.id}
+              update={update}
+              isAllowedToPostUpdate={isAllowedToPostUpdate}
+              index={updates.length - idx}
+              onUpdateDeleted={refetchUpdates}
+            />
+          ))
+        ) : (
+          <Empty title={t('page.project_sidebar.updates.no_updates')} />
+        )}
+      </ProjectInfoCardsContainer>
       <ConfirmationModal
         isOpen={isLateUpdateModalOpen}
         onPrimaryClick={handlePendingModalPrimaryClick}

@@ -19,6 +19,7 @@ function getPillTextData(status: ProjectStatus, created_at: Date, updated_at: Da
     case ProjectStatus.InProgress:
       return { days: getDaysBetweenDates(created_at, new Date()) }
     default:
+      // TODO: Add vesting finish date
       return { days: updated_at ? getDaysBetweenDates(updated_at, new Date()) : undefined }
   }
 }
@@ -26,6 +27,8 @@ function getPillTextData(status: ProjectStatus, created_at: Date, updated_at: Da
 export default function ProjectSheetStatusPill({ project, hero = false }: Props) {
   const { status, created_at, updated_at } = project
   const t = useFormatMessage()
+
+  console.log('p', project)
 
   return (
     <div className={classNames(['ProjectSheetStatusPill', `ProjectSheetStatusPill--${status}${hero ? '--hero' : ''}`])}>
