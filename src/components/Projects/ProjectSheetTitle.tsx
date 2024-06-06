@@ -45,7 +45,9 @@ export default function ProjectSheetTitle({ project, onClose }: Props) {
           <div className="ProjectTitle__Menu">
             <ProjectSheetStatusPill project={project} />
             {IS_DOTS_MENU_ENABLED && <DotsMenu color="var(--black-700)" className="ProjectSheet__MenuDots" />}
-            <SlimCross size={14} color="var(--black-700)" onClick={onClose} className="ProjectSheet__MenuCross" />
+            {onClose && (
+              <SlimCross size={14} color="var(--black-700)" onClick={onClose} className="ProjectSheet__MenuCross" />
+            )}
           </div>
         </div>
       )}
