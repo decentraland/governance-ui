@@ -132,7 +132,7 @@ export class Governance extends API {
     return (await this.fetch<ApiResponse<T>>(endpoint, options)).data
   }
 
-  static parseProposal(proposal: ProposalAttributes): ProposalAttributes {
+  static parseProposal(proposal: ProposalWithProject): ProposalWithProject {
     return {
       ...proposal,
       start_at: Time.date(proposal.start_at),
@@ -273,7 +273,7 @@ export class Governance extends API {
   }
 
   async updateProposalStatus(proposal_id: string, status: ProposalStatus, vesting_addresses?: string[]) {
-    const proposal = await this.fetchApiResponse<ProposalAttributes>(`/proposals/${proposal_id}`, {
+    const proposal = await this.fetchApiResponse<ProposalWithProject>(`/proposals/${proposal_id}`, {
       method: 'PATCH',
       sign: true,
       json: { status, vesting_addresses },
@@ -290,7 +290,7 @@ export class Governance extends API {
     return await this.fetchApiResponse<UpdateResponse>(`/updates?project_id=${project_id}`)
   }
 
-  async createProposalUpdate(
+  async createProjectUpdate(
     project_id: string,
     update: UpdateSubmissionDetails & UpdateGeneralSection & UpdateFinancialSection
   ) {
@@ -301,7 +301,7 @@ export class Governance extends API {
     })
   }
 
-  async updateProposalUpdate(
+  async updateProjectUpdate(
     update_id: string,
     update: UpdateSubmissionDetails & UpdateGeneralSection & UpdateFinancialSection
   ) {
@@ -312,7 +312,7 @@ export class Governance extends API {
     })
   }
 
-  async deleteProposalUpdate(update_id: UpdateAttributes['id']) {
+  async deleteProjectUpdate(update_id: UpdateAttributes['id']) {
     return await this.fetchApiResponse<UpdateAttributes>(`/updates/${update_id}`, {
       method: 'DELETE',
       sign: true,

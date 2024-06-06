@@ -46,15 +46,15 @@ function UpdatesTabView({ allowedAddresses, project }: Props) {
     navigate(
       locations.submitUpdate({
         ...(hasUpcomingPendingUpdate && { id: currentUpdate?.id }),
-        proposalId: project?.proposal_id || '',
+        projectId: project?.id || '',
       })
     )
-  }, [currentUpdate?.id, currentUpdate?.status, navigate, project?.proposal_id])
+  }, [currentUpdate?.id, currentUpdate?.status, navigate, project?.id])
   const handlePendingModalPrimaryClick = () => {
     navigate(
       locations.submitUpdate({
         id: latePendingUpdate?.id,
-        proposalId: project?.proposal_id || '',
+        projectId: project?.id || '',
       })
     )
   }

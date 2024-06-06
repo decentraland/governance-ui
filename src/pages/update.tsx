@@ -67,7 +67,7 @@ export default function UpdateDetail() {
               update={update}
               author={update.author}
               previousUpdate={previousUpdate}
-              proposal={proposal}
+              vestingAddresses={proposal?.vesting_addresses}
             />
             <UpdateComments update={update} />
           </>

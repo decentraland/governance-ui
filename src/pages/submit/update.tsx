@@ -22,9 +22,9 @@ import UpdateMarkdownView from '../../components/Updates/UpdateMarkdownView'
 import { useAuthContext } from '../../context/AuthProvider'
 import useDclFeatureFlags from '../../hooks/useDclFeatureFlags'
 import useFormatMessage from '../../hooks/useFormatMessage'
+import useProject from '../../hooks/useProject.ts'
 import useProjectUpdate from '../../hooks/useProjectUpdate.ts'
 import useProjectUpdates from '../../hooks/useProjectUpdates.ts'
-import useProposal from '../../hooks/useProposal'
 import useURLSearchParams from '../../hooks/useURLSearchParams'
 import useVestingContractData from '../../hooks/useVestingContractData'
 import {
@@ -100,11 +100,10 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
   const updateId = params.get('id')
   const [isPreviewMode, setPreviewMode] = useState(false)
   const { update, isLoadingUpdate, isErrorOnUpdate } = useProjectUpdate(updateId)
-  const proposalId = useMemo(() => params.get('proposalId') || update?.proposal_id || '', [update, params])
-  const { proposal } = useProposal(proposalId)
-  const projectId = proposal?.project_id
+  const projectId = useMemo(() => params.get('projectId') || update?.project_id || '', [update, params])
+  const { project } = useProject(projectId)
   const { publicUpdates } = useProjectUpdates(projectId)
-  const vestingAddresses = proposal?.vesting_addresses || []
+  const vestingAddresses = project?.vesting_addresses || []
   const { vestingData } = useVestingContractData(vestingAddresses)
   const [error, setError] = useState('')
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -154,7 +153,7 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
   )
 
   const submitUpdate = async (data: UpdateGeneralSection & UpdateFinancialSection) => {
-    if (!proposalId) {
+    if (!projectId) {
       return
     }
 
@@ -174,17 +173,17 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
 
     try {
       if (updateId) {
-        await Governance.get().updateProposalUpdate(updateId, newUpdate)
+        await Governance.get().updateProjectUpdate(updateId, newUpdate)
         if (isEdit) {
           setIsEditModalOpen(false)
         }
       } else {
-        await Governance.get().createProposalUpdate(projectId!, newUpdate)
+        await Governance.get().createProjectUpdate(projectId, newUpdate)
       }
       queryClient.invalidateQueries({
-        queryKey: ['proposalUpdates', proposalId],
+        queryKey: ['projectUpdates', projectId],
       })
-      navigate(locations.proposal(proposalId, { newUpdate: 'true' }), { replace: true })
+      navigate(locations.proposal(project!.proposal_id, { newUpdate: 'true' }), { replace: true })
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message)
@@ -276,7 +275,11 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
       )}
       <Container>
         {isPreviewMode && (
-          <UpdateMarkdownView update={previewUpdate} proposal={proposal} previousUpdate={latestUpdate} />
+          <UpdateMarkdownView
+            update={previewUpdate}
+            vestingAddresses={project?.vesting_addresses}
+            previousUpdate={latestUpdate}
+          />
         )}
       </Container>
       <Container className="ContentLayout__Container">

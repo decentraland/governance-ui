@@ -805,11 +805,12 @@ export type ProjectLink = {
 }
 
 export type Project = ProjectAttributes & {
+  vesting_addresses: string[]
+  personnel: PersonnelAttributes[]
+  links: ProjectLink[]
+  milestones: ProjectMilestone[]
   author: string
   coauthors: string[] | null
-  personnel: PersonnelAttributes[]
-  milestones: ProjectMilestone[]
-  links: ProjectLink[]
 }
 
 export type ProposalProjectWithUpdate = ProposalProject & {
