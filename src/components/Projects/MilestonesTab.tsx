@@ -10,6 +10,7 @@ import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
 import { getProjectQueryKey } from '../../hooks/useProject.ts'
 import { Project, ProjectMilestone } from '../../types/proposals'
 import Time from '../../utils/date/Time.ts'
+import Empty from '../Common/Empty.tsx'
 import ErrorMessage from '../Error/ErrorMessage.tsx'
 import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
 
@@ -141,6 +142,10 @@ function MilestonesTab({ project }: Props) {
       })),
     [milestones, isEditor, handleDeleteMilestone, t]
   )
+
+  if (!milestones || milestones.length === 0) {
+    return <Empty title={t('page.project_sidebar.milestones.no_milestones')} />
+  }
 
   //TODO: is loading
   return (
