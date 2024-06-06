@@ -52,7 +52,9 @@ export default function GovernanceSidebar({
     <>
       <Overlay isOpen={visible} onClick={onClose} />
       {isLoading ? (
-        <Loader />
+        <div className={classNames(className, 'GovernanceSidebar', visible && 'GovernanceSidebar--open')}>
+          <Loader active size="big" />
+        </div>
       ) : (
         <div className={classNames(className, 'GovernanceSidebar', visible && 'GovernanceSidebar--open')}>
           {!!showTitle && (
