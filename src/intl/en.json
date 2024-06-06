@@ -1138,7 +1138,8 @@
         "title": "General Info"
       },
       "milestones": {
-        "title": "Milestones"
+        "title": "Milestones",
+        "no_milestones": "No milestones"
       },
       "updates": {
         "title": "Updates",
