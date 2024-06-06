@@ -16,8 +16,9 @@ import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
 
 import ActionableBreakdownContent from './ActionableBreakdownContent'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
+import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
+import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
-import ProjectSidebarFormContainer from './ProjectSidebarFormContainer.tsx'
 
 interface Props {
   project: Project
@@ -149,16 +150,18 @@ function MilestonesTab({ project }: Props) {
 
   //TODO: is loading
   return (
-    <div>
-      {items.map((item, key) => (
-        <ExpandableBreakdownItem key={key} item={item} />
-      ))}
-      {isEditor && !showForm && (
-        <Button basic onClick={handleAddMilestone}>
-          {t('project.sheet.milestones.add_label')}
-        </Button>
-      )}
-      <ProjectSidebarFormContainer>
+    <ProjectSectionsContainer>
+      <ProjectInfoCardsContainer>
+        {items.map((item, key) => (
+          <ExpandableBreakdownItem key={key} item={item} />
+        ))}
+        {isEditor && !showForm && (
+          <div>
+            <Button basic onClick={handleAddMilestone}>
+              {t('project.sheet.milestones.add_label')}
+            </Button>
+          </div>
+        )}
         {showForm && (
           <ProjectSidebarForm
             initialValues={MILESTONE_INITIAL_VALUES}
@@ -170,8 +173,8 @@ function MilestonesTab({ project }: Props) {
           />
         )}
         {!!error && <ErrorMessage label="Milestone error" errorMessage={error} />}
-      </ProjectSidebarFormContainer>
-    </div>
+      </ProjectInfoCardsContainer>
+    </ProjectSectionsContainer>
   )
 }
 

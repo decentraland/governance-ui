@@ -16,6 +16,8 @@ import Trashcan from '../Icon/Trashcan'
 
 import ActionableBreakdownContent from './ActionableBreakdownContent'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
+import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
+import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
 
@@ -147,25 +149,31 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
   return (
     <div>
       <ProjectSidebarSectionTitle text={t('project.sheet.general_info.links.title')} />
-      {items.map((item, key) => (
-        <ExpandableBreakdownItem key={key} item={item} />
-      ))}
-      {isEditor && !showCreate && (
-        <Button basic onClick={handleAdd}>
-          {t('project.sheet.general_info.links.add_label')}
-        </Button>
-      )}
-      {showCreate && (
-        <ProjectSidebarForm
-          initialValues={LINK_INITIAL_VALUES}
-          fields={NewLinkFields}
-          onSave={handleSave}
-          onCancel={handleCancel}
-          validationSchema={NewLinkSchema}
-          isFormDisabled={isFormDisabled}
-        />
-      )}
-      {!!error && <ErrorMessage label="Link Error" errorMessage={error} />}
+      <ProjectSectionsContainer>
+        <ProjectInfoCardsContainer slim>
+          {items.map((item, key) => (
+            <ExpandableBreakdownItem key={key} item={item} />
+          ))}
+        </ProjectInfoCardsContainer>
+        {isEditor && !showCreate && (
+          <div>
+            <Button basic onClick={handleAdd}>
+              {t('project.sheet.general_info.links.add_label')}
+            </Button>
+          </div>
+        )}
+        {showCreate && (
+          <ProjectSidebarForm
+            initialValues={LINK_INITIAL_VALUES}
+            fields={NewLinkFields}
+            onSave={handleSave}
+            onCancel={handleCancel}
+            validationSchema={NewLinkSchema}
+            isFormDisabled={isFormDisabled}
+          />
+        )}
+        {!!error && <ErrorMessage label="Link Error" errorMessage={error} />}
+      </ProjectSectionsContainer>
     </div>
   )
 }

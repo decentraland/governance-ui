@@ -16,8 +16,9 @@ import Trashcan from '../Icon/Trashcan'
 
 import ActionableBreakdownContent from './ActionableBreakdownContent'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
+import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
+import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
-import ProjectSidebarFormContainer from './ProjectSidebarFormContainer.tsx'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
 
 interface Props {
@@ -174,27 +175,31 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
   return (
     <div>
       <ProjectSidebarSectionTitle text={t('project.sheet.general_info.personnel.title')} />
-      {items.map((item, key) => (
-        <ExpandableBreakdownItem key={key} item={item} />
-      ))}
-      {isEditor && !showCreatePersonnelForm && (
-        <Button basic onClick={handleAddPersonnel}>
-          {t('project.sheet.general_info.personnel.add_label')}
-        </Button>
-      )}
-      <ProjectSidebarFormContainer>
-        {showCreatePersonnelForm && (
-          <ProjectSidebarForm
-            initialValues={PERSONNEL_INITIAL_VALUES}
-            fields={NewPersonnelFields}
-            onSave={handleSavePersonnel}
-            onCancel={handleCancelPersonnel}
-            validationSchema={NewPersonnelSchema}
-            isFormDisabled={isFormDisabled}
-          />
-        )}
-        {!!error && <ErrorMessage label="Personnel Error" errorMessage={error} />}
-      </ProjectSidebarFormContainer>
+      <ProjectSectionsContainer>
+        <ProjectInfoCardsContainer>
+          {items.map((item, key) => (
+            <ExpandableBreakdownItem key={key} item={item} />
+          ))}
+          {isEditor && !showCreatePersonnelForm && (
+            <div>
+              <Button basic onClick={handleAddPersonnel}>
+                {t('project.sheet.general_info.personnel.add_label')}
+              </Button>
+            </div>
+          )}
+          {showCreatePersonnelForm && (
+            <ProjectSidebarForm
+              initialValues={PERSONNEL_INITIAL_VALUES}
+              fields={NewPersonnelFields}
+              onSave={handleSavePersonnel}
+              onCancel={handleCancelPersonnel}
+              validationSchema={NewPersonnelSchema}
+              isFormDisabled={isFormDisabled}
+            />
+          )}
+          {!!error && <ErrorMessage label="Personnel Error" errorMessage={error} />}
+        </ProjectInfoCardsContainer>
+      </ProjectSectionsContainer>
     </div>
   )
 }
