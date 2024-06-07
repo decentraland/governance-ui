@@ -1135,7 +1135,18 @@
     },
     "project_sidebar": {
       "general_info": {
-        "title": "General Info"
+        "title": "General Info",
+        "status_card": {
+          "finished": "Project Ended Successfuly",
+          "revoked": "Project Revoked",
+          "paused": "Project Paused Preventively",
+          "in_progress": "Project Ongoing",
+          "on_track": "Project Health: On Track",
+          "off_track": "Project Health: Off Track",
+          "at_risk": "Project Health: At Risk",
+          "reported": "Reported {date}",
+          "started": "Started {date}"
+        }
       },
       "milestones": {
         "title": "Milestones",

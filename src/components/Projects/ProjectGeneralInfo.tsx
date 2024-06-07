@@ -1,5 +1,6 @@
 import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
+import { ProjectStatus } from '../../types/grants.ts'
 import { Project } from '../../types/proposals.ts'
 import Markdown from '../Common/Typography/Markdown.tsx'
 
@@ -7,6 +8,7 @@ import ActionableLinksView from './ActionableLinksView.tsx'
 import ActionablePersonnelView from './ActionablePersonnelView.tsx'
 import './ProjectSidebar.css'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
+import ProjectStatusCardWrapper from './ProjectStatusCardWrapper.tsx'
 
 interface Props {
   project: Project
@@ -19,6 +21,7 @@ function ProjectGeneralInfo({ project }: Props) {
 
   return (
     <>
+      {project.status !== ProjectStatus.Pending && <ProjectStatusCardWrapper project={project} />}
       {about && (
         <div>
           <ProjectSidebarSectionTitle text={t('project_sheet.general_info.about')} />

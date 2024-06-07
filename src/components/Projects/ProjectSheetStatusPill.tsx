@@ -28,8 +28,6 @@ export default function ProjectSheetStatusPill({ project, hero = false }: Props)
   const { status, created_at, updated_at } = project
   const t = useFormatMessage()
 
-  console.log('p', project)
-
   return (
     <div className={classNames(['ProjectSheetStatusPill', `ProjectSheetStatusPill--${status}${hero ? '--hero' : ''}`])}>
       {t(`project.sheet.status_pill.${status}`, getPillTextData(status, created_at, updated_at))}
