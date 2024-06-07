@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { ProposalProject } from '../../../types/proposals'
+import { ProjectFunding } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import '../../Modal/VotingPowerDelegationDetail/VotingPowerDistribution.css'
 
@@ -9,29 +9,26 @@ import PercentageLabel from './PercentageLabel'
 import './VestingProgress.css'
 
 type Props = {
-  project: ProposalProject
+  projectFunding: ProjectFunding | undefined
   basic?: boolean
 }
 
 const getRoundedPercentage = (value: number, total: number) => Math.min(Math.round((value * 100) / total), 100)
 
-const VestingProgress = ({ project, basic }: Props) => {
+const VestingProgress = ({ projectFunding, basic }: Props) => {
   const t = useFormatMessage()
-  const { contract, enacting_tx, token, enacted_at } = project
-  if (!enacted_at) return null
+  if (!projectFunding || !projectFunding.enacted_at) return null
 
-  const total = contract?.vesting_total_amount || 100
-  const vestedPercentage = contract ? getRoundedPercentage(contract.vested_amount, total) : 100
-  const releasedPercentage = contract ? getRoundedPercentage(contract.released, total) : null
-  const vestedAmountText = contract
-    ? `${t(`general.number`, {
-        value: contract.vested_amount || 0,
-      })} ${token}`
-    : null
-  const releasedText = contract
-    ? `${t(`general.number`, { value: contract.released })} ${token} ${t('page.grants.released')}`
+  const { vesting, one_time_payment, enacted_at } = projectFunding
+  const token = vesting ? vesting.token : one_time_payment?.token
+  const total = vesting?.total || 100
+  const vestedPercentage = vesting ? getRoundedPercentage(vesting.vested, total) : 100
+  const releasedPercentage = vesting ? getRoundedPercentage(vesting.released, total) : null
+  const vestedAmountText = vesting ? `${t(`general.number`, { value: vesting.vested || 0 })} ${token}` : null
+  const releasedText = vesting
+    ? `${t(`general.number`, { value: vesting.released })} ${token} ${t('page.grants.released')}`
     : t('page.grants.one_time_payment')
-  const enactedDate = Time.unix(enacted_at).fromNow()
+  const enactedDate = Time(enacted_at).fromNow()
 
   return (
     <div className="VestingProgress">
@@ -42,13 +39,13 @@ const VestingProgress = ({ project, basic }: Props) => {
               <span className="VestingProgress__Bold VestingProgress__Ellipsis">{vestedAmountText}</span>
             )}
             <span className="VestingProgress__Ellipsis">
-              {enacting_tx ? t('page.grants.transferred') : t('page.grants.vested')}
+              {one_time_payment ? t('page.grants.transferred') : t('page.grants.vested')}
             </span>
-            <PercentageLabel percentage={vestedPercentage} color={enacting_tx ? 'Fuchsia' : 'Yellow'} />
+            <PercentageLabel percentage={vestedPercentage} color={one_time_payment ? 'Fuchsia' : 'Yellow'} />
           </div>
           <div className="VestingProgress__ReleasedInfo VestingProgress__Ellipsis">
-            {contract && <div className="VestingProgress__ReleasedInfoLabel" />}
-            <span className={classNames('VestingProgress__Ellipsis', !contract && 'VestingProgressBar__LightText')}>
+            {vesting && <div className="VestingProgress__ReleasedInfoLabel" />}
+            <span className={classNames('VestingProgress__Ellipsis', !vesting && 'VestingProgressBar__LightText')}>
               {releasedText}
             </span>
           </div>
@@ -68,23 +65,21 @@ const VestingProgress = ({ project, basic }: Props) => {
             style={{ width: vestedPercentage + '%' }}
           />
         )}
-        {enacting_tx && <div className="VestingProgressBar__Item VestingProgressBar__Transferred" />}
+        {one_time_payment && <div className="VestingProgressBar__Item VestingProgressBar__Transferred" />}
       </div>
 
       {!basic && (
         <div className="VestingProgress__Dates">
           <div className="VestingProgress__VestedAt">
-            <span>{enacting_tx ? t('page.grants.transaction_date') : t('page.grants.started_date')}</span>
+            <span>{one_time_payment ? t('page.grants.transaction_date') : t('page.grants.started_date')}</span>
             <span className="VestingProgress__VestedDate">{enactedDate}</span>
           </div>
-          {contract?.finish_at && (
+          {vesting?.finish_at && (
             <div className="VestingProgress__VestedAt">
               <span>
-                {Time.unix(contract.finish_at).isBefore(Time())
-                  ? t('page.grants.ended_date')
-                  : t('page.grants.end_date')}
+                {Time(vesting.finish_at).isBefore(Time()) ? t('page.grants.ended_date') : t('page.grants.end_date')}
               </span>
-              <span className="VestingProgress__VestedDate">{Time.unix(contract.finish_at).fromNow()}</span>
+              <span className="VestingProgress__VestedDate">{Time(vesting.finish_at).fromNow()}</span>
             </div>
           )}
         </div>

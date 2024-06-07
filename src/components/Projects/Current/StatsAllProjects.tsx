@@ -22,7 +22,7 @@ export default function StatsAllProjects({ projects }: Props) {
   const formatFundingValue = (value: number) => intl.formatNumber(value, CURRENCY_FORMAT_OPTIONS)
   const t = useFormatMessage()
   const endingThisWeekProjects = projects.filter((item) => {
-    const finishAt = Time(item.contract?.finish_at)
+    const finishAt = Time(item.funding?.vesting?.finish_at)
     return finishAt.isAfter(Time()) && finishAt.isBefore(Time().add(1, 'week'))
   })
 
@@ -33,7 +33,9 @@ export default function StatsAllProjects({ projects }: Props) {
   const currentProjects = useMemo(() => projects.filter(({ status }) => isCurrentProject(status)), [projects])
   const currentProjectsThisQuarter = useMemo(
     () =>
-      currentProjects.filter((item) => isCurrentQuarterProject(selectedYear, selectedQuarter, item.contract?.start_at)),
+      currentProjects.filter((item) =>
+        isCurrentQuarterProject(selectedYear, selectedQuarter, item.funding?.vesting?.start_at)
+      ),
     [currentProjects, selectedQuarter, selectedYear]
   )
   const currentBidProjects = useMemo(

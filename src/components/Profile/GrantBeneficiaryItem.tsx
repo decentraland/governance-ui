@@ -22,21 +22,24 @@ import './GrantBeneficiaryItem.css'
 import VestingPill from './VestingPill'
 
 interface Props {
-  grant: ProposalProject
+  proposalProject: ProposalProject
 }
 
 const TRANSPARENCY_TIERS_IN_MANA: string[] = [GrantTierType.Tier1, GrantTierType.Tier2, GrantTierType.Tier3]
 
-function GrantBeneficiaryItem({ grant }: Props) {
+function GrantBeneficiaryItem({ proposalProject }: Props) {
   const t = useFormatMessage()
   const intl = useIntl()
-  const { user, title, enacted_at, token, configuration } = grant
+  const { user, title, funding, configuration } = proposalProject
+
+  const { vesting, one_time_payment, enacted_at } = funding!
+  const token = vesting ? vesting.token : one_time_payment?.token
   const proposalInCliffPeriod = !!enacted_at && isProposalInCliffPeriod(enacted_at)
   const isInMana = TRANSPARENCY_TIERS_IN_MANA.includes(configuration.tier)
-  const formattedEnactedDate = enacted_at ? formatDate(new Date(enacted_at * 1000)) : null
+  const formattedEnactedDate = enacted_at ? formatDate(new Date(enacted_at)) : null
 
   return (
-    <Card as={Link} className="GrantBeneficiaryItem" href={locations.proposal(grant.id)}>
+    <Card as={Link} className="GrantBeneficiaryItem" href={locations.proposal(proposalProject.id)}>
       <Card.Content>
         <NotMobile>
           <div className="GrantBeneficiaryItem__Section">
@@ -44,7 +47,7 @@ function GrantBeneficiaryItem({ grant }: Props) {
             <div>
               <h3 className="GrantBeneficiaryItem__Title">{title}</h3>
               <div className="GrantBeneficiaryItem__DetailsContainer">
-                {grant.status && <VestingPill status={grant.status} />}
+                {proposalProject.status && <VestingPill status={proposalProject.status} />}
                 {formattedEnactedDate && (
                   <Markdown
                     className="GrantBeneficiaryItem__Details"
@@ -56,7 +59,7 @@ function GrantBeneficiaryItem({ grant }: Props) {
                   >
                     {t('page.profile.grants.item_description', {
                       time: formattedEnactedDate,
-                      amount: intl.formatNumber(grant.size),
+                      amount: intl.formatNumber(proposalProject.size),
                       token: isInMana ? 'USD' : token,
                     })}
                   </Markdown>
@@ -66,15 +69,15 @@ function GrantBeneficiaryItem({ grant }: Props) {
           </div>
           <div className="GrantBeneficiaryItem__CategorySection">
             <div className="GrantBeneficiaryItem__PillContainer">
-              <ProjectPill type={grant.configuration.category} />
+              <ProjectPill type={proposalProject.configuration.category} />
             </div>
             <div className="GrantBeneficiaryItem__VestingProgressContainer">
-              <ProgressBarTooltip grant={grant} isInCliff={proposalInCliffPeriod}>
+              <ProgressBarTooltip proposalProject={proposalProject} isInCliff={proposalInCliffPeriod}>
                 <div>
                   {proposalInCliffPeriod ? (
                     <CliffProgress enactedAt={enacted_at} basic />
                   ) : (
-                    <VestingProgress project={grant} basic />
+                    <VestingProgress projectFunding={proposalProject.funding} basic />
                   )}
                 </div>
               </ProgressBarTooltip>
@@ -87,7 +90,7 @@ function GrantBeneficiaryItem({ grant }: Props) {
             <div className="GrantBeneficiaryItem__GrantInfo">
               <h3 className="GrantBeneficiaryItem__Title">{title}</h3>
               <div className="GrantBeneficiaryItem__Details">
-                <ProjectPill type={grant.configuration.category} />
+                <ProjectPill type={proposalProject.configuration.category} />
                 {formattedEnactedDate && (
                   <Markdown
                     size="xs"
@@ -98,7 +101,7 @@ function GrantBeneficiaryItem({ grant }: Props) {
                   >
                     {t('page.profile.grants.item_short_description', {
                       time: abbreviateTimeDifference(formattedEnactedDate),
-                      amount: intl.formatNumber(grant.size),
+                      amount: intl.formatNumber(proposalProject.size),
                       token: isInMana ? 'USD' : token,
                     })}
                   </Markdown>

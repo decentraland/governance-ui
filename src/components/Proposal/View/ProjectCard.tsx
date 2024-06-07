@@ -18,9 +18,10 @@ interface Props {
 
 export default function ProjectCard({ project }: Props) {
   const t = useFormatMessage()
-  const { id, title, contract, configuration, status, size } = project
-  const finishAt = Time.unix(contract?.finish_at || 0)
-  const startAt = Time.unix(contract?.start_at || 0)
+  const { id, title, funding, configuration, status, size } = project
+
+  const finishAt = Time(funding?.vesting?.finish_at || 0)
+  const startAt = Time(funding?.vesting?.start_at || 0)
   const dateText = finishAt.isBefore(Time())
     ? t('page.proposal_detail.author_details.sidebar.project_ended', {
         date: finishAt.fromNow(),

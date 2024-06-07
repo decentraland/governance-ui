@@ -62,7 +62,7 @@ export default function AuthorDetails({ address }: Props) {
     [vestings, grants?.data]
   )
   const fundsVested = useMemo(
-    () => projects?.reduce((total, grant) => total + (grant?.contract?.vested_amount || 0), 0),
+    () => projects?.reduce((total, grant) => total + (grant?.funding?.vesting?.vested || 0), 0),
     [projects]
   )
 

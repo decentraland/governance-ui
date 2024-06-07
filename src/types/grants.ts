@@ -59,14 +59,6 @@ export type ProposalGrantCategory = OldGrantCategory | NewGrantCategory
 export const VALID_CATEGORIES = [NewGrantCategory.CoreUnit, NewGrantCategory.Platform]
 export const INVALID_CATEGORIES = Object.values(NewGrantCategory).filter((item) => !VALID_CATEGORIES.includes(item))
 
-export enum TransparencyProjectStatus {
-  Pending = 'Pending',
-  InProgress = 'In Progress',
-  Finished = 'Finished',
-  Paused = 'Paused',
-  Revoked = 'Revoked',
-}
-
 export enum ProjectStatus {
   Pending = 'pending',
   InProgress = 'in_progress',
