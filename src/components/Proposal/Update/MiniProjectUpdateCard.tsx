@@ -49,7 +49,12 @@ const MiniProjectUpdateCard = ({ update, index }: Props) => {
       )}
     >
       <div className="MiniProjectUpdateCard__Left">
-        <div className="MiniProjectUpdateCard__IconContainer">
+        <div
+          className={classNames(
+            'MiniProjectUpdateCard__IconContainer',
+            !completion_date && 'MiniProjectUpdateCard__IconContainer--missed'
+          )}
+        >
           <UpdateIcon size="25" />
         </div>
         <div className="MiniProjectUpdateCard__Description">
