@@ -28,9 +28,9 @@ If you are starting from scratch and you don't have Node installed in your compu
 
 **NOTE**
 
-If you are using WSL (Windows Subsystem for Linux) as your development environment, clone the repository into the WSL filesystem. If you clone it inside the Windows filesystem, the projectFunding will not work.
+If you are using WSL (Windows Subsystem for Linux) as your development environment, clone the repository into the WSL filesystem. If you clone it inside the Windows filesystem, the project will not work.
 
-Run `npm install` to install all the dependencies needed to run the projectFunding.
+Run `npm install` to install all the dependencies needed to run the project.
 
 ## Environment setup
 
@@ -42,7 +42,7 @@ Create a copy of `.env.example` and name it as `.env.development`
 
 > to know more about this file see [the documentation](https://www.gatsbyjs.com/docs/how-to/local-development/environment-variables/#defining-environment-variables)
 
-If you are running this projectFunding locally you only need to check the following environment variables:
+If you are running this project locally you only need to check the following environment variables:
 
 - `CONNECTION_STRING`: make sure it points to a valid database (see how to create one in the 'Database Setup' section)
 - `COMMITTEE_ADDRESSES`: list of eth addresses separated by `,` that will be able to enact finished proposals
@@ -54,7 +54,7 @@ These environment variables are used by the application backend. The environment
 ## Snapshot Setup
 
 - `SNAPSHOT_SPACE`: the snapshot space where the proposals will be published
-- The configured SNAPSHOT_PROPOSAL_TYPE for the projectFunding is 'single-choice', which means each voter may select only one choice. See [available voting systems](https://docs.snapshot.org/proposals/voting-types#single-choice-voting)
+- The configured SNAPSHOT_PROPOSAL_TYPE for the project is 'single-choice', which means each voter may select only one choice. See [available voting systems](https://docs.snapshot.org/proposals/voting-types#single-choice-voting)
 
 ### Creating a Snapshot space
 
@@ -191,13 +191,13 @@ and see what works best for you.
 
 # Run
 
-Once you setup this projectFunding you can start it using the following command
+Once you setup this project you can start it using the following command
 
 ```bash
   npm start
 ```
 
-> Note 1: this projectFunding run over `https`, if it is your first time you might need to run it with `sudo`
+> Note 1: this project run over `https`, if it is your first time you might need to run it with `sudo`
 
 > Note 2: you can disabled `https` removing the `--https` flag in the `develop` script of your `package.json`
 
@@ -221,11 +221,11 @@ rm -r .cache
 
 ### ProposalProject's structure
 
-You can find a full documentation about the projectFunding's structure in the [`decentraland-gatsby` repository](https://github.com/decentraland/decentraland-gatsby#project-structure)
+You can find a full documentation about the project's structure in the [`decentraland-gatsby` repository](https://github.com/decentraland/decentraland-gatsby#project-structure)
 
 ### Back and Front ends
 
-this projectFunding runs gatsby as front-end and a nodejs server as back-end both connected through a proxy
+this project runs gatsby as front-end and a nodejs server as back-end both connected through a proxy
 
 - locally this proxy is defined in [`gatsby-config.js` (`proxy` prop)](https://www.gatsbyjs.com/docs/api-proxy/#gatsby-skip-here)
 
