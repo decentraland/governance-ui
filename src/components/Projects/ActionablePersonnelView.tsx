@@ -12,10 +12,10 @@ import { PersonnelAttributes, Project } from '../../types/proposals'
 import Username from '../Common/Username'
 import ErrorMessage from '../Error/ErrorMessage.tsx'
 import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
-import Trashcan from '../Icon/Trashcan'
 import ConfirmationModal from '../Modal/ConfirmationModal.tsx'
 
 import ActionableBreakdownContent from './ActionableBreakdownContent'
+import DeleteActionLabel from './DeleteActionLabel.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
@@ -175,18 +175,11 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
             about={about}
             onClick={isEditor ? () => handleDeletePersonnel(id) : undefined}
             relevantLink={relevantLink}
-            actionLabel={
-              isEditor && (
-                <div className="ActionableBreakdownContent__Button">
-                  <Trashcan />
-                  {t('component.expandable_breakdown_item.delete_action_label')}
-                </div>
-              )
-            }
+            actionLabel={isEditor && <DeleteActionLabel />}
           />
         ),
       })),
-    [members, handleDeletePersonnel, isEditor, t]
+    [members, handleDeletePersonnel, isEditor]
   )
 
   //TODO: is loading

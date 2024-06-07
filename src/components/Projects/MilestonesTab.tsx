@@ -13,8 +13,10 @@ import Time from '../../utils/date/Time.ts'
 import Empty from '../Common/Empty.tsx'
 import ErrorMessage from '../Error/ErrorMessage.tsx'
 import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
+import ConfirmationModal from '../Modal/ConfirmationModal.tsx'
 
 import ActionableBreakdownContent from './ActionableBreakdownContent'
+import DeleteActionLabel from './DeleteActionLabel.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
@@ -53,6 +55,8 @@ function MilestonesTab({ project }: Props) {
   const queryClient = useQueryClient()
   const isEditor = useIsProjectEditor(project)
   const { id: projectId, milestones } = project
+  const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false)
+  const [selectedMilestoneId, setSelectedMilestoneId] = useState<ProjectMilestone['id'] | null>(null)
 
   const handleAddMilestone = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -113,8 +117,8 @@ function MilestonesTab({ project }: Props) {
     mutationKey: [`deleteMilestone`],
   })
 
-  const handleSaveMilestone = async (personnel: ProjectMilestone) => {
-    createMilestone(personnel)
+  const handleSaveMilestone = async (milestone: ProjectMilestone) => {
+    createMilestone(milestone)
   }
 
   const handleCancel = () => {
@@ -122,12 +126,27 @@ function MilestonesTab({ project }: Props) {
   }
 
   const handleDeleteMilestone = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>, milestoneId: string) => {
-      e.preventDefault()
-      deleteMilestone(milestoneId)
+    (milestoneId: string) => {
+      setSelectedMilestoneId(milestoneId)
+      setIsDeleteConfirmationModalOpen(true)
     },
-    [deleteMilestone]
+    [setIsDeleteConfirmationModalOpen]
   )
+
+  const handleDeleteMilestoneConfirm = () => {
+    if (selectedMilestoneId) {
+      deleteMilestone(selectedMilestoneId)
+      setSelectedMilestoneId(null)
+    }
+    setIsDeleteConfirmationModalOpen(false)
+  }
+
+  const handleDeleteMilestoneCancel = () => {
+    if (selectedMilestoneId) {
+      setSelectedMilestoneId(null)
+    }
+    setIsDeleteConfirmationModalOpen(false)
+  }
 
   const items = useMemo(
     () =>
@@ -136,45 +155,57 @@ function MilestonesTab({ project }: Props) {
         content: (
           <ActionableBreakdownContent
             about={description}
-            onClick={isEditor ? (e) => handleDeleteMilestone(e, id) : undefined}
-            actionLabel={isEditor && <span>{t('component.expandable_breakdown_item.delete_action_label')}</span>}
+            onClick={isEditor ? () => handleDeleteMilestone(id) : undefined}
+            actionLabel={isEditor && <DeleteActionLabel />}
           />
         ),
       })),
-    [milestones, isEditor, handleDeleteMilestone, t]
+    [milestones, isEditor, handleDeleteMilestone]
   )
 
-  if (!milestones || milestones.length === 0) {
+  if ((!milestones || milestones.length === 0) && !isEditor) {
     return <Empty title={t('page.project_sidebar.milestones.no_milestones')} />
   }
 
   //TODO: is loading
   return (
-    <ProjectSectionsContainer>
-      <ProjectInfoCardsContainer>
-        {items.map((item, key) => (
-          <ExpandableBreakdownItem key={key} item={item} />
-        ))}
-        {isEditor && !showForm && (
-          <div>
-            <Button basic onClick={handleAddMilestone}>
-              {t('project.sheet.milestones.add_label')}
-            </Button>
-          </div>
-        )}
-        {showForm && (
-          <ProjectSidebarForm
-            initialValues={MILESTONE_INITIAL_VALUES}
-            fields={NewMilestoneFields}
-            onSave={handleSaveMilestone}
-            onCancel={handleCancel}
-            validationSchema={NewMilestoneSchema}
-            isFormDisabled={isFormDisabled}
-          />
-        )}
-        {!!error && <ErrorMessage label="Milestone error" errorMessage={error} />}
-      </ProjectInfoCardsContainer>
-    </ProjectSectionsContainer>
+    <div>
+      <ProjectSectionsContainer>
+        <ProjectInfoCardsContainer>
+          {items.map((item, key) => (
+            <ExpandableBreakdownItem key={key} item={item} />
+          ))}
+          {isEditor && !showForm && (
+            <div>
+              <Button basic onClick={handleAddMilestone}>
+                {t('project.sheet.milestones.add_label')}
+              </Button>
+            </div>
+          )}
+          {showForm && (
+            <ProjectSidebarForm
+              initialValues={MILESTONE_INITIAL_VALUES}
+              fields={NewMilestoneFields}
+              onSave={handleSaveMilestone}
+              onCancel={handleCancel}
+              validationSchema={NewMilestoneSchema}
+              isFormDisabled={isFormDisabled}
+            />
+          )}
+          {!!error && <ErrorMessage label="Milestone error" errorMessage={error} />}
+        </ProjectInfoCardsContainer>
+      </ProjectSectionsContainer>
+      <ConfirmationModal
+        isOpen={isDeleteConfirmationModalOpen}
+        title={t('modal.delete_item.title')}
+        description={t('modal.delete_item.description')}
+        onPrimaryClick={handleDeleteMilestoneConfirm}
+        onSecondaryClick={handleDeleteMilestoneCancel}
+        onClose={handleDeleteMilestoneCancel}
+        primaryButtonText={t('modal.delete_item.accept')}
+        secondaryButtonText={t('modal.delete_item.reject')}
+      />
+    </div>
   )
 }
 
