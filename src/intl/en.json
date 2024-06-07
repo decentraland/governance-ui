@@ -2307,6 +2307,7 @@
         "finished": "Ended {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}"
       },
       "general_info": {
+        "funding": "Funding",
         "links": {
           "title": "Project Links",
           "add_label": "+ Add Link"
