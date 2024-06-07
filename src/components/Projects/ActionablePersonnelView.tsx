@@ -6,6 +6,7 @@ import isEthereumAddress from 'validator/lib/isEthereumAddress'
 import { ZodSchema, z } from 'zod'
 
 import { Governance } from '../../clients/Governance'
+import { isHttpsURL } from '../../helpers/index.ts'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { getProjectQueryKey } from '../../hooks/useProject.ts'
 import { PersonnelAttributes, Project } from '../../types/proposals'
@@ -49,7 +50,7 @@ const NewPersonnelSchema: ZodSchema<Pick<PersonnelAttributes, 'name' | 'address'
     address: z.string().refine(addressCheck, { message: 'Invalid address' }).optional().or(z.null()),
     role: z.string().min(1, 'Role is required').max(80),
     about: z.string().min(1, 'About is required').max(750),
-    relevantLink: z.string().min(0).max(200).url().optional().or(z.literal('')),
+    relevantLink: z.string().min(0).max(200).refine(isHttpsURL).optional().or(z.literal('')),
   })
 
 const NewPersonnelFields: ProjectSidebarFormFields<PersonnelAttributes> = [

@@ -5,6 +5,7 @@ import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { ZodSchema, z } from 'zod'
 
 import { Governance } from '../../clients/Governance'
+import { isHttpsURL } from '../../helpers/index.ts'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { getProjectQueryKey } from '../../hooks/useProject.ts'
 import { Project, ProjectLink } from '../../types/proposals'
@@ -29,7 +30,7 @@ interface Props {
 
 const NewLinkSchema: ZodSchema<Pick<ProjectLink, 'label' | 'url'>> = z.object({
   label: z.string().min(1, 'Label is required').max(80),
-  url: z.string().min(0).max(200).url(),
+  url: z.string().min(0).max(200).refine(isHttpsURL),
 })
 const NewLinkFields: ProjectSidebarFormFields<ProjectLink> = [
   { name: 'label', label: 'label', type: 'text' },
