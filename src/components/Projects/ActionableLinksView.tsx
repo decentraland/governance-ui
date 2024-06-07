@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
@@ -13,9 +13,10 @@ import Link from '../Common/Typography/Link.tsx'
 import ErrorMessage from '../Error/ErrorMessage.tsx'
 import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
 import BlueLinkIcon from '../Icon/BlueLinkIcon.tsx'
-import Trashcan from '../Icon/Trashcan'
+import ConfirmationModal from '../Modal/ConfirmationModal.tsx'
 
 import ActionableBreakdownContent from './ActionableBreakdownContent'
+import DeleteActionLabel from './DeleteActionLabel.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
@@ -44,6 +45,8 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
   const [isFormDisabled, setIsFormDisabled] = useState(false)
   const [error, setError] = useState('')
   const queryClient = useQueryClient()
+  const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false)
+  const [selectedProjectLinkId, setSelectedProjectLinkId] = useState<ProjectLink['id'] | null>(null)
 
   const handleAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -109,14 +112,28 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
     setShowCreate(false)
   }
 
-  const getDeleteProjectLinkHandler = useMemo(() => {
-    return (projectLinkId: string) => {
-      return async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        deleteProjectLink(projectLinkId)
-      }
+  const handleDeleteLink = useCallback(
+    (linkId: string) => {
+      setSelectedProjectLinkId(linkId)
+      setIsDeleteConfirmationModalOpen(true)
+    },
+    [setIsDeleteConfirmationModalOpen]
+  )
+
+  const handleDeleteLinkConfirm = () => {
+    if (selectedProjectLinkId) {
+      deleteProjectLink(selectedProjectLinkId)
+      setSelectedProjectLinkId(null)
     }
-  }, [deleteProjectLink])
+    setIsDeleteConfirmationModalOpen(false)
+  }
+
+  const handleDeleteLinkCancel = () => {
+    if (selectedProjectLinkId) {
+      setSelectedProjectLinkId(null)
+    }
+    setIsDeleteConfirmationModalOpen(false)
+  }
 
   const items = useMemo(
     () =>
@@ -129,21 +146,12 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
         content: (
           <ActionableBreakdownContent
             about={url}
-            onClick={isEditor ? getDeleteProjectLinkHandler(id) : undefined}
-            actionLabel={
-              isEditor ? (
-                <div className="ActionableBreakdownContent__Button">
-                  <Trashcan />
-                  {t('component.expandable_breakdown_item.delete_action_label')}
-                </div>
-              ) : (
-                <></>
-              )
-            }
+            onClick={isEditor ? () => handleDeleteLink(id) : undefined}
+            actionLabel={isEditor && <DeleteActionLabel />}
           />
         ),
       })),
-    [links, isEditor, getDeleteProjectLinkHandler, t]
+    [links, handleDeleteLink, isEditor]
   )
 
   //TODO: is loading
@@ -151,11 +159,13 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
     <div>
       <ProjectSidebarSectionTitle text={t('project.sheet.general_info.links.title')} />
       <ProjectSectionsContainer>
-        <ProjectInfoCardsContainer slim>
-          {items.map((item, key) => (
-            <ExpandableBreakdownItem key={key} item={item} />
-          ))}
-        </ProjectInfoCardsContainer>
+        {items && items.length > 0 && (
+          <ProjectInfoCardsContainer slim>
+            {items.map((item, key) => (
+              <ExpandableBreakdownItem key={key} item={item} />
+            ))}
+          </ProjectInfoCardsContainer>
+        )}
         {isEditor && !showCreate && (
           <div>
             <Button basic onClick={handleAdd}>
@@ -175,6 +185,16 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
         )}
         {!!error && <ErrorMessage label="Link Error" errorMessage={error} />}
       </ProjectSectionsContainer>
+      <ConfirmationModal
+        isOpen={isDeleteConfirmationModalOpen}
+        title={t('modal.delete_item.title')}
+        description={t('modal.delete_item.description')}
+        onPrimaryClick={handleDeleteLinkConfirm}
+        onSecondaryClick={handleDeleteLinkCancel}
+        onClose={handleDeleteLinkCancel}
+        primaryButtonText={t('modal.delete_item.accept')}
+        secondaryButtonText={t('modal.delete_item.reject')}
+      />
     </div>
   )
 }
