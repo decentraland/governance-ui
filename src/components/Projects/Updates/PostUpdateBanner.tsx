@@ -7,10 +7,10 @@ interface Props {
   updateNumber: number
   dueDays: number
   onClick: () => void
-  isNonMandatory?: boolean
+  isMandatory?: boolean
 }
 
-function PostUpdateBanner({ updateNumber, dueDays, onClick, isNonMandatory = false }: Props) {
+function PostUpdateBanner({ updateNumber, dueDays, onClick, isMandatory = false }: Props) {
   const t = useFormatMessage()
 
   return (
@@ -18,12 +18,12 @@ function PostUpdateBanner({ updateNumber, dueDays, onClick, isNonMandatory = fal
       className="PostUpdateBanner"
       isVisible
       title={
-        isNonMandatory
-          ? t('page.project_sidebar.updates.banner.non_mandatory_title')
-          : t('page.project_sidebar.updates.banner.title', { number: updateNumber, days: dueDays })
+        isMandatory
+          ? t('page.project_sidebar.updates.banner.title', { number: updateNumber, days: dueDays })
+          : t('page.project_sidebar.updates.banner.non_mandatory_title')
       }
       description={t(
-        `page.project_sidebar.updates.banner.${isNonMandatory ? 'non_mandatory_description' : 'description'}`
+        `page.project_sidebar.updates.banner.${isMandatory ? 'description' : 'non_mandatory_description'}`
       )}
       buttonLabel={t('page.project_sidebar.updates.banner.button')}
       bannerHideKey=""
