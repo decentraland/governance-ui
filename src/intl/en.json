@@ -1148,7 +1148,8 @@
           "description": "Improve your reputation by posting timely updates",
           "button": "Post Update"
         },
-        "no_updates": "No updates yet"
+        "no_updates": "The team hasn't posted a Project update yet",
+        "editor_no_updates": "Once your Project has been funded, you will be able to publish updates to keep the community in the loop while making progress"
       },
       "activity": {
         "title": "Activity"
