@@ -1146,6 +1146,8 @@
         "banner": {
           "title": "Update #{number} due in {days} {days, plural, one {day} other {days}}",
           "description": "Improve your reputation by posting timely updates",
+          "non_mandatory_title": "Mandatory updates period finished",
+          "non_mandatory_description": "You can still update the community on your progress",
           "button": "Post Update"
         },
         "no_updates": "The team hasn't posted a Project update yet",

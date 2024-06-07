@@ -16,6 +16,14 @@
   cursor: default;
 }
 
+.MiniProjectUpdateCard__IconContainer--missed circle {
+  fill: var(--black-300);
+}
+
+.MiniProjectUpdateCard__IconContainer--missed path {
+  fill: var(--black-600);
+}
+
 .MiniProjectUpdateCard__Left {
   flex: 1;
   display: flex;
