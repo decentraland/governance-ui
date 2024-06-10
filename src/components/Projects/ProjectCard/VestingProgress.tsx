@@ -11,11 +11,12 @@ import './VestingProgress.css'
 type Props = {
   projectFunding: ProjectFunding | undefined
   basic?: boolean
+  className?: string
 }
 
 const getRoundedPercentage = (value: number, total: number) => Math.min(Math.round((value * 100) / total), 100)
 
-const VestingProgress = ({ projectFunding, basic }: Props) => {
+const VestingProgress = ({ projectFunding, basic, className }: Props) => {
   const t = useFormatMessage()
   if (!projectFunding || !projectFunding.enacted_at) return null
 
@@ -31,7 +32,7 @@ const VestingProgress = ({ projectFunding, basic }: Props) => {
   const enactedDate = Time(enacted_at).fromNow()
 
   return (
-    <div className="VestingProgress">
+    <div className={classNames(['VestingProgress', className])}>
       {!basic && (
         <div className="VestingProgress__Labels">
           <div className="VestingProgress__VestedInfo">
