@@ -21,7 +21,7 @@ interface Props {
 
 const ProjectCard = ({ project, hoverable = false }: Props) => {
   const { id, project_id, funding, update } = project
-  const { enacted_at } = funding!
+  const enacted_at = funding?.enacted_at
   const [expanded, setExpanded] = useState(!hoverable)
   const proposalInCliffPeriod = !!enacted_at && isProposalInCliffPeriod(enacted_at)
 

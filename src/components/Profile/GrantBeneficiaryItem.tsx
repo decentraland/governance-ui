@@ -31,8 +31,7 @@ function GrantBeneficiaryItem({ proposalProject }: Props) {
   const t = useFormatMessage()
   const intl = useIntl()
   const { user, title, funding, configuration } = proposalProject
-
-  const { vesting, one_time_payment, enacted_at } = funding!
+  const { vesting, one_time_payment, enacted_at } = funding || {}
   const token = vesting ? vesting.token : one_time_payment?.token
   const proposalInCliffPeriod = !!enacted_at && isProposalInCliffPeriod(enacted_at)
   const isInMana = TRANSPARENCY_TIERS_IN_MANA.includes(configuration.tier)
