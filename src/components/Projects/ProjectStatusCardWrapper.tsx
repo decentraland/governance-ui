@@ -14,11 +14,12 @@ function prioritizedStatus(
   project: Project,
   update?: UpdateAttributes
 ): { status: ProjectStatus | ProjectHealth; date: Date; href?: string } {
-  const { status: projectStatus, updated_at, created_at } = project
+  const { status, updated_at, created_at } = project
 
-  const defaultStatus = { status: projectStatus, date: updated_at || created_at }
+  const defaultStatus = { status, date: updated_at || created_at }
+  const priorityProjectStatuses = [ProjectStatus.Finished, ProjectStatus.Revoked, ProjectStatus.Paused]
 
-  if ([ProjectStatus.Finished, ProjectStatus.Revoked, ProjectStatus.Paused].includes(projectStatus)) {
+  if (priorityProjectStatuses.includes(status)) {
     return defaultStatus
   }
 
