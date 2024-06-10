@@ -61,7 +61,7 @@ import Time from '../utils/date/Time'
 
 import API, { ApiOptions } from './API'
 import { TransparencyBudget, TransparencyVesting } from './Transparency'
-import { VestingInfo } from './VestingData'
+import { VestingWithLogs } from './VestingData'
 
 type ApiResponse<D> = { ok: boolean; data: D }
 
@@ -588,8 +588,8 @@ export class Governance extends API {
     return await this.fetchApiResponse<TransparencyVesting[]>(`/all-vestings`)
   }
 
-  async getVestingContractData(addresses: string[]) {
-    return await this.fetchApiResponse<VestingInfo[]>(`/vesting`, { method: 'POST', json: { addresses } })
+  async getVestings(addresses: string[]) {
+    return await this.fetchApiResponse<VestingWithLogs[]>(`/vesting`, { method: 'POST', json: { addresses } })
   }
 
   async getUpdateComments(update_id: string) {

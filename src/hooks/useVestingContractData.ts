@@ -7,7 +7,7 @@ import { DEFAULT_QUERY_STALE_TIME } from './constants'
 function useVestingContractData(vestingAddresses: string[]) {
   const { data: vestingData, isLoading } = useQuery({
     queryKey: [`vestingContractData#${vestingAddresses.join(',')}`],
-    queryFn: () => Governance.get().getVestingContractData(vestingAddresses),
+    queryFn: () => Governance.get().getVestings(vestingAddresses),
     staleTime: DEFAULT_QUERY_STALE_TIME,
   })
 

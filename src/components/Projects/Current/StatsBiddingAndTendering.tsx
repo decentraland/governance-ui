@@ -31,7 +31,9 @@ export default function StatsBiddingAndTendering({ projects }: Props) {
   const currentProjects = useMemo(() => projects.filter(({ status }) => isCurrentProject(status)), [projects])
   const currentProjectsThisQuarter = useMemo(
     () =>
-      currentProjects.filter((item) => isCurrentQuarterProject(currentYear, currentQuarter, item.contract?.start_at)),
+      currentProjects.filter((item) =>
+        isCurrentQuarterProject(currentYear, currentQuarter, item.funding?.vesting?.start_at)
+      ),
     [currentProjects, currentQuarter, currentYear]
   )
   const currentBidProjects = useMemo(

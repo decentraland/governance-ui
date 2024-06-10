@@ -25,7 +25,7 @@ function GrantBeneficiaryList({ grants, address }: Props) {
   return (
     <>
       {grantsToShow.map((grant) => (
-        <GrantBeneficiaryItem key={grant.id} grant={grant} />
+        <GrantBeneficiaryItem key={grant.id} proposalProject={grant} />
       ))}
       {sorted.length > limit && (
         <FullWidthButton onClick={() => setLimit(() => limit + MAX_GRANTS)}>

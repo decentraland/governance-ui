@@ -1,3 +1,4 @@
+import { Vesting } from '../clients/VestingData.ts'
 import { MAX_NAME_SIZE, MIN_NAME_SIZE } from '../constants/proposals'
 
 import { SnapshotProposal } from './SnapshotTypes'
@@ -728,22 +729,16 @@ export type ProposalCommentsInDiscourse = {
   comments: ProposalComment[]
 }
 
-export type VestingContractData = {
-  vested_amount: number
-  releasable: number
-  released: number
-  start_at: number
-  finish_at: number
-  vesting_total_amount: number
+export type OneTimePayment = {
+  enacting_tx: string
+  token?: string
+  tx_amount?: number
 }
 
-export type ProjectVestingData = {
-  contract?: VestingContractData
-  enacting_tx?: string
-  token?: string
-  enacted_at?: number
-  tx_amount?: number
-  tx_date?: number
+export type ProjectFunding = {
+  enacted_at?: string
+  one_time_payment?: OneTimePayment
+  vesting?: Vesting
 }
 
 export type ProposalProject = {
@@ -760,7 +755,8 @@ export type ProposalProject = {
     category: ProposalGrantCategory
     tier: string
   }
-} & ProjectVestingData
+  funding?: ProjectFunding
+}
 
 export type ProjectAttributes = {
   id: string
@@ -805,12 +801,13 @@ export type ProjectLink = {
 }
 
 export type Project = ProjectAttributes & {
-  vesting_addresses: string[]
   personnel: PersonnelAttributes[]
   links: ProjectLink[]
   milestones: ProjectMilestone[]
   author: string
   coauthors: string[] | null
+  vesting_addresses: string[]
+  funding?: ProjectFunding
 }
 
 export type ProposalProjectWithUpdate = ProposalProject & {

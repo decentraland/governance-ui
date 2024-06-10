@@ -141,9 +141,9 @@ export function userModifiedForm(stateValue?: Record<string, unknown>, initialSt
   return !isInitialState && Object.values(stateValue).some((value) => !!value)
 }
 
-export function isProposalInCliffPeriod(enactedDate: number) {
+export function isProposalInCliffPeriod(enactedDate: string) {
   const now = Time.utc()
-  return Time.unix(enactedDate).add(CLIFF_PERIOD_IN_DAYS, 'day').isAfter(now)
+  return Time(enactedDate).add(CLIFF_PERIOD_IN_DAYS, 'day').isAfter(now)
 }
 
 export function isGovernanceProcessProposal(type: ProposalType) {

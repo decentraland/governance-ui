@@ -1,6 +1,6 @@
 import sum from 'lodash/sum'
 
-import { VestingInfo, VestingLog } from '../clients/VestingData'
+import { VestingLog, VestingWithLogs } from '../clients/VestingData'
 import { GOVERNANCE_API } from '../constants'
 import { ProposalStatus } from '../types/proposals'
 import { FinancialRecord, UpdateAttributes, UpdateStatus } from '../types/updates'
@@ -121,7 +121,7 @@ export function getFundsReleasedSinceLatestUpdate(
   }
 }
 
-export function getReleases(vestings: VestingInfo[]) {
+export function getReleases(vestings: VestingWithLogs[]) {
   return vestings
     .flatMap(({ logs }) => logs)
     .filter(({ topic }) => RELEASE_TOPICS.has(topic))
