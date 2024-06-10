@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
+import useIsProjectEditor from '../../../hooks/useIsProjectEditor'
 import useProjectUpdates from '../../../hooks/useProjectUpdates'
 import { Project } from '../../../types/proposals'
 import { UpdateStatus } from '../../../types/updates'
@@ -25,6 +26,7 @@ function UpdatesTabView({ allowedAddresses, project }: Props) {
   const t = useFormatMessage()
   const navigate = useNavigate()
   const [account] = useAuthContext()
+  const isProjectEditor = useIsProjectEditor(project)
   const [isLateUpdateModalOpen, setIsLateUpdateModalOpen] = useState(false)
   const { publicUpdates, nextUpdate, currentUpdate, pendingUpdates, refetchUpdates } = useProjectUpdates(project?.id)
 
@@ -79,6 +81,7 @@ function UpdatesTabView({ allowedAddresses, project }: Props) {
           updateNumber={updates.length + 1}
           dueDays={nextDueDateRemainingDays}
           onClick={handlePostUpdateClick}
+          isMandatory={!!currentUpdate}
         />
       )}
       <ProjectInfoCardsContainer>
@@ -93,7 +96,13 @@ function UpdatesTabView({ allowedAddresses, project }: Props) {
             />
           ))
         ) : (
-          <Empty title={t('page.project_sidebar.updates.no_updates')} />
+          <Empty
+            title={t(
+              isProjectEditor
+                ? 'page.project_sidebar.updates.editor_no_updates'
+                : 'page.project_sidebar.updates.no_updates'
+            )}
+          />
         )}
       </ProjectInfoCardsContainer>
       <ConfirmationModal

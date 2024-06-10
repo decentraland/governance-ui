@@ -6,15 +6,17 @@ import isEthereumAddress from 'validator/lib/isEthereumAddress'
 import { ZodSchema, z } from 'zod'
 
 import { Governance } from '../../clients/Governance'
+import { isHttpsURL } from '../../helpers/index.ts'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { getProjectQueryKey } from '../../hooks/useProject.ts'
 import { PersonnelAttributes, Project } from '../../types/proposals'
 import Username from '../Common/Username'
 import ErrorMessage from '../Error/ErrorMessage.tsx'
 import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
-import Trashcan from '../Icon/Trashcan'
+import ConfirmationModal from '../Modal/ConfirmationModal.tsx'
 
 import ActionableBreakdownContent from './ActionableBreakdownContent'
+import DeleteActionLabel from './DeleteActionLabel.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
@@ -49,7 +51,7 @@ const NewPersonnelSchema: ZodSchema<Pick<PersonnelAttributes, 'name' | 'address'
     address: z.string().refine(addressCheck, { message: 'Invalid address' }).optional().or(z.null()),
     role: z.string().min(1, 'Role is required').max(80),
     about: z.string().min(1, 'About is required').max(750),
-    relevantLink: z.string().min(0).max(200).url().optional().or(z.literal('')),
+    relevantLink: z.string().min(0).max(200).refine(isHttpsURL).optional().or(z.literal('')),
   })
 
 const NewPersonnelFields: ProjectSidebarFormFields<PersonnelAttributes> = [
@@ -74,6 +76,8 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
   const [isFormDisabled, setIsFormDisabled] = useState(false)
   const [error, setError] = useState('')
   const queryClient = useQueryClient()
+  const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false)
+  const [selectedPersonnelId, setSelectedPersonnelId] = useState<PersonnelAttributes['id'] | null>(null)
 
   const handleAddPersonnel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -140,12 +144,27 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
   }
 
   const handleDeletePersonnel = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>, personnelId: string) => {
-      e.preventDefault()
-      deletePersonnel(personnelId)
+    (personnelId: string) => {
+      setSelectedPersonnelId(personnelId)
+      setIsDeleteConfirmationModalOpen(true)
     },
-    [deletePersonnel]
+    [setIsDeleteConfirmationModalOpen]
   )
+
+  const handleDeletePersonnelConfirm = () => {
+    if (selectedPersonnelId) {
+      deletePersonnel(selectedPersonnelId)
+      setSelectedPersonnelId(null)
+    }
+    setIsDeleteConfirmationModalOpen(false)
+  }
+
+  const handleDeletePersonnelCancel = () => {
+    if (selectedPersonnelId) {
+      setSelectedPersonnelId(null)
+    }
+    setIsDeleteConfirmationModalOpen(false)
+  }
 
   const items = useMemo(
     () =>
@@ -155,20 +174,13 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
         content: (
           <ActionableBreakdownContent
             about={about}
-            onClick={isEditor ? (e) => handleDeletePersonnel(e, id) : undefined}
+            onClick={isEditor ? () => handleDeletePersonnel(id) : undefined}
             relevantLink={relevantLink}
-            actionLabel={
-              isEditor && (
-                <div className="ActionableBreakdownContent__Button">
-                  <Trashcan />
-                  {t('component.expandable_breakdown_item.delete_action_label')}
-                </div>
-              )
-            }
+            actionLabel={isEditor && <DeleteActionLabel />}
           />
         ),
       })),
-    [members, handleDeletePersonnel, isEditor, t]
+    [members, handleDeletePersonnel, isEditor]
   )
 
   //TODO: is loading
@@ -200,6 +212,16 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
           {!!error && <ErrorMessage label="Personnel Error" errorMessage={error} />}
         </ProjectInfoCardsContainer>
       </ProjectSectionsContainer>
+      <ConfirmationModal
+        isOpen={isDeleteConfirmationModalOpen}
+        title={t('modal.delete_item.title')}
+        description={t('modal.delete_item.description')}
+        onPrimaryClick={handleDeletePersonnelConfirm}
+        onSecondaryClick={handleDeletePersonnelCancel}
+        onClose={handleDeletePersonnelCancel}
+        primaryButtonText={t('modal.delete_item.accept')}
+        secondaryButtonText={t('modal.delete_item.reject')}
+      />
     </div>
   )
 }
