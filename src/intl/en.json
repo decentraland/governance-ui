@@ -2302,8 +2302,8 @@
       "status_pill": {
         "pending": "In refinement",
         "in_progress": "Ongoing for {days} {days, plural, one {day} other {days}}",
-        "paused": "Paused {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}",
-        "revoked": "Revoked {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}",
+        "paused": "Paused",
+        "revoked": "Revoked",
         "finished": "Ended {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}"
       },
       "general_info": {
