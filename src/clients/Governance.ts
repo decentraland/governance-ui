@@ -4,7 +4,9 @@ import { SpecState } from '../components/Debug/UploadBadgeSpec'
 import { GOVERNANCE_API } from '../constants'
 import { HEROKU_APP_NAME } from '../constants/heroku'
 import {
+  DelegationResult,
   DetailedScores,
+  PickedByResult,
   SnapshotConfig,
   SnapshotProposal,
   SnapshotSpace,
@@ -566,6 +568,20 @@ export class Governance extends API {
 
   async getScores(addresses: string[]) {
     return await this.fetchApiResponse<DetailedScores>('/snapshot/scores', { method: 'POST', json: { addresses } })
+  }
+
+  async getDelegations(address: string, blockNumber?: string | number) {
+    return await this.fetchApiResponse<DelegationResult>(`/snapshot/delegations`, {
+      method: 'POST',
+      json: { address, blockNumber },
+    })
+  }
+
+  async getPickedBy(addresses: string[], space: string) {
+    return await this.fetchApiResponse<PickedByResult[]>(`/snapshot/picked-by`, {
+      method: 'POST',
+      json: { addresses, space },
+    })
   }
 
   async getAllVestings() {

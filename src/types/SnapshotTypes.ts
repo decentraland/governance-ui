@@ -142,3 +142,8 @@ export enum ServiceHealth {
 export type ServiceStatus = { health: ServiceHealth; responseTime: number; errorRate: number }
 export type SnapshotStatus = { scoresStatus: ServiceStatus; graphQlStatus: ServiceStatus }
 export const UNKNOWN_STATUS = { health: ServiceHealth.Unknown, responseTime: 0, errorRate: 0 }
+
+export type PickedByResult = {
+  address: string
+  pickedBy: number
+}
