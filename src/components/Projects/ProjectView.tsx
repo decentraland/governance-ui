@@ -32,12 +32,7 @@ function ProjectView({ project, onClose }: Props) {
       },
       {
         labelKey: 'page.project_sidebar.updates.title',
-        view: (
-          <UpdatesTabView
-            project={project}
-            allowedAddresses={new Set([project?.author || '', ...(project?.coauthors || [])])}
-          />
-        ),
+        view: <UpdatesTabView project={project} />,
       },
     ],
     [project]

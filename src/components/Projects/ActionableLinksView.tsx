@@ -27,6 +27,7 @@ interface Props {
   links: ProjectLink[]
   projectId: string
   isEditor: boolean
+  isEditable?: boolean
 }
 
 const NewLinkSchema: ZodSchema<Pick<ProjectLink, 'label' | 'url'>> = z.object({
@@ -39,7 +40,7 @@ const NewLinkFields: ProjectSidebarFormFields<ProjectLink> = [
 ]
 const LINK_INITIAL_VALUES = { label: '', url: '' } as Partial<ProjectLink>
 
-function ActionableLinksView({ links, projectId, isEditor }: Props) {
+function ActionableLinksView({ links, projectId, isEditor, isEditable = true }: Props) {
   const t = useFormatMessage()
   const [showCreate, setShowCreate] = useState(false)
   const [isFormDisabled, setIsFormDisabled] = useState(false)
@@ -146,12 +147,12 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
         content: (
           <ActionableBreakdownContent
             about={url}
-            onClick={isEditor ? () => handleDeleteLink(id) : undefined}
-            actionLabel={isEditor && <DeleteActionLabel />}
+            onClick={isEditor && isEditable ? () => handleDeleteLink(id) : undefined}
+            actionLabel={isEditor && isEditable && <DeleteActionLabel />}
           />
         ),
       })),
-    [links, handleDeleteLink, isEditor]
+    [links, isEditor, isEditable, handleDeleteLink]
   )
 
   //TODO: is loading
@@ -166,7 +167,7 @@ function ActionableLinksView({ links, projectId, isEditor }: Props) {
             ))}
           </ProjectInfoCardsContainer>
         )}
-        {isEditor && !showCreate && (
+        {isEditor && isEditable && !showCreate && (
           <div>
             <Button basic onClick={handleAdd}>
               {t('project.sheet.general_info.links.add_label')}
