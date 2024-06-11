@@ -7,7 +7,7 @@ import { DEFAULT_QUERY_STALE_TIME } from './constants'
 
 function usePickedBy(addresses: string[]) {
   const { data: pickedByResults, isLoading: isLoadingPickedBy } = useQuery({
-    queryKey: [`pickedBy#${SNAPSHOT_SPACE}#${addresses.join(',')}`],
+    queryKey: ['pickedBy', SNAPSHOT_SPACE, addresses.join(',')],
     queryFn: async () => {
       try {
         return await Governance.get().getPickedBy(addresses, SNAPSHOT_SPACE)
