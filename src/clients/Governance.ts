@@ -577,10 +577,10 @@ export class Governance extends API {
     })
   }
 
-  async getPickedBy(addresses: string[], space: string) {
+  async getPickedBy(addresses: string[]) {
     return await this.fetchApiResponse<PickedByResult[]>(`/snapshot/picked-by`, {
       method: 'POST',
-      json: { addresses, space },
+      json: { addresses },
     })
   }
 
