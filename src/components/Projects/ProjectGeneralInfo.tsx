@@ -16,7 +16,7 @@ interface Props {
 }
 
 function ProjectGeneralInfo({ project }: Props) {
-  const isEditor = useIsProjectEditor(project)
+  const { isEditor, isEditable } = useIsProjectEditor(project)
   const { about, personnel, links } = project
   const t = useFormatMessage()
 
@@ -30,8 +30,8 @@ function ProjectGeneralInfo({ project }: Props) {
           <Markdown>{about}</Markdown>
         </div>
       )}
-      <ActionableLinksView links={links} projectId={project.id} isEditor={isEditor} />
-      <ActionablePersonnelView members={personnel} projectId={project.id} isEditor={isEditor} />
+      <ActionableLinksView links={links} projectId={project.id} canEdit={isEditor && isEditable} />
+      <ActionablePersonnelView members={personnel} projectId={project.id} canEdit={isEditor && isEditable} />
     </>
   )
 }

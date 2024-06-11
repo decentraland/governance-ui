@@ -26,7 +26,7 @@ import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
 interface Props {
   members: PersonnelAttributes[]
   projectId: string
-  isEditor: boolean
+  canEdit: boolean
 }
 
 function getTitle(name: string, address?: string | null) {
@@ -70,7 +70,7 @@ const PERSONNEL_INITIAL_VALUES = {
   relevantLink: '',
 } as Partial<PersonnelAttributes>
 
-function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
+function ActionablePersonnelView({ members, projectId, canEdit }: Props) {
   const t = useFormatMessage()
   const [showCreatePersonnelForm, setShowCreatePersonnelForm] = useState(false)
   const [isFormDisabled, setIsFormDisabled] = useState(false)
@@ -174,13 +174,13 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
         content: (
           <ActionableBreakdownContent
             about={about}
-            onClick={isEditor ? () => handleDeletePersonnel(id) : undefined}
+            onClick={canEdit ? () => handleDeletePersonnel(id) : undefined}
             relevantLink={relevantLink}
-            actionLabel={isEditor && <DeleteActionLabel />}
+            actionLabel={canEdit && <DeleteActionLabel />}
           />
         ),
       })),
-    [members, handleDeletePersonnel, isEditor]
+    [members, canEdit, handleDeletePersonnel]
   )
 
   //TODO: is loading
@@ -192,7 +192,7 @@ function ActionablePersonnelView({ members, projectId, isEditor }: Props) {
           {items.map((item, key) => (
             <ExpandableBreakdownItem key={key} item={item} />
           ))}
-          {isEditor && !showCreatePersonnelForm && (
+          {canEdit && !showCreatePersonnelForm && (
             <div>
               <Button basic onClick={handleAddPersonnel}>
                 {t('project.sheet.general_info.personnel.add_label')}

@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useIsProjectEditor from '../../../hooks/useIsProjectEditor'
 import useProjectUpdates from '../../../hooks/useProjectUpdates'
@@ -19,21 +18,18 @@ import PostUpdateBanner from './PostUpdateBanner'
 
 interface Props {
   project?: Project | null
-  allowedAddresses: Set<string>
 }
 
-function UpdatesTabView({ allowedAddresses, project }: Props) {
+function UpdatesTabView({ project }: Props) {
   const t = useFormatMessage()
   const navigate = useNavigate()
-  const [account] = useAuthContext()
-  const isProjectEditor = useIsProjectEditor(project)
+  const { isEditor } = useIsProjectEditor(project)
   const [isLateUpdateModalOpen, setIsLateUpdateModalOpen] = useState(false)
   const { publicUpdates, nextUpdate, currentUpdate, pendingUpdates, refetchUpdates } = useProjectUpdates(project?.id)
 
   const updates = publicUpdates || []
   const hasUpdates = updates.length > 0
   const hasSubmittedUpdate = !!currentUpdate?.completion_date
-  const isAllowedToPostUpdate = !!account && allowedAddresses.has(account)
   const nextDueDateRemainingDays = Time(nextUpdate?.due_date).diff(new Date(), 'days')
 
   const latePendingUpdate = useMemo(
@@ -76,7 +72,7 @@ function UpdatesTabView({ allowedAddresses, project }: Props) {
 
   return (
     <>
-      {isAllowedToPostUpdate && hasUpdates && !hasSubmittedUpdate && (
+      {isEditor && hasUpdates && !hasSubmittedUpdate && (
         <PostUpdateBanner
           updateNumber={updates.length + 1}
           dueDays={nextDueDateRemainingDays}
@@ -90,7 +86,7 @@ function UpdatesTabView({ allowedAddresses, project }: Props) {
             <ProjectUpdateCardWrapper
               key={update.id}
               update={update}
-              isAllowedToPostUpdate={isAllowedToPostUpdate}
+              isAllowedToPostUpdate={isEditor}
               index={updates.length - idx}
               onUpdateDeleted={refetchUpdates}
             />
@@ -98,9 +94,7 @@ function UpdatesTabView({ allowedAddresses, project }: Props) {
         ) : (
           <Empty
             title={t(
-              isProjectEditor
-                ? 'page.project_sidebar.updates.editor_no_updates'
-                : 'page.project_sidebar.updates.no_updates'
+              isEditor ? 'page.project_sidebar.updates.editor_no_updates' : 'page.project_sidebar.updates.no_updates'
             )}
           />
         )}

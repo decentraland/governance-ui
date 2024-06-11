@@ -53,7 +53,8 @@ function MilestonesTab({ project }: Props) {
   const [isFormDisabled, setIsFormDisabled] = useState(false)
   const [error, setError] = useState('')
   const queryClient = useQueryClient()
-  const isEditor = useIsProjectEditor(project)
+  const { isEditor, isEditable } = useIsProjectEditor(project)
+  const canEdit = isEditor && isEditable
   const { id: projectId, milestones } = project
   const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false)
   const [selectedMilestoneId, setSelectedMilestoneId] = useState<ProjectMilestone['id'] | null>(null)
@@ -155,12 +156,12 @@ function MilestonesTab({ project }: Props) {
         content: (
           <ActionableBreakdownContent
             about={description}
-            onClick={isEditor ? () => handleDeleteMilestone(id) : undefined}
-            actionLabel={isEditor && <DeleteActionLabel />}
+            onClick={canEdit ? () => handleDeleteMilestone(id) : undefined}
+            actionLabel={canEdit && <DeleteActionLabel />}
           />
         ),
       })),
-    [milestones, isEditor, handleDeleteMilestone]
+    [milestones, canEdit, handleDeleteMilestone]
   )
 
   if ((!milestones || milestones.length === 0) && !isEditor) {
@@ -175,7 +176,7 @@ function MilestonesTab({ project }: Props) {
           {items.map((item, key) => (
             <ExpandableBreakdownItem key={key} item={item} />
           ))}
-          {isEditor && !showForm && (
+          {canEdit && !showForm && (
             <div>
               <Button basic onClick={handleAddMilestone}>
                 {t('project.sheet.milestones.add_label')}
