@@ -1,34 +1,8 @@
 import { ethers } from 'ethers'
 
-import { SnapshotGraphql } from '../clients/SnapshotGraphql'
-import { SnapshotSubgraph } from '../clients/SnapshotSubgraph'
-import { SNAPSHOT_SPACE } from '../constants/snapshot'
-import { Delegation, DelegationResult, EMPTY_DELEGATION, SnapshotProposal, SnapshotVote } from '../types/SnapshotTypes'
+import { Delegation, SnapshotProposal, SnapshotVote } from '../types/SnapshotTypes'
 
 import logger from './logger'
-
-// TODO: Move to queries file?
-type BlockNumber = string | number | undefined
-const getBlockNumberFilter = (blockNumber: BlockNumber) => (blockNumber ? 'block:{number: $blockNumber},' : '')
-const getDelegationType = (key: 'delegatedTo' | 'delegatedFrom') => {
-  if (key === 'delegatedTo') {
-    return 'delegator'
-  }
-
-  return 'delegate'
-}
-
-const getDelegatedQuery = (key: 'delegatedTo' | 'delegatedFrom', blockNumber?: BlockNumber) => `
-query ($space: String!, $address: String!, $first: Int!, $skip: Int!, $blockNumber: Int) {
-  ${key}: delegations(${getBlockNumberFilter(blockNumber)}
-  where: { space_in: ["", $space], ${getDelegationType(key)}: $address },
-  first: $first, skip: $skip, orderBy: timestamp, orderDirection: desc) {
-    delegator
-    delegate
-    space
-    timestamp
-  }
-}`
 
 export type Match = {
   proposal_id: string
@@ -164,48 +138,6 @@ export function filterDelegationFrom(delegations: Delegation[], space: string): 
   return Array.from(uniqueDelegations.values())
 }
 
-function getDelegatesVariables(address: string, blockNumber?: string | number) {
-  return {
-    address: address.toLowerCase(),
-    space: SNAPSHOT_SPACE,
-    ...(!!blockNumber && { blockNumber }),
-  }
-}
-
-export async function getDelegations(
-  address: string | null | undefined,
-  blockNumber?: string | number
-): Promise<DelegationResult> {
-  if (!SNAPSHOT_SPACE || !address) {
-    return EMPTY_DELEGATION
-  }
-  const variables = getDelegatesVariables(address, blockNumber)
-  try {
-    const delegatedTo = await SnapshotSubgraph.get().getDelegates(
-      'delegatedTo',
-      getDelegatedQuery('delegatedTo', blockNumber),
-      variables
-    )
-    const delegatedFrom = await SnapshotSubgraph.get().getDelegates(
-      'delegatedFrom',
-      getDelegatedQuery('delegatedFrom', blockNumber),
-      variables
-    )
-
-    if (!delegatedTo && !delegatedFrom) {
-      return EMPTY_DELEGATION
-    }
-
-    return {
-      delegatedTo: filterDelegationTo(delegatedTo, SNAPSHOT_SPACE),
-      delegatedFrom: filterDelegationFrom(delegatedFrom, SNAPSHOT_SPACE),
-    }
-  } catch (error) {
-    console.error(error)
-    return EMPTY_DELEGATION
-  }
-}
-
 export function getChecksumAddress(address: string) {
   return ethers.utils.getAddress(address.toLowerCase())
 }
@@ -219,10 +151,4 @@ export function isSameAddress(userAddress?: string | null, address?: string | nu
     address.length > 0 &&
     getChecksumAddress(userAddress) === getChecksumAddress(address)
   )
-}
-
-export async function getUsersWhoVoted(users: string[]) {
-  const votesFromUsers = await SnapshotGraphql.get().getVotesByAddresses(users)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return Array.from(new Set(votesFromUsers.map((vote: any) => vote.voter.toLowerCase())))
 }

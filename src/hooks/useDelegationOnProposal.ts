@@ -2,17 +2,18 @@ import { useMemo } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 
+import { Governance } from '../clients/Governance.ts'
 import { EMPTY_DELEGATION } from '../types/SnapshotTypes'
 import { ProposalAttributes } from '../types/proposals'
-import { getDelegations } from '../utils/snapshot'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants'
 
 export default function useDelegationOnProposal(proposal?: ProposalAttributes | null, address?: string | null) {
   const { data, isLoading } = useQuery({
-    queryKey: [`delegationsOnProposal#${address}#${proposal?.snapshot_proposal.snapshot}`],
+    queryKey: ['delegationsOnProposal', address, proposal?.snapshot_proposal.snapshot],
     queryFn: async () => {
-      return await getDelegations(address, proposal?.snapshot_proposal.snapshot)
+      if (!address) return EMPTY_DELEGATION
+      return await Governance.get().getDelegations(address, proposal?.snapshot_proposal.snapshot)
     },
     staleTime: DEFAULT_QUERY_STALE_TIME,
   })
