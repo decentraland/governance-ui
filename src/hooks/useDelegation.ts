@@ -8,7 +8,7 @@ import { DEFAULT_QUERY_STALE_TIME } from './constants'
 
 export default function useDelegation(address?: string | null) {
   const { data: delegation, isLoading: isDelegationLoading } = useQuery({
-    queryKey: [`delegations#${SNAPSHOT_SPACE}#${address}`],
+    queryKey: ['delegations', SNAPSHOT_SPACE, address],
     queryFn: async () => {
       if (!address) return EMPTY_DELEGATION
       return await Governance.get().getDelegations(address)
