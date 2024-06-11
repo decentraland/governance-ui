@@ -30,8 +30,8 @@ function ProjectGeneralInfo({ project }: Props) {
           <Markdown>{about}</Markdown>
         </div>
       )}
-      <ActionableLinksView links={links} projectId={project.id} isEditor={isEditor} isEditable={isEditable} />
-      <ActionablePersonnelView members={personnel} projectId={project.id} isEditor={isEditor} isEditable={isEditable} />
+      <ActionableLinksView links={links} projectId={project.id} canEdit={isEditor && isEditable} />
+      <ActionablePersonnelView members={personnel} projectId={project.id} canEdit={isEditor && isEditable} />
     </>
   )
 }
