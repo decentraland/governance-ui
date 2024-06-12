@@ -169,16 +169,14 @@ function ActionableLinksView({ links, projectId, proposalId, canEdit }: Props) {
     <div>
       <ProjectSidebarSectionTitle text={t('project.sheet.general_info.links.title')} />
       <ProjectSectionsContainer>
-        {items && items.length > 0 && (
-          <ProjectInfoCardsContainer slim>
-            <ProjectSheetLinkItem
-              label={t('project.sheet.general_info.links.proposal_link')}
-              icon={<BlueLinkIcon />}
-              href={proposalUrl(proposalId)}
-            />
-            {items}
-          </ProjectInfoCardsContainer>
-        )}
+        <ProjectInfoCardsContainer slim>
+          <ProjectSheetLinkItem
+            label={t('project.sheet.general_info.links.proposal_link')}
+            icon={<BlueLinkIcon />}
+            href={proposalUrl(proposalId)}
+          />
+          {items && items.length > 0 && items}
+        </ProjectInfoCardsContainer>
         {canEdit && !showCreate && (
           <div>
             <Button basic onClick={handleAdd}>
