@@ -14,7 +14,7 @@
 
 .ProjectSheetLink--in_progress {
   border-radius: 8px;
-  background: #44b600 !important;
+  background: linear-gradient(0deg, #44b600 0%, #338802 100%) !important;
   box-shadow: 0px 1px 25px 0px #a6d988;
 }
 

@@ -21,6 +21,10 @@
   background: var(--alpha-purple-200);
 }
 
+.Banner--orange {
+  background: var(--orange-200);
+}
+
 .Banner .Banner__Icon {
   flex: 0 0 68px;
   height: 48px;
@@ -59,6 +63,10 @@
 
 .Banner__Button--purple {
   background-color: var(--iris-100) !important;
+}
+
+.Banner__Button--orange {
+  background-color: var(--orange-800) !important;
 }
 
 .Banner__Text {
