@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import classNames from 'classnames'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
+import { ProjectStatus } from '../../types/grants.ts'
 import { Project } from '../../types/proposals'
 import BoxTabs from '../Common/BoxTabs'
 
@@ -22,24 +23,31 @@ interface Props {
 function ProjectView({ project, onClose, isFullscreen = false }: Props) {
   const t = useFormatMessage()
   const [viewIdx, setViewIdx] = useState(0)
+  const showMilestonesTab = !(
+    project?.status === ProjectStatus.Finished &&
+    (!project.milestones || project.milestones.length === 0)
+  )
 
-  const MENU_ITEMS: { labelKey: string; view: React.ReactNode }[] = useMemo(
-    () => [
+  const MENU_ITEMS: { labelKey: string; view: React.ReactNode }[] = useMemo(() => {
+    return [
       {
         labelKey: 'page.project_sidebar.general_info.title',
         view: project && <ProjectGeneralInfo project={project} />,
       },
-      {
-        labelKey: 'page.project_sidebar.milestones.title',
-        view: project && <MilestonesTab project={project} />,
-      },
+      ...(showMilestonesTab
+        ? [
+            {
+              labelKey: 'page.project_sidebar.milestones.title',
+              view: project && <MilestonesTab project={project} />,
+            },
+          ]
+        : []),
       {
         labelKey: 'page.project_sidebar.updates.title',
         view: <UpdatesTabView project={project} />,
       },
-    ],
-    [project]
-  )
+    ]
+  }, [project, showMilestonesTab])
   return (
     <div>
       {project && <ProjectSheetTitle project={project} onClose={onClose} isFullscreen={isFullscreen} />}
