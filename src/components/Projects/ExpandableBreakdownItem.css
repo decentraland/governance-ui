@@ -26,7 +26,6 @@
 
 .ExpandableBreakdownItem__Content {
   display: none;
-  min-height: 64px;
 }
 
 .ExpandableBreakdownItem__Content--expanded {

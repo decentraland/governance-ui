@@ -111,7 +111,7 @@ function ActionablePersonnelView({ members, projectId, canEdit }: Props) {
     mutationKey: [`createPersonnel`],
   })
 
-  const { mutate: deletePersonnel } = useMutation({
+  const { mutateAsync: deletePersonnel } = useMutation({
     mutationFn: async (personnelId: string) => {
       setIsFormDisabled(true)
       setError('')
@@ -151,9 +151,9 @@ function ActionablePersonnelView({ members, projectId, canEdit }: Props) {
     [setIsDeleteConfirmationModalOpen]
   )
 
-  const handleDeletePersonnelConfirm = () => {
+  const handleDeletePersonnelConfirm = async () => {
     if (selectedPersonnelId) {
-      deletePersonnel(selectedPersonnelId)
+      await deletePersonnel(selectedPersonnelId)
       setSelectedPersonnelId(null)
     }
     setIsDeleteConfirmationModalOpen(false)
@@ -183,7 +183,6 @@ function ActionablePersonnelView({ members, projectId, canEdit }: Props) {
     [members, canEdit, handleDeletePersonnel]
   )
 
-  //TODO: is loading
   return (
     <div>
       <ProjectSidebarSectionTitle text={t('project.sheet.general_info.personnel.title')} />
@@ -213,6 +212,7 @@ function ActionablePersonnelView({ members, projectId, canEdit }: Props) {
         </ProjectInfoCardsContainer>
       </ProjectSectionsContainer>
       <ConfirmationModal
+        isLoading={isFormDisabled}
         isOpen={isDeleteConfirmationModalOpen}
         title={t('modal.delete_item.title')}
         description={t('modal.delete_item.description')}

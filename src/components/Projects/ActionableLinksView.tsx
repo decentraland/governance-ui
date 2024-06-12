@@ -80,7 +80,7 @@ function ActionableLinksView({ links, projectId, canEdit }: Props) {
     mutationKey: [`createProjectLink`],
   })
 
-  const { mutate: deleteProjectLink } = useMutation({
+  const { mutateAsync: deleteProjectLink } = useMutation({
     mutationFn: async (projectLinkId: string) => {
       setIsFormDisabled(true)
       setError('')
@@ -120,9 +120,9 @@ function ActionableLinksView({ links, projectId, canEdit }: Props) {
     [setIsDeleteConfirmationModalOpen]
   )
 
-  const handleDeleteLinkConfirm = () => {
+  const handleDeleteLinkConfirm = async () => {
     if (selectedProjectLinkId) {
-      deleteProjectLink(selectedProjectLinkId)
+      await deleteProjectLink(selectedProjectLinkId)
       setSelectedProjectLinkId(null)
     }
     setIsDeleteConfirmationModalOpen(false)
@@ -186,6 +186,7 @@ function ActionableLinksView({ links, projectId, canEdit }: Props) {
         {!!error && <ErrorMessage label="Link Error" errorMessage={error} />}
       </ProjectSectionsContainer>
       <ConfirmationModal
+        isLoading={isFormDisabled}
         isOpen={isDeleteConfirmationModalOpen}
         title={t('modal.delete_item.title')}
         description={t('modal.delete_item.description')}

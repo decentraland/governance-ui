@@ -94,7 +94,7 @@ function MilestonesTab({ project }: Props) {
     mutationKey: [`createMilestone`],
   })
 
-  const { mutate: deleteMilestone } = useMutation({
+  const { mutateAsync: deleteMilestone } = useMutation({
     mutationFn: async (milestoneId: string) => {
       setIsFormDisabled(true)
       setError('')
@@ -134,9 +134,9 @@ function MilestonesTab({ project }: Props) {
     [setIsDeleteConfirmationModalOpen]
   )
 
-  const handleDeleteMilestoneConfirm = () => {
+  const handleDeleteMilestoneConfirm = async () => {
     if (selectedMilestoneId) {
-      deleteMilestone(selectedMilestoneId)
+      await deleteMilestone(selectedMilestoneId)
       setSelectedMilestoneId(null)
     }
     setIsDeleteConfirmationModalOpen(false)
@@ -197,6 +197,7 @@ function MilestonesTab({ project }: Props) {
         </ProjectInfoCardsContainer>
       </ProjectSectionsContainer>
       <ConfirmationModal
+        isLoading={isFormDisabled}
         isOpen={isDeleteConfirmationModalOpen}
         title={t('modal.delete_item.title')}
         description={t('modal.delete_item.description')}
