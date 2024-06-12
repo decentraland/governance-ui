@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
 
+import classNames from 'classnames'
+
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { Project } from '../../types/proposals'
 import BoxTabs from '../Common/BoxTabs'
@@ -14,9 +16,10 @@ import './ProjectView.css'
 interface Props {
   project?: Project | null
   onClose?: () => void
+  isFullscreen?: boolean
 }
 
-function ProjectView({ project, onClose }: Props) {
+function ProjectView({ project, onClose, isFullscreen = false }: Props) {
   const t = useFormatMessage()
   const [viewIdx, setViewIdx] = useState(0)
 
@@ -39,7 +42,7 @@ function ProjectView({ project, onClose }: Props) {
   )
   return (
     <div>
-      {project && <ProjectSheetTitle project={project} onClose={onClose} />}
+      {project && <ProjectSheetTitle project={project} onClose={onClose} isFullscreen={isFullscreen} />}
 
       <BoxTabs className="ProjectView__Tabs">
         <BoxTabs.Left>
@@ -50,7 +53,14 @@ function ProjectView({ project, onClose }: Props) {
           ))}
         </BoxTabs.Left>
       </BoxTabs>
-      <div className="ProjectView__ContentContainer">{MENU_ITEMS[viewIdx].view}</div>
+      <div
+        className={classNames(
+          'ProjectView__ContentContainer',
+          isFullscreen && 'ProjectView__ContentContainer--fullscreen'
+        )}
+      >
+        {MENU_ITEMS[viewIdx].view}
+      </div>
     </div>
   )
 }

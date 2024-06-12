@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
 
 import { ProjectStatus } from '../../types/grants.ts'
@@ -15,18 +16,23 @@ const IS_DOTS_MENU_ENABLED = false
 interface Props {
   project: Project
   onClose?: () => void
+  isFullscreen?: boolean
 }
 
 const HIGHLIGHTED_STATUSES = [ProjectStatus.Pending, ProjectStatus.InProgress]
 
-export default function ProjectSheetTitle({ project, onClose }: Props) {
+export default function ProjectSheetTitle({ project, onClose, isFullscreen }: Props) {
   const showHero = HIGHLIGHTED_STATUSES.includes(project.status)
 
   return (
     <>
       {showHero ? (
         <div className="ProjectHero__Container">
-          <HeroBanner active color={PillColor.Purple} className="ProjectHero__Banner" />
+          <HeroBanner
+            active
+            color={PillColor.Purple}
+            className={classNames('ProjectHero__Banner', isFullscreen && 'ProjectHero__Banner--fullscreen')}
+          />
           <div className="ProjectHero__Text">
             <h1 className="ProjectHero__Title">{project?.title || ''}</h1>
             <Loader active={!project} />
