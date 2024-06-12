@@ -154,7 +154,6 @@ function ActionableLinksView({ links, projectId, canEdit }: Props) {
     [links, canEdit, handleDeleteLink]
   )
 
-  //TODO: is loading
   return (
     <div>
       <ProjectSidebarSectionTitle text={t('project.sheet.general_info.links.title')} />

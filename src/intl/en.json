@@ -1023,7 +1023,7 @@
         "beneficiary_title": "Beneficiary address",
         "email_title": "Email address",
         "deliverables_title": "Deliverables",
-        "roadmap_title": "Roadmap and milestones"
+        "roadmap_title": "Roadmap"
       },
       "grant": {
         "header": "Should the following **{value}** grant in the **{category}** category be approved?",
@@ -1040,7 +1040,7 @@
         "breakdown_title": "Budget breakdown",
         "breakdown_subtitle": "{duration} {duration, plural, one {month} other {months}}",
         "personnel_title": "Personnel",
-        "roadmap_title": "Roadmap and milestones",
+        "roadmap_title": "Roadmap",
         "milestones_title": "Milestones",
         "relevant_link": "Relevant link"
       },
@@ -2243,7 +2243,7 @@
         "deliverables_detail": "Be as specific as possible. Describe the entire scope of the project and the actual work you are going to deliver to the DAO.",
         "beneficiary_label": "Beneficiary address",
         "beneficiary_detail": "The address that will receive the grant funds. This must be an Ethereum address! Entering a non-Ethereum address that cannot receive MANA may result in a permanent loss of funds.",
-        "roadmap_label": "Roadmap and milestones",
+        "roadmap_label": "Roadmap",
         "roadmap_detail": "Describe the roadmap of your project, making sure to include any relevant milestones that the community should be aware of and how you will share the progress you have made. Clearly communicating progress for long-term projects funded by vesting contracts will help prevent the removal of your funding.",
         "roadmap_placeholder": "Your estimated timeline and key milestones. Include your plan for reporting progress to the community.",
         "email_label": "Contact Email Address",

@@ -168,7 +168,6 @@ function MilestonesTab({ project }: Props) {
     return <Empty title={t('page.project_sidebar.milestones.no_milestones')} />
   }
 
-  //TODO: is loading
   return (
     <div>
       <ProjectSectionsContainer>

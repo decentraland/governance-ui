@@ -31,7 +31,7 @@ export default function ProjectSheetStatusPill({ project, hero = false }: Props)
 
   const pillData = getPillTextData(status, created_at, funding)
 
-  if (!pillData.days) {
+  if (!pillData.days && pillData.days !== 0) {
     return null
   }
 
