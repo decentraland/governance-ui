@@ -2310,7 +2310,8 @@
         "funding": "Funding",
         "links": {
           "title": "Project Links",
-          "add_label": "+ Add Link"
+          "add_label": "+ Add Link",
+          "proposal_link": "Proposal"
         },
         "personnel": {
           "title": "Personnel",
