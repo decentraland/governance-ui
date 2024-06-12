@@ -30,5 +30,6 @@ export default function useProjectUpdates(projectId?: string | null) {
     isLoading,
     isError,
     refetchUpdates: refetch,
+    latestPublishedUpdate: updates?.publicUpdates?.find((item) => !!item.completion_date),
   }
 }

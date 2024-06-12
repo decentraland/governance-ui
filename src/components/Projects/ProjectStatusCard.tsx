@@ -18,7 +18,7 @@ import './ProjectStatusCard.css'
 
 interface Props {
   status: ProjectStatus | ProjectHealth
-  date: Date
+  date?: Date
   href?: string
 }
 
@@ -77,20 +77,22 @@ function ProjectStatusCard({ status, date, href }: Props) {
           <Text as="span" className="ProjectStatusCard__Title" weight="medium">
             {t(titleKey)}
           </Text>
-          <div className="ProjectStatusCard__Date">
-            <Text size="sm" as="span" className="ProjectStatusCard__DateText">
-              <DateTooltip date={date}>
-                {t(
-                  `page.project_sidebar.general_info.status_card.${
-                    status === ProjectStatus.InProgress ? 'started' : 'reported'
-                  }`,
-                  {
-                    date: formatDate(date),
-                  }
-                )}
-              </DateTooltip>
-            </Text>
-          </div>
+          {date && (
+            <div className="ProjectStatusCard__Date">
+              <Text size="sm" as="span" className="ProjectStatusCard__DateText">
+                <DateTooltip date={date}>
+                  {t(
+                    `page.project_sidebar.general_info.status_card.${
+                      status === ProjectStatus.InProgress ? 'started' : 'reported'
+                    }`,
+                    {
+                      date: formatDate(date),
+                    }
+                  )}
+                </DateTooltip>
+              </Text>
+            </div>
+          )}
         </div>
       </div>
       {href && (

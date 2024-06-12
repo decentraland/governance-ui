@@ -29,9 +29,15 @@ export default function ProjectSheetStatusPill({ project, hero = false }: Props)
   const { status, created_at, funding } = project
   const t = useFormatMessage()
 
+  const pillData = getPillTextData(status, created_at, funding)
+
+  if (!pillData.days) {
+    return null
+  }
+
   return (
     <div className={classNames(['ProjectSheetStatusPill', `ProjectSheetStatusPill--${status}${hero ? '--hero' : ''}`])}>
-      {t(`project.sheet.status_pill.${status}`, getPillTextData(status, created_at, funding))}
+      {t(`project.sheet.status_pill.${status}`, pillData)}
     </div>
   )
 }

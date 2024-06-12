@@ -1,3 +1,4 @@
+import { getEnumDisplayName } from '../../helpers'
 import { ProjectStatus } from '../../types/grants'
 import Pill, { PillColor, PillStyle } from '../Common/Pill'
 import Check from '../Icon/Check'
@@ -32,7 +33,7 @@ function VestingPill({ className, status }: Props) {
       style={PillStyle.Outline}
       icon={IconConfig[status]}
     >
-      {status}
+      {getEnumDisplayName(status)}
     </Pill>
   )
 }

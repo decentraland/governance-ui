@@ -13,14 +13,14 @@ interface Props {
 function prioritizedStatus(
   project: Project,
   update?: UpdateAttributes
-): { status: ProjectStatus | ProjectHealth; date: Date; href?: string } {
-  const { status, updated_at, created_at } = project
+): { status: ProjectStatus | ProjectHealth; date?: Date; href?: string } {
+  const { status, created_at } = project
 
-  const defaultStatus = { status, date: updated_at || created_at }
+  const defaultStatus = { status, date: created_at }
   const priorityProjectStatuses = [ProjectStatus.Finished, ProjectStatus.Revoked, ProjectStatus.Paused]
 
   if (priorityProjectStatuses.includes(status)) {
-    return defaultStatus
+    return { status, date: update?.updated_at }
   }
 
   if (update?.health) {
@@ -31,9 +31,8 @@ function prioritizedStatus(
 }
 
 function ProjectStatusCardWrapper({ project }: Props) {
-  const { publicUpdates } = useProjectUpdates(project.id)
-  const latestUpdate = publicUpdates?.[0]
-  const { status, date, href } = prioritizedStatus(project, latestUpdate)
+  const { latestPublishedUpdate } = useProjectUpdates(project.id)
+  const { status, date, href } = prioritizedStatus(project, latestPublishedUpdate)
   return <ProjectStatusCard status={status} date={date} href={href} />
 }
 
