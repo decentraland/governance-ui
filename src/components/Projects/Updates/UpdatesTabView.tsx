@@ -93,7 +93,7 @@ function UpdatesTabView({ project }: Props) {
           ))
         ) : (
           <Empty
-            title={t(
+            description={t(
               isEditor ? 'page.project_sidebar.updates.editor_no_updates' : 'page.project_sidebar.updates.no_updates'
             )}
           />

@@ -24,7 +24,6 @@ import ProposalDetailSection from './View/ProposalDetailSection'
 import ProposalGovernanceSection from './View/ProposalGovernanceSection'
 import ProposalThresholdsSummary from './View/ProposalThresholdsSummary'
 import SubscribeButton from './View/SubscribeButton'
-import VestingContract from './View/VestingContract'
 
 import ProposalActions from './ProposalActions'
 import './ProposalSidebar.css'
@@ -121,7 +120,6 @@ export default function ProposalSidebar({
     !(proposal.status === ProposalStatus.Passed)
   )
 
-  const showVestingContract = proposal?.vesting_addresses && proposal?.vesting_addresses.length > 0
   const isCalendarButtonDisabled = !proposal || proposal.status !== ProposalStatus.Active
   const hasProject = !!projectId && !!projectStatus
   const isGrantee = isOwner || isCoauthor
@@ -143,7 +141,6 @@ export default function ProposalSidebar({
           />
         </>
       )}
-      {showVestingContract && <VestingContract vestingAddresses={proposal.vesting_addresses} />}
       {proposal && <ProposalCoAuthorStatus proposalId={proposal.id} proposalFinishDate={proposal.finish_at} />}
       <div className="ProposalSidebar">
         <div ref={votingSectionRef}>

@@ -100,7 +100,13 @@ function ProjectSidebarForm<T extends FieldValues>({
         </div>
       ))}
       <div className="ProjectSidebarForm__Actions">
-        <Button className="ProjectSidebarForm__Submit" primary onClick={handleSubmit(onSave)}>
+        <Button
+          className="ProjectSidebarForm__Submit"
+          loading={isFormDisabled}
+          disabled={isFormDisabled}
+          primary
+          onClick={handleSubmit(onSave)}
+        >
           {t('project.sheet.form.save')}
         </Button>
         <Button className="ProjectSidebarForm__Cancel" basic onClick={onCancel}>

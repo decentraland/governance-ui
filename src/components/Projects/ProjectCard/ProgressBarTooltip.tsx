@@ -18,10 +18,10 @@ function ProgressBarTooltip({ proposalProject, isInCliff, children }: Props) {
   const intl = useIntl()
 
   const { funding } = proposalProject
-  const { vesting, one_time_payment, enacted_at } = funding!
+  const { vesting, one_time_payment, enacted_at } = funding || {}
   const token = vesting ? vesting.token : one_time_payment?.token
   const isOneTimePayment = !!one_time_payment
-  const vestedAmount = (vesting ? vesting.vested : one_time_payment!.tx_amount) || 0
+  const vestedAmount = (vesting ? vesting.vested : one_time_payment?.tx_amount) || 0
   const releasedAmount = !isOneTimePayment && vesting ? vesting.released : 0
 
   let textToShow = ''

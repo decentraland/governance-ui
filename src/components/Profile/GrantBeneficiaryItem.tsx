@@ -36,9 +36,12 @@ function GrantBeneficiaryItem({ proposalProject }: Props) {
   const proposalInCliffPeriod = !!enacted_at && isProposalInCliffPeriod(enacted_at)
   const isInMana = TRANSPARENCY_TIERS_IN_MANA.includes(configuration.tier)
   const formattedEnactedDate = enacted_at ? formatDate(new Date(enacted_at)) : null
+  const href = proposalProject?.project_id
+    ? locations.project({ id: proposalProject?.project_id })
+    : locations.proposal(proposalProject.id)
 
   return (
-    <Card as={Link} className="GrantBeneficiaryItem" href={locations.proposal(proposalProject.id)}>
+    <Card as={Link} className="GrantBeneficiaryItem" href={href}>
       <Card.Content>
         <NotMobile>
           <div className="GrantBeneficiaryItem__Section">
