@@ -20,7 +20,6 @@
   "SNAPSHOT_DURATION": "300",
   "SNAPSHOT_SPACE": "daotest.dcl.eth",
   "SNAPSHOT_URL": "https://testnet.snapshot.org/",
-  "SNAPSHOT_QUERY_ENDPOINT": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot",
   "SNAPSHOT_STATUS_ENABLED": "false",
   "SUBMISSION_THRESHOLD_DRAFT": "100",
   "SUBMISSION_THRESHOLD_GOVERNANCE": "100",
