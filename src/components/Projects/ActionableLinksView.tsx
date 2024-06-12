@@ -9,7 +9,7 @@ import { isHttpsURL } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { getProjectQueryKey } from '../../hooks/useProject.ts'
 import { Project, ProjectLink } from '../../types/proposals'
-import { proposalUrl } from '../../utils/proposal.ts'
+import locations from '../../utils/locations.ts'
 import Link from '../Common/Typography/Link.tsx'
 import ErrorMessage from '../Error/ErrorMessage.tsx'
 import BlueLinkIcon from '../Icon/BlueLinkIcon.tsx'
@@ -173,7 +173,7 @@ function ActionableLinksView({ links, projectId, proposalId, canEdit }: Props) {
           <ProjectSheetLinkItem
             label={t('project.sheet.general_info.links.proposal_link')}
             icon={<BlueLinkIcon />}
-            href={proposalUrl(proposalId)}
+            href={locations.proposal(proposalId)}
           />
           {items && items.length > 0 && items}
         </ProjectInfoCardsContainer>

@@ -43,7 +43,7 @@ export default function UpdateDetail() {
   }
 
   const index = getUpdateNumber(publicUpdates, updateId)
-  const proposalHref = locations.proposal(update.proposal_id)
+  const projectHref = locations.project({ id: update.project_id })
 
   const previousUpdate = getLatestUpdate(publicUpdates || [], Time(update.completion_date).toDate())
 
@@ -54,10 +54,10 @@ export default function UpdateDetail() {
         description={update?.introduction}
         links={[{ rel: 'canonical', href: locations.update(update.id) }]}
       />
-      <ContentLayout navigateBackUrl={proposalHref} small>
+      <ContentLayout navigateBackUrl={projectHref} small>
         <ContentSection className="UpdateDetail__Header">
           <span className="UpdateDetail__ProjectTitle">
-            {t('page.update_detail.project_title', { title: <Link href={proposalHref}>{proposal?.title}</Link> })}
+            {t('page.update_detail.project_title', { title: <Link href={projectHref}>{proposal?.title}</Link> })}
           </span>
           <Header size="huge">{t('page.update_detail.title', { index })}</Header>
         </ContentSection>

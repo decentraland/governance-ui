@@ -2304,7 +2304,7 @@
         "in_progress": "Ongoing for {days} {days, plural, one {day} other {days}}",
         "paused": "Paused",
         "revoked": "Revoked",
-        "finished": "Ended {days, plural, =0 {Today} one {{days} day ago} other {{days} days ago}}"
+        "finished": "Ended"
       },
       "general_info": {
         "funding": "Funding",

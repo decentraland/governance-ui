@@ -31,10 +31,6 @@ export default function ProjectSheetStatusPill({ project, hero = false }: Props)
 
   const pillData = getPillTextData(status, created_at, funding)
 
-  if (!pillData.days && pillData.days !== 0) {
-    return null
-  }
-
   return (
     <div className={classNames(['ProjectSheetStatusPill', `ProjectSheetStatusPill--${status}${hero ? '--hero' : ''}`])}>
       {t(`project.sheet.status_pill.${status}`, pillData)}
