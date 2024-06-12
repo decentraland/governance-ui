@@ -2,7 +2,17 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 32px;
+  padding: 16px;
+}
+
+.ProjectView__ContentContainer--fullscreen {
+  padding: 8px 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .ProjectView__ContentContainer {
+    padding: 32px;
+  }
 }
 
 .ProjectView__Tabs {

@@ -55,9 +55,19 @@
 }
 
 .ProjectHero__Banner {
-  border-radius: 16px;
+  border-radius: 0;
   background: linear-gradient(90deg, #d80027 0%, #a524b3 100%);
   box-shadow: none;
+}
+
+.ProjectHero__Banner--fullscreen {
+  border-radius: 16px;
+}
+
+@media (min-width: 768px) {
+  .ProjectHero__Banner {
+    border-radius: 16px;
+  }
 }
 
 .ProjectHero__Menu {
