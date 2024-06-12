@@ -9,7 +9,7 @@ import Text from '../Common/Typography/Text'
 
 import './Banner.css'
 
-type BannerColor = 'blue' | 'purple' | 'red'
+type BannerColor = 'blue' | 'purple' | 'red' | 'orange'
 
 export type BannerProps = {
   isVisible: boolean

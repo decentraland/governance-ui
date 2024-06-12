@@ -12,7 +12,6 @@ interface Props {
 
 function PostUpdateBanner({ updateNumber, dueDays, onClick, isMandatory = false }: Props) {
   const t = useFormatMessage()
-
   return (
     <Banner
       className="PostUpdateBanner"
@@ -28,7 +27,7 @@ function PostUpdateBanner({ updateNumber, dueDays, onClick, isMandatory = false 
       buttonLabel={t('page.project_sidebar.updates.banner.button')}
       bannerHideKey=""
       isClosable={false}
-      color="red"
+      color={isMandatory ? 'orange' : 'blue'}
       onButtonClick={onClick}
     />
   )
