@@ -7,7 +7,7 @@ import 'isomorphic-fetch'
 import numeral from 'numeral'
 
 import { Governance } from '../clients/Governance'
-import { DISCOURSE_API, GOVERNANCE_API } from '../constants'
+import { DISCOURSE_API, GOVERNANCE_URL } from '../constants'
 import { MAX_NAME_SIZE, MIN_NAME_SIZE } from '../constants/proposals'
 import { SNAPSHOT_SPACE, SNAPSHOT_URL } from '../constants/snapshot'
 import { getEnumDisplayName } from '../helpers'
@@ -117,16 +117,8 @@ export function forumUserUrl(username: string) {
 
 export function proposalUrl(id: ProposalAttributes['id']) {
   const params = new URLSearchParams({ id })
-  const target = new URL(GOVERNANCE_API)
+  const target = new URL(GOVERNANCE_URL)
   target.pathname = '/proposal/'
-  target.search = '?' + params.toString()
-  return target.toString()
-}
-
-export function projectUrl(id: string) {
-  const params = new URLSearchParams({ id })
-  const target = new URL(GOVERNANCE_API)
-  target.pathname = '/projects/'
   target.search = '?' + params.toString()
   return target.toString()
 }

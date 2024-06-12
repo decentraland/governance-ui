@@ -5,13 +5,13 @@ import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { ZodSchema, z } from 'zod'
 
 import { Governance } from '../../clients/Governance'
-import { isHttpsURL } from '../../helpers/index.ts'
+import { isHttpsURL } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { getProjectQueryKey } from '../../hooks/useProject.ts'
 import { Project, ProjectLink } from '../../types/proposals'
+import { proposalUrl } from '../../utils/proposal.ts'
 import Link from '../Common/Typography/Link.tsx'
 import ErrorMessage from '../Error/ErrorMessage.tsx'
-import { BreakdownItem } from '../GrantRequest/BreakdownAccordion'
 import BlueLinkIcon from '../Icon/BlueLinkIcon.tsx'
 import ConfirmationModal from '../Modal/ConfirmationModal.tsx'
 
@@ -20,12 +20,14 @@ import DeleteActionLabel from './DeleteActionLabel.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
+import ProjectSheetLinkItem from './ProjectSheetLinkItem.tsx'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
 
 interface Props {
   links: ProjectLink[]
   projectId: string
+  proposalId: string
   canEdit: boolean
 }
 
@@ -39,7 +41,7 @@ const NewLinkFields: ProjectSidebarFormFields<ProjectLink> = [
 ]
 const LINK_INITIAL_VALUES = { label: '', url: '' } as Partial<ProjectLink>
 
-function ActionableLinksView({ links, projectId, canEdit }: Props) {
+function ActionableLinksView({ links, projectId, proposalId, canEdit }: Props) {
   const t = useFormatMessage()
   const [showCreate, setShowCreate] = useState(false)
   const [isFormDisabled, setIsFormDisabled] = useState(false)
@@ -137,20 +139,29 @@ function ActionableLinksView({ links, projectId, canEdit }: Props) {
 
   const items = useMemo(
     () =>
-      links.map<BreakdownItem>(({ id, label, url }) => ({
-        title: (
-          <Link className="ExpandableBreakdownItem__Title" href={url} target="_blank">
-            <BlueLinkIcon /> {label}
-          </Link>
-        ),
-        content: (
-          <ActionableBreakdownContent
-            about={url}
-            onClick={canEdit ? () => handleDeleteLink(id) : undefined}
-            actionLabel={canEdit && <DeleteActionLabel />}
+      links.map(({ id, label, url }, index) => {
+        return canEdit ? (
+          <ExpandableBreakdownItem
+            key={index}
+            item={{
+              title: (
+                <Link className="ExpandableBreakdownItem__Title" href={url} target="_blank">
+                  <BlueLinkIcon /> {label}
+                </Link>
+              ),
+              content: (
+                <ActionableBreakdownContent
+                  about={url}
+                  onClick={() => handleDeleteLink(id)}
+                  actionLabel={<DeleteActionLabel />}
+                />
+              ),
+            }}
           />
-        ),
-      })),
+        ) : (
+          <ProjectSheetLinkItem label={label} icon={<BlueLinkIcon />} href={url} key={index} />
+        )
+      }),
     [links, canEdit, handleDeleteLink]
   )
 
@@ -160,9 +171,12 @@ function ActionableLinksView({ links, projectId, canEdit }: Props) {
       <ProjectSectionsContainer>
         {items && items.length > 0 && (
           <ProjectInfoCardsContainer slim>
-            {items.map((item, key) => (
-              <ExpandableBreakdownItem key={key} item={item} />
-            ))}
+            <ProjectSheetLinkItem
+              label={t('project.sheet.general_info.links.proposal_link')}
+              icon={<BlueLinkIcon />}
+              href={proposalUrl(proposalId)}
+            />
+            {items}
           </ProjectInfoCardsContainer>
         )}
         {canEdit && !showCreate && (

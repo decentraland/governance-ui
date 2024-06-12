@@ -1,6 +1,5 @@
 import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import { Project } from '../../types/proposals.ts'
-import Link from '../Common/Typography/Link.tsx'
 import VestingLinkIcon from '../Icon/VestingLinkIcon.tsx'
 
 import VestingProgress from './ProjectCard/VestingProgress.tsx'
@@ -8,6 +7,7 @@ import VestingProgress from './ProjectCard/VestingProgress.tsx'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer.tsx'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
 import './ProjectSheetFundingSection.css'
+import ProjectSheetLinkItem from './ProjectSheetLinkItem.tsx'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
 
 interface Props {
@@ -17,9 +17,7 @@ interface Props {
 const VESTINGS_BASE_URL = 'https://decentraland.org/vesting/#/'
 
 function getVestingLinkLabel(index: number, thereIsMoreThanOnePastVesting: boolean) {
-  return (
-    <>{`${index === 0 ? 'Current' : 'Past'} vesting ${thereIsMoreThanOnePastVesting && index > 0 ? `${index}` : ''}`}</>
-  )
+  return `${index === 0 ? 'Current' : 'Past'} vesting ${thereIsMoreThanOnePastVesting && index > 0 ? `${index}` : ''}`
 }
 
 function ProjectSheetFundingSection({ project }: Props) {
@@ -39,17 +37,12 @@ function ProjectSheetFundingSection({ project }: Props) {
                 .reverse()
                 .map((vesting, index) => {
                   return (
-                    <div className="ExpandableBreakdownItem ExpandableBreakdownItem--slim" key={`${vesting}${index}`}>
-                      <div className="ExpandableBreakdownItem__Header">
-                        <Link
-                          className="ExpandableBreakdownItem__Title"
-                          href={VESTINGS_BASE_URL + vesting}
-                          target="_blank"
-                        >
-                          <VestingLinkIcon /> {getVestingLinkLabel(index, thereIsMoreThanOnePastVesting)}
-                        </Link>
-                      </div>
-                    </div>
+                    <ProjectSheetLinkItem
+                      href={VESTINGS_BASE_URL + vesting}
+                      icon={<VestingLinkIcon />}
+                      label={getVestingLinkLabel(index, thereIsMoreThanOnePastVesting)}
+                      key={`${vesting}${index}`}
+                    />
                   )
                 })}
             </ProjectInfoCardsContainer>
