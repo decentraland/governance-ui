@@ -73,7 +73,7 @@ function BidProposalView({ config }: Props) {
       <ProposalDescriptionItem title={t('page.proposal_view.bid.email_title')} body={email} />
       <ProposalDescriptionItem title={t('page.proposal_view.bid.deliverables_title')} body={deliverables} />
       <ProposalDescriptionItem title={t('page.proposal_view.bid.roadmap_title')} body={roadmap} />
-      <MilestonesView milestones={milestones} />
+      {milestones && <MilestonesView milestones={milestones} />}
       <BudgetBreakdownView breakdown={budgetBreakdown} />
       <PersonnelView members={members} />
     </div>
