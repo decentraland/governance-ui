@@ -44,7 +44,7 @@ export type BidRequestGeneralInfo = {
   teamName: string
   deliverables: string
   roadmap: string
-  milestones: Milestone[]
+  milestones?: Milestone[]
   coAuthors?: string[]
 }
 
