@@ -34,13 +34,18 @@ import {
   NewProposalPoll,
   NewProposalTender,
   PendingProposalsQuery,
+  PersonnelAttributes,
   PriorityProposal,
   Project,
-  ProjectWithUpdate,
+  ProjectLink,
+  ProjectMilestone,
   ProposalAttributes,
   ProposalCommentsInDiscourse,
   ProposalListFilter,
+  ProposalProject,
+  ProposalProjectWithUpdate,
   ProposalStatus,
+  ProposalWithProject,
 } from '../types/proposals'
 import { QuarterBudgetAttributes } from '../types/quarterBudgets'
 import { SubscriptionAttributes } from '../types/subscriptions'
@@ -58,7 +63,7 @@ import Time from '../utils/date/Time'
 
 import API, { ApiOptions } from './API'
 import { TransparencyBudget, TransparencyVesting } from './Transparency'
-import { VestingInfo } from './VestingData'
+import { VestingWithLogs } from './VestingData'
 
 type ApiResponse<D> = { ok: boolean; data: D }
 
@@ -129,7 +134,7 @@ export class Governance extends API {
     return (await this.fetch<ApiResponse<T>>(endpoint, options)).data
   }
 
-  static parseProposal(proposal: ProposalAttributes): ProposalAttributes {
+  static parseProposal(proposal: ProposalWithProject): ProposalWithProject {
     return {
       ...proposal,
       start_at: Time.date(proposal.start_at),
@@ -147,9 +152,15 @@ export class Governance extends API {
     }
   }
 
-  async getProposal(proposalId: string) {
-    const result = await this.fetch<ApiResponse<ProposalAttributes>>(`/proposals/${proposalId}`)
-    return result.data ? Governance.parseProposal(result.data) : null
+  async getProposal(proposalId: string): Promise<ProposalWithProject | null> {
+    const result = await this.fetch<ApiResponse<ProposalWithProject>>(`/proposals/${proposalId}`)
+    return result.data
+      ? {
+          ...Governance.parseProposal(result.data),
+          project_id: result.data?.project_id,
+          project_status: result.data.project_status,
+        }
+      : null
   }
 
   async getProposals(filters: Partial<GetProposalsFilter> = {}) {
@@ -175,9 +186,14 @@ export class Governance extends API {
       params.append('to', to.toISOString().split('T')[0])
     }
     const paramsStr = params.toString()
-    const proposals = await this.fetchApiResponse<ProjectWithUpdate[]>(`/projects${paramsStr ? `?${paramsStr}` : ''}`)
+    const proposals = await this.fetchApiResponse<ProposalProjectWithUpdate[]>(
+      `/projects${paramsStr ? `?${paramsStr}` : ''}`
+    )
 
     return proposals
+  }
+  async getProject(projectId: string) {
+    return await this.fetchApiResponse<Project>(`/projects/${projectId}`)
   }
 
   async getOpenPitchesTotal() {
@@ -195,7 +211,7 @@ export class Governance extends API {
   }
 
   async getGrantsByUser(user: string) {
-    return await this.fetchApiResponse<{ total: number; data: Project[] }>(`/proposals/grants/${user}`)
+    return await this.fetchApiResponse<{ total: number; data: ProposalProject[] }>(`/proposals/grants/${user}`)
   }
 
   async createProposal<P extends keyof NewProposalMap>(path: P, proposal: NewProposalMap[P]) {
@@ -259,7 +275,7 @@ export class Governance extends API {
   }
 
   async updateProposalStatus(proposal_id: string, status: ProposalStatus, vesting_addresses?: string[]) {
-    const proposal = await this.fetchApiResponse<ProposalAttributes>(`/proposals/${proposal_id}`, {
+    const proposal = await this.fetchApiResponse<ProposalWithProject>(`/proposals/${proposal_id}`, {
       method: 'PATCH',
       sign: true,
       json: { status, vesting_addresses },
@@ -268,26 +284,26 @@ export class Governance extends API {
     return Governance.parseProposal(proposal)
   }
 
-  async getProposalUpdate(update_id: string) {
+  async getProjectUpdate(update_id: string) {
     return await this.fetchApiResponse<UpdateAttributes>(`/updates/${update_id}`)
   }
 
-  async getProposalUpdates(proposal_id: string) {
-    return await this.fetchApiResponse<UpdateResponse>(`/proposals/${proposal_id}/updates`)
+  async getProjectUpdates(project_id: string) {
+    return await this.fetchApiResponse<UpdateResponse>(`/updates?project_id=${project_id}`)
   }
 
-  async createProposalUpdate(
-    proposal_id: string,
+  async createProjectUpdate(
+    project_id: string,
     update: UpdateSubmissionDetails & UpdateGeneralSection & UpdateFinancialSection
   ) {
-    return await this.fetchApiResponse<UpdateAttributes>(`/proposals/${proposal_id}/update`, {
+    return await this.fetchApiResponse<UpdateAttributes>(`/updates`, {
       method: 'POST',
       sign: true,
-      json: update,
+      json: { project_id, ...update },
     })
   }
 
-  async updateProposalUpdate(
+  async updateProjectUpdate(
     update_id: string,
     update: UpdateSubmissionDetails & UpdateGeneralSection & UpdateFinancialSection
   ) {
@@ -298,7 +314,7 @@ export class Governance extends API {
     })
   }
 
-  async deleteProposalUpdate(update_id: UpdateAttributes['id']) {
+  async deleteProjectUpdate(update_id: UpdateAttributes['id']) {
     return await this.fetchApiResponse<UpdateAttributes>(`/updates/${update_id}`, {
       method: 'DELETE',
       sign: true,
@@ -588,8 +604,8 @@ export class Governance extends API {
     return await this.fetchApiResponse<TransparencyVesting[]>(`/all-vestings`)
   }
 
-  async getVestingContractData(addresses: string[]) {
-    return await this.fetchApiResponse<VestingInfo[]>(`/vesting`, { method: 'POST', json: { addresses } })
+  async getVestings(addresses: string[]) {
+    return await this.fetchApiResponse<VestingWithLogs[]>(`/vesting`, { method: 'POST', json: { addresses } })
   }
 
   async getUpdateComments(update_id: string) {
@@ -701,6 +717,51 @@ export class Governance extends API {
   async getAllAirdropJobs() {
     return await this.fetchApiResponse<AirdropJobAttributes[]>(`/airdrops/all`, {
       method: 'GET',
+      sign: true,
+    })
+  }
+
+  async deletePersonnel(personnelId: PersonnelAttributes['id']) {
+    return await this.fetchApiResponse<PersonnelAttributes['id'] | null>(`/projects/personnel/${personnelId}`, {
+      method: 'DELETE',
+      sign: true,
+    })
+  }
+
+  async createPersonnel(personnel: PersonnelAttributes) {
+    return await this.fetchApiResponse<PersonnelAttributes>(`/projects/personnel/`, {
+      method: 'POST',
+      sign: true,
+      json: { personnel },
+    })
+  }
+
+  async createMilestone(milestone: ProjectMilestone) {
+    return await this.fetchApiResponse<ProjectMilestone>(`/projects/milestones/`, {
+      method: 'POST',
+      sign: true,
+      json: { milestone },
+    })
+  }
+
+  async deleteMilestone(milestoneId: ProjectMilestone['id']) {
+    return await this.fetchApiResponse<PersonnelAttributes['id'] | null>(`/projects/milestones/${milestoneId}`, {
+      method: 'DELETE',
+      sign: true,
+    })
+  }
+
+  async createProjectLink(projectLink: ProjectLink) {
+    return await this.fetchApiResponse<ProjectLink>(`/projects/links/`, {
+      method: 'POST',
+      sign: true,
+      json: { project_link: projectLink },
+    })
+  }
+
+  async deleteProjectLink(projectLinkId: ProjectLink['id']) {
+    return await this.fetchApiResponse<ProjectLink['id'] | null>(`/projects/links/${projectLinkId}`, {
+      method: 'DELETE',
       sign: true,
     })
   }

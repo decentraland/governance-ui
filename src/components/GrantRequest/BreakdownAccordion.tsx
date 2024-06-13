@@ -10,8 +10,8 @@ import ChevronRightCircleOutline from '../Icon/ChevronRightCircleOutline'
 import './BreakdownAccordion.css'
 
 export interface BreakdownItem {
-  title: string
-  subtitle: string
+  title: React.ReactNode
+  subtitle?: React.ReactNode
   value?: string
   content: React.ReactNode
 }
@@ -48,7 +48,7 @@ function BreakdownAccordion({ items, itemsInitiallyExpanded = false }: Props) {
           >
             <div>
               <div className="BreakdownAccordion__Title">{title}</div>
-              <div className="BreakdownAccordion__Subtitle">{subtitle}</div>
+              {subtitle && <div className="BreakdownAccordion__Subtitle">{subtitle}</div>}
             </div>
             <div className="BreakdownAccordion__SizeContainer">
               {value && <span>{value}</span>}

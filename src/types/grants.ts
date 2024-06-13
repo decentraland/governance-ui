@@ -1,3 +1,5 @@
+import { MILESTONE_SUBMIT_LIMIT } from '../constants/proposals'
+
 export const GRANT_PROPOSAL_MIN_BUDGET = 100
 export const GRANT_PROPOSAL_MAX_BUDGET = 240000
 export const MIN_PROJECT_DURATION = 1
@@ -58,11 +60,11 @@ export const VALID_CATEGORIES = [NewGrantCategory.CoreUnit, NewGrantCategory.Pla
 export const INVALID_CATEGORIES = Object.values(NewGrantCategory).filter((item) => !VALID_CATEGORIES.includes(item))
 
 export enum ProjectStatus {
-  Pending = 'Pending',
-  InProgress = 'In Progress',
-  Finished = 'Finished',
-  Paused = 'Paused',
-  Revoked = 'Revoked',
+  Pending = 'pending',
+  InProgress = 'in_progress',
+  Finished = 'finished',
+  Paused = 'paused',
+  Revoked = 'revoked',
 }
 
 export function isGrantSubtype(value: string | null | undefined) {
@@ -74,6 +76,24 @@ export function isGrantSubtype(value: string | null | undefined) {
 
 export function toGrantSubtype<OrElse>(value: string | null | undefined, orElse: () => OrElse) {
   return isGrantSubtype(value) ? (value as SubtypeOptions) : orElse()
+}
+
+export const MilestoneItemSchema = {
+  title: {
+    type: 'string',
+    minLength: 1,
+    maxLength: 80,
+  },
+  tasks: {
+    type: 'string',
+    minLength: 1,
+    maxLength: 750,
+  },
+  delivery_date: {
+    type: 'string',
+    minLength: 1,
+    maxLength: 10,
+  },
 }
 
 export const GrantRequestGeneralInfoSchema = {
@@ -99,7 +119,17 @@ export const GrantRequestGeneralInfoSchema = {
   roadmap: {
     type: 'string',
     minLength: 20,
-    maxLength: 2000,
+    maxLength: 1500,
+  },
+  milestones: {
+    type: 'array',
+    items: {
+      type: 'object',
+      additionalProperties: false,
+      required: [...Object.keys(MilestoneItemSchema)],
+      properties: MilestoneItemSchema,
+      maxItems: MILESTONE_SUBMIT_LIMIT,
+    },
   },
   coAuthors: {
     type: 'array',
@@ -303,6 +333,10 @@ export const TeamMemberItemSchema = {
     minLength: 1,
     maxLength: 750,
   },
+  address: {
+    type: 'string',
+    format: 'address',
+  },
   relevantLink: {
     type: 'string',
     minLength: 0,
@@ -360,7 +394,7 @@ export type GrantRequest = {
   category: NewGrantCategory | null
 } & GrantRequestFunding &
   GrantRequestGeneralInfo &
-  GrantRequestTeam &
+  ProposalRequestTeam &
   GrantRequestCategoryAssessment &
   GrantRequestDueDiligence
 
@@ -380,6 +414,7 @@ export type GrantRequestGeneralInfo = {
   specification?: string
   personnel?: string
   roadmap: string
+  milestones: Milestone[]
   coAuthors?: string[]
 }
 
@@ -397,12 +432,19 @@ export type GrantRequestDueDiligence = {
 
 export type TeamMember = {
   name: string
+  address?: string | null
   role: string
   about: string
   relevantLink?: string
 }
 
-export type GrantRequestTeam = {
+export type Milestone = {
+  title: string
+  delivery_date: string
+  tasks: string
+}
+
+export type ProposalRequestTeam = {
   members: TeamMember[]
 }
 

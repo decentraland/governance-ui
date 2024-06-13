@@ -232,6 +232,16 @@
         "roadmap_too_large": "Roadmap is too large",
         "roadmap_too_short": "Roadmap is too short"
       },
+      "milestone": {
+        "title_empty": "Title is empty",
+        "title_too_large": "Title is too large",
+        "title_short": "Title is too short",
+        "tasks_empty": "Tasks field is empty",
+        "tasks_too_large": "Tasks field is too large",
+        "tasks_short": "Tasks field is too short",
+        "date_empty": "Date is empty",
+        "date_invalid": "Delivery date must be in the future"
+      },
       "due_diligence": {
         "concept_empty": "Concept is empty",
         "concept_too_large": "Concept is too large",
@@ -254,6 +264,7 @@
         "about_empty": "About them is empty",
         "about_too_large": "About them is too large",
         "about_too_short": "About them is too short",
+        "address_invalid": "Address is invalid",
         "relevant_link_invalid": "URL is invalid, it must start with 'https://'"
       },
       "title_empty": "Title is empty",
@@ -500,6 +511,12 @@
     "delete_proposal": {
       "title": "Delete Confirmation",
       "description": "Are you sure you want to delete this proposal? This action cannot be undone.",
+      "accept": "Delete",
+      "reject": "Cancel"
+    },
+    "delete_item": {
+      "title": "Delete Confirmation",
+      "description": "Are you sure you want to delete this item? This action cannot be undone.",
       "accept": "Delete",
       "reject": "Cancel"
     },
@@ -861,6 +878,11 @@
     "markdown_field": {
       "preview_button": "Preview",
       "edit_button": "Edit"
+    },
+    "expandable_breakdown_item": {
+      "relevant_link_label": "Relevant Link",
+      "edit_action_label": "Edit",
+      "delete_action_label": "Delete"
     }
   },
   "page": {
@@ -1001,7 +1023,7 @@
         "beneficiary_title": "Beneficiary address",
         "email_title": "Email address",
         "deliverables_title": "Deliverables",
-        "roadmap_title": "Roadmap and milestones"
+        "roadmap_title": "Roadmap"
       },
       "grant": {
         "header": "Should the following **{value}** grant in the **{category}** category be approved?",
@@ -1018,7 +1040,8 @@
         "breakdown_title": "Budget breakdown",
         "breakdown_subtitle": "{duration} {duration, plural, one {month} other {months}}",
         "personnel_title": "Personnel",
-        "roadmap_title": "Roadmap and milestones",
+        "roadmap_title": "Roadmap",
+        "milestones_title": "Milestones",
         "relevant_link": "Relevant link"
       },
       "votes_chart": {
@@ -1115,6 +1138,41 @@
       "rejected_label": "Co-authoring",
       "rejected_description": "You've rejected being involved in this initiative.",
       "revert_label": "Revert"
+    },
+    "project_sidebar": {
+      "general_info": {
+        "title": "General Info",
+        "status_card": {
+          "finished": "Project Ended Successfuly",
+          "revoked": "Project Revoked",
+          "paused": "Project Paused Preventively",
+          "in_progress": "Project Ongoing",
+          "on_track": "Project Health: On Track",
+          "off_track": "Project Health: Off Track",
+          "at_risk": "Project Health: At Risk",
+          "reported": "Reported {date}",
+          "started": "Started {date}"
+        }
+      },
+      "milestones": {
+        "title": "Milestones",
+        "no_milestones": "No milestones"
+      },
+      "updates": {
+        "title": "Updates",
+        "banner": {
+          "title": "Update #{number} due in {days} {days, plural, one {day} other {days}}",
+          "description": "Improve your reputation by posting timely updates",
+          "non_mandatory_title": "Mandatory updates period finished",
+          "non_mandatory_description": "You can still update the community on your progress",
+          "button": "Post Update"
+        },
+        "no_updates": "The team hasn't posted a Project update yet",
+        "editor_no_updates": "Once your Project has been funded, you will be able to publish updates to keep the community in the loop while making progress"
+      },
+      "activity": {
+        "title": "Activity"
+      }
     },
     "proposal_detail": {
       "title": "Decentraland DAO",
@@ -1268,6 +1326,33 @@
           "voting_ended": "Voting ended {date}",
           "voting_began": "Voting began {date}",
           "view_more_grants": "View more grants"
+        }
+      },
+      "project_sheet_link": {
+        "action": "view project insights",
+        "pending": {
+          "grantee": {
+            "title": "congratulations, grantee!",
+            "description": "**Given this Proposal has passed,** \nyou are now required to complete\na couple of tasks to get rollin’"
+          },
+          "title": "refinement in progress",
+          "description": "**Core-units and Grantees** are \ncollaborating in setting up this \nnew Project before beginning work"
+        },
+        "in_progress": {
+          "title": "ongoing project",
+          "description": "**Funded by the Decentraland DAO,**\nenabled by its Community."
+        },
+        "finished": {
+          "title": "project ended",
+          "description": "**Grantees have Signed-off**\n10 days ago, with the GSS having\nconfirmed satisfactory delivery"
+        },
+        "paused": {
+          "title": "project paused",
+          "description": "**Vesting for this project has been**\nput on hold preventively."
+        },
+        "revoked": {
+          "title": "project revoked",
+          "description": "**After careful consideration,**\nfunding for this project has been\ncancelled."
         }
       },
       "grant": {
@@ -1668,9 +1753,11 @@
       "financial_details": "Financial details",
       "additional_notes": "Additional notes and links",
       "completion_date": "Posted {date} by",
+      "late_completion_date": "Late update, {date} by",
       "edit_date": "Update last edited **{date}**",
       "due_date": "Update shared **{date} late**, after it was due.",
-      "delete_update": "Delete update"
+      "delete_update": "Delete update",
+      "failed_update": "Team failed to report progress"
     },
     "submit": {
       "title": "Submit Proposal",
@@ -1896,14 +1983,26 @@
         "abstract_placeholder": "Enter a quick, non-technical overview of your project here.",
         "beneficiary_label": "Beneficiary address",
         "beneficiary_detail": "The address that will receive the grant funds. This must be an Ethereum address! Entering a non-Ethereum address that cannot receive MANA may result in a permanent loss of funds.",
-        "roadmap_label": "Roadmap and milestones",
-        "roadmap_detail": "Describe the roadmap of your project, making sure to include any relevant milestones that the community should be aware of and how you will share the progress you have made. Clearly communicating progress for long-term projects funded by vesting contracts will help prevent the removal of your funding.",
-        "roadmap_placeholder": "Your estimated timeline and key milestones. Include your plan for reporting progress to the community.",
+        "roadmap_label": "Roadmap",
+        "roadmap_detail": "Describe the main phases or steps your project will follow to reach its goal.",
+        "roadmap_placeholder": "Your estimated timeline. Include your plan for reporting progress to the community.",
+        "milestone_label": "Milestones",
+        "milestone_detail": "Identify the important goals or checkpoints you want to achieve during your project.",
+        "milestone_button": "Add milestone",
+        "milestone_button_limit": "Milestones limit reached",
         "email_label": "Contact Email Address",
         "email_detail": "This email address will be used by the Grant Support teams to contact you to check the progress of the grant, set up meetings, and maintain an open communication channel.",
         "email_placeholder": "Enter your email address",
         "email_error_message": "Please enter a valid email",
-        "email_note": "Note: The address will be published in the proposal and publicly visible. If you want to keep your anonymity consider using an email address without personally identifiable information."
+        "email_note": "Note: The address will be published in the proposal and publicly visible. If you want to keep your anonymity consider using an email address without personally identifiable information.",
+        "milestone_modal": {
+          "title": "Adding a milestone",
+          "title_label": "Title",
+          "title_placeholder": "Title",
+          "tasks_label": "Tasks",
+          "tasks_placeholder": "Please be as detailed as possible",
+          "date_label": "Delivery date"
+        }
       },
       "category_assessment": {
         "title": "Category-Specific Assessment",
@@ -2017,6 +2116,8 @@
           "role_placeholder": "Developer, marketing, designer...",
           "about_label": "About them",
           "about_placeholder": "Highlight relevant information",
+          "address_label": "Their address",
+          "address_placeholder": "0x...",
           "relevant_link_label": "Relevant Link",
           "optional_label": "Optional",
           "relevant_link_placeholder": "https://"
@@ -2142,8 +2243,8 @@
         "deliverables_detail": "Be as specific as possible. Describe the entire scope of the project and the actual work you are going to deliver to the DAO.",
         "beneficiary_label": "Beneficiary address",
         "beneficiary_detail": "The address that will receive the grant funds. This must be an Ethereum address! Entering a non-Ethereum address that cannot receive MANA may result in a permanent loss of funds.",
-        "roadmap_label": "Roadmap and milestones",
-        "roadmap_detail": "Describe the roadmap of your project, making sure to include any relevant milestones that the community should be aware of and how you will share the progress you have made. Clearly communicating progress for long-term projects funded by vesting contracts will help prevent the removal of your funding.",
+        "roadmap_label": "Roadmap",
+        "roadmap_detail": "Describe the main phases or steps your project will follow to reach its goal.",
         "roadmap_placeholder": "Your estimated timeline and key milestones. Include your plan for reporting progress to the community.",
         "email_label": "Contact Email Address",
         "email_detail": "This email address will be used by the Grant Support teams to contact you to check the progress of the grant, set up meetings, and maintain an open communication channel.",
@@ -2196,6 +2297,37 @@
       "delegated_voting_power_list_description": "The following individuals have decided to delegate their Voting Power. Remember they may overrule your vote without any notice."
     }
   },
+  "project": {
+    "sheet": {
+      "status_pill": {
+        "pending": "In refinement",
+        "in_progress": "Ongoing for {days} {days, plural, one {day} other {days}}",
+        "paused": "Paused",
+        "revoked": "Revoked",
+        "finished": "Ended"
+      },
+      "general_info": {
+        "funding": "Funding",
+        "links": {
+          "title": "Project Links",
+          "add_label": "+ Add Link",
+          "proposal_link": "Proposal"
+        },
+        "personnel": {
+          "title": "Personnel",
+          "add_label": "+ Add Personnel"
+        }
+      },
+      "milestones": {
+        "add_label": "+ Add Milestone"
+      },
+      "form": {
+        "optional": "Optional",
+        "save": "Save",
+        "cancel": "Cancel"
+      }
+    }
+  },
   "csv_file": {
     "drag_and_drop": "Drag and drop a CSV file or",
     "choose_file": "choose a file"
@@ -2220,5 +2352,21 @@
     "title": "Stay updated, wherever you are",
     "description": "Connect your Discord and Push accounts to receive real-time notifications about the latest developments in the Decentraland DAO.",
     "button": "Connect accounts"
+  },
+  "project_sheet": {
+    "general_info": {
+      "title": "General info",
+      "about": "About",
+      "personnel": "Personnel"
+    },
+    "milestones": {
+      "title": "Milestones"
+    },
+    "updates": {
+      "title": "Updates"
+    },
+    "activity": {
+      "title": "Activity"
+    }
   }
 }

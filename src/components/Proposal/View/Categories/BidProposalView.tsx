@@ -8,6 +8,7 @@ import type { ProposalAttributes } from '../../../../types/proposals'
 import Time from '../../../../utils/date/Time'
 import { proposalUrl } from '../../../../utils/proposal'
 import BudgetBreakdownView from '../../../GrantRequest/BudgetBreakdownView'
+import MilestonesView from '../../../GrantRequest/MilestonesView'
 import PersonnelView from '../../../GrantRequest/PersonnelView'
 import ProposalDescriptionItem from '../ProposalDescriptionItem'
 
@@ -36,6 +37,7 @@ function BidProposalView({ config }: Props) {
     email,
     deliverables,
     roadmap,
+    milestones,
     members,
     budgetBreakdown,
     linked_proposal_id,
@@ -71,6 +73,7 @@ function BidProposalView({ config }: Props) {
       <ProposalDescriptionItem title={t('page.proposal_view.bid.email_title')} body={email} />
       <ProposalDescriptionItem title={t('page.proposal_view.bid.deliverables_title')} body={deliverables} />
       <ProposalDescriptionItem title={t('page.proposal_view.bid.roadmap_title')} body={roadmap} />
+      <MilestonesView milestones={milestones} />
       <BudgetBreakdownView breakdown={budgetBreakdown} />
       <PersonnelView members={members} />
     </div>

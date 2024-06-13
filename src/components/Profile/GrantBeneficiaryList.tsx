@@ -2,14 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { useSortingByKey } from '../../hooks/useSortingByKey'
-import { Project } from '../../types/proposals'
+import { ProposalProject } from '../../types/proposals'
 import FullWidthButton from '../Common/FullWidthButton'
 
 import GrantBeneficiaryItem from './GrantBeneficiaryItem'
 
 interface Props {
   address: string | null
-  grants: Project[]
+  grants: ProposalProject[]
 }
 
 const MAX_GRANTS = 3
@@ -25,7 +25,7 @@ function GrantBeneficiaryList({ grants, address }: Props) {
   return (
     <>
       {grantsToShow.map((grant) => (
-        <GrantBeneficiaryItem key={grant.id} grant={grant} />
+        <GrantBeneficiaryItem key={grant.id} proposalProject={grant} />
       ))}
       {sorted.length > limit && (
         <FullWidthButton onClick={() => setLimit(() => limit + MAX_GRANTS)}>

@@ -14,10 +14,10 @@ import useVestings from '../../../hooks/useVestings'
 import useVotesByAddress from '../../../hooks/useVotesByAddress'
 import useVotingStats from '../../../hooks/useVotingStats'
 import { ProjectStatus } from '../../../types/grants'
-import { Project, ProposalStatus, ProposalType } from '../../../types/proposals'
+import { ProposalProject, ProposalStatus, ProposalType } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
-import { createProject } from '../../../utils/projects'
+import { createProposalProject } from '../../../utils/projects'
 import FullWidthButton from '../../Common/FullWidthButton'
 import InvertedButton from '../../Common/InvertedButton'
 import Heading from '../../Common/Typography/Heading'
@@ -54,7 +54,7 @@ export default function AuthorDetails({ address }: Props) {
   const projects = useMemo(
     () =>
       grants?.data.map((grant) =>
-        createProject(
+        createProposalProject(
           grant,
           vestings?.find((item) => grant.id === item.proposal_id)
         )
@@ -62,7 +62,7 @@ export default function AuthorDetails({ address }: Props) {
     [vestings, grants?.data]
   )
   const fundsVested = useMemo(
-    () => projects?.reduce((total, grant) => total + (grant?.contract?.vestedAmount || 0), 0),
+    () => projects?.reduce((total, grant) => total + (grant?.funding?.vesting?.vested || 0), 0),
     [projects]
   )
 
@@ -72,7 +72,7 @@ export default function AuthorDetails({ address }: Props) {
         const items = projects?.filter((item) => item.status === cur)
         const total = items?.length || 0
         return total > 0 ? { ...acc, [cur]: { items, total } } : acc
-      }, {} as Record<string, { items: Project[]; total: number }>),
+      }, {} as Record<string, { items: ProposalProject[]; total: number }>),
     [projects]
   )
 

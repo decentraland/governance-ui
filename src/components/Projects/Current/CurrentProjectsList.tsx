@@ -7,7 +7,7 @@ import orderBy from 'lodash/orderBy'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useYearAndQuarterParams from '../../../hooks/useYearAndQuarterParams'
 import { NewGrantCategory, ProjectStatus, SubtypeAlternativeOptions, SubtypeOptions } from '../../../types/grants'
-import { ProjectWithUpdate } from '../../../types/proposals'
+import { ProposalProjectWithUpdate } from '../../../types/proposals'
 import locations from '../../../utils/locations'
 import Empty, { ActionType } from '../../Common/Empty'
 import FullWidthButton from '../../Common/FullWidthButton'
@@ -24,7 +24,7 @@ import StatsBiddingAndTendering from './StatsBiddingAndTendering'
 const CURRENT_GRANTS_PER_PAGE = 8
 
 interface Props {
-  projects: ProjectWithUpdate[]
+  projects: ProposalProjectWithUpdate[]
   selectedType?: ProjectTypeFilter
   selectedSubtype?: SubtypeOptions
   status?: ProjectStatus
@@ -64,7 +64,7 @@ export default function CurrentProjectsList({ projects, selectedSubtype, selecte
   const t = useFormatMessage()
   const [sortingKey, setSortingKey] = useState<SortingKey>(SortingKey.UpdateTimestamp)
   const sortedCurrentGrants = useMemo(() => orderBy(projects, [sortingKey], ['desc']), [projects, sortingKey])
-  const [filteredCurrentGrants, setFilteredCurrentGrants] = useState<ProjectWithUpdate[]>([])
+  const [filteredCurrentGrants, setFilteredCurrentGrants] = useState<ProposalProjectWithUpdate[]>([])
   const { year, quarter, areValidParams } = useYearAndQuarterParams()
   const navigate = useNavigate()
 

@@ -26,7 +26,7 @@ const ProposalHero = forwardRef(({ proposal }: Props, ref: Ref<HTMLDivElement>) 
 
   return (
     <div className="ProposalHero__Container" ref={ref}>
-      <HeroBanner proposalActive={isProposalActive} color={color} />
+      <HeroBanner active={isProposalActive} color={color} />
       <div className="ProposalHero__Text">
         <Mobile>
           <Breadcrumb isProposalActive={isProposalActive} />

@@ -1,6 +1,14 @@
 import { BID_MIN_PROJECT_DURATION } from '../constants/bids'
+import { MILESTONE_SUBMIT_LIMIT } from '../constants/proposals'
 
-import { BudgetBreakdownConcept, GrantRequestDueDiligenceSchema, GrantRequestTeamSchema } from './grants'
+import {
+  BudgetBreakdownConcept,
+  GrantRequestDueDiligenceSchema,
+  GrantRequestTeamSchema,
+  Milestone,
+  MilestoneItemSchema,
+  ProposalRequestTeam,
+} from './grants'
 
 export enum UnpublishedBidStatus {
   Pending = 'PENDING',
@@ -36,18 +44,8 @@ export type BidRequestGeneralInfo = {
   teamName: string
   deliverables: string
   roadmap: string
+  milestones: Milestone[]
   coAuthors?: string[]
-}
-
-export type TeamMember = {
-  name: string
-  role: string
-  about: string
-  relevantLink?: string
-}
-
-export type BidRequestTeam = {
-  members: TeamMember[]
 }
 
 export type BidRequestDueDiligence = {
@@ -56,7 +54,7 @@ export type BidRequestDueDiligence = {
 
 export type BidRequest = BidRequestFunding &
   BidRequestGeneralInfo &
-  BidRequestTeam &
+  ProposalRequestTeam &
   BidRequestDueDiligence & {
     linked_proposal_id: string
     coAuthors?: string[]
@@ -101,6 +99,16 @@ export const BidRequestGeneralInfoSchema = {
     type: 'string',
     minLength: 20,
     maxLength: 1500,
+  },
+  milestones: {
+    type: 'array',
+    items: {
+      type: 'object',
+      additionalProperties: false,
+      required: [...Object.keys(MilestoneItemSchema)],
+      properties: MilestoneItemSchema,
+      maxItems: MILESTONE_SUBMIT_LIMIT,
+    },
   },
   coAuthors: {
     type: 'array',

@@ -9,18 +9,20 @@ import Text from '../Common/Typography/Text'
 
 import './Banner.css'
 
-type BannerColor = 'blue' | 'purple'
+type BannerColor = 'blue' | 'purple' | 'red' | 'orange'
 
 export type BannerProps = {
   isVisible: boolean
   title: string
   description: string
   bannerHideKey: string
-  icon: React.ReactNode
+  icon?: React.ReactNode
   buttonLabel: string
   onButtonClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   buttonHref?: string
   color?: BannerColor
+  isClosable?: boolean
+  className?: string
 }
 
 function Banner({
@@ -33,6 +35,8 @@ function Banner({
   onButtonClick,
   buttonHref,
   color = 'blue',
+  isClosable = true,
+  className,
 }: BannerProps) {
   const [show, setShow] = useState(isVisible)
 
@@ -53,8 +57,8 @@ function Banner({
   return (
     <>
       {show && (
-        <div className={classNames('Banner', `Banner--${color}`)}>
-          <div className="Banner__Icon">{icon}</div>
+        <div className={classNames(className, 'Banner', `Banner--${color}`)}>
+          {icon && <div className="Banner__Icon">{icon}</div>}
           <div className="Banner__Content">
             <div className="Banner__Description">
               <Text className="Banner__Text" weight="medium" size="lg">
@@ -76,7 +80,7 @@ function Banner({
               </Button>
             </div>
           </div>
-          <Close small onClick={handleClose} />
+          {isClosable && <Close small onClick={handleClose} />}
         </div>
       )}
     </>

@@ -1,0 +1,102 @@
+.ProjectUpdateCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid var(--black-300);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 44px;
+  cursor: pointer;
+  box-shadow: 0px 1px 8px 0px var(--alpha-black-200);
+}
+
+.ProjectUpdateCard--pending {
+  cursor: default;
+}
+
+.ProjectUpdateCard--missed {
+  cursor: default !important;
+  box-shadow: unset;
+  border: none;
+  background-color: var(--alpha-black-200);
+}
+
+.ProjectUpdateCard__Icon--missed circle {
+  fill: var(--black-300);
+}
+
+.ProjectUpdateCard__Icon--missed path {
+  fill: var(--black-600);
+}
+
+.ProjectUpdateCard:last-child {
+  margin-bottom: 36px;
+}
+
+.ProjectUpdateCard__Left {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+
+.ProjectUpdateCard__IconContainer {
+  margin-right: 12px;
+  display: flex;
+  position: relative;
+}
+
+.ProjectUpdateCard__LateClock {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.ProjectUpdateCard__Description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--black-600);
+  max-width: 570px;
+  padding-right: 10px;
+}
+
+.ProjectUpdateCard__Index {
+  color: inherit !important;
+}
+
+.ProjectUpdateCard__Date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+  line-height: 24px;
+  color: var(--black-400);
+  text-transform: uppercase;
+  gap: 8px;
+}
+
+.ProjectUpdateCard__Details {
+  display: flex;
+  gap: 5px;
+}
+
+.ProjectUpdateCard__DateText {
+  color: var(--black-400);
+  opacity: 0.5;
+}
+
+.ProjectUpdateCard .ui.basic.button {
+  padding-right: 0;
+}
+
+.EmptyProjectUpdateCard__Icon path {
+  fill: var(--black-600);
+  opacity: 0.8;
+}
+
+.ProjectUpdateCard__Menu {
+  padding: 0 5px 0 10px;
+}

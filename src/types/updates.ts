@@ -1,6 +1,8 @@
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
 import { z } from 'zod'
 
+import { isHttpsURL } from '../helpers'
+
 export type UpdateSubmissionDetails = {
   id?: string
   author: string
@@ -23,6 +25,7 @@ export type UpdateAttributes = Partial<UpdateGeneralSection> &
   Partial<UpdateFinancialSection> & {
     id: string
     proposal_id: string
+    project_id: string
     author?: string
     status: UpdateStatus
     due_date?: Date
@@ -111,7 +114,7 @@ const FinancialRecordSchema = z
       .transform((s) => s.replace(/\s/g, '')),
     amount: z.number().min(1),
     receiver: z.string().min(42).max(42),
-    link: z.string().url().optional(),
+    link: z.string().refine(isHttpsURL).optional(),
   })
   .refine(({ receiver }) => isEthereumAddress(receiver), {
     message: 'Invalid ethereum address',

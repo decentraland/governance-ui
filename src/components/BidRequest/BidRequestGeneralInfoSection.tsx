@@ -1,12 +1,17 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
+import { MILESTONE_SUBMIT_LIMIT } from '../../constants/proposals'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { BidRequestGeneralInfo, BidRequestGeneralInfoSchema } from '../../types/bids'
+import { Milestone } from '../../types/grants'
 import Field from '../Common/Form/Field'
 import MarkdownField from '../Common/Form/MarkdownField'
 import SubLabel from '../Common/SubLabel'
 import Label from '../Common/Typography/Label'
+import AddBox from '../GrantRequest/AddBox'
+import AddMilestoneModal from '../GrantRequest/AddMilestoneModal'
+import BreakdownItem from '../GrantRequest/BreakdownItem'
 import { ContentSection } from '../Layout/ContentLayout'
 import ProjectRequestSection from '../ProjectRequest/ProjectRequestSection'
 import CoAuthors from '../Proposal/Submit/CoAuthor/CoAuthors'
@@ -15,6 +20,7 @@ export const INITIAL_BID_REQUEST_GENERAL_INFO_STATE: BidRequestGeneralInfo = {
   teamName: '',
   deliverables: '',
   roadmap: '',
+  milestones: [],
 }
 
 const schema = BidRequestGeneralInfoSchema
@@ -36,8 +42,11 @@ export default function BidRequestGeneralInfoSection({ onValidation, isFormDisab
     defaultValues: INITIAL_BID_REQUEST_GENERAL_INFO_STATE,
     mode: 'onTouched',
   })
+  const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null)
+  const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false)
 
   const values = useWatch({ control })
+  const hasReachedMilestoneLimit = values.milestones && values.milestones.length === MILESTONE_SUBMIT_LIMIT
 
   useEffect(() => {
     onValidation({ ...(values as BidRequestGeneralInfo) }, isValid)
@@ -136,12 +145,64 @@ export default function BidRequestGeneralInfoSection({ onValidation, isFormDisab
           }}
         />
       </ContentSection>
+      <ContentSection className="ProjectRequestSection__Field">
+        <Label>{t('page.submit_grant.general_info.milestone_label')}</Label>
+        <SubLabel>{t('page.submit_grant.general_info.milestone_detail')}</SubLabel>
+        {values.milestones &&
+          values.milestones.length > 0 &&
+          values.milestones.map((item, index) => (
+            <BreakdownItem
+              key={`${item.title}-${index}`}
+              title={`${item.delivery_date!} - ${item.title!}`}
+              subtitle={item.tasks!}
+              onClick={() => {
+                setSelectedMilestone(item as Milestone)
+                setIsMilestoneModalOpen(true)
+              }}
+            />
+          ))}
+        <AddBox disabled={hasReachedMilestoneLimit || isFormDisabled} onClick={() => setIsMilestoneModalOpen(true)}>
+          {hasReachedMilestoneLimit
+            ? t('page.submit_grant.general_info.milestone_button_limit')
+            : t('page.submit_grant.general_info.milestone_button')}
+        </AddBox>
+      </ContentSection>
       <ContentSection>
         <CoAuthors
           setCoAuthors={(addresses?: string[]) => setValue('coAuthors', addresses)}
           isDisabled={isFormDisabled}
         />
       </ContentSection>
+      {isMilestoneModalOpen && (
+        <AddMilestoneModal
+          isOpen={isMilestoneModalOpen}
+          onClose={() => {
+            if (selectedMilestone) {
+              setSelectedMilestone(null)
+            }
+            setIsMilestoneModalOpen(false)
+          }}
+          onSubmit={(item: Milestone) => {
+            if (selectedMilestone) {
+              const replaceEditedItem = (i: Milestone) => (i.title === selectedMilestone.title ? item : i)
+              const value = (values.milestones as Milestone[]).map(replaceEditedItem)
+              setValue('milestones', value)
+              setSelectedMilestone(null)
+            } else {
+              const value = [...(values.milestones as Milestone[]), item]
+              setValue('milestones', value)
+            }
+          }}
+          onDelete={() => {
+            if (selectedMilestone) {
+              const value = (values.milestones as Milestone[]).filter((i) => i.title !== selectedMilestone.title)
+              setValue('milestones', value)
+              setIsMilestoneModalOpen(false)
+            }
+          }}
+          selectedMilestone={selectedMilestone}
+        />
+      )}
     </ProjectRequestSection>
   )
 }

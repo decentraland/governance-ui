@@ -1,0 +1,85 @@
+.MiniProjectUpdateCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding: 0 16px;
+  min-height: 44px;
+  cursor: pointer;
+  border: none;
+  border-top: 1px solid var(--black-100);
+  border-radius: 0px;
+}
+
+.MiniProjectUpdateCard--pending,
+.MiniProjectUpdateCard--missed {
+  cursor: default;
+}
+
+.MiniProjectUpdateCard__IconContainer--missed circle {
+  fill: var(--black-300);
+}
+
+.MiniProjectUpdateCard__IconContainer--missed path {
+  fill: var(--black-600);
+}
+
+.MiniProjectUpdateCard__Left {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+
+.MiniProjectUpdateCard__IconContainer {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.MiniProjectUpdateCard__Description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--black-600);
+  max-width: 570px;
+  padding-right: 10px;
+}
+
+.MiniProjectUpdateCard__Index {
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: var(--weight-semi-bold);
+  color: var(--black-600);
+  text-transform: uppercase;
+  margin-right: 5px;
+}
+
+.MiniProjectUpdateCard__Date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+  line-height: 24px;
+  color: var(--black-400);
+  text-transform: uppercase;
+  gap: 8px;
+}
+
+.MiniProjectUpdateCard__DateText {
+  color: var(--black-400);
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.MiniProjectUpdateCard__Late {
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: var(--black-200);
+  color: var(--black-800);
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: var(--weight-semi-bold);
+  line-height: 18px;
+}

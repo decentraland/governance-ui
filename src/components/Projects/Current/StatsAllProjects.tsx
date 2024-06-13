@@ -5,7 +5,7 @@ import { CURRENCY_FORMAT_OPTIONS } from '../../../helpers'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useOpenTendersTotal from '../../../hooks/useOpenTendersTotal'
 import useYearAndQuarterParams from '../../../hooks/useYearAndQuarterParams'
-import { ProjectWithUpdate, ProposalType } from '../../../types/proposals'
+import { ProposalProjectWithUpdate, ProposalType } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
 import { isCurrentProject, isCurrentQuarterProject } from '../../../utils/projects'
@@ -14,7 +14,7 @@ import MetricsCard from '../../Home/MetricsCard'
 import StatsContainer from './StatsContainer'
 
 interface Props {
-  projects: ProjectWithUpdate[]
+  projects: ProposalProjectWithUpdate[]
 }
 
 export default function StatsAllProjects({ projects }: Props) {
@@ -22,7 +22,7 @@ export default function StatsAllProjects({ projects }: Props) {
   const formatFundingValue = (value: number) => intl.formatNumber(value, CURRENCY_FORMAT_OPTIONS)
   const t = useFormatMessage()
   const endingThisWeekProjects = projects.filter((item) => {
-    const finishAt = Time(item.contract?.finish_at)
+    const finishAt = Time(item.funding?.vesting?.finish_at)
     return finishAt.isAfter(Time()) && finishAt.isBefore(Time().add(1, 'week'))
   })
 
@@ -33,7 +33,9 @@ export default function StatsAllProjects({ projects }: Props) {
   const currentProjects = useMemo(() => projects.filter(({ status }) => isCurrentProject(status)), [projects])
   const currentProjectsThisQuarter = useMemo(
     () =>
-      currentProjects.filter((item) => isCurrentQuarterProject(selectedYear, selectedQuarter, item.contract?.start_at)),
+      currentProjects.filter((item) =>
+        isCurrentQuarterProject(selectedYear, selectedQuarter, item.funding?.vesting?.start_at)
+      ),
     [currentProjects, selectedQuarter, selectedYear]
   )
   const currentBidProjects = useMemo(

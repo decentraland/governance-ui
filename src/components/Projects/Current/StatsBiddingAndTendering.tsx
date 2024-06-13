@@ -6,7 +6,7 @@ import useFormatMessage from '../../../hooks/useFormatMessage'
 import useOpenPitchesTotal from '../../../hooks/useOpenPitchesTotal'
 import useOpenTendersTotal from '../../../hooks/useOpenTendersTotal'
 import useYearAndQuarterParams from '../../../hooks/useYearAndQuarterParams'
-import { ProjectWithUpdate, ProposalType } from '../../../types/proposals'
+import { ProposalProjectWithUpdate, ProposalType } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
 import { isCurrentProject, isCurrentQuarterProject } from '../../../utils/projects'
@@ -15,7 +15,7 @@ import MetricsCard from '../../Home/MetricsCard'
 import StatsContainer from './StatsContainer'
 
 interface Props {
-  projects: ProjectWithUpdate[]
+  projects: ProposalProjectWithUpdate[]
 }
 
 export default function StatsBiddingAndTendering({ projects }: Props) {
@@ -31,7 +31,9 @@ export default function StatsBiddingAndTendering({ projects }: Props) {
   const currentProjects = useMemo(() => projects.filter(({ status }) => isCurrentProject(status)), [projects])
   const currentProjectsThisQuarter = useMemo(
     () =>
-      currentProjects.filter((item) => isCurrentQuarterProject(currentYear, currentQuarter, item.contract?.start_at)),
+      currentProjects.filter((item) =>
+        isCurrentQuarterProject(currentYear, currentQuarter, item.funding?.vesting?.start_at)
+      ),
     [currentProjects, currentQuarter, currentYear]
   )
   const currentBidProjects = useMemo(

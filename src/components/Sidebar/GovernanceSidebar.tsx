@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 
 import classNames from 'classnames'
 import { Close } from 'decentraland-ui/dist/components/Close/Close'
+import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
 
 import Heading from '../Common/Typography/Heading'
 
@@ -10,16 +11,29 @@ import Overlay from './Overlay'
 
 type Props = {
   visible: boolean
+  isLoading?: boolean
   children: React.ReactNode
   title: string | React.ReactNode
   onShow?: () => void
   onHide?: () => void
   onClose: () => void
+  className?: string
+  showTitle?: boolean
 }
 
 const ANIMATION_DURATION = 500
 
-export default function GovernanceSidebar({ visible = false, title, onShow, onHide, onClose, children }: Props) {
+export default function GovernanceSidebar({
+  visible = false,
+  isLoading,
+  title,
+  onShow,
+  onHide,
+  onClose,
+  children,
+  className,
+  showTitle = true,
+}: Props) {
   const prevVisible = useRef(visible)
   useEffect(() => {
     if (prevVisible.current && !visible) {
@@ -37,19 +51,27 @@ export default function GovernanceSidebar({ visible = false, title, onShow, onHi
   return (
     <>
       <Overlay isOpen={visible} onClick={onClose} />
-      <div className={classNames('GovernanceSidebar', visible && 'GovernanceSidebar--open')}>
-        <div className="GovernanceSidebar__TitleContainer">
-          {typeof title === 'string' ? (
-            <Heading size="xs" className="GovernanceSidebar__Title" weight="semi-bold">
-              {title}
-            </Heading>
-          ) : (
-            title
-          )}
-          <Close onClick={onClose} />
+      {isLoading ? (
+        <div className={classNames(className, 'GovernanceSidebar', visible && 'GovernanceSidebar--open')}>
+          <Loader active size="big" />
         </div>
-        {children}
-      </div>
+      ) : (
+        <div className={classNames(className, 'GovernanceSidebar', visible && 'GovernanceSidebar--open')}>
+          {!!showTitle && (
+            <div className="GovernanceSidebar__TitleContainer">
+              {typeof title === 'string' ? (
+                <Heading size="xs" className="GovernanceSidebar__Title" weight="semi-bold">
+                  {title}
+                </Heading>
+              ) : (
+                title
+              )}
+              <Close onClick={onClose} />
+            </div>
+          )}
+          <div className="GovernanceSidebar__ContentContainer">{children}</div>
+        </div>
+      )}
     </>
   )
 }

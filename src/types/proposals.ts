@@ -1,3 +1,4 @@
+import { Vesting } from '../clients/VestingData.ts'
 import { MAX_NAME_SIZE, MIN_NAME_SIZE } from '../constants/proposals'
 
 import { SnapshotProposal } from './SnapshotTypes'
@@ -6,12 +7,13 @@ import {
   CategoryAssessmentQuestions,
   GrantRequestDueDiligence,
   GrantRequestGeneralInfo,
-  GrantRequestTeam,
   GrantTierType,
   PaymentToken,
   ProjectStatus,
   ProposalGrantCategory,
+  ProposalRequestTeam,
   SubtypeOptions,
+  TeamMember,
   VestingStartDate,
 } from './grants'
 import { IndexedUpdate } from './updates'
@@ -50,6 +52,11 @@ export type ProposalAttributes<C extends Record<string, unknown> = any> = {
   created_at: Date
   updated_at: Date
   textsearch: string | null | undefined
+}
+
+export interface ProposalWithProject extends ProposalAttributes {
+  project_id?: string | null
+  project_status?: ProjectStatus | null
 }
 
 export type ProposalListFilter = {
@@ -593,7 +600,7 @@ export const newProposalTenderScheme = {
 
 export type GrantProposalConfiguration = GrantRequestGeneralInfo &
   GrantRequestDueDiligence &
-  GrantRequestTeam & {
+  ProposalRequestTeam & {
     category: ProposalGrantCategory | null
     size: number
     paymentToken?: PaymentToken
@@ -722,36 +729,88 @@ export type ProposalCommentsInDiscourse = {
   comments: ProposalComment[]
 }
 
-type VestingContractData = {
-  vestedAmount: number
-  releasable: number
-  released: number
-  start_at: number
-  finish_at: number
-  vesting_total_amount: number
+export type OneTimePayment = {
+  enacting_tx: string
+  token?: string
+  tx_amount?: number
 }
 
-export type Project = {
+export type ProjectFunding = {
+  enacted_at?: string
+  one_time_payment?: OneTimePayment
+  vesting?: Vesting
+}
+
+export type ProposalProject = {
   id: string
+  project_id?: string | null
+  status: ProjectStatus
   title: string
   user: string
   size: number
   type: ProposalType
+  about: string
   created_at: number
   configuration: {
     category: ProposalGrantCategory
     tier: string
   }
-  status?: ProjectStatus
-  contract?: VestingContractData
-  enacting_tx?: string
-  token?: string
-  enacted_at?: number
-  tx_amount?: number
-  tx_date?: number
+  funding?: ProjectFunding
 }
 
-export type ProjectWithUpdate = Project & {
+export type ProjectAttributes = {
+  id: string
+  proposal_id: string
+  title: string
+  status: ProjectStatus
+  about?: string
+  about_updated_by?: string
+  about_updated_at?: Date
+  updated_at?: Date
+  created_at: Date
+}
+
+export enum ProjectMilestoneStatus {
+  Pending = 'pending',
+  InProgress = 'in_progress',
+  Done = 'done',
+}
+
+export type ProjectMilestone = {
+  id: string
+  project_id: string
+  title: string
+  description: string
+  delivery_date: Date | string
+  status: ProjectMilestoneStatus
+  updated_by?: string
+  updated_at?: Date
+  created_by: string
+  created_at: Date
+}
+
+export type ProjectLink = {
+  id: string
+  project_id: string
+  label: string
+  url: string
+  updated_by?: string
+  updated_at?: Date
+  created_by: string
+  created_at: Date
+}
+
+export type Project = ProjectAttributes & {
+  personnel: PersonnelAttributes[]
+  links: ProjectLink[]
+  milestones: ProjectMilestone[]
+  author: string
+  coauthors: string[] | null
+  vesting_addresses: string[]
+  funding?: ProjectFunding
+}
+
+export type ProposalProjectWithUpdate = ProposalProject & {
   update?: IndexedUpdate | null
   update_timestamp?: number
 }
@@ -777,4 +836,13 @@ export type PriorityProposal = Pick<
   priority_type: PriorityProposalType
   linked_proposals_data?: LinkedProposal[]
   unpublished_bids_data?: UnpublishedBidInfo[]
+}
+
+export type PersonnelAttributes = TeamMember & {
+  id: string
+  project_id: string
+  deleted: boolean
+  updated_by?: string
+  updated_at?: Date
+  created_at: Date
 }

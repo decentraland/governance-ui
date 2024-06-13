@@ -40,6 +40,7 @@ import {
   GrantRequest,
   GrantRequestCategoryAssessment,
   GrantRequestFunding,
+  GrantRequestGeneralInfo,
   NewGrantCategory,
   VALID_CATEGORIES,
 } from '../../types/grants'
@@ -187,21 +188,20 @@ export default function SubmitGrant() {
     }
   }, [])
 
-  const handleFundingSectionValidation = useCallback(
-    (data: GrantRequestFunding, sectionValid: boolean) => {
-      patchGrantRequest((prevState) => ({ ...prevState, ...data }))
-      setValidationState((prevState) => ({ ...prevState, fundingSectionValid: sectionValid }))
-    },
-    [patchGrantRequest, setValidationState]
-  )
+  const handleGeneralInfoSectionValidation = useCallback((data: GrantRequestGeneralInfo, sectionValid: boolean) => {
+    patchGrantRequest((prevState) => ({ ...prevState, ...data }))
+    setValidationState((prevState) => ({ ...prevState, generalInformationSectionValid: sectionValid }))
+  }, [])
 
-  const handleCategorySection = useCallback(
-    (data: GrantRequestCategoryAssessment, sectionValid: boolean) => {
-      patchGrantRequest((prevState) => ({ ...prevState, ...data }))
-      setValidationState((prevState) => ({ ...prevState, categoryAssessmentSectionValid: sectionValid }))
-    },
-    [setValidationState]
-  )
+  const handleFundingSectionValidation = useCallback((data: GrantRequestFunding, sectionValid: boolean) => {
+    patchGrantRequest((prevState) => ({ ...prevState, ...data }))
+    setValidationState((prevState) => ({ ...prevState, fundingSectionValid: sectionValid }))
+  }, [])
+
+  const handleCategorySection = useCallback((data: GrantRequestCategoryAssessment, sectionValid: boolean) => {
+    patchGrantRequest((prevState) => ({ ...prevState, ...data }))
+    setValidationState((prevState) => ({ ...prevState, categoryAssessmentSectionValid: sectionValid }))
+  }, [])
 
   if (accountState.loading) {
     return <LoadingView />
@@ -267,10 +267,7 @@ export default function SubmitGrant() {
           />
 
           <GrantRequestGeneralInfoSection
-            onValidation={(data, sectionValid) => {
-              patchGrantRequest((prevState) => ({ ...prevState, ...data }))
-              setValidationState((prevState) => ({ ...prevState, generalInformationSectionValid: sectionValid }))
-            }}
+            onValidation={handleGeneralInfoSectionValidation}
             isFormDisabled={isFormDisabled || submissionVpNotMet}
             sectionNumber={getSectionNumber()}
           />

@@ -27,6 +27,10 @@ const FUNCTION_NAME_OPTIONS = [
     text: 'giveTopVoterBadges',
     value: 'giveTopVoterBadges',
   },
+  {
+    text: 'migrateProjects',
+    value: 'migrateProjects',
+  },
 ]
 
 export default function TriggerFunction({ className }: Props) {
@@ -67,6 +71,13 @@ export default function TriggerFunction({ className }: Props) {
       <ContentSection>
         <Heading size="sm">{'Trigger Function'}</Heading>
         <div>
+          <Label>{'Function Name'}</Label>
+          <SelectField
+            value={functionName}
+            onChange={(_, { value }) => setFunctionName(value as string)}
+            options={FUNCTION_NAME_OPTIONS}
+            disabled={formDisabled}
+          />
           <div>
             <Button
               className="Debug__SectionButton"
@@ -77,13 +88,6 @@ export default function TriggerFunction({ className }: Props) {
               {'Pimbi'}
             </Button>
           </div>
-          <Label>{'Function Name'}</Label>
-          <SelectField
-            value={functionName}
-            onChange={(_, { value }) => setFunctionName(value as string)}
-            options={FUNCTION_NAME_OPTIONS}
-            disabled={formDisabled}
-          />
           {result && (
             <>
               <Label>{'Result'}</Label>

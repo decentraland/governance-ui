@@ -13,8 +13,16 @@
   background-color: var(--blue-200);
 }
 
+.Banner--red {
+  background-color: var(--red-200);
+}
+
 .Banner--purple {
   background: var(--alpha-purple-200);
+}
+
+.Banner--orange {
+  background: var(--orange-200);
 }
 
 .Banner .Banner__Icon {
@@ -49,8 +57,16 @@
   background-color: var(--blue-800) !important;
 }
 
+.Banner__Button--red {
+  background-color: var(--red-800) !important;
+}
+
 .Banner__Button--purple {
   background-color: var(--iris-100) !important;
+}
+
+.Banner__Button--orange {
+  background-color: var(--orange-800) !important;
 }
 
 .Banner__Text {

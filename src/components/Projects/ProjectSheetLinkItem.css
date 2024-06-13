@@ -1,0 +1,13 @@
+.ProjectSheetLinkItem__Title {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  margin: 0;
+  font-weight: var(--weight-medium);
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  color: var(--black-700);
+  gap: 6px;
+}

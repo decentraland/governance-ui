@@ -7,14 +7,14 @@ import '../../Modal/VotingPowerDelegationDetail/VotingPowerDistribution.css'
 import './CliffProgress.css'
 
 type Props = {
-  enactedAt: number
+  enactedAt: string
   basic?: boolean
 }
 
 const CliffProgress = ({ enactedAt, basic }: Props) => {
   const t = useFormatMessage()
   const now = Time.utc()
-  const vestingStartDate = Time.unix(enactedAt)
+  const vestingStartDate = Time(enactedAt)
   const elapsedSinceVestingStarted = now.diff(vestingStartDate, 'day')
   const daysToGo = CLIFF_PERIOD_IN_DAYS - elapsedSinceVestingStarted
   const elapsedPercentage = getRoundedPercentage(elapsedSinceVestingStarted, CLIFF_PERIOD_IN_DAYS)

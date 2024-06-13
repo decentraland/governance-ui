@@ -2,7 +2,7 @@ import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Dropdown } from 'decentraland-ui/dist/components/Dropdown/Dropdown'
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu'
 
-import { VestingInfo } from '../../../clients/VestingData'
+import { VestingWithLogs } from '../../../clients/VestingData'
 import { getVestingContractUrl } from '../../../helpers'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useVestingContractData from '../../../hooks/useVestingContractData'
@@ -18,15 +18,15 @@ interface Props {
   vestingAddresses: string[]
 }
 
-function getDropdownItems(vestingData: VestingInfo[] | undefined) {
-  if (!vestingData) {
+function getDropdownItems(vestings: VestingWithLogs[] | undefined) {
+  if (!vestings) {
     return undefined
   }
 
-  const vestingsAmount = vestingData.length
+  const vestingsAmount = vestings.length
 
-  return vestingData.map((vestingInfo, idx) => {
-    const { logs, vestingStartAt, address } = vestingInfo
+  return vestings.map((vesting, idx) => {
+    const { logs, start_at, address } = vesting
     return {
       key: address,
       text: (
@@ -34,7 +34,7 @@ function getDropdownItems(vestingData: VestingInfo[] | undefined) {
           address={address}
           itemNumber={vestingsAmount - idx}
           logs={logs}
-          vestingStartAt={vestingStartAt}
+          vestingStartAt={start_at}
         />
       ),
     }
