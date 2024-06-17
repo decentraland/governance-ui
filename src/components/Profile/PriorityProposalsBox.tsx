@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 import { useTabletAndBelowMediaQuery } from 'decentraland-ui/dist/components/Media/Media'
 
+import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage, { FormatMessageFunction } from '../../hooks/useFormatMessage'
-import usePriorityProposals from '../../hooks/usePriorityProposals'
 import useProposalsCachedVotes from '../../hooks/useProposalsCachedVotes'
 import { PriorityProposal, PriorityProposalType } from '../../types/proposals'
 import Time from '../../utils/date/Time'
@@ -19,6 +19,8 @@ import './PriorityProposalsBox.css'
 import PriorityProposalsBoxTitle from './PriorityProposalsBoxTitle'
 
 interface Props {
+  priorityProposals?: PriorityProposal[]
+  isLoading: boolean
   address?: string | null
   collapsible?: boolean
 }
@@ -108,14 +110,13 @@ function getProposalsAndLinkedProposalsIds(priorityProposals?: PriorityProposal[
   )
 }
 
-function PriorityProposalsBox({ address, collapsible = false }: Props) {
+function PriorityProposalsBox({ priorityProposals, isLoading, collapsible = false }: Props) {
   const t = useFormatMessage()
   const isTabletAndBelow = useTabletAndBelowMediaQuery()
-  const lowerAddress = address?.toLowerCase()
-  const { priorityProposals, isLoading } = usePriorityProposals(lowerAddress)
   const proposalIds = getProposalsAndLinkedProposalsIds(priorityProposals)
   const { votes, isLoadingVotes } = useProposalsCachedVotes(proposalIds)
-  const displayedProposals = getDisplayedPriorityProposals(votes, priorityProposals, lowerAddress)
+  const [userAddress] = useAuthContext()
+  const displayedProposals = getDisplayedPriorityProposals(votes, priorityProposals, userAddress?.toLowerCase())
   const [displayedProposalsAmount, setDisplayedProposalsAmount] = useState(PROPOSALS_PER_PAGE)
   const hasMoreProposals = displayedProposals && displayedProposals.length > PROPOSALS_PER_PAGE
   const showViewMoreButton = hasMoreProposals && displayedProposalsAmount < displayedProposals.length

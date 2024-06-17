@@ -31,6 +31,7 @@ import StatusFilter from '../components/Search/StatusFilter'
 import TimeFrameFilter from '../components/Search/TimeFrameFilter'
 import { useAuthContext } from '../context/AuthProvider'
 import useFormatMessage from '../hooks/useFormatMessage'
+import usePriorityProposals from '../hooks/usePriorityProposals'
 import useProposals from '../hooks/useProposals'
 import useProposalsByCoAuthor from '../hooks/useProposalsByCoAuthor'
 import useProposalsCachedVotes from '../hooks/useProposalsCachedVotes'
@@ -48,7 +49,7 @@ export default function ProposalsPage() {
   const t = useFormatMessage()
   const location = useLocation()
   const navigate = useNavigate()
-  const [userAddress, authState] = useAuthContext()
+  const [user, authState] = useAuthContext()
   const { type, subtype, status, search, searching, timeFrame, order, page, filtering } = useProposalsSearchParams()
   const { proposals, isLoadingProposals } = useProposals({
     type,
@@ -82,8 +83,8 @@ export default function ProposalsPage() {
     }
   }, [handlePageFilter, page, proposals])
 
-  const [user] = useAuthContext()
   const { requestsStatus } = useProposalsByCoAuthor(user, CoauthorStatus.PENDING)
+  const { priorityProposals, isLoading: isLoadingPriorityProposals } = usePriorityProposals(user?.toLowerCase())
 
   const title =
     (type === ProposalType.Catalyst && t('page.proposal_catalyst_list.title')) ||
@@ -139,7 +140,13 @@ export default function ProposalsPage() {
                   </Mobile>
                 )}
 
-                {!filtering && <PriorityProposalsBox address={userAddress} collapsible />}
+                {!filtering && (
+                  <PriorityProposalsBox
+                    priorityProposals={priorityProposals}
+                    isLoading={isLoadingPriorityProposals}
+                    collapsible
+                  />
+                )}
                 <ActionableLayout
                   leftAction={
                     <Text color="secondary" weight="semi-bold" className="ProposalsPage__ProposalCount">
