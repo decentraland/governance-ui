@@ -7,7 +7,7 @@ import { DEFAULT_QUERY_STALE_TIME } from './constants'
 
 function usePriorityProposals(address?: string | null) {
   const { data: priorityProposals, isLoading } = useQuery({
-    queryKey: [`priorityProposals#${address}`],
+    queryKey: [['priorityProposals', address]],
     queryFn: async () => {
       if (address && !isEthereumAddress(address)) {
         return []
