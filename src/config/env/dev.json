@@ -6,7 +6,7 @@
   "VESTING_DASHBOARD_URL": "https://decentraland.org/vesting/%23/",
   "DCL_DATA_API": "https://data.decentraland.vote/",
   "DEFAULT_CHAIN_ID": "11155111",
-  "DISCOURSE_API": "https://forum.decentraland.vote",
+  "DISCOURSE_API": "https://forum.dcldaodev.xyz",
   "DISCOURSE_USER": "dao",
   "DISCOURSE_CONNECT_THREAD": "1190",
   "GOVERNANCE_API": "https://governance.decentraland.zone/api",
