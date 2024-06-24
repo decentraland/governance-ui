@@ -1,14 +1,13 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useIsProjectEditor from '../../../hooks/useIsProjectEditor'
 import useProjectUpdates from '../../../hooks/useProjectUpdates'
+import { PROJECT_UPDATES_LATEST_CHECK } from '../../../localStorageKeys.ts'
 import { Project } from '../../../types/proposals'
 import { UpdateStatus } from '../../../types/updates'
-import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
-import { isBetweenLateThresholdDate } from '../../../utils/updates'
 import Empty from '../../Common/Empty'
 import ConfirmationModal from '../../Modal/ConfirmationModal'
 import ProjectUpdateCardWrapper from '../../Proposal/Update/ProjectUpdateCardWrapper'
@@ -25,21 +24,21 @@ function UpdatesTabView({ project }: Props) {
   const navigate = useNavigate()
   const { isEditor } = useIsProjectEditor(project)
   const [isLateUpdateModalOpen, setIsLateUpdateModalOpen] = useState(false)
-  const { publicUpdates, nextUpdate, currentUpdate, pendingUpdates, refetchUpdates } = useProjectUpdates(project?.id)
+  const {
+    publicUpdates: updates,
+    nextUpdate,
+    currentUpdate,
+    latePendingUpdate,
+    refetchUpdates,
+    hasUpdates,
+    hasSubmittedUpdate,
+    nextDueDateRemainingDays,
+  } = useProjectUpdates(project?.id)
 
-  const updates = publicUpdates || []
-  const hasUpdates = updates.length > 0
-  const hasSubmittedUpdate = !!currentUpdate?.completion_date
-  const nextDueDateRemainingDays = Time(nextUpdate?.due_date).diff(new Date(), 'days')
+  useEffect(() => {
+    localStorage.setItem(`${PROJECT_UPDATES_LATEST_CHECK}-${project?.id}`, new Date().toString())
+  }, [project?.id])
 
-  const latePendingUpdate = useMemo(
-    () =>
-      pendingUpdates?.find(
-        (update) =>
-          update.id !== nextUpdate?.id && Time().isAfter(update.due_date) && isBetweenLateThresholdDate(update.due_date)
-      ),
-    [nextUpdate?.id, pendingUpdates]
-  )
   const navigateToNextUpdateSubmit = useCallback(() => {
     const hasUpcomingPendingUpdate = currentUpdate?.id && currentUpdate?.status === UpdateStatus.Pending
     navigate(
