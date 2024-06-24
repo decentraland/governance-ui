@@ -28,8 +28,8 @@ const FUNCTION_NAME_OPTIONS = [
     value: 'giveTopVoterBadges',
   },
   {
-    text: 'migrateProjects',
-    value: 'migrateProjects',
+    text: 'restoreMissingUpdatesForumPost',
+    value: 'restoreMissingUpdatesForumPost',
   },
 ]
 
