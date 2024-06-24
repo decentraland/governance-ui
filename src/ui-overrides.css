@@ -209,3 +209,8 @@
 .ui .dcl.back {
   margin: 0 !important;
 }
+
+.dcl.tab svg {
+  margin-left: 4px;
+  vertical-align: middle;
+}
