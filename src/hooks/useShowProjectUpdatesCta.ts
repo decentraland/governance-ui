@@ -21,8 +21,7 @@ export default function useShowProjectUpdatesCta(project?: Project | null) {
   const { isEditor } = useIsProjectEditor(project)
   const { hasPendingMandatoryUpdate, latestPublishedUpdate } = useProjectUpdates(project?.id)
   const now = new Date()
-  const savedDate = getStoredDate(`${PROJECT_UPDATES_LATEST_CHECK}-${project?.id}`)
-  const latestCheckToUpdatesTab = savedDate ? new Date(savedDate) : null
+  const latestCheckToUpdatesTab = getStoredDate(`${PROJECT_UPDATES_LATEST_CHECK}-${project?.id}`)
   const editorHasPendingMandatoryUpdates = isEditor && hasPendingMandatoryUpdate
   const newUpdateForNonEditors =
     !isEditor &&
