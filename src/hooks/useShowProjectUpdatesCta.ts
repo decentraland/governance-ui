@@ -26,7 +26,7 @@ export default function useShowProjectUpdatesCta(project?: Project | null) {
   const editorHasPendingMandatoryUpdates = isEditor && hasPendingMandatoryUpdate
   const newUpdateForNonEditors =
     !isEditor &&
-    latestPublishedUpdate &&
+    !!latestPublishedUpdate &&
     ((latestCheckToUpdatesTab && latestPublishedUpdate.updated_at > latestCheckToUpdatesTab) ||
       latestCheckToUpdatesTab === null) &&
     now > UPDATED_CTA_FEATURE_RELEASE_DATE
