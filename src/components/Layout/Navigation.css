@@ -10,11 +10,6 @@
   list-style-type: none;
 }
 
-.Navigation .dcl.tab svg {
-  margin-left: 4px;
-  vertical-align: middle;
-}
-
 .dcl.navbar-account .ui.button.inverted {
   color: black;
   border: 1px solid black;

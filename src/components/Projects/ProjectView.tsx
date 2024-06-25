@@ -3,9 +3,11 @@ import { useMemo, useState } from 'react'
 import classNames from 'classnames'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
+import useShowProjectUpdatesCta from '../../hooks/useShowProjectUpdatesCta.ts'
 import { ProjectStatus } from '../../types/grants.ts'
 import { Project } from '../../types/proposals'
 import BoxTabs from '../Common/BoxTabs'
+import Dot from '../Icon/Dot.tsx'
 
 import UpdatesTabView from './Updates/UpdatesTabView'
 
@@ -28,7 +30,9 @@ function ProjectView({ project, onClose, isFullscreen = false }: Props) {
     (!project.milestones || project.milestones.length === 0)
   )
 
-  const MENU_ITEMS: { labelKey: string; view: React.ReactNode }[] = useMemo(() => {
+  const { showUpdatesCta } = useShowProjectUpdatesCta(project)
+
+  const MENU_ITEMS: { labelKey: string; view: React.ReactNode; showDot?: boolean }[] = useMemo(() => {
     return [
       {
         labelKey: 'page.project_sidebar.general_info.title',
@@ -45,9 +49,10 @@ function ProjectView({ project, onClose, isFullscreen = false }: Props) {
       {
         labelKey: 'page.project_sidebar.updates.title',
         view: <UpdatesTabView project={project} />,
+        showDot: showUpdatesCta,
       },
     ]
-  }, [project, showMilestonesTab])
+  }, [project, showMilestonesTab, showUpdatesCta])
   return (
     <div>
       {project && <ProjectSheetTitle project={project} onClose={onClose} isFullscreen={isFullscreen} />}
@@ -57,6 +62,7 @@ function ProjectView({ project, onClose, isFullscreen = false }: Props) {
           {MENU_ITEMS.map((item, idx) => (
             <BoxTabs.Tab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
               {t(item.labelKey)}
+              {!!item.showDot && <Dot />}
             </BoxTabs.Tab>
           ))}
         </BoxTabs.Left>
