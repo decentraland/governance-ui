@@ -9,6 +9,7 @@ import { Desktop, NotMobile, TabletAndBelow } from 'decentraland-ui/dist/compone
 import { ErrorClient } from '../clients/ErrorClient'
 import { Governance } from '../clients/Governance'
 import { SnapshotApi } from '../clients/SnapshotApi'
+import CategoryPill from '../components/Category/CategoryPill.tsx'
 import ProposalVPChart from '../components/Charts/ProposalVPChart'
 import WiderContainer from '../components/Common/WiderContainer'
 import FloatingBar from '../components/FloatingBar/FloatingBar'
@@ -43,6 +44,7 @@ import GovernanceProcess from '../components/Proposal/View/GovernanceProcess'
 import ProposalDetailSection from '../components/Proposal/View/ProposalDetailSection'
 import ProposalImagesPreview from '../components/Proposal/View/ProposalImagesPreview'
 import ProposalMarkdown from '../components/Proposal/View/ProposalMarkdown'
+import StatusPill from '../components/Status/StatusPill.tsx'
 import { useAuthContext } from '../context/AuthProvider'
 import { DEFAULT_QUERY_STALE_TIME } from '../hooks/constants'
 import useAsyncTask from '../hooks/useAsyncTask'
@@ -360,7 +362,18 @@ export default function ProposalPage() {
         links={[{ rel: 'canonical', href: locations.proposal(proposal?.id || '') }]}
       />
       <Navigation activeTab={NavigationTab.Proposals} />
-      <NotMobile>{proposal && <FloatingHeader isVisible={isFloatingHeaderVisible} proposal={proposal} />}</NotMobile>
+      <NotMobile>
+        {proposal && (
+          <FloatingHeader isVisible={isFloatingHeaderVisible} title={proposal.title}>
+            {
+              <>
+                <StatusPill isLink status={proposal.status} />
+                <CategoryPill isLink proposalType={proposal.type} />
+              </>
+            }
+          </FloatingHeader>
+        )}
+      </NotMobile>
       <WiderContainer className="ProposalDetailPage">
         <ProposalHero proposal={proposal} ref={heroSectionRef} />
         {proposal && (

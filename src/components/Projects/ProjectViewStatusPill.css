@@ -25,17 +25,20 @@
   background: var(--black-200);
 }
 
-.ProjectViewStatusPill--revoked {
+.ProjectViewStatusPill--revoked,
+.ProjectViewStatusPill--revoked--hero {
   color: var(--red-800);
   background: var(--red-200);
 }
 
-.ProjectViewStatusPill--finished {
+.ProjectViewStatusPill--finished,
+.ProjectViewStatusPill--finished--hero {
   color: var(--green-900);
   background: var(--green-200);
 }
 
-.ProjectViewStatusPill--paused {
+.ProjectViewStatusPill--paused,
+.ProjectViewStatusPill--paused--hero {
   color: var(--orange-800);
   background: var(--orange-200);
 }

@@ -45,7 +45,7 @@
   padding-left: 14px;
 }
 
-.FloatingHeader__Status {
+.FloatingHeader__Body {
   display: flex;
   gap: 8px;
   min-height: 24px;
