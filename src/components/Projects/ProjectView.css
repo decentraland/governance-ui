@@ -1,17 +1,53 @@
+.ProjectView {
+  display: flex !important;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.ProjectView .ui.header {
+  margin-bottom: 1rem;
+}
+
 .ProjectView__ContentContainer {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 16px;
+  max-width: 100%;
+  min-height: 500px;
 }
 
-.ProjectView__ContentContainer--fullscreen {
-  padding: 8px 0;
+.ProjectView__Left {
+  display: flex;
+  width: var(--dao-sidebar-width);
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-right: 1em;
+}
+
+.ProjectView__Right {
+  display: none;
 }
 
 @media only screen and (min-width: 768px) {
+  .ProjectView {
+    flex-direction: row !important;
+  }
+
   .ProjectView__ContentContainer {
-    padding: 32px;
+    padding: 0 2rem 0 1rem !important;
+    flex: 1;
+    max-width: calc(100% - var(--dao-sidebar-width));
+  }
+
+  .ProjectView__Right {
+    display: block;
+    width: var(--dao-sidebar-width);
+  }
+}
+
+@media (min-width: 1200px) {
+  .ProjectView__ContentContainer {
+    max-width: calc(100% - 2 * var(--dao-sidebar-width));
   }
 }
 

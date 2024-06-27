@@ -2307,7 +2307,7 @@
         "finished": "Ended"
       },
       "general_info": {
-        "funding": "Funding",
+        "funding": "Project Funding: {total}",
         "links": {
           "title": "Project Links",
           "add_label": "+ Add Link",

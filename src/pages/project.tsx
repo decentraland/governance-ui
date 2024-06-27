@@ -1,5 +1,3 @@
-import { Container } from 'decentraland-ui/dist/components/Container/Container'
-
 import WiderContainer from '../components/Common/WiderContainer'
 import Head from '../components/Layout/Head'
 import LoadingView from '../components/Layout/LoadingView'
@@ -43,9 +41,9 @@ export default function ProjectPage() {
         links={[{ rel: 'canonical', href: locations.project({ id: project?.id }) }]}
       />
       <Navigation activeTab={NavigationTab.Projects} />
-      <Container>
+      <WiderContainer>
         <ProjectView project={project} isFullscreen />
-      </Container>
+      </WiderContainer>
     </>
   )
 }

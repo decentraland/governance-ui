@@ -1,19 +1,20 @@
 import { useMemo, useState } from 'react'
 
-import classNames from 'classnames'
-
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useShowProjectUpdatesCta from '../../hooks/useShowProjectUpdatesCta.ts'
 import { ProjectStatus } from '../../types/grants.ts'
 import { Project } from '../../types/proposals'
 import BoxTabs from '../Common/BoxTabs'
 import Dot from '../Icon/Dot.tsx'
+import { Desktop1200, NotDesktop1200 } from '../Layout/Desktop1200.tsx'
 
 import UpdatesTabView from './Updates/UpdatesTabView'
 
 import MilestonesTab from './MilestonesTab'
 import ProjectGeneralInfo from './ProjectGeneralInfo'
+import ProjectSheetFundingSection from './ProjectSheetFundingSection.tsx'
 import ProjectSheetTitle from './ProjectSheetTitle'
+import ProjectVerticalTab from './ProjectVerticalTab.tsx'
 import './ProjectView.css'
 
 interface Props {
@@ -52,28 +53,40 @@ function ProjectView({ project, onClose, isFullscreen = false }: Props) {
         showDot: showUpdatesCta,
       },
     ]
-  }, [project, showMilestonesTab, showUpdatesCta])
-  return (
-    <div>
-      {project && <ProjectSheetTitle project={project} onClose={onClose} isFullscreen={isFullscreen} />}
+  }, [project, showMilestonesTab, showUpdatesCta, isFullscreen])
 
-      <BoxTabs className="ProjectView__Tabs">
-        <BoxTabs.Left>
-          {MENU_ITEMS.map((item, idx) => (
-            <BoxTabs.Tab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
-              {t(item.labelKey)}
-              {!!item.showDot && <Dot />}
-            </BoxTabs.Tab>
-          ))}
-        </BoxTabs.Left>
-      </BoxTabs>
-      <div
-        className={classNames(
-          'ProjectView__ContentContainer',
-          isFullscreen && 'ProjectView__ContentContainer--fullscreen'
-        )}
-      >
+  return (
+    <div className="ProjectView">
+      {project && <ProjectSheetTitle project={project} onClose={onClose} />}
+      {project && (
+        <Desktop1200>
+          <div className="ProjectView__Left">
+            {MENU_ITEMS.map((item, idx) => (
+              <ProjectVerticalTab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
+                {t(item.labelKey)}
+                {!!item.showDot && <Dot />}
+              </ProjectVerticalTab>
+            ))}
+          </div>
+        </Desktop1200>
+      )}
+      <div className="ProjectView__ContentContainer">
+        <NotDesktop1200>
+          <BoxTabs className="ProjectView__Tabs">
+            <BoxTabs.Left>
+              {MENU_ITEMS.map((item, idx) => (
+                <BoxTabs.Tab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
+                  {t(item.labelKey)}
+                  {!!item.showDot && <Dot />}
+                </BoxTabs.Tab>
+              ))}
+            </BoxTabs.Left>
+          </BoxTabs>
+        </NotDesktop1200>
         {MENU_ITEMS[viewIdx].view}
+      </div>
+      <div className="ProjectView__Right">
+        {project && project.funding && <ProjectSheetFundingSection project={project} compact />}
       </div>
     </div>
   )

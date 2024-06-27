@@ -11,12 +11,13 @@ import './VestingProgress.css'
 type Props = {
   projectFunding: ProjectFunding | undefined
   basic?: boolean
+  compact?: boolean
   className?: string
 }
 
 const getRoundedPercentage = (value: number, total: number) => Math.min(Math.round((value * 100) / total), 100)
 
-const VestingProgress = ({ projectFunding, basic, className }: Props) => {
+const VestingProgress = ({ projectFunding, basic, compact, className }: Props) => {
   const t = useFormatMessage()
   if (!projectFunding || !projectFunding.enacted_at) return null
 
@@ -44,12 +45,14 @@ const VestingProgress = ({ projectFunding, basic, className }: Props) => {
             </span>
             <PercentageLabel percentage={vestedPercentage} color={one_time_payment ? 'Fuchsia' : 'Yellow'} />
           </div>
-          <div className="VestingProgress__ReleasedInfo VestingProgress__Ellipsis">
-            {vesting && <div className="VestingProgress__ReleasedInfoLabel" />}
-            <span className={classNames('VestingProgress__Ellipsis', !vesting && 'VestingProgressBar__LightText')}>
-              {releasedText}
-            </span>
-          </div>
+          {!compact && (
+            <div className="VestingProgress__ReleasedInfo VestingProgress__Ellipsis">
+              {vesting && <div className="VestingProgress__ReleasedInfoLabel" />}
+              <span className={classNames('VestingProgress__Ellipsis', !vesting && 'VestingProgressBar__LightText')}>
+                {releasedText}
+              </span>
+            </div>
+          )}
         </div>
       )}
 
@@ -69,7 +72,7 @@ const VestingProgress = ({ projectFunding, basic, className }: Props) => {
         {one_time_payment && <div className="VestingProgressBar__Item VestingProgressBar__Transferred" />}
       </div>
 
-      {!basic && (
+      {!basic && !compact && (
         <div className="VestingProgress__Dates">
           <div className="VestingProgress__VestedAt">
             <span>{one_time_payment ? t('page.grants.transaction_date') : t('page.grants.started_date')}</span>
@@ -83,6 +86,14 @@ const VestingProgress = ({ projectFunding, basic, className }: Props) => {
               <span className="VestingProgress__VestedDate">{Time(vesting.finish_at).fromNow()}</span>
             </div>
           )}
+        </div>
+      )}
+      {compact && (
+        <div className="VestingProgress__ReleasedInfo VestingProgress__Ellipsis">
+          {vesting && <div className="VestingProgress__ReleasedInfoLabel" />}
+          <span className={classNames('VestingProgress__Ellipsis', !vesting && 'VestingProgressBar__LightText')}>
+            {releasedText}
+          </span>
         </div>
       )}
     </div>
