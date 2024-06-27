@@ -1,4 +1,4 @@
-.ProjectSheetStatusPill {
+.ProjectViewStatusPill {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -13,29 +13,29 @@
   padding: 0 5px;
 }
 
-.ProjectSheetStatusPill--in_progress--hero,
-.ProjectSheetStatusPill--pending--hero {
+.ProjectViewStatusPill--in_progress--hero,
+.ProjectViewStatusPill--pending--hero {
   color: var(--red-800);
   background: var(--red-200);
 }
 
-.ProjectSheetStatusPill--in_progress,
-.ProjectSheetStatusPill--pending {
+.ProjectViewStatusPill--in_progress,
+.ProjectViewStatusPill--pending {
   color: var(--black-600);
   background: var(--black-200);
 }
 
-.ProjectSheetStatusPill--revoked {
+.ProjectViewStatusPill--revoked {
   color: var(--red-800);
   background: var(--red-200);
 }
 
-.ProjectSheetStatusPill--finished {
+.ProjectViewStatusPill--finished {
   color: var(--green-900);
   background: var(--green-200);
 }
 
-.ProjectSheetStatusPill--paused {
+.ProjectViewStatusPill--paused {
   color: var(--orange-800);
   background: var(--orange-200);
 }

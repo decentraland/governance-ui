@@ -7,8 +7,8 @@ import DotsMenu from '../Icon/DotsMenu.tsx'
 import SlimCross from '../Icon/SlimCross.tsx'
 import HeroBanner from '../Proposal/HeroBanner.tsx'
 
-import ProjectSheetStatusPill from './ProjectSheetStatusPill.tsx'
-import './ProjectSheetTitle.css'
+import ProjectViewStatusPill from './ProjectViewStatusPill.tsx'
+import './ProjectViewTitle.css'
 
 const IS_DOTS_MENU_ENABLED = false
 
@@ -19,7 +19,7 @@ interface Props {
 
 const HIGHLIGHTED_STATUSES = [ProjectStatus.Pending, ProjectStatus.InProgress]
 
-export default function ProjectSheetTitle({ project, onClose }: Props) {
+export default function ProjectViewTitle({ project, onClose }: Props) {
   const showHero = HIGHLIGHTED_STATUSES.includes(project.status)
 
   return (
@@ -30,12 +30,12 @@ export default function ProjectSheetTitle({ project, onClose }: Props) {
           <div className="ProjectHero__Text">
             <h1 className="ProjectHero__Title">{project?.title || ''}</h1>
             <Loader active={!project} />
-            {project && <ProjectSheetStatusPill project={project} hero />}
+            {project && <ProjectViewStatusPill project={project} hero />}
           </div>
           <div className="ProjectHero__Menu">
-            {IS_DOTS_MENU_ENABLED && <DotsMenu color="var(--white-900)" className="ProjectSheet__MenuDots" />}
+            {IS_DOTS_MENU_ENABLED && <DotsMenu color="var(--white-900)" className="ProjectView__MenuDots" />}
             {onClose && (
-              <SlimCross size={14} color="var(--white-900)" onClick={onClose} className="ProjectSheet__MenuCross" />
+              <SlimCross size={14} color="var(--white-900)" onClick={onClose} className="ProjectView__MenuCross" />
             )}
           </div>
         </div>
@@ -43,10 +43,10 @@ export default function ProjectSheetTitle({ project, onClose }: Props) {
         <div className="ProjectTitle__Container">
           <span className="ProjectTitle__Text">{project?.title || ''}</span>
           <div className="ProjectTitle__Menu">
-            <ProjectSheetStatusPill project={project} />
-            {IS_DOTS_MENU_ENABLED && <DotsMenu color="var(--black-700)" className="ProjectSheet__MenuDots" />}
+            <ProjectViewStatusPill project={project} />
+            {IS_DOTS_MENU_ENABLED && <DotsMenu color="var(--black-700)" className="ProjectView__MenuDots" />}
             {onClose && (
-              <SlimCross size={14} color="var(--black-700)" onClick={onClose} className="ProjectSheet__MenuCross" />
+              <SlimCross size={14} color="var(--black-700)" onClick={onClose} className="ProjectView__MenuCross" />
             )}
           </div>
         </div>

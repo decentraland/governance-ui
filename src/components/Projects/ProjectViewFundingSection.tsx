@@ -10,9 +10,9 @@ import VestingProgressDatesText from './ProjectCard/VestingProgressDatesText.tsx
 
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer.tsx'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
-import './ProjectSheetFundingSection.css'
-import ProjectSheetLinkItem from './ProjectSheetLinkItem.tsx'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
+import './ProjectViewFundingSection.css'
+import ProjectViewLinkItem from './ProjectViewLinkItem.tsx'
 
 interface Props {
   project: Project
@@ -26,16 +26,16 @@ function getVestingLinkLabel(index: number, thereIsMoreThanOnePastVesting: boole
   return `${index === 0 ? 'Current' : 'Past'} vesting ${thereIsMoreThanOnePastVesting && index > 0 ? `${index}` : ''}`
 }
 
-function ProjectSheetFundingSection({ project, compact, className }: Props) {
+function ProjectViewFundingSection({ project, compact, className }: Props) {
   const { vesting_addresses, funding } = project
   const thereIsMoreThanOnePastVesting = vesting_addresses.length > 2
 
   const t = useFormatMessage()
   return project.funding ? (
     <ProjectSectionsContainer>
-      <div className={classNames(['ProjectSheetFundingSection', className])}>
-        <div className="ProjectSheetFundingSection__FundingBox">
-          <div className="ProjectSheetFundingSection__Heading">
+      <div className={classNames(['ProjectViewFundingSection', className])}>
+        <div className="ProjectViewFundingSection__FundingBox">
+          <div className="ProjectViewFundingSection__Heading">
             <Text size="md" color="default" weight="medium">
               {t('project.sheet.general_info.funding', {
                 total: project.funding.vesting
@@ -47,7 +47,7 @@ function ProjectSheetFundingSection({ project, compact, className }: Props) {
           </div>
           <VestingProgress
             projectFunding={project.funding}
-            className="ProjectSheetFundingSection__VestingProgress"
+            className="ProjectViewFundingSection__VestingProgress"
             compact={compact}
           />
         </div>
@@ -58,7 +58,7 @@ function ProjectSheetFundingSection({ project, compact, className }: Props) {
             .reverse()
             .map((vesting, index) => {
               return (
-                <ProjectSheetLinkItem
+                <ProjectViewLinkItem
                   href={VESTINGS_BASE_URL + vesting}
                   icon={<VestingLinkIcon />}
                   label={getVestingLinkLabel(index, thereIsMoreThanOnePastVesting)}
@@ -72,4 +72,4 @@ function ProjectSheetFundingSection({ project, compact, className }: Props) {
   ) : null
 }
 
-export default ProjectSheetFundingSection
+export default ProjectViewFundingSection

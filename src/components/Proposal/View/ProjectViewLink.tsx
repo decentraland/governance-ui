@@ -3,26 +3,27 @@ import { Button } from 'decentraland-ui/dist/components/Button/Button'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import { ProjectStatus } from '../../../types/grants.ts'
+import Link from '../../Common/Typography/Link.tsx'
 import Markdown from '../../Common/Typography/Markdown'
-import ProjectSheetLinkArrow from '../../Icon/ProjectSheetLinkArrow.tsx'
 
 import './DetailsSection.css'
-import './ProjectSheetLink.css'
+import './ProjectViewLink.css'
 import SidebarHeaderLabel from './SidebarHeaderLabel.tsx'
 
 interface Props {
   projectStatus: ProjectStatus
   isGrantee: boolean
-  onClick?: () => void
+  projectUrl: string
 }
 
-function ProjectSheetLink({ projectStatus, isGrantee, onClick }: Props) {
+function ProjectViewLink({ projectStatus, isGrantee, projectUrl }: Props) {
   const t = useFormatMessage()
+  console.log(projectUrl)
 
   return (
-    <div className={classNames(['DetailsSection', `ProjectSheetLink--${projectStatus}`])}>
+    <div className={classNames(['DetailsSection', `ProjectViewLink--${projectStatus}`])}>
       <div className="DetailsSection__Content">
-        <SidebarHeaderLabel className={`ProjectSheetLink__Title--${projectStatus}`}>
+        <SidebarHeaderLabel className={`ProjectViewLink__Title--${projectStatus}`}>
           {t(
             `page.proposal_detail.project_sheet_link.${projectStatus}${
               projectStatus === ProjectStatus.Pending && isGrantee ? '.grantee' : ''
@@ -30,13 +31,13 @@ function ProjectSheetLink({ projectStatus, isGrantee, onClick }: Props) {
           )}
         </SidebarHeaderLabel>
         <Markdown
-          className={classNames(['ProjectSheetLink__Description'])}
+          className={classNames(['ProjectViewLink__Description'])}
           componentsClassNames={{
             strong: classNames([
-              'ProjectSheetLink__Description__StrongText',
-              `ProjectSheetLink__Description--${projectStatus}`,
+              'ProjectViewLink__Description__StrongText',
+              `ProjectViewLink__Description--${projectStatus}`,
             ]),
-            p: `ProjectSheetLink__Description--${projectStatus}`,
+            p: `ProjectViewLink__Description--${projectStatus}`,
           }}
         >
           {t(
@@ -45,18 +46,18 @@ function ProjectSheetLink({ projectStatus, isGrantee, onClick }: Props) {
             }.description`
           )}
         </Markdown>
-        <Button
-          onClick={onClick}
-          primary
-          size="small"
-          className={classNames(['ProjectSheetLink__Action', `ProjectSheetLink__Action--${projectStatus}`])}
-        >
-          {t('page.proposal_detail.project_sheet_link.action')}
-          <ProjectSheetLinkArrow />
-        </Button>
+        <Link href={projectUrl}>
+          <Button
+            primary
+            size="small"
+            className={classNames(['ProjectViewLink__Action', `ProjectViewLink__Action--${projectStatus}`])}
+          >
+            {t('page.proposal_detail.project_sheet_link.action')}
+          </Button>
+        </Link>
       </div>
     </div>
   )
 }
 
-export default ProjectSheetLink
+export default ProjectViewLink

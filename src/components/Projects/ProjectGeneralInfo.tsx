@@ -7,10 +7,9 @@ import Markdown from '../Common/Typography/Markdown.tsx'
 
 import ActionableLinksView from './ActionableLinksView.tsx'
 import ActionablePersonnelView from './ActionablePersonnelView.tsx'
-import ProjectSheetFundingSection from './ProjectSheetFundingSection.tsx'
-import './ProjectSidebar.css'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
 import ProjectStatusCardWrapper from './ProjectStatusCardWrapper.tsx'
+import ProjectViewFundingSection from './ProjectViewFundingSection.tsx'
 
 interface Props {
   project: Project
@@ -26,7 +25,7 @@ function ProjectGeneralInfo({ project }: Props) {
       {project.status !== ProjectStatus.Pending && <ProjectStatusCardWrapper project={project} />}
       {project.funding && (
         <Mobile>
-          <ProjectSheetFundingSection project={project} />
+          <ProjectViewFundingSection project={project} />
         </Mobile>
       )}
       {about && (

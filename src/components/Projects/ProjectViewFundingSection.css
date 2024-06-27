@@ -1,9 +1,9 @@
-.ProjectSheetFundingSection {
+.ProjectViewFundingSection {
   display: flex;
   flex-direction: column;
 }
 
-.ProjectSheetFundingSection__FundingBox {
+.ProjectViewFundingSection__FundingBox {
   display: flex;
   padding: 16px;
   flex-direction: column;
@@ -15,16 +15,16 @@
   margin-bottom: 16px;
 }
 
-.ProjectSheetFundingSection__Heading > .Text {
+.ProjectViewFundingSection__Heading > .Text {
   margin-bottom: 0;
 }
 
-.ProjectSheetFundingSection__VestingProgress {
+.ProjectViewFundingSection__VestingProgress {
   margin-bottom: 0;
 }
 
 @media (min-width: 768px) {
-  .ProjectSheetFundingSection__FundingBox {
+  .ProjectViewFundingSection__FundingBox {
     margin-bottom: 24px;
   }
 }

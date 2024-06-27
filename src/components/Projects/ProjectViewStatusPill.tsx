@@ -5,7 +5,7 @@ import { ProjectStatus } from '../../types/grants'
 import { Project, ProjectFunding } from '../../types/proposals.ts'
 import { getDaysBetweenDates } from '../../utils/date/getDaysBetweenDates.ts'
 
-import './ProjectSheetStatusPill.css'
+import './ProjectViewStatusPill.css'
 
 interface Props {
   project: Project
@@ -25,14 +25,14 @@ function getPillTextData(status: ProjectStatus, created_at: Date, funding?: Proj
   }
 }
 
-export default function ProjectSheetStatusPill({ project, hero = false }: Props) {
+export default function ProjectViewStatusPill({ project, hero = false }: Props) {
   const { status, created_at, funding } = project
   const t = useFormatMessage()
 
   const pillData = getPillTextData(status, created_at, funding)
 
   return (
-    <div className={classNames(['ProjectSheetStatusPill', `ProjectSheetStatusPill--${status}${hero ? '--hero' : ''}`])}>
+    <div className={classNames(['ProjectViewStatusPill', `ProjectViewStatusPill--${status}${hero ? '--hero' : ''}`])}>
       {t(`project.sheet.status_pill.${status}`, pillData)}
     </div>
   )

@@ -20,9 +20,9 @@ import DeleteActionLabel from './DeleteActionLabel.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
-import ProjectSheetLinkItem from './ProjectSheetLinkItem.tsx'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
 import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
+import ProjectViewLinkItem from './ProjectViewLinkItem.tsx'
 
 interface Props {
   links: ProjectLink[]
@@ -159,7 +159,7 @@ function ActionableLinksView({ links, projectId, proposalId, canEdit }: Props) {
             }}
           />
         ) : (
-          <ProjectSheetLinkItem label={label} icon={<BlueLinkIcon />} href={url} key={index} />
+          <ProjectViewLinkItem label={label} icon={<BlueLinkIcon />} href={url} key={index} />
         )
       }),
     [links, canEdit, handleDeleteLink]
@@ -170,7 +170,7 @@ function ActionableLinksView({ links, projectId, proposalId, canEdit }: Props) {
       <ProjectSidebarSectionTitle text={t('project.sheet.general_info.links.title')} />
       <ProjectSectionsContainer>
         <ProjectInfoCardsContainer slim>
-          <ProjectSheetLinkItem
+          <ProjectViewLinkItem
             label={t('project.sheet.general_info.links.proposal_link')}
             icon={<BlueLinkIcon />}
             href={proposalUrl(proposalId)}

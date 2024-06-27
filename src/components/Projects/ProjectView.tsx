@@ -12,18 +12,17 @@ import UpdatesTabView from './Updates/UpdatesTabView'
 
 import MilestonesTab from './MilestonesTab'
 import ProjectGeneralInfo from './ProjectGeneralInfo'
-import ProjectSheetFundingSection from './ProjectSheetFundingSection.tsx'
-import ProjectSheetTitle from './ProjectSheetTitle'
 import ProjectVerticalTab from './ProjectVerticalTab.tsx'
 import './ProjectView.css'
+import ProjectViewFundingSection from './ProjectViewFundingSection.tsx'
+import ProjectViewTitle from './ProjectViewTitle'
 
 interface Props {
   project?: Project | null
   onClose?: () => void
-  isFullscreen?: boolean
 }
 
-function ProjectView({ project, onClose, isFullscreen = false }: Props) {
+function ProjectView({ project, onClose }: Props) {
   const t = useFormatMessage()
   const [viewIdx, setViewIdx] = useState(0)
   const showMilestonesTab = !(
@@ -53,11 +52,11 @@ function ProjectView({ project, onClose, isFullscreen = false }: Props) {
         showDot: showUpdatesCta,
       },
     ]
-  }, [project, showMilestonesTab, showUpdatesCta, isFullscreen])
+  }, [project, showMilestonesTab, showUpdatesCta])
 
   return (
     <div className="ProjectView">
-      {project && <ProjectSheetTitle project={project} onClose={onClose} />}
+      {project && <ProjectViewTitle project={project} onClose={onClose} />}
       {project && (
         <Desktop1200>
           <div className="ProjectView__Left">
@@ -86,7 +85,7 @@ function ProjectView({ project, onClose, isFullscreen = false }: Props) {
         {MENU_ITEMS[viewIdx].view}
       </div>
       <div className="ProjectView__Right">
-        {project && project.funding && <ProjectSheetFundingSection project={project} compact />}
+        {project && project.funding && <ProjectViewFundingSection project={project} compact />}
       </div>
     </div>
   )

@@ -42,7 +42,7 @@ export default function ProjectPage() {
       />
       <Navigation activeTab={NavigationTab.Projects} />
       <WiderContainer>
-        <ProjectView project={project} isFullscreen />
+        <ProjectView project={project} />
       </WiderContainer>
     </>
   )
