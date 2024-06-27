@@ -11,6 +11,7 @@ import Dot from '../Icon/Dot.tsx'
 
 import UpdatesTabView from './Updates/UpdatesTabView'
 
+import ActivityTab from './ActivityTab.tsx'
 import MilestonesTab from './MilestonesTab'
 import ProjectGeneralInfo from './ProjectGeneralInfo'
 import ProjectSheetTitle from './ProjectSheetTitle'
@@ -50,6 +51,10 @@ function ProjectView({ project, onClose, isFullscreen = false }: Props) {
         labelKey: 'page.project_sidebar.updates.title',
         view: <UpdatesTabView project={project} />,
         showDot: showUpdatesCta,
+      },
+      {
+        labelKey: 'page.project_sidebar.activity.title',
+        view: project && <ActivityTab project={project} />,
       },
     ]
   }, [project, showMilestonesTab, showUpdatesCta])
