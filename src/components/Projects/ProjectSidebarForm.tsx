@@ -93,7 +93,7 @@ function ProjectSidebarForm<T extends FieldValues>({
         <div key={field.name.toString()} className="ProjectSidebarForm__Field">
           <div className="ProjectSidebarForm__LabelContainer">
             <label className="ProjectSidebarForm__FieldLabel">{field.label}</label>
-            {field.optional && <span className="ProjectSidebarForm__Optional">{t('project.sheet.form.optional')}</span>}
+            {field.optional && <span className="ProjectSidebarForm__Optional">{t('project.form.optional')}</span>}
           </div>
 
           {renderField(field)}
@@ -107,10 +107,10 @@ function ProjectSidebarForm<T extends FieldValues>({
           primary
           onClick={handleSubmit(onSave)}
         >
-          {t('project.sheet.form.save')}
+          {t('project.form.save')}
         </Button>
         <Button className="ProjectSidebarForm__Cancel" basic onClick={onCancel}>
-          {t('project.sheet.form.cancel')}
+          {t('project.form.cancel')}
         </Button>
       </div>
     </div>

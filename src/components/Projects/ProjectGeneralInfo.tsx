@@ -2,14 +2,14 @@ import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
 import { ProjectStatus } from '../../types/grants.ts'
 import { Project } from '../../types/proposals.ts'
+import Mobile from '../Common/MediaQuery/Mobile.tsx'
 import Markdown from '../Common/Typography/Markdown.tsx'
 
 import ActionableLinksView from './ActionableLinksView.tsx'
 import ActionablePersonnelView from './ActionablePersonnelView.tsx'
-import ProjectSheetFundingSection from './ProjectSheetFundingSection.tsx'
-import './ProjectSidebar.css'
-import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
+import ProjectSectionTitle from './ProjectSectionTitle.tsx'
 import ProjectStatusCardWrapper from './ProjectStatusCardWrapper.tsx'
+import ProjectViewFundingSection from './ProjectViewFundingSection.tsx'
 
 interface Props {
   project: Project
@@ -23,10 +23,14 @@ function ProjectGeneralInfo({ project }: Props) {
   return (
     <>
       {project.status !== ProjectStatus.Pending && <ProjectStatusCardWrapper project={project} />}
-      {project.funding && <ProjectSheetFundingSection project={project} />}
+      {project.funding && (
+        <Mobile>
+          <ProjectViewFundingSection project={project} />
+        </Mobile>
+      )}
       {about && (
         <div>
-          <ProjectSidebarSectionTitle text={t('project_sheet.general_info.about')} />
+          <ProjectSectionTitle text={t('project.general_info.about')} />
           <Markdown>{about}</Markdown>
         </div>
       )}

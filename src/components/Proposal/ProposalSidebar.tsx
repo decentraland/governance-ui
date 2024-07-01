@@ -11,14 +11,14 @@ import { ProposalStatus, ProposalWithProject } from '../../types/proposals'
 import { SubscriptionAttributes } from '../../types/subscriptions'
 import { Survey } from '../../types/surveyTopics'
 import { SelectedVoteChoice, VoteByAddress } from '../../types/votes'
+import { projectUrl } from '../../utils/proposal.ts'
 import { calculateResult } from '../../utils/votes/utils'
 import { NotDesktop1200 } from '../Layout/Desktop1200'
 import CalendarAlertModal from '../Modal/CalendarAlertModal'
 import VotesListModal from '../Modal/Votes/VotesListModal'
-import ProjectSidebar from '../Projects/ProjectSidebar'
 
 import CalendarAlertButton from './View/CalendarAlertButton'
-import ProjectSheetLink from './View/ProjectSheetLink.tsx'
+import ProjectViewLink from './View/ProjectViewLink.tsx'
 import ProposalCoAuthorStatus from './View/ProposalCoAuthorStatus'
 import ProposalDetailSection from './View/ProposalDetailSection'
 import ProposalGovernanceSection from './View/ProposalGovernanceSection'
@@ -123,22 +123,13 @@ export default function ProposalSidebar({
   const isCalendarButtonDisabled = !proposal || proposal.status !== ProposalStatus.Active
   const hasProject = !!projectId && !!projectStatus
   const isGrantee = isOwner || isCoauthor
-  const [showProjectSidebar, setShowProjectSidebar] = useState(false)
+  const linkToProject = (proposal?.project_id && projectUrl(proposal.project_id)) || ''
 
   return (
     <>
       {hasProject && (
         <>
-          <ProjectSheetLink
-            projectStatus={projectStatus}
-            isGrantee={isGrantee}
-            onClick={() => setShowProjectSidebar(true)}
-          />
-          <ProjectSidebar
-            projectId={projectId}
-            isSidebarVisible={showProjectSidebar}
-            onClose={() => setShowProjectSidebar(false)}
-          />
+          <ProjectViewLink projectStatus={projectStatus} isGrantee={isGrantee} projectUrl={linkToProject} />
         </>
       )}
       {proposal && <ProposalCoAuthorStatus proposalId={proposal.id} proposalFinishDate={proposal.finish_at} />}

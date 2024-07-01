@@ -1,6 +1,7 @@
 @media (min-width: 768px) {
   .ProjectHero__Container {
     margin: 16px 16px 0;
+    width: 100%;
   }
 
   .ProjectHero__Title {
@@ -22,6 +23,7 @@
   align-items: center;
   position: relative;
   isolation: isolate;
+  margin: 0 0 24px;
 }
 
 .ProjectHero__Text {
@@ -33,7 +35,6 @@
 }
 
 .ProjectHero__Title {
-  color: var(--white-900);
   font-weight: var(--weight-semi-bold);
   font-size: 18px;
   line-height: 26px;
@@ -41,6 +42,10 @@
   text-align: center;
   padding: 0 2em;
   margin: 8px 0;
+}
+
+.ProjectHero__Title--active {
+  color: var(--white-900);
 }
 
 @media (min-width: 768px) {
@@ -55,18 +60,17 @@
 }
 
 .ProjectHero__Banner {
-  border-radius: 0;
-  background: linear-gradient(90deg, #d80027 0%, #a524b3 100%);
   box-shadow: none;
+  border-radius: 8px;
 }
 
-.ProjectHero__Banner--fullscreen {
-  border-radius: 16px;
+.ProjectHero__Banner--active {
+  background: linear-gradient(90deg, #d80027 0%, #a524b3 100%);
 }
 
 @media (min-width: 768px) {
   .ProjectHero__Banner {
-    border-radius: 16px;
+    border-radius: 6px;
   }
 }
 
@@ -104,7 +108,7 @@
   gap: 18px;
 }
 
-.ProjectSheet__MenuDots,
-.ProjectSheet__MenuCross {
+.ProjectView__MenuDots,
+.ProjectView__MenuCross {
   cursor: pointer;
 }
