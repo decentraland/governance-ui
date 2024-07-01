@@ -16,6 +16,7 @@ import {
   PoiType,
   PriorityProposal,
   PriorityProposalType,
+  Project,
   ProposalAttributes,
   ProposalStatus,
   ProposalType,
@@ -119,6 +120,14 @@ export function proposalUrl(id: ProposalAttributes['id']) {
   const params = new URLSearchParams({ id })
   const target = new URL(GOVERNANCE_URL)
   target.pathname = (target.pathname.endsWith('/') ? '' : target.pathname) + '/proposal/'
+  target.search = '?' + params.toString()
+  return target.toString()
+}
+
+export function projectUrl(id: Project['id']) {
+  const params = new URLSearchParams({ id })
+  const target = new URL(GOVERNANCE_URL)
+  target.pathname = (target.pathname.endsWith('/') ? '' : target.pathname) + '/project/'
   target.search = '?' + params.toString()
   return target.toString()
 }

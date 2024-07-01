@@ -1,6 +1,6 @@
 import Link from '../Common/Typography/Link.tsx'
 
-import './ProjectSheetLinkItem.css'
+import './ProjectViewLinkItem.css'
 
 interface Props {
   label: string
@@ -8,14 +8,14 @@ interface Props {
   href: string
 }
 
-function ProjectSheetLinkItem({ href, icon, label }: Props) {
+function ProjectViewLinkItem({ href, icon, label }: Props) {
   return (
     <Link className="ExpandableBreakdownItem ExpandableBreakdownItem--slim" href={href} target="_blank">
-      <div className="ProjectSheetLinkItem__Title">
+      <div className="ProjectViewLinkItem__Title">
         {icon} {label}
       </div>
     </Link>
   )
 }
 
-export default ProjectSheetLinkItem
+export default ProjectViewLinkItem

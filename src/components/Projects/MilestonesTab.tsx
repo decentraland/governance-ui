@@ -178,7 +178,7 @@ function MilestonesTab({ project }: Props) {
           {canEdit && !showForm && (
             <div>
               <Button basic onClick={handleAddMilestone}>
-                {t('project.sheet.milestones.add_label')}
+                {t('project.milestones.add_label')}
               </Button>
             </div>
           )}

@@ -19,10 +19,10 @@ import ActionableBreakdownContent from './ActionableBreakdownContent'
 import DeleteActionLabel from './DeleteActionLabel.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
+import ProjectSectionTitle from './ProjectSectionTitle.tsx'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
-import ProjectSheetLinkItem from './ProjectSheetLinkItem.tsx'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
-import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
+import ProjectViewLinkItem from './ProjectViewLinkItem.tsx'
 
 interface Props {
   links: ProjectLink[]
@@ -159,7 +159,7 @@ function ActionableLinksView({ links, projectId, proposalId, canEdit }: Props) {
             }}
           />
         ) : (
-          <ProjectSheetLinkItem label={label} icon={<BlueLinkIcon />} href={url} key={index} />
+          <ProjectViewLinkItem label={label} icon={<BlueLinkIcon />} href={url} key={index} />
         )
       }),
     [links, canEdit, handleDeleteLink]
@@ -167,11 +167,11 @@ function ActionableLinksView({ links, projectId, proposalId, canEdit }: Props) {
 
   return (
     <div>
-      <ProjectSidebarSectionTitle text={t('project.sheet.general_info.links.title')} />
+      <ProjectSectionTitle text={t('project.general_info.links.title')} />
       <ProjectSectionsContainer>
         <ProjectInfoCardsContainer slim>
-          <ProjectSheetLinkItem
-            label={t('project.sheet.general_info.links.proposal_link')}
+          <ProjectViewLinkItem
+            label={t('project.general_info.links.proposal_link')}
             icon={<BlueLinkIcon />}
             href={proposalUrl(proposalId)}
           />
@@ -180,7 +180,7 @@ function ActionableLinksView({ links, projectId, proposalId, canEdit }: Props) {
         {canEdit && !showCreate && (
           <div>
             <Button basic onClick={handleAdd}>
-              {t('project.sheet.general_info.links.add_label')}
+              {t('project.general_info.links.add_label')}
             </Button>
           </div>
         )}
