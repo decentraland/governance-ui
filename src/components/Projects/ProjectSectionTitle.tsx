@@ -4,7 +4,7 @@ interface Props {
   text: string
 }
 
-function ProjectSidebarSectionTitle({ text }: Props) {
+function ProjectSectionTitle({ text }: Props) {
   return (
     <Text size="sm" color="default" weight="semi-bold" transform="uppercase">
       {text}
@@ -12,4 +12,4 @@ function ProjectSidebarSectionTitle({ text }: Props) {
   )
 }
 
-export default ProjectSidebarSectionTitle
+export default ProjectSectionTitle

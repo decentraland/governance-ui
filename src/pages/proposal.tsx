@@ -365,12 +365,8 @@ export default function ProposalPage() {
       <NotMobile>
         {proposal && (
           <FloatingHeader isVisible={isFloatingHeaderVisible} title={proposal.title}>
-            {
-              <>
-                <StatusPill isLink status={proposal.status} />
-                <CategoryPill isLink proposalType={proposal.type} />
-              </>
-            }
+            <StatusPill isLink status={proposal.status} />
+            <CategoryPill isLink proposalType={proposal.type} />
           </FloatingHeader>
         )}
       </NotMobile>

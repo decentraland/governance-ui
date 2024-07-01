@@ -66,13 +66,13 @@ export default function ProjectPage() {
         links={[{ rel: 'canonical', href: locations.project({ id: project?.id }) }]}
       />
       <Navigation activeTab={NavigationTab.Projects} />
-      <NotMobile>
-        {project && (
+      {project && (
+        <NotMobile>
           <FloatingHeader isVisible={isFloatingHeaderVisible} title={project.title}>
             <ProjectViewStatusPill project={project} />
           </FloatingHeader>
-        )}
-      </NotMobile>
+        </NotMobile>
+      )}
       <WiderContainer>
         <ProjectView project={project} ref={heroSectionRef} />
       </WiderContainer>

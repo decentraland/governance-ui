@@ -19,9 +19,9 @@ import ActionableBreakdownContent from './ActionableBreakdownContent'
 import DeleteActionLabel from './DeleteActionLabel.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
+import ProjectSectionTitle from './ProjectSectionTitle.tsx'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
-import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
 
 interface Props {
   members: PersonnelAttributes[]
@@ -185,7 +185,7 @@ function ActionablePersonnelView({ members, projectId, canEdit }: Props) {
 
   return (
     <div>
-      <ProjectSidebarSectionTitle text={t('project.sheet.general_info.personnel.title')} />
+      <ProjectSectionTitle text={t('project.sheet.general_info.personnel.title')} />
       <ProjectSectionsContainer>
         <ProjectInfoCardsContainer>
           {items.map((item, key) => (

@@ -2308,6 +2308,7 @@
       },
       "general_info": {
         "funding": "Project Funding: {total}",
+        "vestings": "Vesting Contracts",
         "links": {
           "title": "Project Links",
           "add_label": "+ Add Link",

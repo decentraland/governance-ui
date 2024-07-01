@@ -7,7 +7,7 @@ import Markdown from '../Common/Typography/Markdown.tsx'
 
 import ActionableLinksView from './ActionableLinksView.tsx'
 import ActionablePersonnelView from './ActionablePersonnelView.tsx'
-import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
+import ProjectSectionTitle from './ProjectSectionTitle.tsx'
 import ProjectStatusCardWrapper from './ProjectStatusCardWrapper.tsx'
 import ProjectViewFundingSection from './ProjectViewFundingSection.tsx'
 
@@ -30,7 +30,7 @@ function ProjectGeneralInfo({ project }: Props) {
       )}
       {about && (
         <div>
-          <ProjectSidebarSectionTitle text={t('project_sheet.general_info.about')} />
+          <ProjectSectionTitle text={t('project_sheet.general_info.about')} />
           <Markdown>{about}</Markdown>
         </div>
       )}

@@ -19,9 +19,9 @@ import ActionableBreakdownContent from './ActionableBreakdownContent'
 import DeleteActionLabel from './DeleteActionLabel.tsx'
 import ExpandableBreakdownItem from './ExpandableBreakdownItem'
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer'
+import ProjectSectionTitle from './ProjectSectionTitle.tsx'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
 import ProjectSidebarForm, { ProjectSidebarFormFields } from './ProjectSidebarForm'
-import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle'
 import ProjectViewLinkItem from './ProjectViewLinkItem.tsx'
 
 interface Props {
@@ -167,7 +167,7 @@ function ActionableLinksView({ links, projectId, proposalId, canEdit }: Props) {
 
   return (
     <div>
-      <ProjectSidebarSectionTitle text={t('project.sheet.general_info.links.title')} />
+      <ProjectSectionTitle text={t('project.sheet.general_info.links.title')} />
       <ProjectSectionsContainer>
         <ProjectInfoCardsContainer slim>
           <ProjectViewLinkItem

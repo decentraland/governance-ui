@@ -18,7 +18,6 @@ interface Props {
 
 function ProjectViewLink({ projectStatus, isGrantee, projectUrl }: Props) {
   const t = useFormatMessage()
-  console.log(projectUrl)
 
   return (
     <div className={classNames(['DetailsSection', `ProjectViewLink--${projectStatus}`])}>
