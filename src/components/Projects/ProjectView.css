@@ -24,6 +24,12 @@
   padding-right: 1em;
 }
 
+.ProjectSidebarSticky {
+  top: 83px;
+  position: sticky;
+  overflow: hidden;
+}
+
 .ProjectView__Right {
   display: none;
 }
