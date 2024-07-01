@@ -30,7 +30,7 @@ function ProjectGeneralInfo({ project }: Props) {
       )}
       {about && (
         <div>
-          <ProjectSectionTitle text={t('project_sheet.general_info.about')} />
+          <ProjectSectionTitle text={t('project.general_info.about')} />
           <Markdown>{about}</Markdown>
         </div>
       )}

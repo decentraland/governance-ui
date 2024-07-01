@@ -42,7 +42,7 @@ function ProjectViewFundingSection({ project, compact, className }: Props) {
         <div className="ProjectViewFundingSection__FundingBox">
           <div className="ProjectViewFundingSection__Heading">
             <Text size="md" color="default" weight="medium">
-              {t('project.sheet.general_info.funding', {
+              {t('project.general_info.funding', {
                 total: project.funding.vesting
                   ? `${project.funding.vesting?.total} ${project.funding.vesting?.token}`
                   : '',
@@ -56,7 +56,7 @@ function ProjectViewFundingSection({ project, compact, className }: Props) {
             compact={compact}
           />
         </div>
-        <ProjectSectionTitle text={t('project.sheet.general_info.vestings')} />
+        <ProjectSectionTitle text={t('project.general_info.vestings')} />
         <ProjectInfoCardsContainer slim>
           {vesting_addresses
             .slice()

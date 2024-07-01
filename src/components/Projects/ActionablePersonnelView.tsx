@@ -6,7 +6,7 @@ import isEthereumAddress from 'validator/lib/isEthereumAddress'
 import { ZodSchema, z } from 'zod'
 
 import { Governance } from '../../clients/Governance'
-import { isHttpsURL } from '../../helpers/index.ts'
+import { isHttpsURL } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { getProjectQueryKey } from '../../hooks/useProject.ts'
 import { PersonnelAttributes, Project } from '../../types/proposals'
@@ -185,7 +185,7 @@ function ActionablePersonnelView({ members, projectId, canEdit }: Props) {
 
   return (
     <div>
-      <ProjectSectionTitle text={t('project.sheet.general_info.personnel.title')} />
+      <ProjectSectionTitle text={t('project.general_info.personnel.title')} />
       <ProjectSectionsContainer>
         <ProjectInfoCardsContainer>
           {items.map((item, key) => (
@@ -194,7 +194,7 @@ function ActionablePersonnelView({ members, projectId, canEdit }: Props) {
           {canEdit && !showCreatePersonnelForm && (
             <div>
               <Button basic onClick={handleAddPersonnel}>
-                {t('project.sheet.general_info.personnel.add_label')}
+                {t('project.general_info.personnel.add_label')}
               </Button>
             </div>
           )}
