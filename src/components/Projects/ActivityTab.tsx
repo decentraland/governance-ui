@@ -7,7 +7,7 @@ interface Props {
 }
 
 function ActivityTab({ project }: Props) {
-  const { events, isLoading } = useEvents({ proposal_id: project.proposal_id, withInterval: false })
+  const { events, isLoading } = useEvents({ proposal_id: project.proposal_id, with_interval: false })
   return <ActivityTickerList isLoading={isLoading} events={events} />
 }
 

@@ -55,7 +55,7 @@ export enum EventType {
 export type EventFilter = {
   event_type: EventType[]
   proposal_id: string
-  withInterval: boolean
+  with_interval: boolean
 }
 
 export type VotedEvent = {
