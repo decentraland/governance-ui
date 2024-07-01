@@ -1,0 +1,33 @@
+.ActivityTickerList__LoadingContainer {
+  position: relative;
+  top: 100px;
+}
+
+.ActivityTickerList__EmptyContainer {
+  margin-top: 32px;
+}
+
+.ActivityTickerList {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  padding-top: 8px;
+}
+
+.ActivityTickerList::-webkit-scrollbar {
+  display: none;
+}
+
+.ActivityTickerList__Item {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.ActivityTickerList__Item:hover {
+  background-color: var(--black-200);
+}

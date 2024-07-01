@@ -1,5 +1,3 @@
-import { z } from 'zod'
-
 import { DiscourseWebhookPost } from './discourse'
 
 export type CommonEventAttributes = {
@@ -54,11 +52,11 @@ export enum EventType {
   DelegationClear = 'delegation_clear',
 }
 
-export const EventFilterSchema = z.object({
-  event_type: z.nativeEnum(EventType).array().optional(),
-})
-
-export type EventFilter = z.infer<typeof EventFilterSchema>
+export type EventFilter = {
+  event_type: EventType[]
+  proposal_id: string
+  with_interval: boolean
+}
 
 export type VotedEvent = {
   event_type: EventType.Voted
