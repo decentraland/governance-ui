@@ -76,16 +76,19 @@ const ProjectView = forwardRef(({ project, onClose }: Props, ref: Ref<HTMLDivEle
       )}
       <div className="ProjectView__ContentContainer">
         <NotDesktop1200>
-          <BoxTabs className="ProjectView__Tabs">
-            <BoxTabs.Left>
-              {MENU_ITEMS.map((item, idx) => (
-                <BoxTabs.Tab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
-                  {t(item.labelKey)}
-                  {!!item.showDot && <Dot />}
-                </BoxTabs.Tab>
-              ))}
-            </BoxTabs.Left>
-          </BoxTabs>
+          <>
+            <BoxTabs className="ProjectView__Tabs">
+              <BoxTabs.Left>
+                {MENU_ITEMS.map((item, idx) => (
+                  <BoxTabs.Tab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
+                    {t(item.labelKey)}
+                    {!!item.showDot && <Dot />}
+                  </BoxTabs.Tab>
+                ))}
+              </BoxTabs.Left>
+            </BoxTabs>
+            <div className="ProjectView__TabsGradient" />
+          </>
         </NotDesktop1200>
         {MENU_ITEMS[viewIdx].view}
       </div>

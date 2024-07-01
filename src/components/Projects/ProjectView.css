@@ -43,6 +43,10 @@
     display: block;
     width: var(--dao-sidebar-width);
   }
+
+  .ProjectView__TabsGradient {
+    display: none;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -52,5 +56,18 @@
 }
 
 .ProjectView__Tabs {
-  padding: 0 32px !important;
+  padding: 0 !important;
+  overflow: scroll;
+}
+
+.ProjectView__Tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.ProjectView__TabsGradient {
+  position: absolute;
+  right: 0;
+  width: 55px;
+  height: 27px;
+  background: linear-gradient(270deg, var(--white-900) 0%, rgba(255, 255, 255, 0) 103.13%);
 }
