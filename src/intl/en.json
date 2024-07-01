@@ -1328,7 +1328,7 @@
           "view_more_grants": "View more grants"
         }
       },
-      "project_sheet_link": {
+      "project_link": {
         "action": "view project insights",
         "pending": {
           "grantee": {
@@ -2298,34 +2298,34 @@
     }
   },
   "project": {
-    "sheet": {
-      "status_pill": {
-        "pending": "In refinement",
-        "in_progress": "Ongoing for {days} {days, plural, one {day} other {days}}",
-        "paused": "Paused",
-        "revoked": "Revoked",
-        "finished": "Ended"
+    "general_info": {
+      "funding": "Project Funding: {total}",
+      "vestings": "Vesting Contracts",
+      "about": "About",
+      "links": {
+        "title": "Project Links",
+        "add_label": "+ Add Link",
+        "proposal_link": "Proposal"
       },
-      "general_info": {
-        "funding": "Project Funding: {total}",
-        "links": {
-          "title": "Project Links",
-          "add_label": "+ Add Link",
-          "proposal_link": "Proposal"
-        },
-        "personnel": {
-          "title": "Personnel",
-          "add_label": "+ Add Personnel"
-        }
-      },
-      "milestones": {
-        "add_label": "+ Add Milestone"
-      },
-      "form": {
-        "optional": "Optional",
-        "save": "Save",
-        "cancel": "Cancel"
+      "personnel": {
+        "title": "Personnel",
+        "add_label": "+ Add Personnel"
       }
+    },
+    "milestones": {
+      "add_label": "+ Add Milestone"
+    },
+    "form": {
+      "optional": "Optional",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "status_pill": {
+      "pending": "In refinement",
+      "in_progress": "Ongoing for {days} {days, plural, one {day} other {days}}",
+      "paused": "Paused",
+      "revoked": "Revoked",
+      "finished": "Ended"
     }
   },
   "csv_file": {
@@ -2352,21 +2352,5 @@
     "title": "Stay updated, wherever you are",
     "description": "Connect your Discord and Push accounts to receive real-time notifications about the latest developments in the Decentraland DAO.",
     "button": "Connect accounts"
-  },
-  "project_sheet": {
-    "general_info": {
-      "title": "General info",
-      "about": "About",
-      "personnel": "Personnel"
-    },
-    "milestones": {
-      "title": "Milestones"
-    },
-    "updates": {
-      "title": "Updates"
-    },
-    "activity": {
-      "title": "Activity"
-    }
   }
 }

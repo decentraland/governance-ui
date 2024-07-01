@@ -9,8 +9,8 @@ import VestingProgress from './ProjectCard/VestingProgress.tsx'
 import VestingProgressDatesText from './ProjectCard/VestingProgressDatesText.tsx'
 
 import ProjectInfoCardsContainer from './ProjectInfoCardsContainer.tsx'
+import ProjectSectionTitle from './ProjectSectionTitle.tsx'
 import ProjectSectionsContainer from './ProjectSectionsContainer.tsx'
-import ProjectSidebarSectionTitle from './ProjectSidebarSectionTitle.tsx'
 import './ProjectViewFundingSection.css'
 import ProjectViewLinkItem from './ProjectViewLinkItem.tsx'
 
@@ -31,13 +31,18 @@ function ProjectViewFundingSection({ project, compact, className }: Props) {
   const thereIsMoreThanOnePastVesting = vesting_addresses.length > 2
 
   const t = useFormatMessage()
-  return project.funding ? (
+
+  if (!project.funding) {
+    return null
+  }
+
+  return (
     <ProjectSectionsContainer>
       <div className={classNames(['ProjectViewFundingSection', className])}>
         <div className="ProjectViewFundingSection__FundingBox">
           <div className="ProjectViewFundingSection__Heading">
             <Text size="md" color="default" weight="medium">
-              {t('project.sheet.general_info.funding', {
+              {t('project.general_info.funding', {
                 total: project.funding.vesting
                   ? `${project.funding.vesting?.total} ${project.funding.vesting?.token}`
                   : '',
@@ -51,7 +56,7 @@ function ProjectViewFundingSection({ project, compact, className }: Props) {
             compact={compact}
           />
         </div>
-        <ProjectSidebarSectionTitle text={'Vesting Contracts'} />
+        <ProjectSectionTitle text={t('project.general_info.vestings')} />
         <ProjectInfoCardsContainer slim>
           {vesting_addresses
             .slice()
@@ -69,7 +74,7 @@ function ProjectViewFundingSection({ project, compact, className }: Props) {
         </ProjectInfoCardsContainer>
       </div>
     </ProjectSectionsContainer>
-  ) : null
+  )
 }
 
 export default ProjectViewFundingSection

@@ -11,7 +11,7 @@
   border-radius: 8px;
   border: 1px solid var(--black-300);
   background: var(--white-900);
-  box-shadow: 0 0 10px 0 rgba(115, 110, 125, 0.15);
+  box-shadow: 0 0 10px 0 var(--alpha-black-200);
   margin-bottom: 16px;
 }
 

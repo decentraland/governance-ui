@@ -18,14 +18,13 @@ interface Props {
 
 function ProjectViewLink({ projectStatus, isGrantee, projectUrl }: Props) {
   const t = useFormatMessage()
-  console.log(projectUrl)
 
   return (
     <div className={classNames(['DetailsSection', `ProjectViewLink--${projectStatus}`])}>
       <div className="DetailsSection__Content">
         <SidebarHeaderLabel className={`ProjectViewLink__Title--${projectStatus}`}>
           {t(
-            `page.proposal_detail.project_sheet_link.${projectStatus}${
+            `page.proposal_detail.project_link.${projectStatus}${
               projectStatus === ProjectStatus.Pending && isGrantee ? '.grantee' : ''
             }.title`
           )}
@@ -41,7 +40,7 @@ function ProjectViewLink({ projectStatus, isGrantee, projectUrl }: Props) {
           }}
         >
           {t(
-            `page.proposal_detail.project_sheet_link.${projectStatus}${
+            `page.proposal_detail.project_link.${projectStatus}${
               projectStatus === ProjectStatus.Pending && isGrantee ? '.grantee' : ''
             }.description`
           )}
@@ -52,7 +51,7 @@ function ProjectViewLink({ projectStatus, isGrantee, projectUrl }: Props) {
             size="small"
             className={classNames(['ProjectViewLink__Action', `ProjectViewLink__Action--${projectStatus}`])}
           >
-            {t('page.proposal_detail.project_sheet_link.action')}
+            {t('page.proposal_detail.project_link.action')}
           </Button>
         </Link>
       </div>

@@ -33,7 +33,7 @@ export default function ProjectViewStatusPill({ project, hero = false }: Props) 
 
   return (
     <div className={classNames(['ProjectViewStatusPill', `ProjectViewStatusPill--${status}${hero ? '--hero' : ''}`])}>
-      {t(`project.sheet.status_pill.${status}`, pillData)}
+      {t(`project.status_pill.${status}`, pillData)}
     </div>
   )
 }

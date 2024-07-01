@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { Ref, forwardRef, useMemo, useState } from 'react'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useShowProjectUpdatesCta from '../../hooks/useShowProjectUpdatesCta.ts'
@@ -12,17 +12,17 @@ import UpdatesTabView from './Updates/UpdatesTabView'
 
 import MilestonesTab from './MilestonesTab'
 import ProjectGeneralInfo from './ProjectGeneralInfo'
+import ProjectHero from './ProjectHero'
 import ProjectVerticalTab from './ProjectVerticalTab.tsx'
 import './ProjectView.css'
 import ProjectViewFundingSection from './ProjectViewFundingSection.tsx'
-import ProjectViewTitle from './ProjectViewTitle'
 
 interface Props {
   project?: Project | null
   onClose?: () => void
 }
 
-function ProjectView({ project, onClose }: Props) {
+const ProjectView = forwardRef(({ project, onClose }: Props, ref: Ref<HTMLDivElement>) => {
   const t = useFormatMessage()
   const [viewIdx, setViewIdx] = useState(0)
   const showMilestonesTab = !(
@@ -56,7 +56,7 @@ function ProjectView({ project, onClose }: Props) {
 
   return (
     <div className="ProjectView">
-      {project && <ProjectViewTitle project={project} onClose={onClose} />}
+      {project && <ProjectHero project={project} onClose={onClose} ref={ref} />}
       {project && (
         <Desktop1200>
           <div className="ProjectView__Left">
@@ -89,6 +89,8 @@ function ProjectView({ project, onClose }: Props) {
       </div>
     </div>
   )
-}
+})
+
+ProjectView.displayName = 'ProjectView'
 
 export default ProjectView
