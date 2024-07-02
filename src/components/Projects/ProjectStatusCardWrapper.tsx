@@ -4,6 +4,7 @@ import { Project } from '../../types/proposals'
 import { ProjectHealth, UpdateAttributes } from '../../types/updates'
 import locations from '../../utils/locations'
 
+import ProjectHealthCard from './ProjectHealthCard.tsx'
 import ProjectStatusCard from './ProjectStatusCard'
 
 interface Props {
@@ -33,7 +34,12 @@ function prioritizedStatus(
 function ProjectStatusCardWrapper({ project }: Props) {
   const { latestPublishedUpdate } = useProjectUpdates(project.id)
   const { status, date, href } = prioritizedStatus(project, latestPublishedUpdate)
-  return <ProjectStatusCard status={status} date={date} href={href} />
+  const isProjectHealth = date && href
+  return isProjectHealth ? (
+    <ProjectHealthCard status={status as ProjectHealth} date={date} href={href} />
+  ) : (
+    <ProjectStatusCard status={status as ProjectStatus} />
+  )
 }
 
 export default ProjectStatusCardWrapper
