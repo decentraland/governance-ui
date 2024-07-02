@@ -1,49 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import { useQuery } from '@tanstack/react-query'
-import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
-
-import { Governance } from '../../clients/Governance'
-import { ONE_MINUTE_MS } from '../../hooks/constants'
+import useEvents from '../../hooks/useEvents'
 import useFormatMessage from '../../hooks/useFormatMessage'
-import { ActivityTickerEvent, EventType } from '../../types/events'
-import locations from '../../utils/locations'
-import Avatar from '../Common/Avatar'
-import Empty from '../Common/Empty'
+import { EventType } from '../../types/events'
 import Heading from '../Common/Typography/Heading'
-import Link from '../Common/Typography/Link'
-import DelegationEvent from '../Events/DelegationEvent'
-import ProjectUpdateCommentedEvent from '../Events/ProjectUpdateCommentedEvent'
-import ProposalRelatedEvent from '../Events/ProposalRelatedEvent'
-import CircledComment from '../Icon/CircledComment'
 
 import './ActivityTicker.css'
 import ActivityTickerFilter, { INITIAL_TICKER_FILTER_STATE, TickerFilter } from './ActivityTickerFilter'
-
-function getActivityTickerEvent(event: ActivityTickerEvent) {
-  if (event.event_type === EventType.DelegationClear || event.event_type === EventType.DelegationSet) {
-    return <DelegationEvent event={event} />
-  }
-  if (event.event_type === EventType.ProjectUpdateCommented) return <ProjectUpdateCommentedEvent event={event} />
-  return <ProposalRelatedEvent event={event} />
-}
-
-function getActivityTickerImage(item: ActivityTickerEvent) {
-  if (!!item.address && item.event_type !== EventType.ProposalCommented) {
-    return (
-      <Link href={locations.profile({ address: item.address })}>
-        <Avatar size="xs" avatar={item.avatar} address={item.address} />
-      </Link>
-    )
-  }
-  if (item.event_type === EventType.ProposalCommented || item.event_type === EventType.ProjectUpdateCommented) {
-    return (
-      <div>
-        <CircledComment />
-      </div>
-    )
-  }
-}
+import ActivityTickerList from './ActivityTickerList'
 
 function parseTickerFilter(tickerFilter: TickerFilter) {
   const eventTypes: EventType[] = []
@@ -70,16 +34,7 @@ export default function ActivityTicker() {
   const t = useFormatMessage()
   const [filterState, setFilterState] = useState<TickerFilter>(INITIAL_TICKER_FILTER_STATE)
 
-  const {
-    data: events,
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryKey: ['events'],
-    queryFn: () => Governance.get().getLatestEvents(parseTickerFilter(filterState)),
-    refetchInterval: ONE_MINUTE_MS,
-    refetchIntervalInBackground: true,
-  })
+  const { events, refetch, isLoading } = useEvents({ event_type: parseTickerFilter(filterState) })
 
   const handleApply = (filters: TickerFilter) => {
     setFilterState(filters)
@@ -87,7 +42,8 @@ export default function ActivityTicker() {
 
   useEffect(() => {
     refetch()
-  }, [filterState, refetch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterState])
 
   return (
     <div className="ActivityTicker">
@@ -98,32 +54,7 @@ export default function ActivityTicker() {
         </Heading>
         <ActivityTickerFilter onApply={handleApply} filterState={filterState} />
       </div>
-      {isLoading && (
-        <div className="ActivityTicker__LoadingContainer">
-          <Loader active />
-        </div>
-      )}
-      {!isLoading && (
-        <>
-          {events && events.length === 0 && (
-            <div className="ActivityTicker__EmptyContainer">
-              <Empty description={t('page.home.activity_ticker.no_activity')} />
-            </div>
-          )}
-          {events && events.length > 0 && (
-            <div className="ActivityTicker__List">
-              {events.map((item) => {
-                return (
-                  <div key={item.id} className="ActivityTicker__ListItem">
-                    {getActivityTickerImage(item)}
-                    <div>{getActivityTickerEvent(item)}</div>
-                  </div>
-                )
-              })}
-            </div>
-          )}
-        </>
-      )}
+      <ActivityTickerList isLoading={isLoading} events={events} />
     </div>
   )
 }

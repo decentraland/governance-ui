@@ -18,7 +18,7 @@ import { BadgeCreationResult, GovernanceBadgeSpec, RevokeOrReinstateResult, User
 import { BidRequest, UnpublishedBidAttributes } from '../types/bids'
 import { Budget, BudgetWithContestants, CategoryBudget } from '../types/budgets'
 import { CoauthorAttributes, CoauthorStatus } from '../types/coauthors'
-import { ActivityTickerEvent, EventType } from '../types/events'
+import { ActivityTickerEvent, EventFilter } from '../types/events'
 import { GrantRequest, ProposalGrantCategory } from '../types/grants'
 import { NewsletterSubscriptionResult } from '../types/newsletter'
 import { PushNotification } from '../types/notifications'
@@ -697,8 +697,8 @@ export class Governance extends API {
     })
   }
 
-  async getLatestEvents(eventTypes: EventType[]) {
-    const query = this.toQueryString({ event_type: eventTypes })
+  async getLatestEvents(filters: Partial<EventFilter>) {
+    const query = this.toQueryString(filters)
     return await this.fetchApiResponse<ActivityTickerEvent[]>(`/events${query}`)
   }
 
