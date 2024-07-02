@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 
 import { Vesting, VestingStatus } from '../../clients/VestingData.ts'
+import { VESTING_DASHBOARD_URL } from '../../constants'
 import useFormatMessage, { FormatMessageFunction } from '../../hooks/useFormatMessage.ts'
 import { Project } from '../../types/proposals.ts'
 import Time from '../../utils/date/Time.ts'
@@ -22,7 +23,6 @@ interface Props {
   className?: string
 }
 
-const VESTINGS_BASE_URL = 'https://decentraland.org/vesting/#/'
 const SECONDS_PER_PERIOD = 2628000
 
 function getNextVestingStep(vesting: Vesting, t: FormatMessageFunction) {
@@ -98,7 +98,7 @@ function ProjectViewFundingSection({ project, compact, className }: Props) {
             .map((vesting, index) => {
               return (
                 <ProjectViewLinkItem
-                  href={VESTINGS_BASE_URL + vesting}
+                  href={VESTING_DASHBOARD_URL + vesting}
                   icon={<VestingLinkIcon />}
                   label={getVestingLinkLabel(index, thereIsMoreThanOnePastVesting)}
                   key={`${vesting}${index}`}
