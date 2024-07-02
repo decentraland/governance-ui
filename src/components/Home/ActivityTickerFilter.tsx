@@ -13,6 +13,7 @@ import ActivityTickerFilterItem from './ActivityTickerFilterItem'
 
 export type TickerFilter = {
   proposals_created: boolean
+  proposals_finished: boolean
   votes: boolean
   delegation: boolean
   comments: boolean
@@ -21,6 +22,7 @@ export type TickerFilter = {
 
 export const INITIAL_TICKER_FILTER_STATE: TickerFilter = {
   proposals_created: false,
+  proposals_finished: false,
   votes: false,
   delegation: false,
   comments: false,
@@ -90,7 +92,7 @@ export default function ActivityTickerFilter({ onApply, filterState }: Props) {
       {isOpen && (
         <div className="ActivityTickerFilterBox">
           <div className="ActivityTickerFilterItems">
-            <ActivityTickerFilterItem
+            {/* <ActivityTickerFilterItem
               onClick={() => handleEventTypeClick('proposals_created')}
               checked={checkedFilters.proposals_created}
               label={t('page.home.activity_ticker.filter.proposals_created')}
@@ -114,7 +116,15 @@ export default function ActivityTickerFilter({ onApply, filterState }: Props) {
               onClick={() => handleEventTypeClick('project_updates')}
               checked={checkedFilters.project_updates}
               label={t('page.home.activity_ticker.filter.project_updates')}
-            />
+            /> */}
+            {Object.keys(checkedFilters).map((key) => (
+              <ActivityTickerFilterItem
+                key={key}
+                onClick={() => handleEventTypeClick(key as keyof TickerFilter)}
+                checked={checkedFilters[key as keyof TickerFilter]}
+                label={t(`page.home.activity_ticker.filter.${key}`)}
+              />
+            ))}
           </div>
           <div className={'ActivityTickerFilterBox__Buttons'}>
             <Button basic size={'small'} onClick={handleClear}>

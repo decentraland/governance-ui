@@ -1,13 +1,17 @@
-import { ActivityTickerEvent, EventType } from '../../types/events'
+import { ActivityTickerEvent, EventType, ProposalEventData } from '../../types/events'
 import locations from '../../utils/locations'
 
+const PROPOSAL_RELATED_EVENTS = new Set([
+  EventType.ProposalCreated,
+  EventType.ProposalFinished,
+  EventType.Voted,
+  EventType.ProposalCommented,
+])
+
 export const getLink = (event: ActivityTickerEvent) => {
-  if (
-    event.event_type === EventType.ProposalCreated ||
-    event.event_type === EventType.Voted ||
-    event.event_type === EventType.ProposalCommented
-  ) {
-    return locations.proposal(event.event_data.proposal_id)
+  if (PROPOSAL_RELATED_EVENTS.has(event.event_type)) {
+    const eventData = event.event_data as ProposalEventData
+    return locations.proposal(eventData.proposal_id)
   }
 
   if (event.event_type === EventType.UpdateCreated || event.event_type === EventType.ProjectUpdateCommented) {

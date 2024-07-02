@@ -994,6 +994,7 @@
         "voted": "**{author}** voted on **{title}**",
         "no_activity": "No activity to display",
         "proposal_created": "**{author}** published a new Proposal **{title}**",
+        "proposal_finished": "Voting on Proposal **{title}** has ended with the outcome **{result}**",
         "update_created": "**{author}** published an Update on the Project **{title}**",
         "proposal_commented": "New comment on **{title}**",
         "project_update_commented": "New comment on **{update_title}** for **{proposal_title}**",
@@ -1001,6 +1002,7 @@
         "delegation_clear": "**{delegator}** removed delegation from **{removed_delegate}**",
         "filter": {
           "proposals_created": "Proposals Created",
+          "proposals_finished": "Proposals Finished",
           "votes": "Votes",
           "delegation": "Delegation",
           "comments": "Comments",

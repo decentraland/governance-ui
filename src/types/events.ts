@@ -1,4 +1,5 @@
 import { DiscourseWebhookPost } from './discourse'
+import { ProposalStatus } from './proposals'
 
 export type CommonEventAttributes = {
   id: string
@@ -23,6 +24,9 @@ export type DiscourseEventData = {
 
 export type ProposalCommentedEventData = DiscourseEventData & ProposalEventData
 export type UpdateCommentedEventData = DiscourseEventData & UpdateEventData & ProposalEventData
+export type ProposalFinishedEventData = ProposalEventData & {
+  new_status: ProposalStatus
+}
 
 type DelegationSetData = {
   new_delegate: string | null
@@ -45,11 +49,13 @@ export enum SegmentEvent {
 export enum EventType {
   Voted = 'voted',
   ProposalCreated = 'proposal_created',
+  ProposalFinished = 'proposal_finished',
   UpdateCreated = 'update_created',
   ProposalCommented = 'proposal_commented',
   ProjectUpdateCommented = 'project_update_commented',
   DelegationSet = 'delegation_set',
   DelegationClear = 'delegation_clear',
+  VestingCreated = 'vesting_created',
 }
 
 export type EventFilter = {
@@ -66,6 +72,11 @@ export type VotedEvent = {
 export type ProposalCreatedEvent = {
   event_type: EventType.ProposalCreated
   event_data: ProposalEventData
+} & CommonEventAttributes
+
+export type ProposalFinishedEvent = {
+  event_type: EventType.ProposalFinished
+  event_data: ProposalFinishedEventData
 } & CommonEventAttributes
 
 export type UpdateCreatedEvent = {
@@ -101,6 +112,7 @@ export type Event =
   | ProjectUpdateCommentedEvent
   | DelegationSetEvent
   | DelegationClearEvent
+  | ProposalFinishedEvent
 
 export type ActivityTickerEvent = {
   author?: string

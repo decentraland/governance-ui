@@ -27,6 +27,9 @@ function parseTickerFilter(tickerFilter: TickerFilter) {
   if (tickerFilter.proposals_created) {
     eventTypes.push(EventType.ProposalCreated)
   }
+  if (tickerFilter.proposals_finished) {
+    eventTypes.push(EventType.ProposalFinished)
+  }
   return eventTypes
 }
 
