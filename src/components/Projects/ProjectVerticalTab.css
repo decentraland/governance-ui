@@ -22,3 +22,8 @@
   background: var(--black-200);
   border: var(--black-200);
 }
+
+.ProjectVerticalTab svg {
+  margin-left: 4px;
+  vertical-align: middle;
+}

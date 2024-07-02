@@ -3,10 +3,6 @@
   top: 100px;
 }
 
-.ActivityTickerList__EmptyContainer {
-  margin-top: 32px;
-}
-
 .ActivityTickerList {
   display: flex;
   flex-direction: column;

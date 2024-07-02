@@ -65,12 +65,14 @@ const ProjectView = forwardRef(({ project, onClose }: Props, ref: Ref<HTMLDivEle
       {project && (
         <Desktop1200>
           <div className="ProjectView__Left">
-            {MENU_ITEMS.map((item, idx) => (
-              <ProjectVerticalTab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
-                {t(item.labelKey)}
-                {!!item.showDot && <Dot />}
-              </ProjectVerticalTab>
-            ))}
+            <div className="ProjectSidebarSticky">
+              {MENU_ITEMS.map((item, idx) => (
+                <ProjectVerticalTab key={idx} active={idx === viewIdx} onClick={() => setViewIdx(idx)}>
+                  {t(item.labelKey)}
+                  {!!item.showDot && <Dot />}
+                </ProjectVerticalTab>
+              ))}
+            </div>
           </div>
         </Desktop1200>
       )}
@@ -93,7 +95,9 @@ const ProjectView = forwardRef(({ project, onClose }: Props, ref: Ref<HTMLDivEle
         {MENU_ITEMS[viewIdx].view}
       </div>
       <div className="ProjectView__Right">
-        {project && project.funding && <ProjectViewFundingSection project={project} compact />}
+        <div className="ProjectSidebarSticky">
+          {project && project.funding && <ProjectViewFundingSection project={project} compact />}
+        </div>
       </div>
     </div>
   )

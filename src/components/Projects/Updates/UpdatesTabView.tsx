@@ -91,11 +91,13 @@ function UpdatesTabView({ project }: Props) {
             />
           ))
         ) : (
-          <Empty
-            description={t(
-              isEditor ? 'page.project_sidebar.updates.editor_no_updates' : 'page.project_sidebar.updates.no_updates'
-            )}
-          />
+          <div className="Empty__Container">
+            <Empty
+              description={t(
+                isEditor ? 'page.project_sidebar.updates.editor_no_updates' : 'page.project_sidebar.updates.no_updates'
+              )}
+            />
+          </div>
         )}
       </ProjectInfoCardsContainer>
       <ConfirmationModal

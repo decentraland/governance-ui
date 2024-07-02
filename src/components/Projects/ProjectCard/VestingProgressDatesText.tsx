@@ -19,7 +19,7 @@ function getText(funding: ProjectFunding, t: FormatMessageFunction) {
       : t('page.grants.end_date') + ' ' + Time(vesting.finish_at).fromNow()
     : ''
 
-  return firstPart + ', ' + secondPart.toLowerCase()
+  return firstPart + ', ' + secondPart.toLowerCase() + '.'
 }
 
 function VestingProgressDatesText({ funding }: Props) {

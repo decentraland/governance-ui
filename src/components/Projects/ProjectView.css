@@ -24,8 +24,42 @@
   padding-right: 1em;
 }
 
+.ProjectSidebarSticky {
+  top: 83px;
+  position: sticky;
+  overflow: hidden;
+}
+
 .ProjectView__Right {
   display: none;
+}
+
+.ProjectView__Tabs {
+  padding: 0 !important;
+  overflow: scroll;
+}
+
+.ProjectView__Tabs > .dcl.tabs-left {
+  flex: 0 0 auto !important;
+}
+
+.ProjectView__Tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.ProjectView__TabsGradient {
+  position: absolute;
+  right: 0;
+  width: 55px;
+  height: 27px;
+  background: linear-gradient(270deg, var(--white-900) 0%, rgba(255, 255, 255, 0) 103.13%);
+}
+
+@media (min-width: 425px) {
+  .ProjectView__Tabs {
+    justify-content: center;
+    padding: 0 32px !important;
+  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -44,6 +78,14 @@
     width: var(--dao-sidebar-width);
   }
 
+  .ProjectView__Tabs {
+    justify-content: left;
+  }
+
+  .ProjectView__Tabs > .dcl.tabs-left {
+    flex: 1 0 auto;
+  }
+
   .ProjectView__TabsGradient {
     display: none;
   }
@@ -53,21 +95,4 @@
   .ProjectView__ContentContainer {
     max-width: calc(100% - 2 * var(--dao-sidebar-width));
   }
-}
-
-.ProjectView__Tabs {
-  padding: 0 !important;
-  overflow: scroll;
-}
-
-.ProjectView__Tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.ProjectView__TabsGradient {
-  position: absolute;
-  right: 0;
-  width: 55px;
-  height: 27px;
-  background: linear-gradient(270deg, var(--white-900) 0%, rgba(255, 255, 255, 0) 103.13%);
 }
