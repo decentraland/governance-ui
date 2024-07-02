@@ -2299,8 +2299,11 @@
   },
   "project": {
     "general_info": {
-      "funding": "Project Funding: {total}",
-      "vestings": "Vesting Contracts",
+      "funding": {
+        "title": "Project Funding: {total}",
+        "next_vested": "Next vesting step in {time} {unit} - ${amount}.",
+        "vestings": "Vesting Contracts"
+      },
       "about": "About",
       "links": {
         "title": "Project Links",

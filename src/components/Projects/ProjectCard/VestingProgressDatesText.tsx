@@ -27,7 +27,7 @@ function VestingProgressDatesText({ funding }: Props) {
 
   return (
     <Text size="sm" color="secondary" weight="normal">
-      {getText(funding, t)}
+      {getText(funding, t) + '.'}
     </Text>
   )
 }
