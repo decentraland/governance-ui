@@ -165,7 +165,11 @@ function MilestonesTab({ project }: Props) {
   )
 
   if ((!milestones || milestones.length === 0) && !isEditor) {
-    return <Empty title={t('page.project_sidebar.milestones.no_milestones')} />
+    return (
+      <ProjectInfoCardsContainer>
+        <Empty description={t('page.project_sidebar.milestones.no_milestones')} />
+      </ProjectInfoCardsContainer>
+    )
   }
 
   return (
