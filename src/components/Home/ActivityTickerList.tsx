@@ -55,7 +55,7 @@ function ActivityTickerList({ isLoading, events }: Props) {
       {!isLoading && (
         <>
           {events && events.length === 0 && (
-            <div className="ActivityTickerList__EmptyContainer">
+            <div className="Empty__Container">
               <Empty description={t('page.home.activity_ticker.no_activity')} />
             </div>
           )}

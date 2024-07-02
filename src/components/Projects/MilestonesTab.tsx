@@ -166,9 +166,9 @@ function MilestonesTab({ project }: Props) {
 
   if ((!milestones || milestones.length === 0) && !isEditor) {
     return (
-      <ProjectInfoCardsContainer>
+      <div className="Empty__Container">
         <Empty description={t('page.project_sidebar.milestones.no_milestones')} />
-      </ProjectInfoCardsContainer>
+      </div>
     )
   }
 
