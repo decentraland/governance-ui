@@ -4,6 +4,7 @@ import useFormatMessage from '../../hooks/useFormatMessage'
 import { type ActivityTickerEvent, EventType } from '../../types/events'
 import locations from '../../utils/locations'
 import Avatar from '../Common/Avatar'
+import DateTooltip from '../Common/DateTooltip'
 import Empty from '../Common/Empty'
 import Link from '../Common/Typography/Link'
 import DelegationEvent from '../Events/DelegationEvent'
@@ -65,7 +66,7 @@ function ActivityTickerList({ isLoading, events }: Props) {
                 return (
                   <div key={item.id} className="ActivityTickerList__Item">
                     {getActivityTickerImage(item)}
-                    <div>{getActivityTickerEvent(item)}</div>
+                    <DateTooltip date={item.created_at}>{getActivityTickerEvent(item)}</DateTooltip>
                   </div>
                 )
               })}

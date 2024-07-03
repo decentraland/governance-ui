@@ -10,17 +10,22 @@ import { getLink } from './utils'
 
 function getTextValues(event: ActivityTickerEvent) {
   const { event_type, event_data } = event
-  switch (event_type) {
-    case EventType.ProposalFinished:
-      return {
-        title: event_data.proposal_title,
-        result: getEnumDisplayName(event_data.new_status),
-      }
-    default:
-      return {
-        title: (event_data as ProposalCommentedEventData).proposal_title,
-        author: event.author || (event_data as ProposalCommentedEventData).discourse_post.username,
-      }
+  if (event_type === EventType.ProposalFinished) {
+    return {
+      title: event_data.proposal_title,
+      result: getEnumDisplayName(event_data.new_status),
+    }
+  } else if (event_type === EventType.VestingCreated) {
+    return {
+      title: event_data.proposal_title,
+      amount: event_data.amount,
+      duration: event_data.duration_in_months,
+    }
+  }
+  const eventData = event_data as ProposalCommentedEventData
+  return {
+    title: eventData.proposal_title,
+    author: event.author || eventData.discourse_post.username,
   }
 }
 

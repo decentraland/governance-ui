@@ -14,6 +14,7 @@ import ActivityTickerFilterItem from './ActivityTickerFilterItem'
 export type TickerFilter = {
   proposals_created: boolean
   proposals_finished: boolean
+  vestings_created: boolean
   votes: boolean
   delegation: boolean
   comments: boolean
@@ -23,6 +24,7 @@ export type TickerFilter = {
 export const INITIAL_TICKER_FILTER_STATE: TickerFilter = {
   proposals_created: false,
   proposals_finished: false,
+  vestings_created: false,
   votes: false,
   delegation: false,
   comments: false,
@@ -92,31 +94,6 @@ export default function ActivityTickerFilter({ onApply, filterState }: Props) {
       {isOpen && (
         <div className="ActivityTickerFilterBox">
           <div className="ActivityTickerFilterItems">
-            {/* <ActivityTickerFilterItem
-              onClick={() => handleEventTypeClick('proposals_created')}
-              checked={checkedFilters.proposals_created}
-              label={t('page.home.activity_ticker.filter.proposals_created')}
-            />
-            <ActivityTickerFilterItem
-              onClick={() => handleEventTypeClick('votes')}
-              checked={checkedFilters.votes}
-              label={t('page.home.activity_ticker.filter.votes')}
-            />
-            <ActivityTickerFilterItem
-              onClick={() => handleEventTypeClick('delegation')}
-              checked={checkedFilters.delegation}
-              label={t('page.home.activity_ticker.filter.delegation')}
-            />
-            <ActivityTickerFilterItem
-              onClick={() => handleEventTypeClick('comments')}
-              checked={checkedFilters.comments}
-              label={t('page.home.activity_ticker.filter.comments')}
-            />
-            <ActivityTickerFilterItem
-              onClick={() => handleEventTypeClick('project_updates')}
-              checked={checkedFilters.project_updates}
-              label={t('page.home.activity_ticker.filter.project_updates')}
-            /> */}
             {Object.keys(checkedFilters).map((key) => (
               <ActivityTickerFilterItem
                 key={key}

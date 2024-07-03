@@ -1,3 +1,4 @@
+import { VESTING_DASHBOARD_URL } from '../../constants'
 import { ActivityTickerEvent, EventType, ProposalEventData } from '../../types/events'
 import locations from '../../utils/locations'
 
@@ -12,6 +13,10 @@ export const getLink = (event: ActivityTickerEvent) => {
   if (PROPOSAL_RELATED_EVENTS.has(event.event_type)) {
     const eventData = event.event_data as ProposalEventData
     return locations.proposal(eventData.proposal_id)
+  }
+
+  if (event.event_type === EventType.VestingCreated) {
+    return `${VESTING_DASHBOARD_URL}${event.event_data.vesting_address}`
   }
 
   if (event.event_type === EventType.UpdateCreated || event.event_type === EventType.ProjectUpdateCommented) {

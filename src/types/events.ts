@@ -27,6 +27,11 @@ export type UpdateCommentedEventData = DiscourseEventData & UpdateEventData & Pr
 export type ProposalFinishedEventData = ProposalEventData & {
   new_status: ProposalStatus
 }
+export type VestingCreatedEventData = ProposalEventData & {
+  vesting_address: string
+  amount: number
+  duration_in_months: number
+}
 
 type DelegationSetData = {
   new_delegate: string | null
@@ -79,6 +84,11 @@ export type ProposalFinishedEvent = {
   event_data: ProposalFinishedEventData
 } & CommonEventAttributes
 
+export type VestingCreatedEvent = {
+  event_type: EventType.VestingCreated
+  event_data: VestingCreatedEventData
+} & CommonEventAttributes
+
 export type UpdateCreatedEvent = {
   event_type: EventType.UpdateCreated
   event_data: UpdateCreatedEventData
@@ -113,6 +123,7 @@ export type Event =
   | DelegationSetEvent
   | DelegationClearEvent
   | ProposalFinishedEvent
+  | VestingCreatedEvent
 
 export type ActivityTickerEvent = {
   author?: string

@@ -12,24 +12,22 @@ import ActivityTickerList from './ActivityTickerList'
 function parseTickerFilter(tickerFilter: TickerFilter) {
   const eventTypes: EventType[] = []
 
-  if (tickerFilter.comments) {
-    eventTypes.push(EventType.ProposalCommented, EventType.ProjectUpdateCommented)
+  const filterMap: Record<keyof TickerFilter, EventType[]> = {
+    comments: [EventType.ProposalCommented, EventType.ProjectUpdateCommented],
+    delegation: [EventType.DelegationSet, EventType.DelegationClear],
+    project_updates: [EventType.UpdateCreated],
+    votes: [EventType.Voted],
+    proposals_created: [EventType.ProposalCreated],
+    proposals_finished: [EventType.ProposalFinished],
+    vestings_created: [EventType.VestingCreated],
   }
-  if (tickerFilter.delegation) {
-    eventTypes.push(EventType.DelegationSet, EventType.DelegationClear)
+
+  for (const [key, isSelected] of Object.entries(tickerFilter)) {
+    if (isSelected) {
+      eventTypes.push(...filterMap[key as keyof TickerFilter])
+    }
   }
-  if (tickerFilter.project_updates) {
-    eventTypes.push(EventType.UpdateCreated)
-  }
-  if (tickerFilter.votes) {
-    eventTypes.push(EventType.Voted)
-  }
-  if (tickerFilter.proposals_created) {
-    eventTypes.push(EventType.ProposalCreated)
-  }
-  if (tickerFilter.proposals_finished) {
-    eventTypes.push(EventType.ProposalFinished)
-  }
+
   return eventTypes
 }
 
