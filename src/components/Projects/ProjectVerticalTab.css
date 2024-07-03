@@ -15,12 +15,14 @@
   padding: 10px 16px;
   border: 1px solid var(--alpha-black-300);
   margin-bottom: 8px;
+  cursor: pointer;
 }
 
 .ProjectVerticalTab--active {
   font-weight: var(--weight-semi-bold);
   background: var(--black-200);
   border: var(--black-200);
+  cursor: default;
 }
 
 .ProjectVerticalTab svg {
