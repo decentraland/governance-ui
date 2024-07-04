@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
 import { Vesting, VestingStatus } from '../../clients/VestingData.ts'
-import { VESTING_DASHBOARD_URL } from '../../constants'
+import { getVestingContractUrl } from '../../helpers/index.ts'
 import useFormatMessage, { FormatMessageFunction } from '../../hooks/useFormatMessage.ts'
 import { Project } from '../../types/proposals.ts'
 import Time from '../../utils/date/Time.ts'
@@ -98,7 +98,7 @@ function ProjectViewFundingSection({ project, compact, className }: Props) {
             .map((vesting, index) => {
               return (
                 <ProjectViewLinkItem
-                  href={VESTING_DASHBOARD_URL + vesting}
+                  href={getVestingContractUrl(vesting)}
                   icon={<VestingLinkIcon />}
                   label={getVestingLinkLabel(index, thereIsMoreThanOnePastVesting)}
                   key={`${vesting}${index}`}
