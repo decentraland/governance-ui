@@ -1,10 +1,10 @@
-.GrantBeneficiaryItem {
+.ParticipatedProjectItem {
   width: 100% !important;
   position: relative;
   border: 1px solid var(--black-100) !important;
 }
 
-.GrantBeneficiaryItem .ui.cards a.card:hover,
+.ParticipatedProjectItem .ui.cards a.card:hover,
 .ui.link.card:hover,
 .ui.link.cards .card:hover,
 a.ui.card:hover,
@@ -13,22 +13,22 @@ a.ui.card:hover,
   border: 1px solid var(--black-100) !important;
 }
 
-.GrantBeneficiaryItem .content {
+.ParticipatedProjectItem .content {
   display: flex !important;
   flex-direction: row !important;
   justify-content: space-between !important;
   align-items: center !important;
 }
 
-.GrantBeneficiaryItem > .content::after {
+.ParticipatedProjectItem > .content::after {
   content: none !important;
 }
 
-.GrantBeneficiaryItem:not(:last-child) {
+.ParticipatedProjectItem:not(:last-child) {
   margin-bottom: 13px;
 }
 
-.GrantBeneficiaryItem__Section {
+.ParticipatedProjectItem__Section {
   display: flex;
   width: 100%;
   flex-direction: row;
@@ -37,25 +37,25 @@ a.ui.card:hover,
   min-width: 0;
 }
 
-.GrantBeneficiaryItem:visited .GrantBeneficiaryItem__Title {
+.ParticipatedProjectItem:visited .ParticipatedProjectItem__Title {
   color: var(--black-600);
 }
 
-.GrantBeneficiaryItem__DetailsContainer {
+.ParticipatedProjectItem__DetailsContainer {
   display: flex;
   gap: 8px;
   align-items: center;
 }
 
-.GrantBeneficiaryItem__Avatar {
+.ParticipatedProjectItem__Avatar {
   display: none;
 }
 
-.GrantBeneficiaryItem:last-child {
+.ParticipatedProjectItem:last-child {
   border-bottom: none;
 }
 
-.GrantBeneficiaryItem__Title {
+.ParticipatedProjectItem__Title {
   margin: 0;
   padding-right: 20px;
   font-size: 15px;
@@ -67,95 +67,95 @@ a.ui.card:hover,
   overflow: hidden;
 }
 
-.GrantBeneficiaryItem__GrantInfo {
+.ParticipatedProjectItem__GrantInfo {
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.GrantBeneficiaryItem__Details {
+.ParticipatedProjectItem__Details {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 11px;
 }
 
-.GrantBeneficiaryItem__DetailsText {
+.ParticipatedProjectItem__DetailsText {
   color: var(--black-600) !important;
   font-weight: var(--weight-normal) !important;
   line-height: 28px !important;
   text-transform: uppercase;
 }
 
-.GrantBeneficiaryItem__DetailsStrongText {
+.ParticipatedProjectItem__DetailsStrongText {
   color: var(--black-700) !important;
 }
 
-.GrantBeneficiaryItem__PillContainer {
+.ParticipatedProjectItem__PillContainer {
   min-width: 80px;
 }
 
-.GrantBeneficiaryItem__VestingSection {
+.ParticipatedProjectItem__VestingSection {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.GrantBeneficiaryItem__VestingProgressContainer * {
+.ParticipatedProjectItem__VestingProgressContainer * {
   margin: 0 !important;
 }
 
-.GrantBeneficiaryItem__VestingProgressContainer {
+.ParticipatedProjectItem__VestingProgressContainer {
   min-width: 93px;
 }
 
-.GrantBeneficiaryItem .dcl.back {
+.ParticipatedProjectItem .dcl.back {
   transform: rotate(180deg);
 }
 
 @media (max-width: 390px) {
-  .GrantBeneficiaryItem__DetailsText {
+  .ParticipatedProjectItem__DetailsText {
     flex-direction: column !important;
     align-items: flex-start !important;
     line-height: 15px !important;
   }
 
-  .GrantBeneficiaryItem__DetailsStrongText {
+  .ParticipatedProjectItem__DetailsStrongText {
     padding-left: 0 !important;
   }
 }
 
 @media (min-width: 768px) {
-  .GrantBeneficiaryItem {
+  .ParticipatedProjectItem {
     padding: 16px;
   }
 
-  .GrantBeneficiaryItem__DetailsStrongText {
+  .ParticipatedProjectItem__DetailsStrongText {
     color: var(--black-600) !important;
   }
 
-  .GrantBeneficiaryItem__GrantInfo {
+  .ParticipatedProjectItem__GrantInfo {
     max-width: unset;
   }
 }
 
 @media (min-width: 992px) {
-  .GrantBeneficiaryItem__Avatar {
+  .ParticipatedProjectItem__Avatar {
     display: block;
     margin-right: 13px;
   }
 
-  .GrantBeneficiaryItem__Section {
+  .ParticipatedProjectItem__Section {
     width: unset;
     justify-content: unset;
   }
 
-  .GrantBeneficiaryItem__VestingProgressContainer {
+  .ParticipatedProjectItem__VestingProgressContainer {
     min-width: 93px;
   }
 }
 
-.GrantBeneficiaryItem__CategorySection {
+.ParticipatedProjectItem__CategorySection {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -164,7 +164,7 @@ a.ui.card:hover,
 }
 
 @media (min-width: 992px) {
-  .GrantBeneficiaryItem__CategorySection {
+  .ParticipatedProjectItem__CategorySection {
     width: 267px;
   }
 }

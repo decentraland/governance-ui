@@ -9,7 +9,7 @@ import LogIn from '../components/Layout/LogIn'
 import MaintenanceLayout from '../components/Layout/MaintenanceLayout'
 import Navigation, { NavigationTab } from '../components/Layout/Navigation'
 import ActivityBox from '../components/Profile/ActivityBox'
-import GrantBeneficiaryBox from '../components/Profile/GrantBeneficiaryBox'
+import ProjectsBox from '../components/Profile/ProjectsBox.tsx'
 import VotedProposalsBox from '../components/Profile/VotedProposalsBox'
 import VpDelegationBox from '../components/Profile/VpDelegationBox'
 import VpDelegatorsBox from '../components/Profile/VpDelegatorsBox'
@@ -77,7 +77,7 @@ export default function ProfilePage() {
           isLoadingVpDistribution={isLoadingVpDistribution}
           bio={profileBio}
         />
-        <GrantBeneficiaryBox address={address} />
+        <ProjectsBox address={address} />
         <ActivityBox address={address} />
         <VpDelegationBox
           address={address}

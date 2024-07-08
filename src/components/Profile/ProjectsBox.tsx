@@ -5,13 +5,13 @@ import { DEFAULT_QUERY_STALE_TIME } from '../../hooks/constants'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { ActionBox } from '../Common/ActionBox'
 
-import GrantBeneficiaryList from './GrantBeneficiaryList'
+import ParticipatedProjectsList from './ParticipatedProjectsList.tsx'
 
 interface Props {
   address: string | null
 }
 
-export default function GrantBeneficiaryBox({ address }: Props) {
+export default function ProjectsBox({ address }: Props) {
   const t = useFormatMessage()
   const { data: grants } = useQuery({
     queryKey: ['grants', address],
@@ -29,8 +29,8 @@ export default function GrantBeneficiaryBox({ address }: Props) {
   }
 
   return (
-    <ActionBox title={t('page.profile.grants.title')} info={t('page.profile.grants.info')}>
-      <GrantBeneficiaryList grants={grants?.data} address={address} />
+    <ActionBox title={t('page.profile.projects.title')} info={t('page.profile.projects.info')}>
+      <ParticipatedProjectsList grants={grants?.data} address={address} />
     </ActionBox>
   )
 }

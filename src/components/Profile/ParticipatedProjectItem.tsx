@@ -18,7 +18,7 @@ import ProgressBarTooltip from '../Projects/ProjectCard/ProgressBarTooltip'
 import VestingProgress from '../Projects/ProjectCard/VestingProgress'
 import ProjectPill from '../Projects/ProjectPill'
 
-import './GrantBeneficiaryItem.css'
+import './ParticipatedProjectItem.css'
 import VestingPill from './VestingPill'
 
 interface Props {
@@ -27,7 +27,7 @@ interface Props {
 
 const TRANSPARENCY_TIERS_IN_MANA: string[] = [GrantTierType.Tier1, GrantTierType.Tier2, GrantTierType.Tier3]
 
-function GrantBeneficiaryItem({ proposalProject }: Props) {
+function ParticipatedProjectItem({ proposalProject }: Props) {
   const t = useFormatMessage()
   const intl = useIntl()
   const { user, title, funding, configuration } = proposalProject
@@ -41,25 +41,25 @@ function GrantBeneficiaryItem({ proposalProject }: Props) {
     : locations.proposal(proposalProject.id)
 
   return (
-    <Card as={Link} className="GrantBeneficiaryItem" href={href}>
+    <Card as={Link} className="ParticipatedProjectItem" href={href}>
       <Card.Content>
         <NotMobile>
-          <div className="GrantBeneficiaryItem__Section">
-            <Username className="GrantBeneficiaryItem__Avatar" address={user} variant="avatar" size="md" />
+          <div className="ParticipatedProjectItem__Section">
+            <Username className="ParticipatedProjectItem__Avatar" address={user} variant="avatar" size="md" />
             <div>
-              <h3 className="GrantBeneficiaryItem__Title">{title}</h3>
-              <div className="GrantBeneficiaryItem__DetailsContainer">
+              <h3 className="ParticipatedProjectItem__Title">{title}</h3>
+              <div className="ParticipatedProjectItem__DetailsContainer">
                 {proposalProject.status && <VestingPill status={proposalProject.status} />}
                 {formattedEnactedDate && (
                   <Markdown
-                    className="GrantBeneficiaryItem__Details"
+                    className="ParticipatedProjectItem__Details"
                     size="xs"
                     componentsClassNames={{
-                      p: 'GrantBeneficiaryItem__DetailsText',
-                      strong: 'GrantBeneficiaryItem__DetailsStrongText',
+                      p: 'ParticipatedProjectItem__DetailsText',
+                      strong: 'ParticipatedProjectItem__DetailsStrongText',
                     }}
                   >
-                    {t('page.profile.grants.item_description', {
+                    {t('page.profile.projects.item_description', {
                       time: formattedEnactedDate,
                       amount: intl.formatNumber(proposalProject.size),
                       token: isInMana ? 'USD' : token,
@@ -69,11 +69,11 @@ function GrantBeneficiaryItem({ proposalProject }: Props) {
               </div>
             </div>
           </div>
-          <div className="GrantBeneficiaryItem__CategorySection">
-            <div className="GrantBeneficiaryItem__PillContainer">
+          <div className="ParticipatedProjectItem__CategorySection">
+            <div className="ParticipatedProjectItem__PillContainer">
               <ProjectPill type={proposalProject.configuration.category} />
             </div>
-            <div className="GrantBeneficiaryItem__VestingProgressContainer">
+            <div className="ParticipatedProjectItem__VestingProgressContainer">
               <ProgressBarTooltip proposalProject={proposalProject} isInCliff={proposalInCliffPeriod}>
                 <div>
                   {proposalInCliffPeriod ? (
@@ -88,20 +88,20 @@ function GrantBeneficiaryItem({ proposalProject }: Props) {
           </div>
         </NotMobile>
         <Mobile>
-          <div className="GrantBeneficiaryItem__Section">
-            <div className="GrantBeneficiaryItem__GrantInfo">
-              <h3 className="GrantBeneficiaryItem__Title">{title}</h3>
-              <div className="GrantBeneficiaryItem__Details">
+          <div className="ParticipatedProjectItem__Section">
+            <div className="ParticipatedProjectItem__GrantInfo">
+              <h3 className="ParticipatedProjectItem__Title">{title}</h3>
+              <div className="ParticipatedProjectItem__Details">
                 <ProjectPill type={proposalProject.configuration.category} />
                 {formattedEnactedDate && (
                   <Markdown
                     size="xs"
                     componentsClassNames={{
-                      p: 'GrantBeneficiaryItem__DetailsText',
-                      strong: 'GrantBeneficiaryItem__DetailsStrongText',
+                      p: 'ParticipatedProjectItem__DetailsText',
+                      strong: 'ParticipatedProjectItem__DetailsStrongText',
                     }}
                   >
-                    {t('page.profile.grants.item_short_description', {
+                    {t('page.profile.projects.item_short_description', {
                       time: abbreviateTimeDifference(formattedEnactedDate),
                       amount: intl.formatNumber(proposalProject.size),
                       token: isInMana ? 'USD' : token,
@@ -118,4 +118,4 @@ function GrantBeneficiaryItem({ proposalProject }: Props) {
   )
 }
 
-export default GrantBeneficiaryItem
+export default ParticipatedProjectItem

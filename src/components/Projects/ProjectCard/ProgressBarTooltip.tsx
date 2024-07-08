@@ -32,13 +32,13 @@ function ProgressBarTooltip({ proposalProject, isInCliff, children }: Props) {
     const elapsedSinceVestingStarted = now.diff(vestingStartDate, 'day')
     const daysToGo = CLIFF_PERIOD_IN_DAYS - elapsedSinceVestingStarted
 
-    textToShow = t('page.profile.grants.cliff_period', { count: daysToGo })
+    textToShow = t('page.profile.projects.cliff_period', { count: daysToGo })
   } else if (isOneTimePayment && enacted_at) {
-    textToShow = t('page.profile.grants.one_time_tx', { time: formatDate(new Date(enacted_at)) })
+    textToShow = t('page.profile.projects.one_time_tx', { time: formatDate(new Date(enacted_at)) })
   } else if (releasedAmount > 0) {
-    textToShow = t('page.profile.grants.released', { amount: intl.formatNumber(releasedAmount), token: token })
+    textToShow = t('page.profile.projects.released', { amount: intl.formatNumber(releasedAmount), token: token })
   } else {
-    textToShow = t('page.profile.grants.vested', { amount: intl.formatNumber(vestedAmount), token: token })
+    textToShow = t('page.profile.projects.vested', { amount: intl.formatNumber(vestedAmount), token: token })
   }
 
   return <Popup content={textToShow} position="top center" trigger={children} on="hover" />

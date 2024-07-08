@@ -1628,9 +1628,9 @@
         "outcome_match_conclusion_50-80": "They have a voice of their own",
         "outcome_match_conclusion_>80": "Aligned with the community"
       },
-      "grants": {
-        "title": "Grant beneficiary",
-        "info": "Grants that this account has authored or co-authored and have been approved and funded by the Decentraland DAO.",
+      "projects": {
+        "title": "Projects",
+        "info": "Projects that this account has authored or co-authored and have been approved and funded by the Decentraland DAO.",
         "item_description": "Passed {time} with a budget of **{amount} {token}**",
         "item_short_description": "Passed {time} **{amount} {token}**",
         "cliff_period": "Cliff period: {count} {count, plural, one {day} other {days}} to go",

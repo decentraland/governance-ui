@@ -5,7 +5,7 @@ import { useSortingByKey } from '../../hooks/useSortingByKey'
 import { ProposalProject } from '../../types/proposals'
 import FullWidthButton from '../Common/FullWidthButton'
 
-import GrantBeneficiaryItem from './GrantBeneficiaryItem'
+import ParticipatedProjectItem from './ParticipatedProjectItem.tsx'
 
 interface Props {
   address: string | null
@@ -14,7 +14,7 @@ interface Props {
 
 const MAX_GRANTS = 3
 
-function GrantBeneficiaryList({ grants, address }: Props) {
+function ParticipatedProjectsList({ grants, address }: Props) {
   const t = useFormatMessage()
   const { sorted } = useSortingByKey(grants, 'enacted_at')
   const [limit, setLimit] = useState(MAX_GRANTS)
@@ -25,15 +25,15 @@ function GrantBeneficiaryList({ grants, address }: Props) {
   return (
     <>
       {grantsToShow.map((grant) => (
-        <GrantBeneficiaryItem key={grant.id} proposalProject={grant} />
+        <ParticipatedProjectItem key={grant.id} proposalProject={grant} />
       ))}
       {sorted.length > limit && (
         <FullWidthButton onClick={() => setLimit(() => limit + MAX_GRANTS)}>
-          {t('page.profile.grants.button')}
+          {t('page.profile.projects.button')}
         </FullWidthButton>
       )}
     </>
   )
 }
 
-export default GrantBeneficiaryList
+export default ParticipatedProjectsList
