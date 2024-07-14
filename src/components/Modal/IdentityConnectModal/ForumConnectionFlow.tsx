@@ -143,9 +143,15 @@ function ForumConnectionFLow({ address, onClose }: Props) {
   const track = useAnalyticsTrack()
 
   const [modalState, setModalState] = useState<ModalState>(INITIAL_STATE)
-  const setCurrentStep = (currentStep: number) => setModalState((state) => ({ ...state, currentStep }))
-  const setIsValidating = (isValidating: boolean) => setModalState((state) => ({ ...state, isValidating }))
-  const setIsTimerActive = (isTimerActive: boolean) => setModalState((state) => ({ ...state, isTimerActive }))
+  const setCurrentStep = useCallback((currentStep: number) => setModalState((state) => ({ ...state, currentStep })), [])
+  const setIsValidating = useCallback(
+    (isValidating: boolean) => setModalState((state) => ({ ...state, isValidating })),
+    []
+  )
+  const setIsTimerActive = useCallback(
+    (isTimerActive: boolean) => setModalState((state) => ({ ...state, isTimerActive })),
+    []
+  )
   const setStepStatus = useCallback(
     (stepStatus: StepStatus) => {
       modalState.steps[modalState.currentStep - 1].status = stepStatus
