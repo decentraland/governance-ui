@@ -147,7 +147,15 @@ function DiscordConnectionFlow({ address, onClose }: Props) {
     setIsValidating(false)
     setStepStatus('initial')
     resetDiscordConnect()
-  }, [handleStepOneAction, handleStepTwoAction, handleStepThreeAction, resetDiscordConnect, setStepStatus])
+  }, [
+    setIsTimerActive,
+    handleStepOneAction,
+    handleStepTwoAction,
+    handleStepThreeAction,
+    setIsValidating,
+    setStepStatus,
+    resetDiscordConnect,
+  ])
 
   useEffect(() => {
     setModalState((modalState) =>

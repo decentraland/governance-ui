@@ -215,7 +215,15 @@ function ForumConnectionFLow({ address, onClose }: Props) {
     setIsValidating(false)
     setStepStatus('initial')
     resetForumConnect()
-  }, [handleStepTwoAction, handleStepOneAction, handleStepThreeAction, resetForumConnect, setStepStatus])
+  }, [
+    setIsTimerActive,
+    handleStepOneAction,
+    handleStepTwoAction,
+    handleStepThreeAction,
+    setIsValidating,
+    setStepStatus,
+    resetForumConnect,
+  ])
 
   useEffect(() => {
     setModalState((modalState) =>
