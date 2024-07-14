@@ -32,6 +32,7 @@ function ProfileSettings() {
         {showDot && <div className="ProfileSettings__Dot" />}
       </div>
       <AccountsConnectModal open={isSetUpOpen} onClose={() => setIsSetUpOpen(false)} />
+      {/*<AccountsConnectModal2 open={isSetUpOpen} onClose={() => setIsSetUpOpen(false)} />*/}
     </>
   )
 }

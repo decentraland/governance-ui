@@ -165,7 +165,7 @@ function ForumConnectionFLow({ address, onClose }: Props) {
   const isTimerExpired = forumVerificationTime <= 0
   const timerTextKey = isTimerExpired ? 'modal.identity_setup.timer_expired' : 'modal.identity_setup.timer'
 
-  const handleForumSign = useCallback(async () => {
+  const handleStepOneAction = useCallback(async () => {
     const STEP_NUMBER = 1
     try {
       setIsTimerActive(true)
@@ -181,14 +181,14 @@ function ForumConnectionFLow({ address, onClose }: Props) {
     }
   }, [account, address, getForumMessage, setStepStatus, track, setIsTimerActive, setCurrentStep])
 
-  const handleForumCopy = useCallback(() => {
+  const handleStepTwoAction = useCallback(() => {
     const STEP_NUMBER = 2
     copyForumMessage()
     setStepStatus('success')
     setCurrentStep(STEP_NUMBER + 1)
   }, [copyForumMessage, setStepStatus, setCurrentStep])
 
-  const handleForumValidate = useCallback(() => {
+  const handleStepThreeAction = useCallback(() => {
     setIsValidating(true)
     openForumThread()
   }, [openForumThread, setIsValidating])
@@ -203,21 +203,23 @@ function ForumConnectionFLow({ address, onClose }: Props) {
 
   const resetState = useCallback(() => {
     setIsTimerActive(false)
-    setModalState(assignActionsToSteps(INITIAL_STATE, [handleForumSign, handleForumCopy, handleForumValidate]))
+    setModalState(
+      assignActionsToSteps(INITIAL_STATE, [handleStepOneAction, handleStepTwoAction, handleStepThreeAction])
+    )
     setIsValidating(false)
     setStepStatus('initial')
     resetForumConnect()
-  }, [handleForumCopy, handleForumSign, handleForumValidate, resetForumConnect, setStepStatus])
+  }, [handleStepTwoAction, handleStepOneAction, handleStepThreeAction, resetForumConnect, setStepStatus])
 
   useEffect(() => {
     setModalState((modalState) =>
-      assignActionsToSteps(modalState, [handleForumSign, handleForumCopy, handleForumValidate])
+      assignActionsToSteps(modalState, [handleStepOneAction, handleStepTwoAction, handleStepThreeAction])
     )
-  }, [handleForumSign, handleForumCopy, handleForumValidate])
+  }, [handleStepOneAction, handleStepTwoAction, handleStepThreeAction])
 
   const stepComponents = useMemo<ActionCardProps[]>(
     () => getStepsComponents(modalState.currentStep, modalState.steps, t),
-    [modalState.currentStep, modalState.steps, handleForumSign, handleForumCopy, handleForumValidate]
+    [modalState.currentStep, modalState.steps, handleStepOneAction, handleStepTwoAction, handleStepThreeAction]
   )
 
   return (

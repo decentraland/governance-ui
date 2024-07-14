@@ -5,16 +5,16 @@ import Text from '../../Common/Typography/Text'
 
 import './AccountConnection.css'
 
-export interface AccountConnectionProps {
+export interface FlowWithStepsProps {
   title: string
   subtitle?: string
   timerText?: string
-  actions: ActionCardProps[]
+  steps: ActionCardProps[]
   button?: JSX.Element
   helperText?: string
 }
 
-function AccountConnection({ title, subtitle, timerText, actions, button, helperText }: AccountConnectionProps) {
+function FlowWithSteps({ title, subtitle, timerText, steps, button, helperText }: FlowWithStepsProps) {
   return (
     <>
       <Modal.Header className="AccountConnection__Header">
@@ -23,7 +23,7 @@ function AccountConnection({ title, subtitle, timerText, actions, button, helper
         {timerText && <div className="AccountConnection__Timer">{timerText}</div>}
       </Modal.Header>
       <Modal.Content>
-        {actions.map((cardProps, index) => {
+        {steps.map((cardProps, index) => {
           return <ActionCard key={`ActionCard--${index}`} {...cardProps} />
         })}
         {button && (
@@ -37,4 +37,4 @@ function AccountConnection({ title, subtitle, timerText, actions, button, helper
   )
 }
 
-export default AccountConnection
+export default FlowWithSteps
