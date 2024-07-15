@@ -15,15 +15,15 @@ import Comment from '../../Icon/Comment.tsx'
 import Copy from '../../Icon/Copy.tsx'
 import Sign from '../../Icon/Sign.tsx'
 
-import FlowWithSteps from './FlowWithSteps.tsx'
-import {
+import FlowWithSteps, {
   ModalState,
   Step,
   StepStatus,
   assignActionsToSteps,
   getStepsComponents,
   getTimeFormatted,
-} from './ForumConnectionFlow.tsx'
+  getTimerTextKey,
+} from './FlowWithSteps.tsx'
 import PostConnection from './PostConnection.tsx'
 
 const initialSteps: Step[] = [
@@ -90,15 +90,9 @@ function DiscordConnectionFlow({ address, onClose }: Props) {
   } = useDiscordConnect()
 
   const [modalState, setModalState] = useState<ModalState>(INITIAL_STATE)
-  const setCurrentStep = useCallback((currentStep: number) => setModalState((state) => ({ ...state, currentStep })), [])
-  const setIsValidating = useCallback(
-    (isValidating: boolean) => setModalState((state) => ({ ...state, isValidating })),
-    []
-  )
-  const setIsTimerActive = useCallback(
-    (isTimerActive: boolean) => setModalState((state) => ({ ...state, isTimerActive })),
-    []
-  )
+  const setCurrentStep = (currentStep: number) => setModalState((state) => ({ ...state, currentStep }))
+  const setIsValidating = (isValidating: boolean) => setModalState((state) => ({ ...state, isValidating }))
+  const setIsTimerActive = (isTimerActive: boolean) => setModalState((state) => ({ ...state, isTimerActive }))
   const setStepStatus = useCallback(
     (stepStatus: StepStatus) => {
       modalState.steps[modalState.currentStep - 1].status = stepStatus
@@ -106,8 +100,6 @@ function DiscordConnectionFlow({ address, onClose }: Props) {
     },
     [modalState.currentStep, modalState.steps]
   )
-  const isTimerExpired = discordVerificationTime <= 0
-  const timerTextKey = isTimerExpired ? 'modal.identity_setup.timer_expired' : 'modal.identity_setup.timer'
 
   const handleStepOneAction = useCallback(async () => {
     const STEP_NUMBER = 1
@@ -181,7 +173,7 @@ function DiscordConnectionFlow({ address, onClose }: Props) {
           title={t(`modal.identity_setup.${account}.title`)}
           timerText={
             modalState.isTimerActive
-              ? t(timerTextKey, {
+              ? t(getTimerTextKey(discordVerificationTime), {
                   time: getTimeFormatted(discordVerificationTime),
                 })
               : undefined

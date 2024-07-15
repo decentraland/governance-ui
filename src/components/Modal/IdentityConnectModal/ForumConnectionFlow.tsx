@@ -4,46 +4,26 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 
 import useAnalyticsTrack from '../../../hooks/useAnalyticsTrack.ts'
-import useFormatMessage, { FormatMessageFunction } from '../../../hooks/useFormatMessage.ts'
+import useFormatMessage from '../../../hooks/useFormatMessage.ts'
 import useForumConnect, { THREAD_URL } from '../../../hooks/useForumConnect.ts'
 import { SegmentEvent } from '../../../types/events.ts'
 import { AccountType } from '../../../types/users.ts'
 import locations from '../../../utils/locations.ts'
 import { ActionCardProps } from '../../ActionCard/ActionCard.tsx'
-import CheckCircle from '../../Icon/CheckCircle.tsx'
 import Comment from '../../Icon/Comment.tsx'
 import Copy from '../../Icon/Copy.tsx'
-import Lock from '../../Icon/Lock.tsx'
 import Sign from '../../Icon/Sign.tsx'
 
-import FlowWithSteps from './FlowWithSteps.tsx'
+import FlowWithSteps, {
+  ModalState,
+  Step,
+  StepStatus,
+  assignActionsToSteps,
+  getStepsComponents,
+  getTimeFormatted,
+  getTimerTextKey,
+} from './FlowWithSteps.tsx'
 import PostConnection from './PostConnection.tsx'
-
-export type StepStatus = 'initial' | 'active' | 'success' | 'error'
-
-export interface Step {
-  title: string
-  description: string
-  status: StepStatus
-  icon: React.ReactNode
-  helpers: StepHelperKeys
-  action?: () => void
-  actionLabelKey?: string
-}
-
-export interface ModalState {
-  currentStep: number
-  steps: Step[]
-  isTimerActive: boolean
-  isValidating: boolean
-}
-
-export type StepHelperKeys = {
-  initial: string
-  active: string
-  success: string
-  error?: string
-}
 
 const initialSteps: Step[] = [
   {
@@ -92,53 +72,6 @@ const INITIAL_STATE: ModalState = {
   isValidating: false,
 }
 
-function getStepActionComponent(step: Step, isCompleted: boolean, isDisabled: boolean, t: FormatMessageFunction) {
-  if (isCompleted) {
-    return <CheckCircle size="24" outline />
-  }
-
-  if (isDisabled) {
-    return <Lock />
-  }
-
-  return (
-    <Button basic onClick={step.action}>
-      {t(step.actionLabelKey)}
-    </Button>
-  )
-}
-
-export function getStepsComponents(currentStep: number, steps: Step[], t: FormatMessageFunction): ActionCardProps[] {
-  return steps.map((step, index) => {
-    const stepIdx = index + 1
-    const isDisabled = stepIdx > currentStep
-    const isCompleted = stepIdx < currentStep && stepIdx <= 1
-
-    return {
-      title: t(step.title),
-      description: t(step.description),
-      icon: step.icon,
-      action: getStepActionComponent(step, isCompleted, isDisabled, t),
-      isDisabled,
-      helper: t(step.helpers[step.status]),
-    }
-  })
-}
-
-export function assignActionsToSteps(state: ModalState, actions: (() => unknown)[]) {
-  const newState = { ...state }
-  newState.steps.forEach((step, index) => {
-    step.action = actions[index]
-  })
-  return newState
-}
-
-export function getTimeFormatted(totalSeconds: number) {
-  const minutes = Math.floor(totalSeconds / 60)
-  const seconds = totalSeconds % 60
-  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
-}
-
 type Props = { address: string; onClose: () => void }
 
 function ForumConnectionFlow({ address, onClose }: Props) {
@@ -148,15 +81,9 @@ function ForumConnectionFlow({ address, onClose }: Props) {
   const track = useAnalyticsTrack()
 
   const [modalState, setModalState] = useState<ModalState>(INITIAL_STATE)
-  const setCurrentStep = useCallback((currentStep: number) => setModalState((state) => ({ ...state, currentStep })), [])
-  const setIsValidating = useCallback(
-    (isValidating: boolean) => setModalState((state) => ({ ...state, isValidating })),
-    []
-  )
-  const setIsTimerActive = useCallback(
-    (isTimerActive: boolean) => setModalState((state) => ({ ...state, isTimerActive })),
-    []
-  )
+  const setCurrentStep = (currentStep: number) => setModalState((state) => ({ ...state, currentStep }))
+  const setIsValidating = (isValidating: boolean) => setModalState((state) => ({ ...state, isValidating }))
+  const setIsTimerActive = (isTimerActive: boolean) => setModalState((state) => ({ ...state, isTimerActive }))
   const setStepStatus = useCallback(
     (stepStatus: StepStatus) => {
       modalState.steps[modalState.currentStep - 1].status = stepStatus
@@ -173,8 +100,6 @@ function ForumConnectionFlow({ address, onClose }: Props) {
     isValidated: isForumValidationFinished,
     reset: resetForumConnect,
   } = useForumConnect()
-  const isTimerExpired = forumVerificationTime <= 0
-  const timerTextKey = isTimerExpired ? 'modal.identity_setup.timer_expired' : 'modal.identity_setup.timer'
 
   const handleStepOneAction = useCallback(async () => {
     const STEP_NUMBER = 1
@@ -248,7 +173,7 @@ function ForumConnectionFlow({ address, onClose }: Props) {
           title={t(`modal.identity_setup.${account}.title`)}
           timerText={
             modalState.isTimerActive
-              ? t(timerTextKey, {
+              ? t(getTimerTextKey(forumVerificationTime), {
                   time: getTimeFormatted(forumVerificationTime),
                 })
               : undefined
