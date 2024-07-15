@@ -90,8 +90,11 @@ function DiscordConnectionFlow({ address, onClose }: Props) {
   } = useDiscordConnect()
 
   const [modalState, setModalState] = useState<ModalState>(INITIAL_STATE)
-  const setCurrentStep = (currentStep: number) => setModalState((state) => ({ ...state, currentStep }))
-  const setIsValidating = (isValidating: boolean) => setModalState((state) => ({ ...state, isValidating }))
+  const setCurrentStep = useCallback((currentStep: number) => setModalState((state) => ({ ...state, currentStep })), [])
+  const setIsValidating = useCallback(
+    (isValidating: boolean) => setModalState((state) => ({ ...state, isValidating })),
+    []
+  )
   const setIsTimerActive = (isTimerActive: boolean) => setModalState((state) => ({ ...state, isTimerActive }))
   const setStepStatus = useCallback(
     (stepStatus: StepStatus) => {
@@ -163,7 +166,7 @@ function DiscordConnectionFlow({ address, onClose }: Props) {
 
   const stepComponents = useMemo<ActionCardProps[]>(
     () => getStepsComponents(modalState.currentStep, modalState.steps, t),
-    [modalState.currentStep, modalState.steps, t, handleStepOneAction, handleStepTwoAction, handleStepThreeAction]
+    [modalState.currentStep, modalState.steps, handleStepOneAction, handleStepTwoAction, handleStepThreeAction, t]
   )
 
   return (
