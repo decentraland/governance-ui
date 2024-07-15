@@ -16,7 +16,6 @@ import Copy from '../../Icon/Copy.tsx'
 import Lock from '../../Icon/Lock.tsx'
 import Sign from '../../Icon/Sign.tsx'
 
-import { getHelperTextKey, getTimeFormatted } from './AccountsConnectModalOld.tsx'
 import FlowWithSteps from './FlowWithSteps.tsx'
 import PostConnection from './PostConnection.tsx'
 
@@ -134,9 +133,15 @@ export function assignActionsToSteps(state: ModalState, actions: (() => unknown)
   return newState
 }
 
+export function getTimeFormatted(totalSeconds: number) {
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+}
+
 type Props = { address: string; onClose: () => void }
 
-function ForumConnectionFLow({ address, onClose }: Props) {
+function ForumConnectionFlow({ address, onClose }: Props) {
   const account = AccountType.Forum
   const navigate = useNavigate()
   const t = useFormatMessage()
@@ -240,7 +245,7 @@ function ForumConnectionFLow({ address, onClose }: Props) {
     <>
       {!isForumValidationFinished ? (
         <FlowWithSteps
-          title={t('modal.identity_setup.forum.title')}
+          title={t(`modal.identity_setup.${account}.title`)}
           timerText={
             modalState.isTimerActive
               ? t(timerTextKey, {
@@ -251,10 +256,10 @@ function ForumConnectionFLow({ address, onClose }: Props) {
           steps={stepComponents}
           button={
             <Button primary disabled loading={modalState.isValidating}>
-              {t('modal.identity_setup.forum.action')}
+              {t(`modal.identity_setup.${account}.action`)}
             </Button>
           }
-          helperText={t(getHelperTextKey(modalState.currentStep, account))}
+          helperText={t(`modal.identity_setup.${account}.helper_step_${modalState.currentStep}`)}
         />
       ) : (
         <PostConnection
@@ -268,4 +273,4 @@ function ForumConnectionFLow({ address, onClose }: Props) {
   )
 }
 
-export default ForumConnectionFLow
+export default ForumConnectionFlow

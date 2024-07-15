@@ -19,14 +19,13 @@ import PushConnectionFlow from './PushConnectionFlow.tsx'
 export type PushState = 'subscribing' | 'success' | 'error' | null
 
 function PushConnect({ onClose, address, setActiveFlow, activeFlow }: FlowProps) {
-  const t = useFormatMessage()
+  const [user, userState] = useAuthContext()
   const isPushFlowActive = activeFlow === FlowType.Push
   const { isSubscribedToDaoChannel } = usePushSubscriptions()
-
-  const [user, userState] = useAuthContext()
   const chainId = userState.chainId || ChainId.ETHEREUM_SEPOLIA
   const env = getPushNotificationsEnv(chainId)
   const [pushState, setPushState] = useState<PushState>(null)
+  const t = useFormatMessage()
 
   const initializePush = async () => {
     setActiveFlow(FlowType.Push)

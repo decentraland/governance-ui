@@ -15,9 +15,15 @@ import Comment from '../../Icon/Comment.tsx'
 import Copy from '../../Icon/Copy.tsx'
 import Sign from '../../Icon/Sign.tsx'
 
-import { getHelperTextKey, getTimeFormatted } from './AccountsConnectModalOld.tsx'
 import FlowWithSteps from './FlowWithSteps.tsx'
-import { ModalState, Step, StepStatus, assignActionsToSteps, getStepsComponents } from './ForumConnectionFlow.tsx'
+import {
+  ModalState,
+  Step,
+  StepStatus,
+  assignActionsToSteps,
+  getStepsComponents,
+  getTimeFormatted,
+} from './ForumConnectionFlow.tsx'
 import PostConnection from './PostConnection.tsx'
 
 const initialSteps: Step[] = [
@@ -172,7 +178,7 @@ function DiscordConnectionFlow({ address, onClose }: Props) {
     <>
       {isDiscordValidationFinished === undefined ? (
         <FlowWithSteps
-          title={t('modal.identity_setup.discord.title')}
+          title={t(`modal.identity_setup.${account}.title`)}
           timerText={
             modalState.isTimerActive
               ? t(timerTextKey, {
@@ -183,10 +189,10 @@ function DiscordConnectionFlow({ address, onClose }: Props) {
           steps={stepComponents}
           button={
             <Button primary disabled loading={modalState.isValidating}>
-              {t('modal.identity_setup.discord.action')}
+              {t(`modal.identity_setup.${account}.action`)}
             </Button>
           }
-          helperText={t(getHelperTextKey(modalState.currentStep, account))}
+          helperText={t(`modal.identity_setup.${account}.helper_step_${modalState.currentStep}`)}
         />
       ) : (
         <PostConnection
