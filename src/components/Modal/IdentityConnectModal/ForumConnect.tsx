@@ -1,8 +1,6 @@
 import React from 'react'
 
 import useFormatMessage from '../../../hooks/useFormatMessage.ts'
-import useIsProfileValidated from '../../../hooks/useIsProfileValidated.ts'
-import { AccountType } from '../../../types/users.ts'
 import ActionCard from '../../ActionCard/ActionCard.tsx'
 import CircledForum from '../../Icon/CircledForum.tsx'
 
@@ -18,7 +16,6 @@ export interface FlowProps {
 
 function ForumConnect({ onClose, address, setActiveFlow, activeFlow }: FlowProps) {
   const t = useFormatMessage()
-  const { isProfileValidated } = useIsProfileValidated(address, [AccountType.Forum])
 
   const initializeForum = () => {
     setActiveFlow(FlowType.Forum)
@@ -34,7 +31,7 @@ function ForumConnect({ onClose, address, setActiveFlow, activeFlow }: FlowProps
           description={t('modal.identity_setup.forum.card_description')}
           icon={<CircledForum />}
           onCardClick={initializeForum}
-          isVerified={isProfileValidated}
+          isVerified={false}
         />
       ) : (
         <ForumConnectionFlow address={address} onClose={onClose} />

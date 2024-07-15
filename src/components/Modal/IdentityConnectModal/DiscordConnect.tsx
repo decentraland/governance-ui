@@ -1,6 +1,4 @@
 import useFormatMessage from '../../../hooks/useFormatMessage.ts'
-import useIsProfileValidated from '../../../hooks/useIsProfileValidated.ts'
-import { AccountType } from '../../../types/users.ts'
 import ActionCard from '../../ActionCard/ActionCard'
 import CircledDiscord from '../../Icon/CircledDiscord.tsx'
 
@@ -11,7 +9,6 @@ import { FlowProps } from './ForumConnect.tsx'
 
 function DiscordConnect({ onClose, address, setActiveFlow, activeFlow }: FlowProps) {
   const t = useFormatMessage()
-  const { isProfileValidated } = useIsProfileValidated(address, [AccountType.Discord])
   const initializeDiscord = () => {
     setActiveFlow(FlowType.Discord)
   }
@@ -26,7 +23,7 @@ function DiscordConnect({ onClose, address, setActiveFlow, activeFlow }: FlowPro
           description={t('modal.identity_setup.discord.card_description')}
           icon={<CircledDiscord />}
           onCardClick={initializeDiscord}
-          isVerified={isProfileValidated}
+          isVerified={false}
         />
       ) : (
         <DiscordConnectionFlow address={address} onClose={onClose} />

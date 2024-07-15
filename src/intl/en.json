@@ -779,7 +779,9 @@
         "helper": "TRIGGERS MESSAGE SIGN REQUEST"
       },
       "soon": "Soon",
-      "verified": "Verified"
+      "verified": "Verified",
+      "unlink_account_details": "@{username} • Linked {date}",
+      "unlink_action": "Unlink"
     },
     "link_discord": {
       "title": "Receive DAO Notifications in Discord!",

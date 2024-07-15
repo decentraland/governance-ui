@@ -1,0 +1,40 @@
+.ui.card.UnlinkAccountCard {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100%;
+  min-height: 74px !important;
+  border-radius: 6px;
+  border: 1px solid var(--black-300);
+  padding: 16px 24px 16px 24px;
+}
+
+.UnlinkAccountCard__AccountData {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.UnlinkAccountCard__Title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: var(--weight-semi-bold);
+  line-height: 24px;
+  color: var(--black-600);
+  text-transform: capitalize;
+}
+
+.UnlinkAccountCard__AccountDetails {
+  color: var(--black-600);
+  font-size: 13px;
+  font-weight: var(--weight-normal);
+  line-height: 24px;
+  opacity: 0.8;
+}
+
+.UnlinkAccountCard__Action {
+  max-width: 50px !important;
+  text-transform: uppercase;
+}
