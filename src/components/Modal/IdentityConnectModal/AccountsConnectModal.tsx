@@ -58,6 +58,9 @@ function AccountsConnectModal({ open, onClose }: AccountsConnectModalProps) {
 
   const hasLinkedForumAccount = !!profile?.forum_id && !!profile.forum_verification_date
   const hasLinkedDiscordAccount = !!profile?.discord_verification_date
+  const showForumConnect = (activeFlow === null || activeFlow === FlowType.Forum) && !hasLinkedForumAccount
+  const showDiscordConnect = (activeFlow === null || activeFlow === FlowType.Discord) && !hasLinkedDiscordAccount
+  const showPushConnect = activeFlow === null || activeFlow === FlowType.Push
 
   return (
     <Modal open={open} size="tiny" onClose={handleClose} closeIcon={<Close />}>
@@ -86,7 +89,7 @@ function AccountsConnectModal({ open, onClose }: AccountsConnectModalProps) {
                 )}
               </>
             )}
-            {(activeFlow === null || activeFlow === FlowType.Forum) && !hasLinkedForumAccount && (
+            {showForumConnect && (
               <ForumConnect
                 onClose={handleClose}
                 address={address}
@@ -96,7 +99,7 @@ function AccountsConnectModal({ open, onClose }: AccountsConnectModalProps) {
                 }}
               />
             )}
-            {(activeFlow === null || activeFlow === FlowType.Discord) && !hasLinkedDiscordAccount && (
+            {showDiscordConnect && (
               <DiscordConnect
                 onClose={handleClose}
                 address={address}
@@ -106,7 +109,7 @@ function AccountsConnectModal({ open, onClose }: AccountsConnectModalProps) {
                 }}
               />
             )}
-            {(activeFlow === null || activeFlow === FlowType.Push) && (
+            {showPushConnect && (
               <PushConnect
                 onClose={handleClose}
                 address={address}
