@@ -12,15 +12,13 @@ import ActionCard from '../../ActionCard/ActionCard'
 import CircledPush from '../../Icon/CircledPush.tsx'
 
 import './AccountConnection.css'
-import { FlowType } from './AccountsConnectModal.tsx'
-import { FlowProps } from './ForumConnect.tsx'
+import { ConnectProps } from './ForumConnect.tsx'
 import PushConnectionFlow from './PushConnectionFlow.tsx'
 
 export type PushState = 'subscribing' | 'success' | 'error' | null
 
-function PushConnect({ onClose, address, setActiveFlow, activeFlow }: FlowProps) {
+function PushConnect({ onClose, address, initialize, active }: ConnectProps) {
   const [user, userState] = useAuthContext()
-  const isPushFlowActive = activeFlow === FlowType.Push
   const { isSubscribedToDaoChannel } = usePushSubscriptions()
   const chainId = userState.chainId || ChainId.ETHEREUM_SEPOLIA
   const env = getPushNotificationsEnv(chainId)
@@ -28,7 +26,7 @@ function PushConnect({ onClose, address, setActiveFlow, activeFlow }: FlowProps)
   const t = useFormatMessage()
 
   const initializePush = async () => {
-    setActiveFlow(FlowType.Push)
+    initialize()
     if (!user || !userState.provider) {
       return
     }
@@ -49,7 +47,7 @@ function PushConnect({ onClose, address, setActiveFlow, activeFlow }: FlowProps)
 
   return (
     <>
-      {!isPushFlowActive ? (
+      {!active ? (
         <ActionCard
           title={t('modal.identity_setup.push.card_title')}
           description={t('modal.identity_setup.push.card_description')}

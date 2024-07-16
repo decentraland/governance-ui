@@ -59,9 +59,6 @@ function AccountsConnectModal({ open, onClose }: AccountsConnectModalProps) {
   const hasLinkedForumAccount = !!profile?.forum_id && !!profile.forum_verification_date
   const hasLinkedDiscordAccount = !!profile?.discord_verification_date
 
-  // TODO: unlink fn, variable account, auth check, only addr
-  // TODO: test push linking and unlinking (mainnet needed maybe)
-
   return (
     <Modal open={open} size="tiny" onClose={handleClose} closeIcon={<Close />}>
       <Modal.Header className="AccountConnection__Header">
@@ -70,38 +67,53 @@ function AccountsConnectModal({ open, onClose }: AccountsConnectModalProps) {
       <Modal.Content>
         {!isLoadingGovernanceProfile && (
           <>
-            {hasLinkedForumAccount && (
-              <UnlinkAccountCard
-                account={AccountType.Forum}
-                accountUsername={profile.forum_username}
-                verificationDate={profile.forum_verification_date}
-              />
-            )}
-            {hasLinkedDiscordAccount && (
-              <UnlinkAccountCard account={AccountType.Discord} verificationDate={profile.discord_verification_date} />
+            {activeFlow === null && (
+              <>
+                {hasLinkedForumAccount && (
+                  <UnlinkAccountCard
+                    account={AccountType.Forum}
+                    accountUsername={profile.forum_username}
+                    verificationDate={profile.forum_verification_date}
+                    onUnlinkSuccessful={handleClose}
+                  />
+                )}
+                {hasLinkedDiscordAccount && (
+                  <UnlinkAccountCard
+                    account={AccountType.Discord}
+                    verificationDate={profile.discord_verification_date}
+                    onUnlinkSuccessful={handleClose}
+                  />
+                )}
+              </>
             )}
             {(activeFlow === null || activeFlow === FlowType.Forum) && !hasLinkedForumAccount && (
               <ForumConnect
                 onClose={handleClose}
                 address={address}
-                activeFlow={activeFlow}
-                setActiveFlow={setActiveFlow}
+                active={activeFlow === FlowType.Forum}
+                initialize={() => {
+                  setActiveFlow(FlowType.Forum)
+                }}
               />
             )}
             {(activeFlow === null || activeFlow === FlowType.Discord) && !hasLinkedDiscordAccount && (
               <DiscordConnect
                 onClose={handleClose}
                 address={address}
-                activeFlow={activeFlow}
-                setActiveFlow={setActiveFlow}
+                active={activeFlow === FlowType.Discord}
+                initialize={() => {
+                  setActiveFlow(FlowType.Discord)
+                }}
               />
             )}
             {(activeFlow === null || activeFlow === FlowType.Push) && (
               <PushConnect
                 onClose={handleClose}
                 address={address}
-                activeFlow={activeFlow}
-                setActiveFlow={setActiveFlow}
+                active={activeFlow === FlowType.Push}
+                initialize={() => {
+                  setActiveFlow(FlowType.Push)
+                }}
               />
             )}
           </>
