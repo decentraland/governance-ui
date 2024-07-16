@@ -780,7 +780,7 @@
       },
       "soon": "Soon",
       "verified": "Verified",
-      "unlink_account_details": "@{username} • Linked {date}",
+      "unlink_account_details": "{username, select, null{} other{@{username} • }}Linked {date}",
       "unlink_action": "Unlink"
     },
     "link_discord": {

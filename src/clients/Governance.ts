@@ -521,6 +521,14 @@ export class Governance extends API {
     }>(`/user/${address}`)
   }
 
+  async unlinkAccount(accountType: AccountType) {
+    return await this.fetchApiResponse<boolean>(`/user/unlink`, {
+      method: 'POST',
+      sign: true,
+      json: { accountType },
+    })
+  }
+
   async getBadges(address: string) {
     return await this.fetchApiResponse<UserBadges>(`/badges/${address}`)
   }

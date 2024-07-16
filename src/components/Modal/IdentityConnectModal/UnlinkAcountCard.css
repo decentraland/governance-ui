@@ -1,7 +1,7 @@
 .ui.card.UnlinkAccountCard {
   display: flex !important;
   flex-direction: row !important;
-  justify-content: space-between !important;
+  justify-content: space-between;
   width: 100%;
   min-height: 74px !important;
   border-radius: 6px;
