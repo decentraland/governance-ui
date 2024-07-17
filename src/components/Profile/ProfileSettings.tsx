@@ -6,7 +6,7 @@ import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useIsProfileValidated from '../../hooks/useIsProfileValidated'
 import Gear from '../Icon/Gear'
-import AccountsConnectModal from '../Modal/IdentityConnectModal/AccountsConnectModal'
+import AccountsConnectModal from '../Modal/IdentityConnectModal/AccountsConnectModal.tsx'
 
 import './ProfileSettings.css'
 

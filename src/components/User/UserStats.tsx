@@ -3,11 +3,10 @@ import { Suspense, lazy } from 'react'
 import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
 import { NotMobile, useMobileMediaQuery } from 'decentraland-ui/dist/components/Media/Media'
 
-import { VpDistribution } from '../../types/SnapshotTypes'
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useGovernanceProfile from '../../hooks/useGovernanceProfile'
-import useIsProfileValidated from '../../hooks/useIsProfileValidated'
+import { VpDistribution } from '../../types/SnapshotTypes'
 import { isSameAddress } from '../../utils/snapshot'
 import { ActionBox } from '../Common/ActionBox'
 import Username from '../Common/Username'
@@ -36,11 +35,10 @@ export default function UserStats({ address, vpDistribution, isLoadingVpDistribu
   const t = useFormatMessage()
   const isMobile = useMobileMediaQuery()
   const { profile, isLoadingGovernanceProfile } = useGovernanceProfile(address)
-  const { isProfileValidated } = useIsProfileValidated(address)
   const [user] = useAuthContext()
 
   const isLoggedInUserProfile = isSameAddress(user, address)
-  const showSettings = isLoggedInUserProfile && !isLoadingGovernanceProfile && !isProfileValidated
+  const showSettings = isLoggedInUserProfile && !isLoadingGovernanceProfile
   const { total } = vpDistribution || { total: 0 }
 
   return (

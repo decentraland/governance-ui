@@ -8,7 +8,7 @@
   "DEFAULT_CHAIN_ID": "11155111",
   "DISCOURSE_API": "https://forum.dcldaodev.xyz",
   "DISCOURSE_USER": "dao",
-  "DISCOURSE_CONNECT_THREAD": "1190",
+  "DISCOURSE_CONNECT_THREAD": "forum-profile-verifier/12",
   "GOVERNANCE_API": "https://governance.decentraland.zone/api",
   "GOVERNANCE_URL": "https://decentraland.zone/governance",
   "JOIN_DISCORD_URL": "https://dcl.gg/discord",
