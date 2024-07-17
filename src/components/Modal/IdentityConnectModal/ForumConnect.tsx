@@ -1,40 +1,28 @@
-import React from 'react'
-
 import useFormatMessage from '../../../hooks/useFormatMessage.ts'
-import useIsProfileValidated from '../../../hooks/useIsProfileValidated.ts'
-import { AccountType } from '../../../types/users.ts'
 import ActionCard from '../../ActionCard/ActionCard.tsx'
 import CircledForum from '../../Icon/CircledForum.tsx'
 
-import { FlowType } from './AccountsConnectModal.tsx'
 import ForumConnectionFlow from './ForumConnectionFlow.tsx'
 
-export interface FlowProps {
+export interface ConnectProps {
   onClose: () => void
   address: string
-  activeFlow: null | FlowType
-  setActiveFlow: React.Dispatch<React.SetStateAction<FlowType | null>>
+  active: boolean
+  initialize: () => void
 }
 
-function ForumConnect({ onClose, address, setActiveFlow, activeFlow }: FlowProps) {
+function ForumConnect({ onClose, address, initialize, active }: ConnectProps) {
   const t = useFormatMessage()
-  const { isProfileValidated } = useIsProfileValidated(address, [AccountType.Forum])
-
-  const initializeForum = () => {
-    setActiveFlow(FlowType.Forum)
-  }
-
-  const isForumFlowActive = activeFlow === FlowType.Forum
 
   return (
     <>
-      {!isForumFlowActive ? (
+      {!active ? (
         <ActionCard
           title={t('modal.identity_setup.forum.card_title')}
           description={t('modal.identity_setup.forum.card_description')}
           icon={<CircledForum />}
-          onCardClick={initializeForum}
-          isVerified={isProfileValidated}
+          onCardClick={initialize}
+          isVerified={false}
         />
       ) : (
         <ForumConnectionFlow address={address} onClose={onClose} />
