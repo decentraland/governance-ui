@@ -46,6 +46,9 @@ function AccountsConnectModal({ open, onClose }: AccountsConnectModalProps) {
     queryClient.invalidateQueries({
       queryKey: ['isDiscordActive', address],
     })
+    queryClient.invalidateQueries({
+      queryKey: ['pushSubscriptions', address],
+    })
   }
 
   const handleClose = () => {

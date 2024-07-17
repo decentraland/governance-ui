@@ -55,7 +55,7 @@ export default function Notifications() {
     isLoading: isLoadingSubscriptions,
     isRefetching: isRefetchingSubscriptions,
   } = useQuery({
-    queryKey: [`pushSubscriptions#${user}`],
+    queryKey: ['pushSubscriptions', user],
     queryFn: async () => {
       const PushAPI = await import('@pushprotocol/restapi')
 

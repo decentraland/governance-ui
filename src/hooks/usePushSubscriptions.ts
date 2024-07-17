@@ -16,7 +16,7 @@ export default function usePushSubscriptions() {
   const env = getPushNotificationsEnv(chainId)
 
   const { data: subscriptions, isLoading: isLoadingPushSubscriptions } = useQuery({
-    queryKey: [`pushSubscriptions#${user}`],
+    queryKey: ['pushSubscriptions', user],
     queryFn: async () => {
       if (!user) return null
       const PushAPI = await import('@pushprotocol/restapi')
