@@ -57,7 +57,7 @@ import {
   UpdateResponse,
   UpdateSubmissionDetails,
 } from '../types/updates'
-import { AccountType } from '../types/users'
+import { AccountType, UserProfile } from '../types/users'
 import { Participation, VoteByAddress, VotedProposal, Voter, VotesForProposals } from '../types/votes'
 import Time from '../utils/date/Time'
 
@@ -513,12 +513,7 @@ export class Governance extends API {
   }
 
   async getUserProfile(address: string) {
-    return await this.fetchApiResponse<{
-      forum_id?: number
-      forum_username?: string | null
-      forum_verification_date?: string
-      discord_verification_date?: string
-    }>(`/user/${address}`)
+    return await this.fetchApiResponse<UserProfile>(`/user/${address}`)
   }
 
   async unlinkAccount(accountType: AccountType) {

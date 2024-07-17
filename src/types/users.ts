@@ -22,6 +22,13 @@ export type ValidatedForumAccount = Optional<ValidatedAccount, 'discord_id'>
 export type ValidatedDiscordAccount = Optional<ValidatedAccount, 'forum_id'> &
   Pick<UserAttributes, 'is_discord_notifications_active'>
 
+export type UserProfile = Pick<
+  UserAttributes,
+  'address' | 'forum_id' | 'forum_verification_date' | 'discord_verification_date'
+> & {
+  forum_username?: string | null
+}
+
 export type ValidationComment = {
   id: string
   userId: string
