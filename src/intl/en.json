@@ -498,7 +498,7 @@
   },
   "grant_status": {
     "pending": "Pending",
-    "in_progress": "In progress",
+    "in_progress": "Ongoing",
     "finished": "Finished",
     "paused": "Paused",
     "revoked": "Revoked"
@@ -1320,7 +1320,7 @@
         "grant_stats_description": "{total} Grant {total, plural, one {Request} other {Requests}}",
         "project_performance_label": "Projects performance",
         "project_performance_finished": "{total} Finished",
-        "project_performance_in_progress": "{total} In Progress",
+        "project_performance_in_progress": "{total} Ongoing",
         "project_performance_revoked": "{total} Revoked",
         "project_performance_paused": "{total} Paused",
         "sidebar": {
