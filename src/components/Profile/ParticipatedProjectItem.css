@@ -84,10 +84,11 @@ a.ui.card:hover,
   color: var(--black-600) !important;
   font-weight: var(--weight-normal) !important;
   line-height: 28px !important;
-  text-transform: uppercase;
+  text-transform: uppercase !important;
 }
 
 .ParticipatedProjectItem__DetailsStrongText {
+  text-transform: uppercase !important;
   color: var(--black-700) !important;
 }
 

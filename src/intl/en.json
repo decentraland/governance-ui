@@ -834,6 +834,17 @@
       "by_user": "By",
       "size": "Size"
     },
+    "project_card": {
+      "date_label": {
+        "pending": "Pending",
+        "in_progress": "Started {date}.",
+        "paused": "Put on hold preventively {date}.",
+        "finished": "Project ended successfully {date}.",
+        "revoked": "{date}."
+      },
+      "budget_label": "Budget: **{amount} {token}**",
+      "vested_label": "Vested: **{amount} ({percentage}%)**"
+    },
     "badge_card": {
       "mint_date": "Minted {at}",
       "polygonscan_link": "View transaction on Polygonscan"

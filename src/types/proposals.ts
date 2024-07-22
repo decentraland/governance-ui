@@ -747,10 +747,13 @@ export type ProposalProject = {
   status: ProjectStatus
   title: string
   user: string
+  coAuthors?: string[]
+  personnel: PersonnelAttributes[]
   size: number
   type: ProposalType
   about: string
   created_at: number
+  updated_at: number
   configuration: {
     category: ProposalGrantCategory
     tier: string
