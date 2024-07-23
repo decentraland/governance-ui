@@ -7,10 +7,11 @@ import { getRoundedPercentage } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { GrantTierType, ProjectStatus } from '../../types/grants'
 import { ProposalProject } from '../../types/proposals'
-import { formatDate } from '../../utils/date/Time'
+import { abbreviateTimeDifference, formatDate } from '../../utils/date/Time'
 import locations from '../../utils/locations'
 import { isProposalInCliffPeriod } from '../../utils/proposal'
 import { isSameAddress } from '../../utils/snapshot.ts'
+import Mobile from '../Common/MediaQuery/Mobile.tsx'
 import Link from '../Common/Typography/Link'
 import Markdown from '../Common/Typography/Markdown.tsx'
 import Username from '../Common/Username'
@@ -125,32 +126,32 @@ function ParticipatedProjectItem({ proposalProject, address }: Props) {
             <ChevronRightCircleOutline />
           </div>
         </NotMobile>
-        {/*<Mobile>*/}
-        {/*  <div className="ParticipatedProjectItem__Section">*/}
-        {/*    <div className="ParticipatedProjectItem__GrantInfo">*/}
-        {/*      <h3 className="ParticipatedProjectItem__Title">{title}</h3>*/}
-        {/*      <div className="ParticipatedProjectItem__Details">*/}
-        {/*        <ProjectPill type={proposalProject.configuration.category} />*/}
-        {/*        {formattedEnactedDate && (*/}
-        {/*          <Markdown*/}
-        {/*            size="xs"*/}
-        {/*            componentsClassNames={{*/}
-        {/*              p: 'ParticipatedProjectItem__DetailsText',*/}
-        {/*              strong: 'ParticipatedProjectItem__DetailsStrongText',*/}
-        {/*            }}*/}
-        {/*          >*/}
-        {/*            {t('page.profile.projects.item_short_description', {*/}
-        {/*              time: abbreviateTimeDifference(formattedEnactedDate),*/}
-        {/*              amount: intl.formatNumber(proposalProject.size),*/}
-        {/*              token: isInMana ? 'USD' : token,*/}
-        {/*            })}*/}
-        {/*          </Markdown>*/}
-        {/*        )}*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*  <ChevronRightCircleOutline />*/}
-        {/*</Mobile>*/}
+        <Mobile className="ParticipatedProjectItem__Section">
+          <div className="ParticipatedProjectItem__Section">
+            <div className="ParticipatedProjectItem__GrantInfo">
+              <h3 className="ParticipatedProjectItem__Title">{title}</h3>
+              <div className="ParticipatedProjectItem__Details">
+                <ProjectPill type={proposalProject.configuration.category} />
+                {formattedEnactedDate && (
+                  <Markdown
+                    size="xs"
+                    componentsClassNames={{
+                      p: 'ParticipatedProjectItem__DetailsText',
+                      strong: 'ParticipatedProjectItem__DetailsStrongText',
+                    }}
+                  >
+                    {t('page.profile.projects.item_short_description', {
+                      time: abbreviateTimeDifference(formattedEnactedDate),
+                      amount: intl.formatNumber(proposalProject.size),
+                      token: isInMana ? 'USD' : token,
+                    })}
+                  </Markdown>
+                )}
+              </div>
+            </div>
+          </div>
+          <ChevronRightCircleOutline />
+        </Mobile>
       </Card.Content>
     </Card>
   )
