@@ -23,6 +23,7 @@ import Heading from '../../Common/Typography/Heading'
 import Link from '../../Common/Typography/Link'
 import Username from '../../Common/Username'
 import ChevronRight from '../../Icon/ChevronRight'
+import { PROJECT_STATUS_KEYS } from '../../Projects/ProjectStatusPill.tsx'
 import GovernanceSidebar from '../../Sidebar/GovernanceSidebar'
 import ValidatedProfileCheck from '../../User/ValidatedProfileCheck'
 
@@ -167,7 +168,7 @@ export default function AuthorDetails({ address }: Props) {
                     <Heading size="2xs" weight="semi-bold">
                       {t('page.proposal_detail.author_details.sidebar.subtitle', {
                         total: projects.length,
-                        status: item,
+                        status: item ? `${t(PROJECT_STATUS_KEYS[item])} ` : '',
                       })}
                     </Heading>
                     <ProjectCardList projects={projects} />

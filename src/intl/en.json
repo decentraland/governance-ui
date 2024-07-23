@@ -496,7 +496,7 @@
     "enacted": "Enacted proposals",
     "out_of_budget": "Out of Budget proposals"
   },
-  "grant_status": {
+  "project_status": {
     "pending": "Pending",
     "in_progress": "Ongoing",
     "finished": "Finished",

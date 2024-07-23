@@ -17,6 +17,7 @@ import {
 } from '../../../types/grants'
 import ProgressBar from '../../Common/ProgressBar'
 import { getNewGrantsCategoryIcon } from '../../Icon/NewGrantsCategoryIcons'
+import { PROJECT_STATUS_KEYS } from '../ProjectStatusPill.tsx'
 
 import './BudgetBanner.css'
 import BudgetBannerItem from './BudgetBannerItem'
@@ -66,7 +67,7 @@ export default function BudgetBanner({ category, status, initiativesCount }: Pro
       </div>
       <BudgetBannerItem
         value={String(initiativesCount)}
-        label={`${t('page.grants.budget_banner.progress_label')}${status ? ` ${status.toLowerCase()}` : ''}`}
+        label={`${t('page.grants.budget_banner.progress_label')}${status ? ` ${t(PROJECT_STATUS_KEYS[status])}` : ''}`}
       />
       {showProgress && (
         <div className="BudgetBanner__ProgressContainer">
