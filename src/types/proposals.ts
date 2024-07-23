@@ -57,6 +57,8 @@ export type ProposalAttributes<C extends Record<string, unknown> = any> = {
 export interface ProposalWithProject extends ProposalAttributes {
   project_id?: string | null
   project_status?: ProjectStatus | null
+  personnel: PersonnelAttributes[]
+  coAuthors?: string[]
 }
 
 export type ProposalListFilter = {
@@ -135,31 +137,6 @@ export function isHiringType(value: string | null | undefined): boolean {
 
 export function toHiringType<T>(value: string | null | undefined, orElse: () => T): HiringType | T {
   return isHiringType(value) ? (value as HiringType) : orElse()
-}
-
-export type UpdateProposalStatusProposal = {
-  status: ProposalStatus.Rejected | ProposalStatus.Passed | ProposalStatus.Enacted
-  vesting_addresses?: string[]
-}
-
-export const updateProposalStatusScheme = {
-  type: 'object',
-  additionalProperties: false,
-  required: ['status'],
-  properties: {
-    status: {
-      type: 'string',
-      enum: [ProposalStatus.Rejected, ProposalStatus.Passed, ProposalStatus.Enacted],
-    },
-    vesting_addresses: {
-      type: 'array',
-      items: {
-        type: 'string',
-        minLength: 42,
-        maxLength: 42,
-      },
-    },
-  },
 }
 
 export type NewProposalPoll = {

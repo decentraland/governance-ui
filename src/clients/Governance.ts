@@ -133,7 +133,7 @@ export class Governance extends API {
     return (await this.fetch<ApiResponse<T>>(endpoint, options)).data
   }
 
-  static parseProposal(proposal: ProposalWithProject): ProposalWithProject {
+  static parseProposal<T extends ProposalAttributes>(proposal: T): T {
     return {
       ...proposal,
       start_at: Time.date(proposal.start_at),
