@@ -29,7 +29,7 @@
 .VestingProgress__ReleasedInfoLabel {
   width: 8px;
   height: 8px;
-  background: var(--dcl-primary);
+  background: var(--green-800);
   border-radius: 4px;
   margin-right: 6px;
   min-width: 8px;
@@ -75,12 +75,12 @@
 
 .VestingProgressBar__Released {
   z-index: 3;
-  background: var(--red-800);
+  background: var(--green-800);
 }
 
 .VestingProgressBar__Vested {
   z-index: 2;
-  background: var(--yellow-800);
+  background: var(--yellow-900);
 }
 
 .VestingProgressBar__Transferred {

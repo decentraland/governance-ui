@@ -24,7 +24,6 @@ export default function ProjectsBox({ address }: Props) {
     enabled: !!address,
   })
 
-  console.log('projects', projects)
   if (projects?.total === 0 || !projects?.data) {
     return null
   }

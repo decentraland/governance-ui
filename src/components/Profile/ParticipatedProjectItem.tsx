@@ -12,11 +12,11 @@ import locations from '../../utils/locations'
 import { isProposalInCliffPeriod } from '../../utils/proposal'
 import { isSameAddress } from '../../utils/snapshot.ts'
 import Link from '../Common/Typography/Link'
-import Markdown from '../Common/Typography/Markdown'
+import Markdown from '../Common/Typography/Markdown.tsx'
 import Username from '../Common/Username'
 import ChevronRightCircleOutline from '../Icon/ChevronRightCircleOutline'
 import CliffProgress from '../Projects/ProjectCard/CliffProgress'
-import ProgressBarTooltip from '../Projects/ProjectCard/ProgressBarTooltip'
+import ProjectFundingProgressBarTooltip from '../Projects/ProjectCard/ProgressBarTooltip'
 import VestingProgress from '../Projects/ProjectCard/VestingProgress'
 import ProjectPill from '../Projects/ProjectPill'
 import ProjectRolePill, { RoleInProject } from '../Projects/ProjectRolePill.tsx'
@@ -31,17 +31,14 @@ interface Props {
 
 const TRANSPARENCY_TIERS_IN_MANA: string[] = [GrantTierType.Tier1, GrantTierType.Tier2, GrantTierType.Tier3]
 
-function getRoleInProject(address: string, proposalProject: ProposalProject) {
+function getAuthorship(address: string, proposalProject: ProposalProject) {
   if (isSameAddress(address, proposalProject.user)) {
     return RoleInProject.Author
   }
   if (proposalProject.coAuthors?.some((coauthor) => isSameAddress(address, coauthor))) {
     return RoleInProject.Coauthor
   }
-  if (proposalProject.personnel?.some((personnel) => isSameAddress(address, personnel.address))) {
-    return RoleInProject.Member
-  }
-  throw new Error('Unable to determine user rol in project')
+  throw new Error('Unable to determine user role in project')
 }
 
 function ParticipatedProjectItem({ proposalProject, address }: Props) {
@@ -51,7 +48,7 @@ function ParticipatedProjectItem({ proposalProject, address }: Props) {
   const { vesting, one_time_payment, enacted_at } = funding || {}
   const { vested } = vesting || {}
   const token = vesting ? vesting.token : one_time_payment?.token
-  const total = proposalProject.size
+  const total = vesting?.total || 100
   const vestedPercentage = vesting ? getRoundedPercentage(vesting.vested, total) : 100
   const proposalInCliffPeriod = !!enacted_at && isProposalInCliffPeriod(enacted_at)
   const isInMana = TRANSPARENCY_TIERS_IN_MANA.includes(configuration.tier)
@@ -67,13 +64,19 @@ function ParticipatedProjectItem({ proposalProject, address }: Props) {
     token: isInMana ? 'USD' : token,
   })
   const vestingText =
-    (vested &&
+    (vested !== undefined &&
       total &&
       t('component.project_card.vested_label', {
         amount: vested,
         percentage: vestedPercentage,
       })) ||
     ''
+
+  const showFundingProgress = !(
+    proposalProject.status === ProjectStatus.Finished || proposalProject.status === ProjectStatus.Pending
+  )
+
+  const isMember = !!proposalProject.personnel?.some((personnel) => isSameAddress(address, personnel.address))
 
   return (
     <Card as={Link} className="ParticipatedProjectItem" href={href}>
@@ -85,7 +88,8 @@ function ParticipatedProjectItem({ proposalProject, address }: Props) {
               <h3 className="ParticipatedProjectItem__Title">{title}</h3>
               <div className="ParticipatedProjectItem__DetailsContainer">
                 {status && <ProjectStatusPill status={status} />}
-                <ProjectRolePill role={getRoleInProject(address, proposalProject)} />
+                <ProjectRolePill role={getAuthorship(address, proposalProject)} />
+                {isMember && <ProjectRolePill role={RoleInProject.Member} />}
                 {formattedEnactedDate && (
                   <Markdown
                     className="ParticipatedProjectItem__Details"
@@ -105,17 +109,19 @@ function ParticipatedProjectItem({ proposalProject, address }: Props) {
             <div className="ParticipatedProjectItem__PillContainer">
               <ProjectPill type={proposalProject.configuration.category} />
             </div>
-            <div className="ParticipatedProjectItem__VestingProgressContainer">
-              <ProgressBarTooltip proposalProject={proposalProject} isInCliff={proposalInCliffPeriod}>
-                <div>
-                  {proposalInCliffPeriod ? (
-                    <CliffProgress enactedAt={enacted_at} basic />
-                  ) : (
-                    <VestingProgress projectFunding={proposalProject.funding} basic />
-                  )}
-                </div>
-              </ProgressBarTooltip>
-            </div>
+            {proposalProject.funding && showFundingProgress && (
+              <div className="ParticipatedProjectItem__VestingProgressContainer">
+                <ProjectFundingProgressBarTooltip funding={proposalProject.funding} isInCliff={proposalInCliffPeriod}>
+                  <div>
+                    {proposalInCliffPeriod ? (
+                      <CliffProgress enactedAt={enacted_at} basic />
+                    ) : (
+                      <VestingProgress projectFunding={proposalProject.funding} basic />
+                    )}
+                  </div>
+                </ProjectFundingProgressBarTooltip>
+              </div>
+            )}
             <ChevronRightCircleOutline />
           </div>
         </NotMobile>

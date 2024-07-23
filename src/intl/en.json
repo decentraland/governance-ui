@@ -1646,9 +1646,10 @@
         "item_short_description": "Passed {time} **{amount} {token}**",
         "cliff_period": "Cliff period: {count} {count, plural, one {day} other {days}} to go",
         "one_time_tx": "One-time payment {time}",
-        "vested": "{amount} {token} vested",
-        "released": "{amount} {token} released",
+        "vested": "Vested: {amount} {token}",
+        "released": "Released: {amount} {token}",
         "all_released": "All funds successfully released",
+        "funding_tooltip_title": "Funding progress",
         "button": "View more proposals"
       },
       "delegation": {
