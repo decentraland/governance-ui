@@ -1,7 +1,7 @@
 import { useIntl } from 'react-intl'
 
 import { Card } from 'decentraland-ui/dist/components/Card/Card'
-import { NotMobile } from 'decentraland-ui/dist/components/Media/Media'
+import { Mobile, NotMobile } from 'decentraland-ui/dist/components/Media/Media'
 
 import { getRoundedPercentage } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
@@ -11,7 +11,6 @@ import { abbreviateTimeDifference, formatDate } from '../../utils/date/Time'
 import locations from '../../utils/locations'
 import { isProposalInCliffPeriod } from '../../utils/proposal'
 import { isSameAddress } from '../../utils/snapshot.ts'
-import Mobile from '../Common/MediaQuery/Mobile.tsx'
 import Link from '../Common/Typography/Link'
 import Markdown from '../Common/Typography/Markdown.tsx'
 import Username from '../Common/Username'
@@ -126,7 +125,7 @@ function ParticipatedProjectItem({ proposalProject, address }: Props) {
             <ChevronRightCircleOutline />
           </div>
         </NotMobile>
-        <Mobile className="ParticipatedProjectItem__Section">
+        <Mobile>
           <div className="ParticipatedProjectItem__Section">
             <div className="ParticipatedProjectItem__GrantInfo">
               <h3 className="ParticipatedProjectItem__Title">{title}</h3>
