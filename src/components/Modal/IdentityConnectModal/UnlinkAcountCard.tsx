@@ -3,10 +3,12 @@ import { useState } from 'react'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 import { Card } from 'decentraland-ui/dist/components/Card/Card'
 
+import { ErrorClient } from '../../../clients/ErrorClient.ts'
 import { Governance } from '../../../clients/Governance.ts'
 import useFormatMessage from '../../../hooks/useFormatMessage.ts'
 import { AccountType } from '../../../types/users.ts'
 import Time from '../../../utils/date/Time.ts'
+import { ErrorCategory } from '../../../utils/errorCategories.ts'
 import CheckCircle from '../../Icon/CheckCircle.tsx'
 import ConfirmationModal from '../ConfirmationModal.tsx'
 
@@ -25,19 +27,22 @@ function UnlinkAccountCard({
 }) {
   const t = useFormatMessage()
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
+  const [isLoadingUnlink, setIsLoadingUnlink] = useState(false)
 
   const handleUnlinkAccount = async (accountType: AccountType) => {
     try {
       await Governance.get().unlinkAccount(accountType)
       onUnlinkSuccessful()
-    } catch (e) {
-      console.error(e)
+    } catch (error) {
+      ErrorClient.report('Error unlinking account', { error, category: ErrorCategory.Profile })
     }
   }
 
   const handleUnlinkConfirmation = async () => {
+    setIsLoadingUnlink(true)
     await handleUnlinkAccount(account)
     setIsConfirmationModalOpen(false)
+    setIsLoadingUnlink(false)
   }
 
   return (
@@ -60,7 +65,7 @@ function UnlinkAccountCard({
         </Button>
       </Card>
       <ConfirmationModal
-        isLoading={false}
+        isLoading={isLoadingUnlink}
         isOpen={isConfirmationModalOpen}
         onPrimaryClick={handleUnlinkConfirmation}
         onSecondaryClick={() => setIsConfirmationModalOpen(false)}
