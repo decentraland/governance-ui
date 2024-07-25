@@ -1,8 +1,9 @@
+import { Mobile } from 'decentraland-ui/dist/components/Media/Media'
+
 import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
 import { ProjectStatus } from '../../types/grants.ts'
 import { Project } from '../../types/proposals.ts'
-import Mobile from '../Common/MediaQuery/Mobile.tsx'
 import Markdown from '../Common/Typography/Markdown.tsx'
 
 import ActionableLinksView from './ActionableLinksView.tsx'

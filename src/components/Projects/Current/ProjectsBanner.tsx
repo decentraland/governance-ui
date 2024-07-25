@@ -1,11 +1,10 @@
 import { useCallback, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
-import { Desktop } from 'decentraland-ui/dist/components/Media/Media'
+import { Desktop, Mobile } from 'decentraland-ui/dist/components/Media/Media'
 
 import { HIDE_PROJECTS_BANNER_KEY } from '../../..//localStorageKeys'
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import Mobile from '../../Common/MediaQuery/Mobile'
 import Info from '../../Icon/Info'
 import LayoutTop from '../../Icon/LayoutTop'
 import Minus from '../../Icon/Minus'
