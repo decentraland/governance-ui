@@ -9,21 +9,21 @@ import { CURRENCY_FORMAT_OPTIONS, addressShortener, getEnumDisplayName } from '.
 import useDclProfile from '../../../hooks/useDclProfile'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useGovernanceProfile from '../../../hooks/useGovernanceProfile'
+import useProposalProjectsByUser from '../../../hooks/useProposalProjectsByUser.ts'
 import useProposals from '../../../hooks/useProposals'
-import useVestings from '../../../hooks/useVestings'
 import useVotesByAddress from '../../../hooks/useVotesByAddress'
 import useVotingStats from '../../../hooks/useVotingStats'
 import { ProjectStatus } from '../../../types/grants'
-import { ProposalProject, ProposalStatus, ProposalType } from '../../../types/proposals'
+import { ProposalProjectWithUpdate, ProposalStatus, ProposalType } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
-import { createProposalProject } from '../../../utils/projects'
 import FullWidthButton from '../../Common/FullWidthButton'
 import InvertedButton from '../../Common/InvertedButton'
 import Heading from '../../Common/Typography/Heading'
 import Link from '../../Common/Typography/Link'
 import Username from '../../Common/Username'
 import ChevronRight from '../../Icon/ChevronRight'
+import { PROJECT_STATUS_KEYS } from '../../Projects/ProjectStatusPill.tsx'
 import GovernanceSidebar from '../../Sidebar/GovernanceSidebar'
 import ValidatedProfileCheck from '../../User/ValidatedProfileCheck'
 
@@ -45,22 +45,12 @@ export default function AuthorDetails({ address }: Props) {
   const { profile, isLoadingGovernanceProfile } = useGovernanceProfile(address)
   const { participationTotal } = useVotingStats(address)
   const { proposals: grants } = useProposals({ user: address, type: ProposalType.Grant })
+  const { projects } = useProposalProjectsByUser(address)
   const intl = useIntl()
   const hasPreviouslySubmittedGrants = !!grants && grants?.total > 1
   const [isSidebarVisible, setIsSidebarVisible] = useState(false)
   const { profile: dclProfile } = useDclProfile(address)
 
-  const { data: vestings } = useVestings(hasPreviouslySubmittedGrants)
-  const projects = useMemo(
-    () =>
-      grants?.data.map((grant) =>
-        createProposalProject(
-          grant,
-          vestings?.find((item) => grant.id === item.proposal_id)
-        )
-      ) || [],
-    [vestings, grants?.data]
-  )
   const fundsVested = useMemo(
     () => projects?.reduce((total, grant) => total + (grant?.funding?.vesting?.vested || 0), 0),
     [projects]
@@ -69,10 +59,10 @@ export default function AuthorDetails({ address }: Props) {
   const projectsByStatus = useMemo(
     () =>
       SHOWN_PERFORMANCE_STATUSES.reduce((acc, cur) => {
-        const items = projects?.filter((item) => item.status === cur)
+        const items = projects?.filter((item) => item.status === cur) || []
         const total = items?.length || 0
         return total > 0 ? { ...acc, [cur]: { items, total } } : acc
-      }, {} as Record<string, { items: ProposalProject[]; total: number }>),
+      }, {} as Record<string, { items: ProposalProjectWithUpdate[]; total: number }>),
     [projects]
   )
 
@@ -178,7 +168,7 @@ export default function AuthorDetails({ address }: Props) {
                     <Heading size="2xs" weight="semi-bold">
                       {t('page.proposal_detail.author_details.sidebar.subtitle', {
                         total: projects.length,
-                        status: item,
+                        status: item ? `${t(PROJECT_STATUS_KEYS[item])} ` : '',
                       })}
                     </Heading>
                     <ProjectCardList projects={projects} />

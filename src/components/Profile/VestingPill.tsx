@@ -1,9 +1,10 @@
-import { getEnumDisplayName } from '../../helpers'
+import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import { ProjectStatus } from '../../types/grants'
 import Pill, { PillColor, PillStyle } from '../Common/Pill'
 import Check from '../Icon/Check'
 import Cross from '../Icon/Cross'
 import Pause from '../Icon/Pause'
+import { PROJECT_STATUS_KEYS } from '../Projects/ProjectStatusPill.tsx'
 
 type Props = {
   className?: string
@@ -25,6 +26,8 @@ const IconConfig: Partial<Record<ProjectStatus, React.ReactNode>> = {
 }
 
 function VestingPill({ className, status }: Props) {
+  const t = useFormatMessage()
+
   return (
     <Pill
       className={className}
@@ -33,7 +36,7 @@ function VestingPill({ className, status }: Props) {
       style={PillStyle.Outline}
       icon={IconConfig[status]}
     >
-      {getEnumDisplayName(status)}
+      {t(PROJECT_STATUS_KEYS[status])}
     </Pill>
   )
 }

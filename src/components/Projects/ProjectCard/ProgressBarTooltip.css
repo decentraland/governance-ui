@@ -1,0 +1,14 @@
+.ProjectFundingProgressBarTooltip {
+  display: flex;
+  flex-direction: column;
+}
+
+.ProjectFundingProgressBarTooltip > p {
+  margin: 0 !important;
+}
+
+.ProjectFundingProgressBarTooltip__Label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

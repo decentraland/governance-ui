@@ -38,7 +38,7 @@ export default function StatusFilter({ statusType }: FilterProps & { statusType:
           return (
             <FilterLabel
               key={'status_filter' + index}
-              label={t(`${isGrantFilter ? 'grant_' : ''}status.${label}`)}
+              label={t(`${isGrantFilter ? 'project_' : ''}status.${label}`)}
               href={isGrantFilter ? `?${newParams.toString()}` : locations.proposals(newParams)}
               active={status === label}
             />

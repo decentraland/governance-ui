@@ -14,6 +14,7 @@ import FullWidthButton from '../../Common/FullWidthButton'
 import Watermelon from '../../Icon/Watermelon'
 import { ProjectTypeFilter } from '../../Search/CategoryFilter'
 import ProjectCard from '../ProjectCard/ProjectCard'
+import { PROJECT_STATUS_KEYS } from '../ProjectStatusPill.tsx'
 
 import BudgetBanner from './BudgetBanner'
 import './CurrentProjectsList.css'
@@ -50,14 +51,6 @@ function getCategoryKey(type?: string) {
   }
 
   return CATEGORY_KEYS[type]
-}
-
-const GRANTS_STATUS_KEYS: Record<ProjectStatus, string> = {
-  [ProjectStatus.Pending]: 'grant_status.pending',
-  [ProjectStatus.InProgress]: 'grant_status.in_progress',
-  [ProjectStatus.Finished]: 'grant_status.finished',
-  [ProjectStatus.Paused]: 'grant_status.paused',
-  [ProjectStatus.Revoked]: 'grant_status.revoked',
 }
 
 export default function CurrentProjectsList({ projects, selectedSubtype, selectedType, status }: Props) {
@@ -102,7 +95,7 @@ export default function CurrentProjectsList({ projects, selectedSubtype, selecte
           <h2 className="CurrentProjectsList__Title">
             {getTimeframeLabel()}
             {t('page.grants.projects_category_title', {
-              status: status ? `${t(GRANTS_STATUS_KEYS[status])} ` : '',
+              status: status ? `${t(PROJECT_STATUS_KEYS[status])} ` : '',
               category: t(getCategoryKey(selectedSubtype || selectedType)),
             })}
           </h2>

@@ -13,7 +13,7 @@ import isEthereumAddress from 'validator/lib/isEthereumAddress'
 
 import { Governance } from '../../../clients/Governance'
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { ProposalStatus, ProposalWithProject } from '../../../types/proposals'
+import { ProposalAttributes, ProposalStatus } from '../../../types/proposals'
 import { isProjectProposal } from '../../../utils/proposal'
 import { validateUniqueAddresses } from '../../../utils/transparency'
 import Label from '../../Common/Typography/Label'
@@ -33,7 +33,7 @@ type UpdateData = {
 }
 
 type Props = Omit<ModalProps, 'children'> & {
-  proposal: ProposalWithProject | null
+  proposal: ProposalAttributes | null
   status: ProposalStatus | null
   loading?: boolean
   isDAOCommittee: boolean

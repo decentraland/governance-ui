@@ -42,7 +42,6 @@ import {
   ProposalAttributes,
   ProposalCommentsInDiscourse,
   ProposalListFilter,
-  ProposalProject,
   ProposalProjectWithUpdate,
   ProposalStatus,
   ProposalWithProject,
@@ -134,7 +133,7 @@ export class Governance extends API {
     return (await this.fetch<ApiResponse<T>>(endpoint, options)).data
   }
 
-  static parseProposal(proposal: ProposalWithProject): ProposalWithProject {
+  static parseProposal<T extends ProposalAttributes>(proposal: T): T {
     return {
       ...proposal,
       start_at: Time.date(proposal.start_at),
@@ -210,8 +209,10 @@ export class Governance extends API {
     return proposals.map((proposal) => Governance.parsePriorityProposal(proposal))
   }
 
-  async getGrantsByUser(user: string) {
-    return await this.fetchApiResponse<{ total: number; data: ProposalProject[] }>(`/proposals/grants/${user}`)
+  async getProjectsByUser(user: string) {
+    return await this.fetchApiResponse<{ total: number; data: ProposalProjectWithUpdate[] }>(
+      `/proposals/grants/${user}`
+    )
   }
 
   async createProposal<P extends keyof NewProposalMap>(path: P, proposal: NewProposalMap[P]) {

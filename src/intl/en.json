@@ -496,9 +496,9 @@
     "enacted": "Enacted proposals",
     "out_of_budget": "Out of Budget proposals"
   },
-  "grant_status": {
+  "project_status": {
     "pending": "Pending",
-    "in_progress": "In progress",
+    "in_progress": "Ongoing",
     "finished": "Finished",
     "paused": "Paused",
     "revoked": "Revoked"
@@ -833,6 +833,17 @@
     "grant_card": {
       "by_user": "By",
       "size": "Size"
+    },
+    "project_card": {
+      "date_label": {
+        "pending": "Pending",
+        "in_progress": "Started {date}.",
+        "paused": "Put on hold preventively {date}.",
+        "finished": "Project ended successfully {date}.",
+        "revoked": "{date}."
+      },
+      "budget_label": "Budget: **{amount} {token}**",
+      "vested_label": "Vested: **{amount} ({percentage}%)**"
     },
     "badge_card": {
       "mint_date": "Minted {at}",
@@ -1320,7 +1331,7 @@
         "grant_stats_description": "{total} Grant {total, plural, one {Request} other {Requests}}",
         "project_performance_label": "Projects performance",
         "project_performance_finished": "{total} Finished",
-        "project_performance_in_progress": "{total} In Progress",
+        "project_performance_in_progress": "{total} Ongoing",
         "project_performance_revoked": "{total} Revoked",
         "project_performance_paused": "{total} Paused",
         "sidebar": {
@@ -1628,16 +1639,17 @@
         "outcome_match_conclusion_50-80": "They have a voice of their own",
         "outcome_match_conclusion_>80": "Aligned with the community"
       },
-      "grants": {
-        "title": "Grant beneficiary",
-        "info": "Grants that this account has authored or co-authored and have been approved and funded by the Decentraland DAO.",
+      "projects": {
+        "title": "Projects",
+        "info": "Projects that this account has authored or co-authored and have been approved and funded by the Decentraland DAO.",
         "item_description": "Passed {time} with a budget of **{amount} {token}**",
         "item_short_description": "Passed {time} **{amount} {token}**",
         "cliff_period": "Cliff period: {count} {count, plural, one {day} other {days}} to go",
         "one_time_tx": "One-time payment {time}",
-        "vested": "{amount} {token} vested",
-        "released": "{amount} {token} released",
+        "vested": "Vested: {amount} {token}",
+        "released": "Released: {amount} {token}",
         "all_released": "All funds successfully released",
+        "funding_tooltip_title": "Funding progress",
         "button": "View more proposals"
       },
       "delegation": {

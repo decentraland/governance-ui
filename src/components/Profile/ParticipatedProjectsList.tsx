@@ -5,35 +5,35 @@ import { useSortingByKey } from '../../hooks/useSortingByKey'
 import { ProposalProject } from '../../types/proposals'
 import FullWidthButton from '../Common/FullWidthButton'
 
-import GrantBeneficiaryItem from './GrantBeneficiaryItem'
+import ParticipatedProjectItem from './ParticipatedProjectItem.tsx'
 
 interface Props {
-  address: string | null
-  grants: ProposalProject[]
+  address: string
+  projects: ProposalProject[]
 }
 
 const MAX_GRANTS = 3
 
-function GrantBeneficiaryList({ grants, address }: Props) {
+function ParticipatedProjectsList({ projects, address }: Props) {
   const t = useFormatMessage()
-  const { sorted } = useSortingByKey(grants, 'enacted_at')
+  const { sorted } = useSortingByKey(projects, 'enacted_at')
   const [limit, setLimit] = useState(MAX_GRANTS)
-  const grantsToShow = useMemo(() => sorted.slice(0, limit), [sorted, limit])
+  const projectsToShow = useMemo(() => sorted.slice(0, limit), [sorted, limit])
 
   useEffect(() => setLimit(MAX_GRANTS), [address])
 
   return (
     <>
-      {grantsToShow.map((grant) => (
-        <GrantBeneficiaryItem key={grant.id} proposalProject={grant} />
+      {projectsToShow.map((project) => (
+        <ParticipatedProjectItem key={project.id} proposalProject={project} address={address} />
       ))}
       {sorted.length > limit && (
         <FullWidthButton onClick={() => setLimit(() => limit + MAX_GRANTS)}>
-          {t('page.profile.grants.button')}
+          {t('page.profile.projects.button')}
         </FullWidthButton>
       )}
     </>
   )
 }
 
-export default GrantBeneficiaryList
+export default ParticipatedProjectsList
