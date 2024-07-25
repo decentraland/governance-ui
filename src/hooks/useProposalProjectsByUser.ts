@@ -5,7 +5,7 @@ import { Governance } from '../clients/Governance'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants.ts'
 
-function useBidsInfoOnTender(address?: string | null) {
+function useProposalProjectsByUser(address?: string | null) {
   const { data: projects } = useQuery({
     queryKey: ['proposalProjectsByUser', address],
     queryFn: () => (!!address && isEthereumAddress(address) ? Governance.get().getProjectsByUser(address) : null),
@@ -16,4 +16,4 @@ function useBidsInfoOnTender(address?: string | null) {
   return { projects: projects?.data || null }
 }
 
-export default useBidsInfoOnTender
+export default useProposalProjectsByUser
