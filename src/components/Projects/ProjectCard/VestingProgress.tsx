@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { ProjectFunding } from '../../../types/proposals'
+import { ProjectFunding } from '../../../types/projects.ts'
 import Time from '../../../utils/date/Time'
 import '../../Modal/VotingPowerDelegationDetail/VotingPowerDistribution.css'
 

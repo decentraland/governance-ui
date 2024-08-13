@@ -1,5 +1,5 @@
 import { PROJECT_UPDATES_LATEST_CHECK } from '../localStorageKeys.ts'
-import { Project } from '../types/proposals.ts'
+import { Project } from '../types/projects.ts'
 import Time from '../utils/date/Time.ts'
 
 import useIsProjectEditor from './useIsProjectEditor.ts'

@@ -2,7 +2,7 @@ import classNames from 'classnames'
 
 import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import { ProjectStatus } from '../../types/grants'
-import { Project, ProjectFunding } from '../../types/proposals.ts'
+import { Project, ProjectFunding } from '../../types/projects.ts'
 import { getDaysBetweenDates } from '../../utils/date/getDaysBetweenDates.ts'
 
 import './ProjectViewStatusPill.css'

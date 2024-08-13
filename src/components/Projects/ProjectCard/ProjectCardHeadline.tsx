@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Header } from 'decentraland-ui/dist/components/Header/Header'
 
-import { ProjectInList } from '../../../types/proposals'
+import { ProjectInList } from '../../../types/projects.ts'
 import Username from '../../Common/Username'
 
 import './ProjectCardHeadline.css'

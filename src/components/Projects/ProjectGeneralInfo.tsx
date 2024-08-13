@@ -3,7 +3,7 @@ import { Mobile } from 'decentraland-ui/dist/components/Media/Media'
 import useFormatMessage from '../../hooks/useFormatMessage.ts'
 import useIsProjectEditor from '../../hooks/useIsProjectEditor.ts'
 import { ProjectStatus } from '../../types/grants.ts'
-import { Project } from '../../types/proposals.ts'
+import { Project } from '../../types/projects.ts'
 import Markdown from '../Common/Typography/Markdown.tsx'
 
 import ActionableLinksView from './ActionableLinksView.tsx'

@@ -11,12 +11,12 @@ import { DISCOURSE_API, GOVERNANCE_URL } from '../constants'
 import { MAX_NAME_SIZE, MIN_NAME_SIZE } from '../constants/proposals'
 import { SNAPSHOT_SPACE, SNAPSHOT_URL } from '../constants/snapshot'
 import { getEnumDisplayName } from '../helpers'
+import { Project } from '../types/projects.ts'
 import {
   CatalystType,
   PoiType,
   PriorityProposal,
   PriorityProposalType,
-  Project,
   ProposalAttributes,
   ProposalStatus,
   ProposalType,

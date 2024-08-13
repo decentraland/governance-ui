@@ -1,5 +1,5 @@
 import { getEnumDisplayName } from '../../helpers'
-import { ProjectMilestoneStatus } from '../../types/proposals'
+import { ProjectMilestoneStatus } from '../../types/projects.ts'
 import Pill, { PillColor } from '../Common/Pill'
 
 type Props = {

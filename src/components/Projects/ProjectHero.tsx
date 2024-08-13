@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
 
 import { ProjectStatus } from '../../types/grants.ts'
-import { Project } from '../../types/proposals.ts'
+import { Project } from '../../types/projects.ts'
 import { PillColor } from '../Common/Pill.tsx'
 import DotsMenu from '../Icon/DotsMenu.tsx'
 import SlimCross from '../Icon/SlimCross.tsx'

@@ -1,6 +1,6 @@
 import { useAuthContext } from '../context/AuthProvider'
 import { ProjectStatus } from '../types/grants'
-import { Project } from '../types/proposals'
+import { Project } from '../types/projects.ts'
 import { isSameAddress } from '../utils/snapshot'
 
 const NOT_EDITABLE_STATUS = new Set([ProjectStatus.Finished, ProjectStatus.Revoked])

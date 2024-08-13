@@ -24,7 +24,8 @@ import {
   SubtypeOptions,
   toGrantSubtype,
 } from '../types/grants'
-import { ProjectInList, ProposalType } from '../types/proposals'
+import { ProjectInList } from '../types/projects.ts'
+import { ProposalType } from '../types/proposals'
 import { toProjectStatus } from '../utils/grants'
 import locations from '../utils/locations'
 import { isUnderMaintenance } from '../utils/maintenance'

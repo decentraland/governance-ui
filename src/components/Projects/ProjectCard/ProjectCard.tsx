@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import classNames from 'classnames'
 
-import { ProjectInList } from '../../../types/proposals'
+import { ProjectInList } from '../../../types/projects.ts'
 import locations from '../../../utils/locations'
 import { isProposalInCliffPeriod } from '../../../utils/proposal'
 import Link from '../../Common/Typography/Link'
