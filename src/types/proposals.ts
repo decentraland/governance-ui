@@ -15,7 +15,6 @@ import {
   TeamMember,
   VestingStartDate,
 } from './grants'
-import { ProjectFunding } from './projects.ts'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ProposalAttributes<C extends Record<string, unknown> = any> = {
@@ -703,26 +702,6 @@ export type ProposalComment = {
 export type ProposalCommentsInDiscourse = {
   totalComments: number
   comments: ProposalComment[]
-}
-
-export type ProposalProject = {
-  id: string
-  project_id?: string | null
-  status: ProjectStatus
-  title: string
-  user: string
-  coAuthors?: string[]
-  personnel: PersonnelAttributes[]
-  size: number
-  type: ProposalType
-  about: string
-  created_at: number
-  updated_at: number
-  configuration: {
-    category: ProposalGrantCategory
-    tier: string
-  }
-  funding?: ProjectFunding
 }
 
 export type PendingProposalsQuery = { start: Date; end: Date; fields: (keyof SnapshotProposal)[]; limit: number }
