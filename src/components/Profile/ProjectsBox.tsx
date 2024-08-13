@@ -10,9 +10,9 @@ interface Props {
 
 export default function ProjectsBox({ address }: Props) {
   const t = useFormatMessage()
-  const { projects } = useProjectsByUser(address)
+  const { projects, total } = useProjectsByUser(address)
 
-  if (!projects) {
+  if (!projects || total === 0) {
     return null
   }
 

@@ -13,7 +13,7 @@ function useProjectsByUser(address?: string | null) {
     enabled: !!address,
   })
 
-  return { projects: projects?.data || null }
+  return { projects: projects?.data || null, total: projects?.total }
 }
 
 export default useProjectsByUser

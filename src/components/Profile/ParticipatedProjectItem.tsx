@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl'
 import { Card } from 'decentraland-ui/dist/components/Card/Card'
 import { Mobile, NotMobile } from 'decentraland-ui/dist/components/Media/Media'
 
+import { Vesting } from '../../clients/VestingData.ts'
 import { getRoundedPercentage } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { GrantTierType, ProjectStatus } from '../../types/grants'
@@ -32,19 +33,30 @@ interface Props {
 const TRANSPARENCY_TIERS_IN_MANA: string[] = [GrantTierType.Tier1, GrantTierType.Tier2, GrantTierType.Tier3]
 
 function getAuthorship(address: string, userProject: UserProject) {
-  if (isSameAddress(address, userProject.user)) {
+  if (isSameAddress(address, userProject.author)) {
     return RoleInProject.Author
   }
   if (userProject.coauthors?.some((coauthor) => isSameAddress(address, coauthor))) {
     return RoleInProject.Coauthor
   }
-  throw new Error('Unable to determine user role in project')
+  return null
+}
+
+function getTextDate(status: ProjectStatus, vesting?: Vesting, enacted_at?: string) {
+  const projectIsFinishedAndHasVesting = status === ProjectStatus.Finished && vesting
+  if (projectIsFinishedAndHasVesting) {
+    return formatDate(new Date(vesting?.finish_at))
+  }
+  if (enacted_at) {
+    return formatDate(new Date(enacted_at))
+  }
+  return null
 }
 
 function ParticipatedProjectItem({ userProject, address }: Props) {
   const t = useFormatMessage()
   const intl = useIntl()
-  const { author: user, title, funding, configuration, status, id, proposal_id } = userProject
+  const { author, title, funding, configuration, status, id, proposal_id } = userProject
   const { vesting, one_time_payment, enacted_at } = funding || {}
   const { vested } = vesting || {}
   const token = vesting ? vesting.token : one_time_payment?.token
@@ -52,11 +64,11 @@ function ParticipatedProjectItem({ userProject, address }: Props) {
   const vestedPercentage = vesting ? getRoundedPercentage(vesting.vested, total) : 100
   const proposalInCliffPeriod = !!enacted_at && isProposalInCliffPeriod(enacted_at)
   const isInMana = TRANSPARENCY_TIERS_IN_MANA.includes(configuration.tier)
-  const formattedEnactedDate = enacted_at ? formatDate(new Date(enacted_at)) : null //TODO: if its finished, use vesting end date
+  const formattedDate = getTextDate(status, vesting, enacted_at)
   const href = id ? locations.project({ id }) : locations.proposal(proposal_id)
 
   const amount = intl.formatNumber(userProject.configuration.size)
-  const dateText = t(`component.project_card.date_label.${status}`, { date: formattedEnactedDate })
+  const dateText = t(`component.project_card.date_label.${status}`, { date: formattedDate })
   const budgetText = t('component.project_card.budget_label', {
     amount: amount,
     token: isInMana ? 'USD' : token,
@@ -74,6 +86,7 @@ function ParticipatedProjectItem({ userProject, address }: Props) {
     userProject.status === ProjectStatus.Finished || userProject.status === ProjectStatus.Pending
   )
 
+  const authorship = getAuthorship(address, userProject)
   const isMember = !!userProject.personnel?.some((personnel) => isSameAddress(address, personnel.address))
 
   return (
@@ -81,14 +94,14 @@ function ParticipatedProjectItem({ userProject, address }: Props) {
       <Card.Content>
         <NotMobile>
           <div className="ParticipatedProjectItem__Section">
-            <Username className="ParticipatedProjectItem__Avatar" address={user} variant="avatar" size="md" />
+            <Username className="ParticipatedProjectItem__Avatar" address={author} variant="avatar" size="md" />
             <div>
               <h3 className="ParticipatedProjectItem__Title">{title}</h3>
               <div className="ParticipatedProjectItem__DetailsContainer">
                 {status && <ProjectStatusPill status={status} />}
-                <ProjectRolePill role={getAuthorship(address, userProject)} />
+                {!!authorship && <ProjectRolePill role={authorship} />}
                 {isMember && <ProjectRolePill role={RoleInProject.Member} />}
-                {formattedEnactedDate && (
+                {formattedDate && (
                   <Markdown
                     className="ParticipatedProjectItem__Details"
                     size="xs"
@@ -129,7 +142,7 @@ function ParticipatedProjectItem({ userProject, address }: Props) {
               <h3 className="ParticipatedProjectItem__Title">{title}</h3>
               <div className="ParticipatedProjectItem__Details">
                 <ProjectPill type={userProject.configuration.category} />
-                {formattedEnactedDate && (
+                {formattedDate && (
                   <Markdown
                     size="xs"
                     componentsClassNames={{
@@ -138,7 +151,7 @@ function ParticipatedProjectItem({ userProject, address }: Props) {
                     }}
                   >
                     {t('page.profile.projects.item_short_description', {
-                      time: abbreviateTimeDifference(formattedEnactedDate),
+                      time: abbreviateTimeDifference(formattedDate),
                       amount: intl.formatNumber(userProject.configuration.size),
                       token: isInMana ? 'USD' : token,
                     })}
