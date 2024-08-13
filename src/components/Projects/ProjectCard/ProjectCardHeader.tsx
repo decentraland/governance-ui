@@ -1,18 +1,18 @@
 import { useIntl } from 'react-intl'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { ProposalProjectWithUpdate } from '../../../types/proposals'
+import { ProjectInList } from '../../../types/proposals'
 import Username from '../../Common/Username'
 import ProjectPill from '../ProjectPill'
 
 import './ProjectCardHeader.css'
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-  project: ProposalProjectWithUpdate
+  project: ProjectInList
 }
 
 const ProjectCardHeader = ({ project }: Props) => {
-  const { configuration, size, user } = project
+  const { configuration, author } = project
   const intl = useIntl()
   const t = useFormatMessage()
 
@@ -22,13 +22,13 @@ const ProjectCardHeader = ({ project }: Props) => {
         {configuration.category && <ProjectPill type={configuration.category} />}
         <div className="ProjectCardHeader__SizeContainer">
           <p className="ProjectCardHeader__Size">{`${t('component.grant_card.size')}: $${intl.formatNumber(
-            size
+            configuration.size
           )} USD`}</p>
         </div>
       </div>
       <div className="ProjectCardHeader__Username">
         {t('component.grant_card.by_user')}
-        <Username address={user} variant="address" />
+        <Username address={author} variant="address" />
       </div>
     </div>
   )

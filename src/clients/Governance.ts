@@ -22,6 +22,7 @@ import { ActivityTickerEvent, EventFilter } from '../types/events'
 import { GrantRequest, ProposalGrantCategory } from '../types/grants'
 import { NewsletterSubscriptionResult } from '../types/newsletter'
 import { PushNotification } from '../types/notifications'
+import { UserProject } from '../types/projects.ts'
 import {
   NewProposalBanName,
   NewProposalCatalyst,
@@ -37,12 +38,12 @@ import {
   PersonnelAttributes,
   PriorityProposal,
   Project,
+  ProjectInList,
   ProjectLink,
   ProjectMilestone,
   ProposalAttributes,
   ProposalCommentsInDiscourse,
   ProposalListFilter,
-  ProposalProjectWithUpdate,
   ProposalStatus,
   ProposalWithProject,
 } from '../types/proposals'
@@ -176,7 +177,7 @@ export class Governance extends API {
     }
   }
 
-  async getProjects(from?: Date, to?: Date) {
+  async getProjectsList(from?: Date, to?: Date): Promise<ProjectInList[]> {
     const params = new URLSearchParams()
     if (from) {
       params.append('from', from.toISOString().split('T')[0])
@@ -185,12 +186,9 @@ export class Governance extends API {
       params.append('to', to.toISOString().split('T')[0])
     }
     const paramsStr = params.toString()
-    const proposals = await this.fetchApiResponse<ProposalProjectWithUpdate[]>(
-      `/projects${paramsStr ? `?${paramsStr}` : ''}`
-    )
-
-    return proposals
+    return await this.fetchApiResponse<ProjectInList[]>(`/projects${paramsStr ? `?${paramsStr}` : ''}`)
   }
+
   async getProject(projectId: string) {
     return await this.fetchApiResponse<Project>(`/projects/${projectId}`)
   }
@@ -210,9 +208,7 @@ export class Governance extends API {
   }
 
   async getProjectsByUser(user: string) {
-    return await this.fetchApiResponse<{ total: number; data: ProposalProjectWithUpdate[] }>(
-      `/proposals/grants/${user}`
-    )
+    return await this.fetchApiResponse<{ total: number; data: UserProject[] }>(`/projects/user/${user}`)
   }
 
   async createProposal<P extends keyof NewProposalMap>(path: P, proposal: NewProposalMap[P]) {

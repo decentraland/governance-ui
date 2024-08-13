@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { ProposalProject } from '../../../types/proposals'
+import { UserProject } from '../../../types/projects.ts'
 import FullWidthButton from '../../Common/FullWidthButton'
 
 import ProjectCard from './ProjectCard'
 
 interface Props {
-  projects: ProposalProject[]
+  projects: UserProject[]
 }
 
 const MAX_PROJECTS = 3

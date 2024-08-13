@@ -2,14 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { useSortingByKey } from '../../hooks/useSortingByKey'
-import { ProposalProject } from '../../types/proposals'
+import { UserProject } from '../../types/projects.ts'
 import FullWidthButton from '../Common/FullWidthButton'
 
 import ParticipatedProjectItem from './ParticipatedProjectItem.tsx'
 
 interface Props {
   address: string
-  projects: ProposalProject[]
+  projects: UserProject[]
 }
 
 const MAX_GRANTS = 3
@@ -25,7 +25,7 @@ function ParticipatedProjectsList({ projects, address }: Props) {
   return (
     <>
       {projectsToShow.map((project) => (
-        <ParticipatedProjectItem key={project.id} proposalProject={project} address={address} />
+        <ParticipatedProjectItem key={project.id} userProject={project} address={address} />
       ))}
       {sorted.length > limit && (
         <FullWidthButton onClick={() => setLimit(() => limit + MAX_GRANTS)}>

@@ -6,7 +6,7 @@ import useFormatMessage from '../../../hooks/useFormatMessage'
 import useOpenPitchesTotal from '../../../hooks/useOpenPitchesTotal'
 import useOpenTendersTotal from '../../../hooks/useOpenTendersTotal'
 import useYearAndQuarterParams from '../../../hooks/useYearAndQuarterParams'
-import { ProposalProjectWithUpdate, ProposalType } from '../../../types/proposals'
+import { ProjectInList, ProposalType } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
 import { isCurrentProject, isCurrentQuarterProject } from '../../../utils/projects'
@@ -15,7 +15,7 @@ import MetricsCard from '../../Home/MetricsCard'
 import StatsContainer from './StatsContainer'
 
 interface Props {
-  projects: ProposalProjectWithUpdate[]
+  projects: ProjectInList[]
 }
 
 export default function StatsBiddingAndTendering({ projects }: Props) {
@@ -41,7 +41,7 @@ export default function StatsBiddingAndTendering({ projects }: Props) {
     [currentProjectsThisQuarter]
   )
   const totalBidFunding = useMemo(
-    () => currentBidProjects.reduce((total, obj) => total + obj.size, 0),
+    () => currentBidProjects.reduce((total, obj) => total + obj.configuration.size, 0),
     [currentBidProjects]
   )
 

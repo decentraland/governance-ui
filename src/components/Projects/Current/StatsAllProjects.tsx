@@ -5,7 +5,7 @@ import { CURRENCY_FORMAT_OPTIONS } from '../../../helpers'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useOpenTendersTotal from '../../../hooks/useOpenTendersTotal'
 import useYearAndQuarterParams from '../../../hooks/useYearAndQuarterParams'
-import { ProposalProjectWithUpdate, ProposalType } from '../../../types/proposals'
+import { ProjectInList, ProposalType } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
 import { isCurrentProject, isCurrentQuarterProject } from '../../../utils/projects'
@@ -14,7 +14,7 @@ import MetricsCard from '../../Home/MetricsCard'
 import StatsContainer from './StatsContainer'
 
 interface Props {
-  projects: ProposalProjectWithUpdate[]
+  projects: ProjectInList[]
 }
 
 export default function StatsAllProjects({ projects }: Props) {
@@ -47,11 +47,11 @@ export default function StatsAllProjects({ projects }: Props) {
     [currentProjectsThisQuarter]
   )
   const totalBidFunding = useMemo(
-    () => currentBidProjects.reduce((total, obj) => total + obj.size, 0),
+    () => currentBidProjects.reduce((total, obj) => total + obj.configuration.size, 0),
     [currentBidProjects]
   )
   const totalGrantFunding = useMemo(
-    () => currentGrantProjects.reduce((total, obj) => total + obj.size, 0) || 0,
+    () => currentGrantProjects.reduce((total, obj) => total + obj.configuration.size, 0) || 0,
     [currentGrantProjects]
   )
   const formattedTotalBidFunding = formatFundingValue(totalBidFunding)

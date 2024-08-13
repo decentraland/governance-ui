@@ -13,12 +13,12 @@ type DateFilter = {
 export default function useProjects(dateFilter?: Partial<DateFilter>) {
   const { year, quarter } = dateFilter || {}
   const { data: projects, isLoading: isLoadingProjects } = useQuery({
-    queryKey: ['projects', year, quarter],
+    queryKey: ['updatedProjects', year, quarter],
     queryFn: async () => {
       const { startDate, endDate } = getQuarterDates(quarter, year)
       const from = startDate ? new Date(startDate) : undefined
       const to = endDate ? new Date(endDate) : undefined
-      return Governance.get().getProjects(from, to)
+      return Governance.get().getProjectsList(from, to)
     },
     staleTime: DEFAULT_QUERY_STALE_TIME,
   })

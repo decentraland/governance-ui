@@ -1,5 +1,5 @@
 import useFormatMessage from '../../hooks/useFormatMessage'
-import useProposalProjectsByUser from '../../hooks/useProposalProjectsByUser.ts'
+import useProjectsByUser from '../../hooks/useProjectsByUser.ts'
 import { ActionBox } from '../Common/ActionBox'
 
 import ParticipatedProjectsList from './ParticipatedProjectsList.tsx'
@@ -10,7 +10,7 @@ interface Props {
 
 export default function ProjectsBox({ address }: Props) {
   const t = useFormatMessage()
-  const { projects } = useProposalProjectsByUser(address)
+  const { projects } = useProjectsByUser(address)
 
   if (!projects) {
     return null

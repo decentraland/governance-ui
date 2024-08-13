@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import classNames from 'classnames'
 
-import { ProposalProjectWithUpdate } from '../../../types/proposals'
+import { ProjectInList } from '../../../types/proposals'
 import locations from '../../../utils/locations'
 import { isProposalInCliffPeriod } from '../../../utils/proposal'
 import Link from '../../Common/Typography/Link'
@@ -15,19 +15,20 @@ import ProjectCardHeadline from './ProjectCardHeadline'
 import VestingProgress from './VestingProgress'
 
 interface Props {
-  project: ProposalProjectWithUpdate
+  project: ProjectInList
   hoverable?: boolean
 }
 
 const ProjectCard = ({ project, hoverable = false }: Props) => {
-  const { id, project_id, funding, update } = project
+  const { id: project_id, proposal_id, funding, latest_update } = project
+  const { update } = latest_update || {}
   const enacted_at = funding?.enacted_at
   const [expanded, setExpanded] = useState(!hoverable)
   const proposalInCliffPeriod = !!enacted_at && isProposalInCliffPeriod(enacted_at)
 
   return (
     <Link
-      href={project_id ? locations.project({ id: project_id }) : locations.proposal(id)}
+      href={project_id ? locations.project({ id: project_id }) : locations.proposal(proposal_id)}
       onMouseEnter={() => hoverable && setExpanded(true)}
       onMouseLeave={() => hoverable && setExpanded(false)}
       className={classNames('ProjectCard', hoverable && 'ProjectCard__Expanded')}
