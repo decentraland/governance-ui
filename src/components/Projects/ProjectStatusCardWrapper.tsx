@@ -1,6 +1,6 @@
 import useProjectUpdates from '../../hooks/useProjectUpdates'
 import { ProjectStatus } from '../../types/grants'
-import { Project } from '../../types/proposals'
+import { Project } from '../../types/projects.ts'
 import { ProjectHealth, UpdateAttributes } from '../../types/updates'
 import locations from '../../utils/locations'
 

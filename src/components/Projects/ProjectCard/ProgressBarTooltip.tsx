@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl'
 import { Popup } from 'decentraland-ui/dist/components/Popup/Popup'
 
 import useFormatMessage from '../../../hooks/useFormatMessage'
-import { ProjectFunding } from '../../../types/proposals'
+import { ProjectFunding } from '../../../types/projects.ts'
 import Time, { formatDate } from '../../../utils/date/Time'
 import { CLIFF_PERIOD_IN_DAYS } from '../../../utils/proposal'
 import Text from '../../Common/Typography/Text'

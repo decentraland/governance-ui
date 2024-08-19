@@ -22,7 +22,7 @@ import { ActivityTickerEvent, EventFilter } from '../types/events'
 import { GrantRequest, ProposalGrantCategory } from '../types/grants'
 import { NewsletterSubscriptionResult } from '../types/newsletter'
 import { PushNotification } from '../types/notifications'
-import { UserProject } from '../types/projects.ts'
+import { Project, ProjectInList, ProjectLink, ProjectMilestone, UserProject } from '../types/projects.ts'
 import {
   NewProposalBanName,
   NewProposalCatalyst,
@@ -37,10 +37,6 @@ import {
   PendingProposalsQuery,
   PersonnelAttributes,
   PriorityProposal,
-  Project,
-  ProjectInList,
-  ProjectLink,
-  ProjectMilestone,
   ProposalAttributes,
   ProposalCommentsInDiscourse,
   ProposalListFilter,

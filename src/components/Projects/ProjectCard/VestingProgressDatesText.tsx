@@ -1,5 +1,5 @@
 import useFormatMessage, { FormatMessageFunction } from '../../../hooks/useFormatMessage.ts'
-import { ProjectFunding } from '../../../types/proposals.ts'
+import { ProjectFunding } from '../../../types/projects.ts'
 import Time from '../../../utils/date/Time.ts'
 import Text from '../../Common/Typography/Text.tsx'
 

@@ -7,7 +7,7 @@ import { DEFAULT_QUERY_STALE_TIME } from './constants.ts'
 
 function useProjectsByUser(address?: string | null) {
   const { data: projects } = useQuery({
-    queryKey: ['proposalProjectsByUser', address],
+    queryKey: ['projectsByUser', address],
     queryFn: () => (!!address && isEthereumAddress(address) ? Governance.get().getProjectsByUser(address) : null),
     staleTime: DEFAULT_QUERY_STALE_TIME,
     enabled: !!address,

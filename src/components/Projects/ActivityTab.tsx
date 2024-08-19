@@ -1,5 +1,5 @@
 import useEvents from '../../hooks/useEvents'
-import { Project } from '../../types/proposals'
+import { Project } from '../../types/projects.ts'
 import ActivityTickerList from '../Home/ActivityTickerList'
 
 interface Props {
