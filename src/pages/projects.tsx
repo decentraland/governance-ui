@@ -15,7 +15,7 @@ import CategoryFilter, { ProjectTypeFilter } from '../components/Search/Category
 import QuarterFilter from '../components/Search/QuarterFilter'
 import StatusFilter from '../components/Search/StatusFilter'
 import useFormatMessage from '../hooks/useFormatMessage'
-import useProjects from '../hooks/useProjects'
+import useProjects from '../hooks/useProjects.ts'
 import useURLSearchParams from '../hooks/useURLSearchParams'
 import {
   OldGrantCategory,
@@ -24,7 +24,7 @@ import {
   SubtypeOptions,
   toGrantSubtype,
 } from '../types/grants'
-import { ProposalProjectWithUpdate, ProposalType } from '../types/proposals'
+import { ProjectInList, ProposalType } from '../types/proposals'
 import { toProjectStatus } from '../utils/grants'
 import locations from '../utils/locations'
 import { isUnderMaintenance } from '../utils/maintenance'
@@ -32,7 +32,7 @@ import { isUnderMaintenance } from '../utils/maintenance'
 import './projects.css'
 
 function filterDisplayableProjects(
-  projects: ProposalProjectWithUpdate[] | undefined,
+  projects: ProjectInList[] | undefined,
   type: string | undefined,
   subtype: SubtypeOptions | undefined,
   status: ProjectStatus | undefined
@@ -67,7 +67,7 @@ function filterDisplayableProjects(
   }
 }
 
-function getCounter(projects: ProposalProjectWithUpdate[] | undefined) {
+function getCounter(projects: ProjectInList[] | undefined) {
   return {
     [ProjectTypeFilter.All]: projects?.length || 0,
     [ProjectTypeFilter.Grants]: projects?.filter((item) => item.type === ProposalType.Grant).length || 0,
@@ -101,6 +101,7 @@ export default function ProjectsPage() {
   const quarter = toDateFilter(params.get('quarter') || '')
 
   const { projects, isLoadingProjects } = useProjects({ year, quarter })
+
   const displayableProjects = useMemo(
     () => filterDisplayableProjects(projects, type, subtype, status),
     [projects, type, subtype, status]

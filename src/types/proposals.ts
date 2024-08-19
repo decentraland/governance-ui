@@ -780,6 +780,7 @@ export type ProjectLink = {
   created_at: Date
 }
 
+//TODO: move to projects types
 export type Project = ProjectAttributes & {
   personnel: PersonnelAttributes[]
   links: ProjectLink[]
@@ -788,12 +789,22 @@ export type Project = ProjectAttributes & {
   coauthors: string[] | null
   vesting_addresses: string[]
   funding?: ProjectFunding
+  latest_update?: LatestUpdate
 }
 
-export type ProposalProjectWithUpdate = ProposalProject & {
+type LatestUpdate = {
   update?: IndexedUpdate | null
   update_timestamp?: number
 }
+
+export type ProjectInList = Pick<Project, 'id' | 'proposal_id' | 'status' | 'title' | 'author' | 'funding'> &
+  Pick<ProposalAttributes, 'type' | 'configuration'> & {
+    latest_update?: LatestUpdate
+    created_at: number
+    updated_at: number
+  }
+
+export type ProposalProjectWithUpdate = ProposalProject & LatestUpdate
 
 export type PendingProposalsQuery = { start: Date; end: Date; fields: (keyof SnapshotProposal)[]; limit: number }
 

@@ -9,12 +9,13 @@ import { CURRENCY_FORMAT_OPTIONS, addressShortener, getEnumDisplayName } from '.
 import useDclProfile from '../../../hooks/useDclProfile'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useGovernanceProfile from '../../../hooks/useGovernanceProfile'
-import useProposalProjectsByUser from '../../../hooks/useProposalProjectsByUser.ts'
+import useProjectsByUser from '../../../hooks/useProjectsByUser.ts'
 import useProposals from '../../../hooks/useProposals'
 import useVotesByAddress from '../../../hooks/useVotesByAddress'
 import useVotingStats from '../../../hooks/useVotingStats'
 import { ProjectStatus } from '../../../types/grants'
-import { ProposalProjectWithUpdate, ProposalStatus, ProposalType } from '../../../types/proposals'
+import { UserProject } from '../../../types/projects.ts'
+import { ProposalStatus, ProposalType } from '../../../types/proposals'
 import Time from '../../../utils/date/Time'
 import locations from '../../../utils/locations'
 import FullWidthButton from '../../Common/FullWidthButton'
@@ -45,7 +46,7 @@ export default function AuthorDetails({ address }: Props) {
   const { profile, isLoadingGovernanceProfile } = useGovernanceProfile(address)
   const { participationTotal } = useVotingStats(address)
   const { proposals: grants } = useProposals({ user: address, type: ProposalType.Grant })
-  const { projects } = useProposalProjectsByUser(address)
+  const { projects } = useProjectsByUser(address)
   const intl = useIntl()
   const hasPreviouslySubmittedGrants = !!grants && grants?.total > 1
   const [isSidebarVisible, setIsSidebarVisible] = useState(false)
@@ -62,7 +63,7 @@ export default function AuthorDetails({ address }: Props) {
         const items = projects?.filter((item) => item.status === cur) || []
         const total = items?.length || 0
         return total > 0 ? { ...acc, [cur]: { items, total } } : acc
-      }, {} as Record<string, { items: ProposalProjectWithUpdate[]; total: number }>),
+      }, {} as Record<string, { items: UserProject[]; total: number }>),
     [projects]
   )
 

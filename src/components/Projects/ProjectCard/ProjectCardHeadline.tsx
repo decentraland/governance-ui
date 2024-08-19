@@ -1,19 +1,19 @@
 import classNames from 'classnames'
 import { Header } from 'decentraland-ui/dist/components/Header/Header'
 
-import { ProposalProjectWithUpdate } from '../../../types/proposals'
+import { ProjectInList } from '../../../types/proposals'
 import Username from '../../Common/Username'
 
 import './ProjectCardHeadline.css'
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-  project: ProposalProjectWithUpdate
+  project: ProjectInList
   hoverable?: boolean
   expanded?: boolean
 }
 
 const ProjectCardHeadline = ({ project, hoverable = false, expanded = false }: Props) => {
-  const { title, user } = project
+  const { title, author } = project
 
   return (
     <div className={classNames('ProjectCardHeadline', !expanded && 'ProjectCardHeadline__Slim')}>
@@ -25,7 +25,7 @@ const ProjectCardHeadline = ({ project, hoverable = false, expanded = false }: P
       >
         {title}
       </Header>
-      <Username className="ProjectCardHeadline__Avatar" address={user} variant="avatar" size="md" />
+      <Username className="ProjectCardHeadline__Avatar" address={author} variant="avatar" size="md" />
     </div>
   )
 }

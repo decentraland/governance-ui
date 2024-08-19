@@ -3,7 +3,8 @@ import { useMemo } from 'react'
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid/Grid'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
-import useProjects from '../../hooks/useProjects'
+import useProjects from '../../hooks/useProjects.ts'
+import { ProjectStatus } from '../../types/grants.ts'
 import { ProposalType } from '../../types/proposals'
 import locations from '../../utils/locations'
 import FullWidthButton from '../Common/FullWidthButton'
@@ -18,7 +19,10 @@ const GRANTS_TO_SHOW = 4
 const ActiveCommunityGrants = () => {
   const t = useFormatMessage()
   const { projects, isLoadingProjects } = useProjects()
-  const grants = useMemo(() => projects?.filter((item) => item.type === ProposalType.Grant), [projects])
+  const grants = useMemo(
+    () => projects?.filter((item) => item.type === ProposalType.Grant && item.status === ProjectStatus.InProgress),
+    [projects]
+  )
 
   return (
     <div className="ActiveCommunityGrants">
