@@ -10,6 +10,7 @@ import {
   AddRemoveProposalModal,
   AddRemoveProposalModalProps,
 } from '../../components/Modal/AddRemoveProposalModal/AddRemoveProposalModal'
+import { GRANT_PROPOSAL_SUBMIT_ENABLED, PITCH_PROPOSAL_SUBMIT_ENABLED } from '../../constants'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { CatalystType, HiringType, PoiType, ProposalType } from '../../types/proposals'
 import { getCommitteesWithOpenSlots } from '../../utils/committee'
@@ -81,19 +82,23 @@ export default function SubmitPage() {
           />
           <CategoryBanner type={ProposalType.BanName} href={locations.submit(ProposalType.BanName)} />
           <CategoryBanner type={ProposalType.LinkedWearables} href={locations.submit(ProposalType.LinkedWearables)} />
-          <CategoryBanner
-            type={ProposalType.Grant}
-            href={locations.submit(ProposalType.Grant)}
-            active={isGrantProposalSubmitEnabled(NOW)}
-          />
+          {GRANT_PROPOSAL_SUBMIT_ENABLED && (
+            <CategoryBanner
+              type={ProposalType.Grant}
+              href={locations.submit(ProposalType.Grant)}
+              active={isGrantProposalSubmitEnabled(NOW)}
+            />
+          )}
           <CategoryBanner type={ProposalType.Hiring} onClick={setHiringModalProps} />
         </ContentSection>
-        <ContentSection>
-          <Text className="SubmitPage__Header" size="sm" weight="semi-bold" color="secondary">
-            {t('page.submit.bidding_tendering_process')}
-          </Text>
-          <CategoryBanner type={ProposalType.Pitch} href={locations.submit(ProposalType.Pitch)} />
-        </ContentSection>
+        {PITCH_PROPOSAL_SUBMIT_ENABLED && (
+          <ContentSection>
+            <Text className="SubmitPage__Header" size="sm" weight="semi-bold" color="secondary">
+              {t('page.submit.bidding_tendering_process')}
+            </Text>
+            <CategoryBanner type={ProposalType.Pitch} href={locations.submit(ProposalType.Pitch)} />
+          </ContentSection>
+        )}
         <ContentSection>
           <Text className="SubmitPage__Header" size="sm" weight="semi-bold" color="secondary">
             {t('page.submit.governance_process')}

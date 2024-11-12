@@ -31,6 +31,7 @@ import LoadingView from '../../components/Layout/LoadingView'
 import LogIn from '../../components/Layout/LogIn'
 import PreventNavigation from '../../components/Layout/PreventNavigation.tsx'
 import CategorySelector from '../../components/Projects/CategorySelector'
+import { GRANT_PROPOSAL_SUBMIT_ENABLED } from '../../constants/index.ts'
 import { SUBMISSION_THRESHOLD_GRANT } from '../../constants/proposals'
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
@@ -105,6 +106,10 @@ export default function SubmitGrant() {
   const t = useFormatMessage()
   const [account, accountState] = useAuthContext()
   const navigate = useNavigate()
+
+  if (!GRANT_PROPOSAL_SUBMIT_ENABLED) {
+    navigate('/submit')
+  }
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)

@@ -20,6 +20,7 @@ import LoadingView from '../../components/Layout/LoadingView'
 import LogIn from '../../components/Layout/LogIn'
 import PostLabel from '../../components/PostLabel'
 import CoAuthors from '../../components/Proposal/Submit/CoAuthor/CoAuthors'
+import { PITCH_PROPOSAL_SUBMIT_ENABLED } from '../../constants/index.ts'
 import { SUBMISSION_THRESHOLD_PITCH } from '../../constants/proposals'
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
@@ -50,6 +51,10 @@ export default function SubmitPitchProposal() {
   const [formDisabled, setFormDisabled] = useState(false)
   const preventNavigation = useRef(false)
   const [error, setError] = useState('')
+
+  if (!PITCH_PROPOSAL_SUBMIT_ENABLED) {
+    navigate('/submit')
+  }
 
   const {
     handleSubmit,
