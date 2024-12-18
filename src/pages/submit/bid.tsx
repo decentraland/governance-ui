@@ -137,7 +137,12 @@ export default function SubmitBid() {
 
       const imageValidation = await validateObjectMarkdownImages(bidRequestParsed)
       if (!imageValidation.isValid) {
-        setSubmitError(t('error.invalid_images', { count: imageValidation.errors.length }))
+        setSubmitError(
+          t('error.invalid_images', {
+            count: imageValidation.errors.length,
+            urls: imageValidation.errors.join(', '),
+          })
+        )
         setIsFormDisabled(false)
         setIsLoading(false)
         preventNavigation.current = true

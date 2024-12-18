@@ -29,6 +29,7 @@ import useURLSearchParams from '../../hooks/useURLSearchParams'
 import useVotingPowerDistribution from '../../hooks/useVotingPowerDistribution'
 import { NewProposalTender, ProposalType, newProposalTenderScheme } from '../../types/proposals'
 import Time from '../../utils/date/Time'
+import { validateObjectMarkdownImages } from '../../utils/imageValidation'
 import locations from '../../utils/locations'
 
 import './submit.css'
@@ -98,6 +99,18 @@ export default function SubmitTenderProposal() {
 
   const onSubmit: SubmitHandler<NewProposalTender> = async (data) => {
     setFormDisabled(true)
+
+    const imageValidation = await validateObjectMarkdownImages(data)
+    if (!imageValidation.isValid) {
+      setError(
+        t('error.invalid_images', {
+          count: imageValidation.errors.length,
+          urls: imageValidation.errors.join(', '),
+        })
+      )
+      setFormDisabled(false)
+      return
+    }
 
     try {
       const proposal = await Governance.get().createProposalTender({

@@ -31,6 +31,7 @@ import { useAuthContext } from '../../context/AuthProvider'
 import { disableOnWheelInput, isHttpsURL } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { ProposalType, newProposalLinkedWearablesScheme } from '../../types/proposals'
+import { valdidateImagesUrls } from '../../utils/imageValidation'
 import locations from '../../utils/locations'
 import { asNumber, isValidImage } from '../../utils/proposal'
 
@@ -258,6 +259,39 @@ export default function SubmitLinkedWearables() {
       setFormDisabled(false)
 
       return
+    }
+
+    const nftCollectionsImagesValidaton = await valdidateImagesUrls(data.nft_collections)
+    if (!nftCollectionsImagesValidaton.isValid) {
+      setFormError('nft_collections', {
+        message: t('error.invalid_image_url', { urls: nftCollectionsImagesValidaton.errors.join(', ') }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('nft_collections')
+    }
+
+    const motivationImagesValidaton = await valdidateImagesUrls(data.motivation)
+    if (!motivationImagesValidaton.isValid) {
+      setFormError('motivation', {
+        message: t('error.invalid_image_url', { urls: motivationImagesValidaton.errors.join(', ') }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('motivation')
+    }
+
+    const governanceImagesValidaton = await valdidateImagesUrls(data.governance)
+    if (!governanceImagesValidaton.isValid) {
+      setFormError('governance', {
+        message: t('error.invalid_image_url', { urls: governanceImagesValidaton.errors.join(', ') }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('governance')
     }
 
     try {

@@ -16,6 +16,7 @@ import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useVotingPowerDistribution from '../../../hooks/useVotingPowerDistribution'
 import { HiringType, NewProposalHiring, ProposalType, newProposalHiringScheme } from '../../../types/proposals'
+import { valdidateImagesUrls } from '../../../utils/imageValidation'
 import locations from '../../../utils/locations'
 import Field from '../../Common/Form/Field'
 import MarkdownField from '../../Common/Form/MarkdownField'
@@ -76,6 +77,7 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
     formState: { isDirty, isSubmitting, errors },
     control,
     setValue,
+    setError: setFormError,
     clearErrors,
     watch,
   } = useForm<HiringState>({ defaultValues: initialState, mode: 'onTouched' })
@@ -104,6 +106,28 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
 
   const onSubmit: SubmitHandler<HiringState> = async (data) => {
     setFormDisabled(true)
+
+    const reasonsImagesValidaton = await valdidateImagesUrls(data.reasons)
+    if (!reasonsImagesValidaton.isValid) {
+      setFormError('reasons', {
+        message: t('error.invalid_image_url', { urls: reasonsImagesValidaton.errors.join(', ') }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('reasons')
+    }
+
+    const evidenceImagesValidaton = await valdidateImagesUrls(data.evidence)
+    if (!evidenceImagesValidaton.isValid) {
+      setFormError('evidence', {
+        message: t('error.invalid_image_url', { urls: evidenceImagesValidaton.errors.join(', ') }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('evidence')
+    }
 
     try {
       const proposal = await Governance.get().createProposalHiring({ type, ...data, committee: data.committee! })

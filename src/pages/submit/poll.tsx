@@ -28,6 +28,7 @@ import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useVotingPowerDistribution from '../../hooks/useVotingPowerDistribution'
 import { ProposalType, newProposalPollScheme } from '../../types/proposals'
+import { valdidateImagesUrls } from '../../utils/imageValidation'
 import locations from '../../utils/locations'
 
 import './poll.css'
@@ -146,6 +147,17 @@ export default function SubmitPoll() {
     async (data) => {
       if (!isValidChoices(data.choices)) {
         return
+      }
+
+      const descriptionImagesValidaton = await valdidateImagesUrls(data.description)
+      if (!descriptionImagesValidaton.isValid) {
+        setFormError('description', {
+          message: t('error.invalid_image_url', { urls: descriptionImagesValidaton.errors.join(', ') }),
+        })
+        setFormDisabled(false)
+        return
+      } else {
+        clearErrors('description')
       }
 
       setFormDisabled(true)
