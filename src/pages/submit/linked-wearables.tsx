@@ -264,7 +264,10 @@ export default function SubmitLinkedWearables() {
     const nftCollectionsImagesValidaton = await valdidateImagesUrls(data.nft_collections)
     if (!nftCollectionsImagesValidaton.isValid) {
       setFormError('nft_collections', {
-        message: t('error.invalid_image_url', { urls: nftCollectionsImagesValidaton.errors.join(', ') }),
+        message: t('error.invalid_images', {
+          count: nftCollectionsImagesValidaton.errors.length,
+          urls: nftCollectionsImagesValidaton.errors.join(', '),
+        }),
       })
       setFormDisabled(false)
       return
@@ -275,7 +278,10 @@ export default function SubmitLinkedWearables() {
     const motivationImagesValidaton = await valdidateImagesUrls(data.motivation)
     if (!motivationImagesValidaton.isValid) {
       setFormError('motivation', {
-        message: t('error.invalid_image_url', { urls: motivationImagesValidaton.errors.join(', ') }),
+        message: t('error.invalid_images', {
+          count: motivationImagesValidaton.errors.length,
+          urls: motivationImagesValidaton.errors.join(', '),
+        }),
       })
       setFormDisabled(false)
       return
@@ -286,7 +292,10 @@ export default function SubmitLinkedWearables() {
     const governanceImagesValidaton = await valdidateImagesUrls(data.governance)
     if (!governanceImagesValidaton.isValid) {
       setFormError('governance', {
-        message: t('error.invalid_image_url', { urls: governanceImagesValidaton.errors.join(', ') }),
+        message: t('error.invalid_images', {
+          count: governanceImagesValidaton.errors.length,
+          urls: governanceImagesValidaton.errors.join(', '),
+        }),
       })
       setFormDisabled(false)
       return

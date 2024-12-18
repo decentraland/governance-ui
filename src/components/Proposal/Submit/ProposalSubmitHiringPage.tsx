@@ -110,7 +110,10 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
     const reasonsImagesValidaton = await valdidateImagesUrls(data.reasons)
     if (!reasonsImagesValidaton.isValid) {
       setFormError('reasons', {
-        message: t('error.invalid_image_url', { urls: reasonsImagesValidaton.errors.join(', ') }),
+        message: t('error.invalid_images', {
+          count: reasonsImagesValidaton.errors.length,
+          urls: reasonsImagesValidaton.errors.join(', '),
+        }),
       })
       setFormDisabled(false)
       return
@@ -121,7 +124,10 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
     const evidenceImagesValidaton = await valdidateImagesUrls(data.evidence)
     if (!evidenceImagesValidaton.isValid) {
       setFormError('evidence', {
-        message: t('error.invalid_image_url', { urls: evidenceImagesValidaton.errors.join(', ') }),
+        message: t('error.invalid_images', {
+          count: evidenceImagesValidaton.errors.length,
+          urls: evidenceImagesValidaton.errors.join(', '),
+        }),
       })
       setFormDisabled(false)
       return

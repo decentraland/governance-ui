@@ -136,7 +136,10 @@ export default function ProposalSubmitCatalystPage({ catalystType }: Props) {
     const imagesValidaton = await valdidateImagesUrls(data.description)
     if (!imagesValidaton.isValid) {
       setFormError('description', {
-        message: t('error.invalid_image_url', { urls: imagesValidaton.errors.join(', ') }),
+        message: t('error.invalid_images', {
+          count: imagesValidaton.errors.length,
+          urls: imagesValidaton.errors.join(', '),
+        }),
       })
       setFormDisabled(false)
 
