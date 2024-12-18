@@ -30,8 +30,7 @@ export function extractImageUrls(markdown: string): string[] {
   return urls
 }
 
-/* eslint-disable */
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function validateValue(value: any, errors: string[]) {
   if (typeof value === 'string') {
     const imageUrls = extractImageUrls(value)
@@ -46,7 +45,7 @@ async function validateValue(value: any, errors: string[]) {
   }
 }
 
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function validateObject(obj: any, errors: string[]) {
   if (Array.isArray(obj)) {
     for (const item of obj) {
@@ -59,7 +58,7 @@ async function validateObject(obj: any, errors: string[]) {
   }
 }
 
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function validateObjectMarkdownImages(obj: any): Promise<{ isValid: boolean; errors: string[] }> {
   const errors: string[] = []
 
