@@ -29,3 +29,44 @@ export function extractImageUrls(markdown: string): string[] {
 
   return urls
 }
+
+/* eslint-disable */
+// @ts-ignore
+async function validateValue(value: any, errors: string[]) {
+  if (typeof value === 'string') {
+    const imageUrls = extractImageUrls(value)
+    for (const imageUrl of imageUrls) {
+      const isValid = await isValidImage(imageUrl)
+      if (!isValid) {
+        errors.push(imageUrl)
+      }
+    }
+  } else if (value && typeof value === 'object') {
+    await validateObject(value, errors)
+  }
+}
+
+// @ts-ignore
+async function validateObject(obj: any, errors: string[]) {
+  if (Array.isArray(obj)) {
+    for (const item of obj) {
+      await validateValue(item, errors)
+    }
+  } else {
+    for (const key in obj) {
+      await validateValue(obj[key], errors)
+    }
+  }
+}
+
+// @ts-ignore
+export async function validateObjectMarkdownImages(obj: any): Promise<{ isValid: boolean; errors: string[] }> {
+  const errors: string[] = []
+
+  await validateObject(obj, errors)
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  }
+}

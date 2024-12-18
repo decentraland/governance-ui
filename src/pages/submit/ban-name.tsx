@@ -41,6 +41,7 @@ export default function SubmitBanName() {
     formState: { isDirty, isSubmitting, errors },
     control,
     setError: setFormError,
+    clearErrors,
     setValue,
     watch,
   } = useForm<NewProposalBanName>({ defaultValues: initialState, mode: 'onTouched' })
@@ -61,10 +62,13 @@ export default function SubmitBanName() {
 
     const imagesValidaton = await valdidateImagesUrls(data.description)
     if (!imagesValidaton.isValid) {
-      setFormError('description', { message: `Invalid images URLs: ${imagesValidaton.errors.join(', ')}` })
+      setFormError('description', {
+        message: t('error.invalid_image_url', { urls: imagesValidaton.errors.join(', ') }),
+      })
       setFormDisabled(false)
-
       return
+    } else {
+      clearErrors('description')
     }
 
     try {
