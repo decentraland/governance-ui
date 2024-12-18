@@ -121,12 +121,12 @@ export default function ProposalSubmitPoiPage({ poiType }: Props) {
           throw new Error(`error.poi.invalid_poi_type`)
       }
 
-      const descriptionImagesValidaton = await valdidateImagesUrls(data.description)
-      if (!descriptionImagesValidaton.isValid) {
+      const descriptionImagesValidation = await valdidateImagesUrls(data.description)
+      if (!descriptionImagesValidation.isValid) {
         setFormError('description', {
           message: t('error.invalid_images', {
-            count: descriptionImagesValidaton.errors.length,
-            urls: descriptionImagesValidaton.errors.join(', '),
+            count: descriptionImagesValidation.errors.length,
+            urls: descriptionImagesValidation.errors.join(', '),
           }),
         })
         setFormDisabled(false)

@@ -253,20 +253,20 @@ export default function SubmitLinkedWearables() {
     }
 
     setFormDisabled(true)
-    const imagesValidaton = await getImagesValidation(data.image_previews)
-    if (!imagesValidaton.isValid) {
+    const imagesValidation = await getImagesValidation(data.image_previews)
+    if (!imagesValidation.isValid) {
       setFormError('image_previews', { message: t('error.linked_wearables.image_type_invalid') })
       setFormDisabled(false)
 
       return
     }
 
-    const nftCollectionsImagesValidaton = await valdidateImagesUrls(data.nft_collections)
-    if (!nftCollectionsImagesValidaton.isValid) {
+    const nftCollectionsImagesValidation = await valdidateImagesUrls(data.nft_collections)
+    if (!nftCollectionsImagesValidation.isValid) {
       setFormError('nft_collections', {
         message: t('error.invalid_images', {
-          count: nftCollectionsImagesValidaton.errors.length,
-          urls: nftCollectionsImagesValidaton.errors.join(', '),
+          count: nftCollectionsImagesValidation.errors.length,
+          urls: nftCollectionsImagesValidation.errors.join(', '),
         }),
       })
       setFormDisabled(false)
@@ -275,12 +275,12 @@ export default function SubmitLinkedWearables() {
       clearErrors('nft_collections')
     }
 
-    const motivationImagesValidaton = await valdidateImagesUrls(data.motivation)
-    if (!motivationImagesValidaton.isValid) {
+    const motivationImagesValidation = await valdidateImagesUrls(data.motivation)
+    if (!motivationImagesValidation.isValid) {
       setFormError('motivation', {
         message: t('error.invalid_images', {
-          count: motivationImagesValidaton.errors.length,
-          urls: motivationImagesValidaton.errors.join(', '),
+          count: motivationImagesValidation.errors.length,
+          urls: motivationImagesValidation.errors.join(', '),
         }),
       })
       setFormDisabled(false)
@@ -289,12 +289,12 @@ export default function SubmitLinkedWearables() {
       clearErrors('motivation')
     }
 
-    const governanceImagesValidaton = await valdidateImagesUrls(data.governance)
-    if (!governanceImagesValidaton.isValid) {
+    const governanceImagesValidation = await valdidateImagesUrls(data.governance)
+    if (!governanceImagesValidation.isValid) {
       setFormError('governance', {
         message: t('error.invalid_images', {
-          count: governanceImagesValidaton.errors.length,
-          urls: governanceImagesValidaton.errors.join(', '),
+          count: governanceImagesValidation.errors.length,
+          urls: governanceImagesValidation.errors.join(', '),
         }),
       })
       setFormDisabled(false)

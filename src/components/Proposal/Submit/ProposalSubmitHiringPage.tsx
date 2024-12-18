@@ -107,12 +107,12 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
   const onSubmit: SubmitHandler<HiringState> = async (data) => {
     setFormDisabled(true)
 
-    const reasonsImagesValidaton = await valdidateImagesUrls(data.reasons)
-    if (!reasonsImagesValidaton.isValid) {
+    const reasonsImagesValidation = await valdidateImagesUrls(data.reasons)
+    if (!reasonsImagesValidation.isValid) {
       setFormError('reasons', {
         message: t('error.invalid_images', {
-          count: reasonsImagesValidaton.errors.length,
-          urls: reasonsImagesValidaton.errors.join(', '),
+          count: reasonsImagesValidation.errors.length,
+          urls: reasonsImagesValidation.errors.join(', '),
         }),
       })
       setFormDisabled(false)
@@ -121,12 +121,12 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
       clearErrors('reasons')
     }
 
-    const evidenceImagesValidaton = await valdidateImagesUrls(data.evidence)
-    if (!evidenceImagesValidaton.isValid) {
+    const evidenceImagesValidation = await valdidateImagesUrls(data.evidence)
+    if (!evidenceImagesValidation.isValid) {
       setFormError('evidence', {
         message: t('error.invalid_images', {
-          count: evidenceImagesValidaton.errors.length,
-          urls: evidenceImagesValidaton.errors.join(', '),
+          count: evidenceImagesValidation.errors.length,
+          urls: evidenceImagesValidation.errors.join(', '),
         }),
       })
       setFormDisabled(false)
