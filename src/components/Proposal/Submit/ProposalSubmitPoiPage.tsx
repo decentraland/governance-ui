@@ -10,6 +10,7 @@ import { useAuthContext } from '../../../context/AuthProvider'
 import { disableOnWheelInput } from '../../../helpers'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import { PoiType, ProposalType, newProposalPOIScheme } from '../../../types/proposals'
+import { valdidateImagesUrls } from '../../../utils/imageValidation'
 import locations from '../../../utils/locations'
 import { asNumber, isAlreadyPointOfInterest, isValidPointOfInterest } from '../../../utils/proposal'
 import Field from '../../Common/Form/Field'
@@ -96,6 +97,8 @@ export default function ProposalSubmitPoiPage({ poiType }: Props) {
     formState: { isDirty, errors, isSubmitting },
     control,
     setValue,
+    clearErrors,
+    setError: setFormError,
     watch,
   } = useForm<POIState>({ defaultValues: initialState })
 
@@ -116,6 +119,20 @@ export default function ProposalSubmitPoiPage({ poiType }: Props) {
           break
         default:
           throw new Error(`error.poi.invalid_poi_type`)
+      }
+
+      const descriptionImagesValidation = await valdidateImagesUrls(data.description)
+      if (!descriptionImagesValidation.isValid) {
+        setFormError('description', {
+          message: t('error.invalid_images', {
+            count: descriptionImagesValidation.errors.length,
+            urls: descriptionImagesValidation.errors.join(', '),
+          }),
+        })
+        setFormDisabled(false)
+        return
+      } else {
+        clearErrors('description')
       }
 
       const proposal = await Governance.get().createProposalPOI({

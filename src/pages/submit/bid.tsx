@@ -43,6 +43,7 @@ import useURLSearchParams from '../../hooks/useURLSearchParams'
 import useUserBid from '../../hooks/useUserBid'
 import { BidRequest, BidRequestFunding, BidRequestGeneralInfo } from '../../types/bids'
 import { ProposalType } from '../../types/proposals'
+import { validateObjectMarkdownImages } from '../../utils/imageValidation.ts'
 import locations from '../../utils/locations'
 import { userModifiedForm } from '../../utils/proposal'
 
@@ -134,6 +135,20 @@ export default function SubmitBid() {
       setIsLoading(true)
       const bidRequestParsed = parseStringsAsNumbers(bidRequest as BidRequest)
 
+      const imageValidation = await validateObjectMarkdownImages(bidRequestParsed)
+      if (!imageValidation.isValid) {
+        setSubmitError(
+          t('error.invalid_images', {
+            count: imageValidation.errors.length,
+            urls: imageValidation.errors.join(', '),
+          })
+        )
+        setIsFormDisabled(false)
+        setIsLoading(false)
+        preventNavigation.current = true
+        return
+      }
+
       try {
         await Governance.get().createProposalBid(bidRequestParsed)
         navigate(locations.proposal(bidRequestParsed.linked_proposal_id, { bid: 'true' }))
@@ -145,7 +160,7 @@ export default function SubmitBid() {
         preventNavigation.current = true
       }
     }
-  }, [allSectionsValid, bidRequest, navigate])
+  }, [allSectionsValid, bidRequest, navigate, t])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

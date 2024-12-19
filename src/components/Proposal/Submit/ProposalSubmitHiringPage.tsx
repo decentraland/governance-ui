@@ -16,6 +16,7 @@ import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useVotingPowerDistribution from '../../../hooks/useVotingPowerDistribution'
 import { HiringType, NewProposalHiring, ProposalType, newProposalHiringScheme } from '../../../types/proposals'
+import { valdidateImagesUrls } from '../../../utils/imageValidation'
 import locations from '../../../utils/locations'
 import Field from '../../Common/Form/Field'
 import MarkdownField from '../../Common/Form/MarkdownField'
@@ -76,6 +77,7 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
     formState: { isDirty, isSubmitting, errors },
     control,
     setValue,
+    setError: setFormError,
     clearErrors,
     watch,
   } = useForm<HiringState>({ defaultValues: initialState, mode: 'onTouched' })
@@ -104,6 +106,34 @@ export default function ProposalSubmitHiringPage({ type, committees, isCommittee
 
   const onSubmit: SubmitHandler<HiringState> = async (data) => {
     setFormDisabled(true)
+
+    const reasonsImagesValidation = await valdidateImagesUrls(data.reasons)
+    if (!reasonsImagesValidation.isValid) {
+      setFormError('reasons', {
+        message: t('error.invalid_images', {
+          count: reasonsImagesValidation.errors.length,
+          urls: reasonsImagesValidation.errors.join(', '),
+        }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('reasons')
+    }
+
+    const evidenceImagesValidation = await valdidateImagesUrls(data.evidence)
+    if (!evidenceImagesValidation.isValid) {
+      setFormError('evidence', {
+        message: t('error.invalid_images', {
+          count: evidenceImagesValidation.errors.length,
+          urls: evidenceImagesValidation.errors.join(', '),
+        }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('evidence')
+    }
 
     try {
       const proposal = await Governance.get().createProposalHiring({ type, ...data, committee: data.committee! })

@@ -20,6 +20,7 @@ import CoAuthors from '../../components/Proposal/Submit/CoAuthor/CoAuthors'
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { NewProposalBanName, ProposalType, newProposalBanNameScheme } from '../../types/proposals'
+import { valdidateImagesUrls } from '../../utils/imageValidation'
 import locations from '../../utils/locations'
 import { isAlreadyBannedName, isValidName } from '../../utils/proposal'
 
@@ -39,6 +40,8 @@ export default function SubmitBanName() {
     handleSubmit,
     formState: { isDirty, isSubmitting, errors },
     control,
+    setError: setFormError,
+    clearErrors,
     setValue,
     watch,
   } = useForm<NewProposalBanName>({ defaultValues: initialState, mode: 'onTouched' })
@@ -56,6 +59,20 @@ export default function SubmitBanName() {
 
   const onSubmit: SubmitHandler<NewProposalBanName> = async (data) => {
     setFormDisabled(true)
+
+    const imagesValidation = await valdidateImagesUrls(data.description)
+    if (!imagesValidation.isValid) {
+      setFormError('description', {
+        message: t('error.invalid_images', {
+          count: imagesValidation.errors.length,
+          urls: imagesValidation.errors.join(', '),
+        }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('description')
+    }
 
     try {
       if (isAlreadyBannedName(data.name)) {
