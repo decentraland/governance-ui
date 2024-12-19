@@ -396,7 +396,7 @@
       "too_short": "Rationale is too short",
       "too_large": "Rationale is too large"
     },
-    "invalid_images": "{count} {count, plural, one {image link is} other {images links are}} invalid. Images must be JPG, PNG, BMP or WEBP. Invalid {count, plural, one {URL} other {URLs}}: {urls}"
+    "invalid_images": "{count} {count, plural, one {image link is} other {images links are}} invalid. Images must be JPG, PNG, BMP or WEBP and from a trusted domain. Invalid {count, plural, one {URL} other {URLs}}: {urls}.\n\nTrusted domains: 'decentraland.org', 'cdn.decentraland.org', 'peer.decentraland.org', 'market.decentraland.org', 'governance.decentraland.org', 'events.decentraland.org', 'ipfs.io', 'githubusercontent.com', 'imgur.com', 'i.imgur.com', 'cloudinary.com', 'res.cloudinary.com', 'images.unsplash.com', 'i.ibb.co', 'postimg.cc', 'i.postimg.cc', 's3.amazonaws.com', 'storage.googleapis.com', 'drive.google.com', 'dropboxusercontent.com', 'www.dropbox.com', 'media.discordapp.net', 'cdn.discordapp.com', 'discord.com', 'discord.gg'"
   },
   "category": {
     "new": "New",
