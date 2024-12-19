@@ -21,6 +21,7 @@ import CoAuthors from '../../../components/Proposal/Submit/CoAuthor/CoAuthors'
 import { useAuthContext } from '../../../context/AuthProvider'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import { CatalystType, NewProposalCatalyst, ProposalType, newProposalCatalystScheme } from '../../../types/proposals'
+import { valdidateImagesUrls } from '../../../utils/imageValidation'
 import locations from '../../../utils/locations'
 import { isAlreadyACatalyst, isValidDomainName } from '../../../utils/proposal'
 import Head from '../../Layout/Head'
@@ -131,6 +132,21 @@ export default function ProposalSubmitCatalystPage({ catalystType }: Props) {
     }
 
     setFormDisabled(true)
+
+    const imagesValidation = await valdidateImagesUrls(data.description)
+    if (!imagesValidation.isValid) {
+      setFormError('description', {
+        message: t('error.invalid_images', {
+          count: imagesValidation.errors.length,
+          urls: imagesValidation.errors.join(', '),
+        }),
+      })
+      setFormDisabled(false)
+
+      return
+    } else {
+      clearErrors('description')
+    }
 
     try {
       const isDomainAlreadyACatalyst = isAlreadyACatalyst(data.domain)

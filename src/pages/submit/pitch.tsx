@@ -26,6 +26,7 @@ import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useVotingPowerDistribution from '../../hooks/useVotingPowerDistribution'
 import { NewProposalPitch, ProposalType, newProposalPitchScheme } from '../../types/proposals'
+import { validateObjectMarkdownImages } from '../../utils/imageValidation.ts'
 import locations from '../../utils/locations'
 
 import './submit.css'
@@ -72,6 +73,18 @@ export default function SubmitPitchProposal() {
 
   const onSubmit: SubmitHandler<NewProposalPitch> = async (data) => {
     setFormDisabled(true)
+
+    const imageValidation = await validateObjectMarkdownImages(data)
+    if (!imageValidation.isValid) {
+      setError(
+        t('error.invalid_images', {
+          count: imageValidation.errors.length,
+          urls: imageValidation.errors.join(', '),
+        })
+      )
+      setFormDisabled(false)
+      return
+    }
 
     try {
       const proposal = await Governance.get().createProposalPitch({

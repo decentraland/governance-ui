@@ -32,6 +32,7 @@ import {
   ProposalType,
   newProposalGovernanceScheme,
 } from '../../types/proposals'
+import { validateObjectMarkdownImages } from '../../utils/imageValidation'
 import locations from '../../utils/locations'
 
 import './submit.css'
@@ -99,6 +100,18 @@ export default function SubmitGovernanceProposal() {
 
   const onSubmit: SubmitHandler<NewProposalGovernance> = async (data) => {
     setFormDisabled(true)
+
+    const imageValidation = await validateObjectMarkdownImages(data)
+    if (!imageValidation.isValid) {
+      setError(
+        t('error.invalid_images', {
+          count: imageValidation.errors.length,
+          urls: imageValidation.errors.join(', '),
+        })
+      )
+      setFormDisabled(false)
+      return
+    }
 
     try {
       const proposal = await Governance.get().createProposalGovernance({

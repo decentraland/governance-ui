@@ -395,7 +395,8 @@
     "rationale": {
       "too_short": "Rationale is too short",
       "too_large": "Rationale is too large"
-    }
+    },
+    "invalid_images": "{count} {count, plural, one {image link is} other {images links are}} invalid. Images must be JPG, PNG, BMP or WEBP. Invalid {count, plural, one {URL} other {URLs}}: {urls}"
   },
   "category": {
     "new": "New",

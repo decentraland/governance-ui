@@ -37,6 +37,7 @@ import {
   UpdateSubmissionDetails,
 } from '../../types/updates'
 import { FeatureFlags } from '../../utils/features'
+import { validateObjectMarkdownImages } from '../../utils/imageValidation.ts'
 import locations from '../../utils/locations'
 import { userModifiedForm } from '../../utils/proposal.ts'
 import { getLatestUpdate, getReleases } from '../../utils/updates'
@@ -169,6 +170,19 @@ export default function SubmitUpdatePage({ isEdit }: Props) {
       next_steps: data.next_steps,
       additional_notes: data.additional_notes,
       financial_records: data.financial_records?.length ? data.financial_records : null,
+    }
+
+    const imageValidation = await validateObjectMarkdownImages(newUpdate)
+    if (!imageValidation.isValid) {
+      setError(
+        t('error.invalid_images', {
+          count: imageValidation.errors.length,
+          urls: imageValidation.errors.join(', '),
+        })
+      )
+      setFormDisabled(false)
+      preventNavigation.current = true
+      return
     }
 
     try {

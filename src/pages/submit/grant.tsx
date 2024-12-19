@@ -46,6 +46,7 @@ import {
   VALID_CATEGORIES,
 } from '../../types/grants'
 import { ProposalType } from '../../types/proposals'
+import { validateObjectMarkdownImages } from '../../utils/imageValidation.ts'
 import locations from '../../utils/locations'
 import { asNumber, isGrantProposalSubmitEnabled, userModifiedForm } from '../../utils/proposal'
 import { toNewGrantCategory } from '../../utils/quarterCategoryBudget'
@@ -154,10 +155,24 @@ export default function SubmitGrant() {
     navigate('/submit')
   }
 
-  const submit = useCallback(() => {
+  const submit = useCallback(async () => {
     if (allSectionsValid) {
       preventNavigation.current = false
       setIsFormDisabled(true)
+
+      const imageValidation = await validateObjectMarkdownImages(grantRequest)
+      if (!imageValidation.isValid) {
+        setSubmitError(
+          t('error.invalid_images', {
+            count: imageValidation.errors.length,
+            urls: imageValidation.errors.join(', '),
+          })
+        )
+        setIsFormDisabled(false)
+        preventNavigation.current = true
+        return
+      }
+
       Promise.resolve()
         .then(async () => {
           parseStringsAsNumbers(grantRequest)

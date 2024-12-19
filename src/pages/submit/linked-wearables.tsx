@@ -31,6 +31,7 @@ import { useAuthContext } from '../../context/AuthProvider'
 import { disableOnWheelInput, isHttpsURL } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { ProposalType, newProposalLinkedWearablesScheme } from '../../types/proposals'
+import { valdidateImagesUrls } from '../../utils/imageValidation'
 import locations from '../../utils/locations'
 import { asNumber, isValidImage } from '../../utils/proposal'
 
@@ -252,12 +253,54 @@ export default function SubmitLinkedWearables() {
     }
 
     setFormDisabled(true)
-    const imagesValidaton = await getImagesValidation(data.image_previews)
-    if (!imagesValidaton.isValid) {
+    const imagesValidation = await getImagesValidation(data.image_previews)
+    if (!imagesValidation.isValid) {
       setFormError('image_previews', { message: t('error.linked_wearables.image_type_invalid') })
       setFormDisabled(false)
 
       return
+    }
+
+    const nftCollectionsImagesValidation = await valdidateImagesUrls(data.nft_collections)
+    if (!nftCollectionsImagesValidation.isValid) {
+      setFormError('nft_collections', {
+        message: t('error.invalid_images', {
+          count: nftCollectionsImagesValidation.errors.length,
+          urls: nftCollectionsImagesValidation.errors.join(', '),
+        }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('nft_collections')
+    }
+
+    const motivationImagesValidation = await valdidateImagesUrls(data.motivation)
+    if (!motivationImagesValidation.isValid) {
+      setFormError('motivation', {
+        message: t('error.invalid_images', {
+          count: motivationImagesValidation.errors.length,
+          urls: motivationImagesValidation.errors.join(', '),
+        }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('motivation')
+    }
+
+    const governanceImagesValidation = await valdidateImagesUrls(data.governance)
+    if (!governanceImagesValidation.isValid) {
+      setFormError('governance', {
+        message: t('error.invalid_images', {
+          count: governanceImagesValidation.errors.length,
+          urls: governanceImagesValidation.errors.join(', '),
+        }),
+      })
+      setFormDisabled(false)
+      return
+    } else {
+      clearErrors('governance')
     }
 
     try {
