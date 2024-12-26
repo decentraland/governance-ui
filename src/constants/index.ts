@@ -32,3 +32,4 @@ export const TRANSPARENCY_API = config.get('DCL_DATA_API')
 export const VESTING_DASHBOARD_URL = config.get('VESTING_DASHBOARD_URL')
 export const GRANT_PROPOSAL_SUBMIT_ENABLED = false
 export const PITCH_PROPOSAL_SUBMIT_ENABLED = false
+export const LINKED_WEARABLES_PROPOSAL_SUBMIT_ENABLED = false

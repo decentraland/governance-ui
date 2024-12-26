@@ -10,7 +10,11 @@ import {
   AddRemoveProposalModal,
   AddRemoveProposalModalProps,
 } from '../../components/Modal/AddRemoveProposalModal/AddRemoveProposalModal'
-import { GRANT_PROPOSAL_SUBMIT_ENABLED, PITCH_PROPOSAL_SUBMIT_ENABLED } from '../../constants'
+import {
+  GRANT_PROPOSAL_SUBMIT_ENABLED,
+  LINKED_WEARABLES_PROPOSAL_SUBMIT_ENABLED,
+  PITCH_PROPOSAL_SUBMIT_ENABLED,
+} from '../../constants'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { CatalystType, HiringType, PoiType, ProposalType } from '../../types/proposals'
 import { getCommitteesWithOpenSlots } from '../../utils/committee'
@@ -81,7 +85,9 @@ export default function SubmitPage() {
             onClick={() => setProposalModalProps({ ...POI_MODAL_PROPS, open: true })}
           />
           <CategoryBanner type={ProposalType.BanName} href={locations.submit(ProposalType.BanName)} />
-          <CategoryBanner type={ProposalType.LinkedWearables} href={locations.submit(ProposalType.LinkedWearables)} />
+          {LINKED_WEARABLES_PROPOSAL_SUBMIT_ENABLED && (
+            <CategoryBanner type={ProposalType.LinkedWearables} href={locations.submit(ProposalType.LinkedWearables)} />
+          )}
           {GRANT_PROPOSAL_SUBMIT_ENABLED && (
             <CategoryBanner
               type={ProposalType.Grant}
