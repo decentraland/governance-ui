@@ -27,6 +27,7 @@ import LoadingView from '../../components/Layout/LoadingView'
 import LogIn from '../../components/Layout/LogIn'
 import PostLabel from '../../components/PostLabel'
 import CoAuthors from '../../components/Proposal/Submit/CoAuthor/CoAuthors'
+import { LINKED_WEARABLES_PROPOSAL_SUBMIT_ENABLED } from '../../constants'
 import { useAuthContext } from '../../context/AuthProvider'
 import { disableOnWheelInput, isHttpsURL } from '../../helpers'
 import useFormatMessage from '../../hooks/useFormatMessage'
@@ -108,6 +109,12 @@ const getImagesValidation = async (urls: Record<string, string>) => {
 export default function SubmitLinkedWearables() {
   const t = useFormatMessage()
   const [account, accountState] = useAuthContext()
+  const navigate = useNavigate()
+
+  if (!LINKED_WEARABLES_PROPOSAL_SUBMIT_ENABLED) {
+    navigate('/submit')
+  }
+
   const {
     handleSubmit,
     formState: { isDirty, isSubmitting, errors },
@@ -122,7 +129,6 @@ export default function SubmitLinkedWearables() {
   const [error, setError] = useState('')
   const preventNavigation = useRef(false)
   const values = useWatch({ control })
-  const navigate = useNavigate()
 
   const setCoAuthors = (addresses?: string[]) => setValue('coAuthors', addresses)
 
