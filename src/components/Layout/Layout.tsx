@@ -12,6 +12,7 @@ import {
   DROPDOWN_MENU_SIGN_OUT_EVENT,
 } from 'decentraland-dapps/dist/containers/Navbar/constants'
 import useNotifications from 'decentraland-dapps/dist/hooks/useNotifications'
+import { Navbar as Navbar2 } from 'decentraland-ui2'
 import { Footer } from 'decentraland-ui/dist/components/Footer/Footer'
 import { Navbar } from 'decentraland-ui/dist/components/Navbar/Navbar'
 import { ManaBalancesProps } from 'decentraland-ui/dist/components/UserMenu/ManaBalances/ManaBalances.types'
@@ -34,6 +35,7 @@ import { LinkDiscordModal } from '../Modal/LinkDiscordModal/LinkDiscordModal'
 import WrongNetworkModal from '../Modal/WrongNetworkModal'
 
 import './Layout.css'
+import { LayoutContainer } from './Layout.styled'
 
 type LayoutProps = {
   children?: React.ReactNode
@@ -85,6 +87,7 @@ export default function Layout({ children }: LayoutProps) {
   const { profile, isLoadingDclProfile } = useDclProfile(user)
   const chainId = userState.chainId
   const isAuthDappEnabled = isFeatureFlagEnabled(FeatureFlags.AuthDapp)
+  const isNavbar2Enabled = isFeatureFlagEnabled(FeatureFlags.Navbar2)
 
   const { data: manaBalances } = useQuery({
     queryKey: ['manaBalances', user, chainId],
@@ -98,13 +101,11 @@ export default function Layout({ children }: LayoutProps) {
   })
 
   const handleClickBalance = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (event: any, network: Network) => {
+    (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>, network?: Network) => {
       event.preventDefault()
       track(DROPDOWN_MENU_BALANCE_CLICK_EVENT, { network })
 
       setTimeout(() => {
-        // TODO: Missing variable ACCOUNT_URL
         window.open(config.get('ACCOUNT_URL'), '_blank', 'noopener')
       }, 300)
     },
@@ -145,42 +146,80 @@ export default function Layout({ children }: LayoutProps) {
   } = useNotifications(dclIdentity, withNotifications)
 
   return (
-    <>
-      <Navbar
-        manaBalances={manaBalances as ManaBalancesProps['manaBalances']}
-        address={user || undefined}
-        avatar={hasProfile ? (profile as unknown as Avatar) : undefined}
-        activePage="governance"
-        isSignedIn={hasProfile}
-        isSigningIn={userState.loading || isLoadingDclProfile}
-        onClickBalance={handleClickBalance}
-        onClickNavbarItem={handleClickNavbarOption}
-        onClickUserMenuItem={handleClickUserMenuOption}
-        onClickOpen={handleOpen}
-        onClickSignIn={isAuthDappEnabled ? userState.authorize : userState.select}
-        onClickSignOut={handleSignOut}
-        notifications={
-          withNotifications
-            ? {
-                locale: 'en',
-                isLoading,
-                isOnboarding: isNotificationsOnboarding,
-                isOpen: isModalOpen,
-                items: notifications,
-                activeTab: modalActiveTab,
-                onClick: handleNotificationsOpen,
-                onClose: handleNotificationsOpen,
-                onBegin: handleOnBegin,
-                onChangeTab: (_, tab) => handleOnChangeModalTab(tab),
-                renderProfile: (address: string) => (
-                  <div className="layout__notifications-profile">
-                    <AvatarComponent address={address} size="xs" /> {addressShortener(address)}
-                  </div>
-                ),
-              }
-            : undefined
-        }
-      />
+    <LayoutContainer isNavbar2Enabled={isNavbar2Enabled}>
+      {isNavbar2Enabled ? (
+        <Navbar2
+          manaBalances={manaBalances as ManaBalancesProps['manaBalances']}
+          address={user || undefined}
+          avatar={hasProfile ? (profile as unknown as Avatar) : undefined}
+          activePage="governance"
+          isSignedIn={hasProfile}
+          isSigningIn={userState.loading || isLoadingDclProfile}
+          onClickBalance={handleClickBalance}
+          onClickNavbarItem={handleClickNavbarOption}
+          onClickUserMenuItem={handleClickUserMenuOption}
+          onClickOpen={handleOpen}
+          onClickSignIn={isAuthDappEnabled ? userState.authorize : userState.select}
+          onClickSignOut={handleSignOut}
+          notifications={
+            withNotifications
+              ? {
+                  locale: 'en',
+                  isLoading,
+                  isOnboarding: isNotificationsOnboarding,
+                  isOpen: isModalOpen,
+                  items: notifications,
+                  activeTab: modalActiveTab,
+                  onClick: handleNotificationsOpen,
+                  onClose: handleNotificationsOpen,
+                  onBegin: handleOnBegin,
+                  onChangeTab: (_, tab) => handleOnChangeModalTab(tab),
+                  renderProfile: (address: string) => (
+                    <div className="layout__notifications-profile">
+                      <AvatarComponent address={address} size="xs" /> {addressShortener(address)}
+                    </div>
+                  ),
+                }
+              : undefined
+          }
+        />
+      ) : (
+        <Navbar
+          manaBalances={manaBalances as ManaBalancesProps['manaBalances']}
+          address={user || undefined}
+          avatar={hasProfile ? (profile as unknown as Avatar) : undefined}
+          activePage="governance"
+          isSignedIn={hasProfile}
+          isSigningIn={userState.loading || isLoadingDclProfile}
+          onClickBalance={handleClickBalance}
+          onClickNavbarItem={handleClickNavbarOption}
+          onClickUserMenuItem={handleClickUserMenuOption}
+          onClickOpen={handleOpen}
+          onClickSignIn={isAuthDappEnabled ? userState.authorize : userState.select}
+          onClickSignOut={handleSignOut}
+          notifications={
+            withNotifications
+              ? {
+                  locale: 'en',
+                  isLoading,
+                  isOnboarding: isNotificationsOnboarding,
+                  isOpen: isModalOpen,
+                  items: notifications,
+                  activeTab: modalActiveTab,
+                  onClick: handleNotificationsOpen,
+                  onClose: handleNotificationsOpen,
+                  onBegin: handleOnBegin,
+                  onChangeTab: (_, tab) => handleOnChangeModalTab(tab),
+                  renderProfile: (address: string) => (
+                    <div className="layout__notifications-profile">
+                      <AvatarComponent address={address} size="xs" /> {addressShortener(address)}
+                    </div>
+                  ),
+                }
+              : undefined
+          }
+        />
+      )}
       <main>{children}</main>
       <WrongNetworkModal
         currentNetwork={chainId}
@@ -191,6 +230,6 @@ export default function Layout({ children }: LayoutProps) {
       <LinkDiscordModal />
       <ExternalLinkWarningModal />
       <Footer locale="en" locales={['en']} isFullWidth={false} className="WiderFooter" />
-    </>
+    </LayoutContainer>
   )
 }
