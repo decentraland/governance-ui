@@ -53,8 +53,7 @@ import { getAnalytics } from './utils/analytics/segment.ts'
 import ProjectPage from './pages/project.tsx'
 
 import {
-  CssBaseline,
-  Experimental_CssVarsProvider as CssVarsProvider,
+  DclThemeProvider,
   lightTheme,
 } from "decentraland-ui2"
 
@@ -114,12 +113,11 @@ function LayoutShell() {
   return (
       <IntlProvider defaultLocale="en" locale="en" messages={flattenMessages(en)}>
         <SnapshotStatus />
-        <CssVarsProvider theme={lightTheme} >
-          <CssBaseline />
+        <DclThemeProvider theme={lightTheme} >
           <Layout>
             <Outlet />
           </Layout>
-        </CssVarsProvider>
+        </DclThemeProvider>
       </IntlProvider>
   )
 }
