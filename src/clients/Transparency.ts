@@ -87,6 +87,14 @@ const EMPTY_API: TransparencyData = {
   committees: [],
 }
 
+const EMPTY_TEAMS: TransparencyTeams = {
+  committees: [],
+}
+
+export type TransparencyTeams = {
+  committees: Committee[]
+}
+
 export class Transparency {
   static async getData() {
     try {
@@ -115,6 +123,16 @@ export class Transparency {
     } catch (error) {
       ErrorClient.report('Failed to fetch transparency vestings data', { error, category: ErrorCategory.Transparency })
       return []
+    }
+  }
+
+  static async getTeams() {
+    try {
+      const response = (await (await fetch(`${TRANSPARENCY_API}/teams.json`)).json()) as TransparencyTeams
+      return response
+    } catch (error) {
+      ErrorClient.report('Failed to fetch transparency data', { error, category: ErrorCategory.Transparency })
+      return EMPTY_TEAMS
     }
   }
 }
