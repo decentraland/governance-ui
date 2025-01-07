@@ -52,6 +52,11 @@ import { config } from './config/index.ts'
 import { getAnalytics } from './utils/analytics/segment.ts'
 import ProjectPage from './pages/project.tsx'
 
+import {
+  DclThemeProvider,
+  lightTheme,
+} from "decentraland-ui2"
+
 getAnalytics().load(config.get('SEGMENT_KEY'))
 
 const queryClient = new QueryClient()
@@ -108,9 +113,11 @@ function LayoutShell() {
   return (
       <IntlProvider defaultLocale="en" locale="en" messages={flattenMessages(en)}>
         <SnapshotStatus />
-        <Layout>
-          <Outlet />
-        </Layout>
+        <DclThemeProvider theme={lightTheme} >
+          <Layout>
+            <Outlet />
+          </Layout>
+        </DclThemeProvider>
       </IntlProvider>
   )
 }
