@@ -50,7 +50,7 @@ export default function Layout({ children }: LayoutProps) {
   const analytics = getAnalytics()
 
   useEffect(() => {
-    analytics.page()
+    analytics?.page()
   }, [analytics, location])
 
   const handleClickUserMenuOption = useAnalyticsTrackLink(function (
