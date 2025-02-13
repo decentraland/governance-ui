@@ -32,7 +32,7 @@
   "homepage": "",
   "dependencies": {
     "@dcl/feature-flags": "^1.2.0",
-    "@dcl/schemas": "^13.10.0",
+    "@dcl/schemas": "^15.1.2",
     "@dcl/ui-env": "^1.4.0",
     "@hookform/resolvers": "^3.4.2",
     "@pushprotocol/restapi": "^1.7.3",
