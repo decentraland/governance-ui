@@ -57,7 +57,7 @@ import {
   lightTheme,
 } from "decentraland-ui2"
 
-getAnalytics().load(config.get('SEGMENT_KEY'))
+getAnalytics()?.load(config.get('SEGMENT_KEY'))
 
 const queryClient = new QueryClient()
 
