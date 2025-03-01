@@ -13,6 +13,7 @@ import Bid from '../Icon/ProposalCategories/Bid'
 import Catalyst from '../Icon/ProposalCategories/Catalyst'
 import CatalystAdd from '../Icon/ProposalCategories/CatalystAdd'
 import CatalystRemove from '../Icon/ProposalCategories/CatalystRemove'
+import CouncilDecisionVeto from '../Icon/ProposalCategories/CouncilDecisionVeto'
 import Draft from '../Icon/ProposalCategories/Draft'
 import Governance from '../Icon/ProposalCategories/Governance'
 import Grant from '../Icon/ProposalCategories/Grant'
@@ -45,6 +46,7 @@ export const categoryIcons = {
   [ProposalType.Tender]: Tender,
   [ProposalType.Bid]: Bid,
   [ProposalType.Hiring]: Hiring,
+  [ProposalType.CouncilDecisionVeto]: CouncilDecisionVeto,
   [HiringType.Add]: HiringAdd,
   [HiringType.Remove]: HiringRemove,
   [CatalystType.Add]: CatalystAdd,

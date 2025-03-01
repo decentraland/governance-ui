@@ -65,6 +65,7 @@
   --background-grant: rgba(60, 36, 179, 0.08);
   --background-poll: rgba(255, 116, 57, 0.08);
   --background-hiring: rgba(0, 182, 138, 0.08);
+  --background-council-decision-veto: rgba(216, 0, 39, 0.08);
   --background-add-hiring: rgba(68, 182, 0, 0.08);
   --background-remove-hiring: var(--red-100);
   --background-remove-poi: var(--red-100);

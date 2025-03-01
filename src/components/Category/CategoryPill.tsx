@@ -19,6 +19,7 @@ export const ColorsConfig: Record<ProposalType, PillColor> = {
   [ProposalType.Tender]: PillColor.Red,
   [ProposalType.Bid]: PillColor.Red,
   [ProposalType.Hiring]: PillColor.Aqua,
+  [ProposalType.CouncilDecisionVeto]: PillColor.Red,
 }
 
 type Props = {
@@ -30,7 +31,14 @@ type Props = {
 }
 
 function getProposalTypeShortLabel(proposalType: ProposalType) {
-  return proposalType === ProposalType.LinkedWearables ? 'LWearables' : getEnumDisplayName(proposalType)
+  switch (proposalType) {
+    case ProposalType.LinkedWearables:
+      return 'LWearables'
+    case ProposalType.CouncilDecisionVeto:
+      return 'Decision Veto'
+    default:
+      return getEnumDisplayName(proposalType)
+  }
 }
 
 export default function CategoryPill({ className, proposalType, size = 'md', isLink = false, color }: Props) {

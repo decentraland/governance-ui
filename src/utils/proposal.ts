@@ -97,6 +97,18 @@ export function snapshotUrl(hash: string) {
   return target.toString()
 }
 
+export function getSnapshotIdFromUrl(snapshotUrl: string) {
+  const target = new URL(snapshotUrl)
+  const hash = target.hash.slice(1)
+
+  const proposalMatch = hash.match(/\/proposal\/([^/]+)$/)
+  if (proposalMatch && proposalMatch[1]) {
+    return proposalMatch[1]
+  }
+
+  return hash.split('/').pop() || ''
+}
+
 export function snapshotProposalUrl(proposal: Pick<ProposalAttributes, 'snapshot_id' | 'snapshot_space'>) {
   return snapshotUrl(`#/${proposal.snapshot_space}/proposal/${proposal.snapshot_id}`)
 }

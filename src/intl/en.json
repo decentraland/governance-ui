@@ -209,6 +209,15 @@
       "fetching_catalyst": "Error fetching catalysts",
       "server_invalid_status": "Error fetching catalyst statuses"
     },
+    "council_decision_veto": {
+      "decision_snapshot_id_empty": "Council Decision URL is empty",
+      "reasons_empty": "Please provide a reason for vetoing this decision",
+      "suggestions_empty": "Please provide suggestions for the Council",
+      "reasons_too_short": "Reasons field is too short",
+      "reasons_too_large": "Reasons field is too large",
+      "suggestions_too_short": "Suggestions field is too short",
+      "suggestions_too_large": "Suggestions field is too large"
+    },
     "grant": {
       "submission_vp_not_met": "This action requires at least {threshold} VP.",
       "funding": {
@@ -435,6 +444,8 @@
     "hiring_add_paused": "There are no open seats in any of the DAO Committees",
     "hiring_remove_title": "Remove Committee Member",
     "hiring_remove_description": "Suggest to demote a specific DAO member from their Committee duties",
+    "council_decision_veto_title": "Council Decision Veto",
+    "council_decision_veto_description": "Request to veto a Council Decision",
     "poll_title": "Poll",
     "poll_description": "Ask community members for their opinion on an issue or topic",
     "draft_title": "Draft",
@@ -1926,6 +1937,17 @@
       "target_description": "Only those with available positions are listed",
       "address_placeholder": "Enter their address",
       "member_placeholder": "Select a member"
+    },
+    "submit_council_decision_veto": {
+      "title": "Council Decision Veto",
+      "description": "Allows the community to challenge and veto recent decisions made by the DAO Council through a governance vote.",
+      "decision_snapshot_id_label": "DAO Council Decision (URL)",
+      "decision_snapshot_id_detail": "This field requires the URL of the DAO Council decision from the Council Snapshot Space. It validates two conditions: 1. The URL must belong to the Council Snapshot Space. 2. The proposal must have been closed no more than 14 days before this veto proposal is created.",
+      "decision_snapshot_id_placeholder": "URL of the Council decision you want to veto (must be from the Council Snapshot Space).",
+      "reasons_label": "Reasons to Veto",
+      "reasons_detail": "Explain why you believe this decision should be vetoed. Consider including potential issues, inconsistencies, or negative impacts.",
+      "suggestions_label": "Suggestions to the Council",
+      "suggestions_detail": "Share your suggestions or alternative recommendations for the Council regarding this decision."
     },
     "submit_catalyst": {
       "catalyst_add": {
