@@ -216,7 +216,8 @@
       "reasons_too_short": "Reasons field is too short",
       "reasons_too_large": "Reasons field is too large",
       "suggestions_too_short": "Suggestions field is too short",
-      "suggestions_too_large": "Suggestions field is too large"
+      "suggestions_too_large": "Suggestions field is too large",
+      "submission_vp_not_met": "This action requires at least {threshold} VP."
     },
     "grant": {
       "submission_vp_not_met": "This action requires at least {threshold} VP.",

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
@@ -17,8 +17,10 @@ import Head from '../../components/Layout/Head'
 import LoadingView from '../../components/Layout/LoadingView'
 import LogIn from '../../components/Layout/LogIn'
 import CoAuthors from '../../components/Proposal/Submit/CoAuthor/CoAuthors'
+import { SUBMISSION_THRESHOLD_COUNCIL_DECISION_VETO } from '../../constants/proposals'
 import { useAuthContext } from '../../context/AuthProvider'
 import useFormatMessage from '../../hooks/useFormatMessage'
+import useVotingPowerDistribution from '../../hooks/useVotingPowerDistribution'
 import {
   NewProposalCouncilDecisionVeto,
   ProposalType,
@@ -27,6 +29,7 @@ import {
 import locations from '../../utils/locations'
 import { getSnapshotIdFromUrl } from '../../utils/proposal'
 
+import './council-decision-veto.css'
 import './submit.css'
 
 const initialState: NewProposalCouncilDecisionVeto = {
@@ -47,6 +50,12 @@ export default function SubmitCouncilDecisionVeto() {
     setValue,
     watch,
   } = useForm<NewProposalCouncilDecisionVeto>({ defaultValues: initialState, mode: 'onTouched' })
+  const { vpDistribution, isLoadingVpDistribution } = useVotingPowerDistribution(account)
+  const submissionVpNotMet = useMemo(
+    () => !!vpDistribution && vpDistribution.total < Number(SUBMISSION_THRESHOLD_COUNCIL_DECISION_VETO),
+    [vpDistribution]
+  )
+  console.log('submissionVpNotMet', submissionVpNotMet, SUBMISSION_THRESHOLD_COUNCIL_DECISION_VETO)
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
@@ -62,10 +71,13 @@ export default function SubmitCouncilDecisionVeto() {
   const onSubmit: SubmitHandler<NewProposalCouncilDecisionVeto> = async (data) => {
     setFormDisabled(true)
 
+    const { suggestions, decision_snapshot_id, ...rest } = data
+
     try {
       const proposal = await Governance.get().createProposalCouncilDecisionVeto({
-        ...data,
-        decision_snapshot_id: getSnapshotIdFromUrl(data.decision_snapshot_id),
+        decision_snapshot_id: getSnapshotIdFromUrl(decision_snapshot_id),
+        suggestions: suggestions || undefined,
+        ...rest,
       })
       navigate(locations.proposal(proposal.id, { new: 'true' }), { replace: true })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,7 +121,8 @@ export default function SubmitCouncilDecisionVeto() {
               required: { value: true, message: t('error.council_decision_veto.decision_snapshot_id_empty') },
             }}
             message={t(errors.decision_snapshot_id?.message)}
-            disabled={formDisabled}
+            disabled={formDisabled || submissionVpNotMet}
+            loading={isLoadingVpDistribution}
           />
         </ContentSection>
         <ContentSection>
@@ -130,7 +143,7 @@ export default function SubmitCouncilDecisionVeto() {
                 message: t('error.council_decision_veto.reasons_too_large'),
               },
             }}
-            disabled={formDisabled}
+            disabled={formDisabled || submissionVpNotMet || isLoadingVpDistribution}
             error={!!errors.reasons}
             message={
               t(errors.reasons?.message) +
@@ -143,13 +156,16 @@ export default function SubmitCouncilDecisionVeto() {
           />
         </ContentSection>
         <ContentSection>
-          <Label>{t('page.submit_council_decision_veto.suggestions_label')}</Label>
+          <div className="CouncilDecisionVeto__LabelContainer">
+            <Label>{t('page.submit_council_decision_veto.suggestions_label')}</Label>
+            <sup className="Optional">{t('page.submit.optional_tooltip')}</sup>
+          </div>
           <SubLabel>{t('page.submit_council_decision_veto.suggestions_detail')}</SubLabel>
           <MarkdownField
             control={control}
             name="suggestions"
             rules={{
-              required: { value: true, message: t('error.council_decision_veto.suggestions_empty') },
+              required: { value: false, message: t('error.council_decision_veto.suggestions_empty') },
               minLength: {
                 value: schema.suggestions.minLength,
                 message: t('error.council_decision_veto.suggestions_too_short'),
@@ -159,26 +175,38 @@ export default function SubmitCouncilDecisionVeto() {
                 message: t('error.council_decision_veto.suggestions_too_large'),
               },
             }}
-            disabled={formDisabled}
+            disabled={formDisabled || submissionVpNotMet || isLoadingVpDistribution}
             error={!!errors.suggestions}
             message={
               t(errors.suggestions?.message) +
               ' ' +
               t('page.submit.character_counter', {
-                current: watch('suggestions').length,
+                current: watch('suggestions')?.length || 0,
                 limit: schema.suggestions.maxLength,
               })
             }
           />
         </ContentSection>
         <ContentSection>
-          <CoAuthors setCoAuthors={setCoAuthors} isDisabled={formDisabled} />
+          <CoAuthors
+            setCoAuthors={setCoAuthors}
+            isDisabled={formDisabled || submissionVpNotMet || isLoadingVpDistribution}
+          />
         </ContentSection>
         <ContentSection>
           <Button primary type="submit" disabled={formDisabled} loading={isSubmitting}>
             {t('page.submit.button_submit')}
           </Button>
         </ContentSection>
+        {submissionVpNotMet && (
+          <ContentSection>
+            <Text size="lg" color="primary">
+              {t('error.council_decision_veto.submission_vp_not_met', {
+                threshold: SUBMISSION_THRESHOLD_COUNCIL_DECISION_VETO,
+              })}
+            </Text>
+          </ContentSection>
+        )}
         {error && (
           <ContentSection>
             <ErrorMessage label={t('page.submit.error_label')} errorMessage={t(error) || error} />

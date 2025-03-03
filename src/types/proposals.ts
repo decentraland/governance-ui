@@ -431,7 +431,7 @@ export const newProposalHiringScheme = {
 export type NewProposalCouncilDecisionVeto = {
   decision_snapshot_id: string
   reasons: string
-  suggestions: string
+  suggestions?: string
   coAuthors?: string[]
 }
 
