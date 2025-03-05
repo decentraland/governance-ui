@@ -27,7 +27,6 @@ import {
   newProposalCouncilDecisionVetoScheme,
 } from '../../types/proposals'
 import locations from '../../utils/locations'
-import { getSnapshotIdFromUrl } from '../../utils/proposal'
 
 import './council-decision-veto.css'
 import './submit.css'
@@ -39,6 +38,18 @@ const initialState: NewProposalCouncilDecisionVeto = {
 }
 
 const schema = newProposalCouncilDecisionVetoScheme.properties
+
+function getSnapshotIdFromUrl(snapshotUrl: string) {
+  const target = new URL(snapshotUrl)
+  const hash = target.hash.slice(1)
+
+  const proposalMatch = hash.match(/\/proposal\/([^/]+)$/)
+  if (proposalMatch && proposalMatch[1]) {
+    return proposalMatch[1]
+  }
+
+  return hash.split('/').pop() || ''
+}
 
 export default function SubmitCouncilDecisionVeto() {
   const t = useFormatMessage()
@@ -55,7 +66,6 @@ export default function SubmitCouncilDecisionVeto() {
     () => !!vpDistribution && vpDistribution.total < Number(SUBMISSION_THRESHOLD_COUNCIL_DECISION_VETO),
     [vpDistribution]
   )
-  console.log('submissionVpNotMet', submissionVpNotMet, SUBMISSION_THRESHOLD_COUNCIL_DECISION_VETO)
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
