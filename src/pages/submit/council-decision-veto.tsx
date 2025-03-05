@@ -102,7 +102,12 @@ export default function SubmitCouncilDecisionVeto() {
   }
 
   if (!account) {
-    return <LogIn title={t('page.submit_ban_name.title')} description={t('page.submit_ban_name.description')} />
+    return (
+      <LogIn
+        title={t('page.submit_council_decision_veto.title')}
+        description={t('page.submit_council_decision_veto.description')}
+      />
+    )
   }
 
   return (
@@ -204,7 +209,12 @@ export default function SubmitCouncilDecisionVeto() {
           />
         </ContentSection>
         <ContentSection>
-          <Button primary type="submit" disabled={formDisabled} loading={isSubmitting}>
+          <Button
+            primary
+            type="submit"
+            disabled={formDisabled || submissionVpNotMet}
+            loading={isSubmitting || isLoadingVpDistribution}
+          >
             {t('page.submit.button_submit')}
           </Button>
         </ContentSection>
