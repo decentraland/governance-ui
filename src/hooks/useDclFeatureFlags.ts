@@ -20,8 +20,25 @@ export default function useFeatureFlags(options = { applicationName: ['dao', 'da
     [data]
   )
 
+  const getVariants = useCallback(
+    (value: string) => {
+      const payload = data?.variants?.[value]?.payload
+      if (payload) {
+        if (payload.type === 'json') {
+          return JSON.parse(payload.value)
+        }
+
+        return payload.value
+      }
+
+      return undefined
+    },
+    [data]
+  )
+
   return {
     data,
     isFeatureFlagEnabled,
+    getVariants,
   }
 }
