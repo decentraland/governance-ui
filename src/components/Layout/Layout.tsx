@@ -44,7 +44,7 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
   const [user, userState] = useAuthContext()
   const track = useAnalyticsTrack()
-  const { isFeatureFlagEnabled } = useDclFeatureFlags()
+  const { isFeatureFlagEnabled, getVariants } = useDclFeatureFlags()
   const location = useLocation()
 
   const analytics = getAnalytics()
@@ -88,6 +88,7 @@ export default function Layout({ children }: LayoutProps) {
   const chainId = userState.chainId
   const isAuthDappEnabled = isFeatureFlagEnabled(FeatureFlags.AuthDapp)
   const isNavbar2Enabled = isFeatureFlagEnabled(FeatureFlags.Navbar2)
+  const cdnLinks = getVariants(FeatureFlags.LAUNCHER_LINKS)
 
   const { data: manaBalances } = useQuery({
     queryKey: ['manaBalances', user, chainId],
@@ -182,6 +183,7 @@ export default function Layout({ children }: LayoutProps) {
                 }
               : undefined
           }
+          cdnLinks={cdnLinks}
         />
       ) : (
         <Navbar
