@@ -25,7 +25,12 @@ export default function useFeatureFlags(options = { applicationName: ['dao', 'da
       const payload = data?.variants?.[value]?.payload
       if (payload) {
         if (payload.type === 'json') {
-          return JSON.parse(payload.value)
+          try {
+            return JSON.parse(payload.value)
+          } catch (error) {
+            console.error('Error parsing JSON for feature flag', value, error)
+            return undefined
+          }
         }
 
         return payload.value
