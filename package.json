@@ -49,7 +49,7 @@
     "dayjs-precise-range": "^1.0.1",
     "dcl-catalyst-client": "^21.7.0",
     "decentraland-crypto-middleware": "^1.2.0",
-    "decentraland-dapps": "^24.30.0",
+    "decentraland-dapps": "^24.32.0",
     "decentraland-ui": "^6.17.2",
     "decentraland-ui2": "^0.25.0",
     "dompurify": "^2.3.3",
