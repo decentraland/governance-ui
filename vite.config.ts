@@ -55,7 +55,7 @@ export default defineConfig(({ command, mode }) => {
             rollupOptions: {
               plugins: [rollupNodePolyFill()],
             },
-            sourcemap: true,
+            sourcemap: !envVariables.VERCEL,
           },
         }
       : undefined),
