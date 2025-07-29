@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { getAnalytics } from 'decentraland-dapps/dist/modules/analytics/utils'
 import { once } from 'lodash'
 
 declare global {
@@ -49,8 +50,8 @@ const getContext = once(() => {
 })
 
 export function track(event: string, data: Record<string, any> = {}, callback?: () => void) {
-  if (typeof window !== 'undefined' && window?.analytics) {
-    const analytics = window.analytics
+  const analytics = getAnalytics()
+  if (analytics) {
     analytics.track(event, { ...getContext(), ...data }, callback)
   }
 }
