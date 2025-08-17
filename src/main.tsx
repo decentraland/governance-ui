@@ -27,6 +27,7 @@ import SubmitDraftProposal from './pages/submit/draft'
 import SubmitGovernanceProposal from './pages/submit/governance'
 import SubmitGrant from './pages/submit/grant'
 import Hiring from './pages/submit/hiring'
+import SubmitCouncilDecisionVeto from './pages/submit/council-decision-veto'
 import SubmitLinkedWearables from './pages/submit/linked-wearables'
 import SubmitPitchProposal from './pages/submit/pitch'
 import Poi from './pages/submit/poi'
@@ -82,6 +83,7 @@ const router = createBrowserRouter(
         { path: '/submit/linked-wearables', element: <SubmitLinkedWearables /> },
         { path: '/submit/grant', element: <SubmitGrant /> },
         { path: '/submit/hiring', element: <Hiring /> },
+        { path: '/submit/council-decision-veto', element: <SubmitCouncilDecisionVeto /> },
         { path: '/submit/pitch', element: <SubmitPitchProposal /> },
         { path: '/submit/tender', element: <SubmitTenderProposal /> },
         { path: '/submit/bid', element: <SubmitBid /> },

@@ -141,6 +141,14 @@
   background-color: var(--background-remove-hiring);
 }
 
+.CategoryBanner--council_decision_veto .NewBadge {
+  background-color: var(--red-800);
+}
+
+.CategoryBanner--council_decision_veto.CategoryBanner--active {
+  background-color: var(--background-council-decision-veto);
+}
+
 .CategoryBanner--poll .NewBadge,
 .CategoryBanner--draft .NewBadge,
 .CategoryBanner--governance .NewBadge {
