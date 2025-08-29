@@ -26,6 +26,7 @@ import { Project, ProjectInList, ProjectLink, ProjectMilestone, UserProject } fr
 import {
   NewProposalBanName,
   NewProposalCatalyst,
+  NewProposalCouncilDecisionVeto,
   NewProposalDraft,
   NewProposalGovernance,
   NewProposalHiring,
@@ -94,6 +95,7 @@ type NewProposalMap = {
   [`/proposals/tender`]: NewProposalTender
   [`/proposals/bid`]: BidRequest
   [`/proposals/hiring`]: NewProposalHiring
+  [`/proposals/council-decision-veto`]: NewProposalCouncilDecisionVeto
 }
 
 export type GetProposalsFilter = ProposalListFilter & {
@@ -261,6 +263,10 @@ export class Governance extends API {
 
   async createProposalHiring(proposal: NewProposalHiring) {
     return this.createProposal(`/proposals/hiring`, proposal)
+  }
+
+  async createProposalCouncilDecisionVeto(proposal: NewProposalCouncilDecisionVeto) {
+    return this.createProposal(`/proposals/council-decision-veto`, proposal)
   }
 
   async deleteProposal(proposal_id: string) {
