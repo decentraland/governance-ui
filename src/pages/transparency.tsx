@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 
 import { Card } from 'decentraland-ui/dist/components/Card/Card'
-import { Header } from 'decentraland-ui/dist/components/Header/Header'
 
 import Heading from '../components/Common/Typography/Heading'
 import WiderContainer from '../components/Common/WiderContainer'
@@ -10,16 +9,13 @@ import Database from '../components/Icon/Database'
 import Discord from '../components/Icon/Discord'
 import Document from '../components/Icon/Document'
 import DocumentOutline from '../components/Icon/DocumentOutline'
-import OpenFolder from '../components/Icon/OpenFolder'
 import Person from '../components/Icon/Person'
 import Head from '../components/Layout/Head'
 import LoadingView from '../components/Layout/LoadingView'
 import Navigation, { NavigationTab } from '../components/Layout/Navigation'
 import TokenBalanceCard from '../components/Token/TokenBalanceCard'
-import BudgetCard from '../components/Transparency/BudgetCard'
 import CoreUnitsSection from '../components/Transparency/CoreUnitsSection'
 import DaoVestingCard from '../components/Transparency/DaoVestingCard'
-import GrantList from '../components/Transparency/GrantList'
 import MembersSection from '../components/Transparency/MembersSection'
 import MonthlyTotal from '../components/Transparency/MonthlyTotal'
 import Sidebar from '../components/Transparency/Sidebar'
@@ -27,9 +23,7 @@ import { DOCS_URL, JOIN_DISCORD_URL, OPEN_CALL_FOR_DELEGATES_LINK } from '../con
 import useCoreUnitsBadges from '../hooks/useCoreUnitsBadges'
 import useFormatMessage from '../hooks/useFormatMessage'
 import useTransparency from '../hooks/useTransparency'
-import { ProposalStatus } from '../types/proposals'
 import locations from '../utils/locations'
-import { formatBalance } from '../utils/proposal'
 import { aggregateBalances } from '../utils/transparency'
 
 import './transparency.css'
@@ -118,44 +112,6 @@ export default function TransparencyPage() {
                     invertDiffColors={true}
                   />
                 </div>
-              </div>
-            </div>
-
-            <div className="TransparencyGrid">
-              <Sidebar
-                title={t('page.transparency.funding.title')}
-                description={t('page.transparency.funding.description')}
-                buttons={[
-                  {
-                    href: locations.proposals(),
-                    icon: <OpenFolder size={20} />,
-                    isExternal: false,
-                    children: t('page.transparency.funding.view_all_button'),
-                  },
-                ]}
-              />
-
-              <div className="Transparency__Section">
-                <BudgetCard />
-                <Card className="Transparency__Card">
-                  <Card.Content>
-                    <Heading size="sm" weight="normal">
-                      {t('page.transparency.funding.total_title')}
-                    </Heading>
-                    <div className="Transparency__FundingProgress">
-                      <div className="Transparency__FundingProgressDescription">
-                        <Header size="huge" className="Transparency__FundingProgressTotal">
-                          {'$' + formatBalance(data.funding.total)}
-                          <Header size="small">USD</Header>
-                        </Header>
-                      </div>
-                    </div>
-                  </Card.Content>
-                  <GrantList
-                    status={ProposalStatus.Enacted}
-                    title={t('page.transparency.funding.proposals_funded_label') || ''}
-                  />
-                </Card>
               </div>
             </div>
 
