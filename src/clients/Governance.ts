@@ -606,7 +606,18 @@ export class Governance extends API {
   }
 
   async getVestings(addresses: string[]) {
-    return await this.fetchApiResponse<VestingWithLogs[]>(`/vesting`, { method: 'POST', json: { addresses } })
+    if (addresses.length === 1) {
+      const addr = addresses[0]
+      const one = await this.fetchApiResponse<VestingWithLogs>(`/vesting/${addr}`)
+      return [one]
+    }
+    const bulk = await this.fetchApiResponse<VestingWithLogs[]>(`/vesting`, {
+      method: 'POST',
+      json: { addresses },
+    })
+
+    if (Array.isArray(bulk) && bulk.length > 0) return bulk
+    return []
   }
 
   async getUpdateComments(update_id: string) {
