@@ -14,13 +14,11 @@ import Head from '../components/Layout/Head'
 import LoadingView from '../components/Layout/LoadingView'
 import Navigation, { NavigationTab } from '../components/Layout/Navigation'
 import TokenBalanceCard from '../components/Token/TokenBalanceCard'
-import CoreUnitsSection from '../components/Transparency/CoreUnitsSection'
 import DaoVestingCard from '../components/Transparency/DaoVestingCard'
 import MembersSection from '../components/Transparency/MembersSection'
 import MonthlyTotal from '../components/Transparency/MonthlyTotal'
 import Sidebar from '../components/Transparency/Sidebar'
 import { DOCS_URL, JOIN_DISCORD_URL, OPEN_CALL_FOR_DELEGATES_LINK } from '../constants'
-import useCoreUnitsBadges from '../hooks/useCoreUnitsBadges'
 import useFormatMessage from '../hooks/useFormatMessage'
 import useTransparency from '../hooks/useTransparency'
 import locations from '../utils/locations'
@@ -38,7 +36,6 @@ export default function TransparencyPage() {
   const t = useFormatMessage()
   const { data } = useTransparency()
   const balances = useMemo(() => (data && aggregateBalances(data.balances)) || [], [data])
-  const { coreUnitsBadges } = useCoreUnitsBadges()
 
   return (
     <>
@@ -154,20 +151,6 @@ export default function TransparencyPage() {
                 </Card>
               </div>
             </div>
-
-            {coreUnitsBadges && (
-              <div className="TransparencyGrid">
-                <Sidebar
-                  title={t('page.transparency.core_units.title')}
-                  description={t('page.transparency.core_units.description')}
-                />
-                <div className="Transparency__Section">
-                  <Card className="Transparency__Card">
-                    <CoreUnitsSection coreUnitsBadges={coreUnitsBadges} />
-                  </Card>
-                </div>
-              </div>
-            )}
           </WiderContainer>
         )}
       </div>
