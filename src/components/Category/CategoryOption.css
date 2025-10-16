@@ -62,6 +62,11 @@
   background-color: var(--background-hiring);
 }
 
+.CategoryOption.CategoryOption--council_decision_veto:hover,
+.CategoryOption.CategoryOption--council_decision_veto.CategoryOption--active {
+  background-color: var(--background-council-decision-veto);
+}
+
 .CategoryOption.CategoryOption--poll:hover,
 .CategoryOption.CategoryOption--poll.CategoryOption--active,
 .CategoryOption.CategoryOption--draft:hover,

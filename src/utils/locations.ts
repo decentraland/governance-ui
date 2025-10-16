@@ -72,7 +72,7 @@ export default {
       request?: PoiType | HiringType | CatalystType
       category?: NewGrantCategory
     } = {}
-  ) => url(type ? `/submit/${String(type).replace('_', '-')}/` : '/submit/', options),
+  ) => url(type ? `/submit/${String(type).replaceAll('_', '-')}/` : '/submit/', options),
   submitUpdate: (options: { id?: string; projectId: string }) => url('/submit/update/', options),
   profile: (options: Partial<{ address: string }> = {}) => url('/profile/', options),
   transparency: () => url('/transparency/'),

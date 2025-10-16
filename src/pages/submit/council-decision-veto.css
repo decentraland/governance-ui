@@ -1,0 +1,9 @@
+.CouncilDecisionVeto__LabelContainer {
+  display: flex;
+  align-items: center;
+  line-height: 18px;
+}
+
+.CouncilDecisionVeto__LabelContainer > :not(:first-child) {
+  margin-left: 5px;
+}

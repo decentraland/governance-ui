@@ -98,6 +98,7 @@ export enum ProposalType {
   Pitch = 'pitch',
   Tender = 'tender',
   Bid = 'bid',
+  CouncilDecisionVeto = 'council_decision_veto',
 }
 
 export enum SortingOrder {
@@ -427,6 +428,34 @@ export const newProposalHiringScheme = {
   },
 }
 
+export type NewProposalCouncilDecisionVeto = {
+  decision_snapshot_id: string
+  reasons: string
+  suggestions?: string
+  coAuthors?: string[]
+}
+
+export const newProposalCouncilDecisionVetoScheme = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['decision_snapshot_id', 'reasons', 'suggestions'],
+  properties: {
+    decision_snapshot_id: {
+      type: 'string',
+    },
+    reasons: {
+      type: 'string',
+      minLength: 20,
+      maxLength: 3500,
+    },
+    suggestions: {
+      type: 'string',
+      minLength: 20,
+      maxLength: 3500,
+    },
+    coAuthors,
+  },
+}
 export type NewProposalCatalyst = {
   owner: string
   domain: string

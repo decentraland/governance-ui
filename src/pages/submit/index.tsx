@@ -96,6 +96,11 @@ export default function SubmitPage() {
             />
           )}
           <CategoryBanner type={ProposalType.Hiring} onClick={setHiringModalProps} />
+          <CategoryBanner
+            type={ProposalType.CouncilDecisionVeto}
+            href={locations.submit(ProposalType.CouncilDecisionVeto)}
+            isNew
+          />
         </ContentSection>
         {PITCH_PROPOSAL_SUBMIT_ENABLED && (
           <ContentSection>
