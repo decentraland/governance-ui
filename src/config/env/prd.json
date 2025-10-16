@@ -4,7 +4,7 @@
   "BUY_MANA_URL": "https://decentraland.org/account",
   "BUY_NAME_URL": "https://decentraland.org/builder/claim-name",
   "VESTING_DASHBOARD_URL": "https://decentraland.org/vesting/%23/",
-  "DCL_DATA_API": "https://raw.githubusercontent.com/Decentraland-DAO/transparency/gh-pages",
+  "DCL_DATA_API": "https://decentraland-dao.github.io/transparency/",
   "DEFAULT_CHAIN_ID": "1",
   "DISCOURSE_API": "https://forum.decentraland.org",
   "DISCOURSE_USER": "dao",
