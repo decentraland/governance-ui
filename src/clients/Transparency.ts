@@ -134,4 +134,17 @@ export class Transparency {
       return EMPTY_TEAMS
     }
   }
+
+  static async getBalances() {
+    try {
+      const response = (await (await fetch(`${TRANSPARENCY_API}/balances.json`)).json()) as TokenInWallet[]
+      return response
+    } catch (error) {
+      ErrorClient.report('Failed to fetch transparency balances data', {
+        error,
+        category: ErrorCategory.Transparency,
+      })
+      return []
+    }
+  }
 }

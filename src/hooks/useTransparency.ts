@@ -8,7 +8,7 @@ type Options = {
   shouldRevalidate?: boolean
 }
 
-function useTransparency({ shouldRevalidate }: Options = {}) {
+export function useTransparency({ shouldRevalidate }: Options = {}) {
   const { data, isLoading: isLoadingTransparencyData } = useQuery({
     queryKey: ['transparencyData'],
     queryFn: () => Transparency.getData(),
@@ -16,6 +16,26 @@ function useTransparency({ shouldRevalidate }: Options = {}) {
   })
 
   return { data, isLoadingTransparencyData }
+}
+
+export function useTransparencyTeams({ shouldRevalidate }: Options = {}) {
+  const { data, isLoading: isLoadingTransparencyTeams } = useQuery({
+    queryKey: ['transparencyTeams'],
+    queryFn: () => Transparency.getTeams(),
+    staleTime: shouldRevalidate ? 0 : DEFAULT_QUERY_STALE_TIME,
+  })
+
+  return { data, isLoadingTransparencyTeams }
+}
+
+export function useTransparencyBalances({ shouldRevalidate }: Options = {}) {
+  const { data, isLoading: isLoadingTransparencyBalances } = useQuery({
+    queryKey: ['transparencyBalances'],
+    queryFn: () => Transparency.getBalances(),
+    staleTime: shouldRevalidate ? 0 : DEFAULT_QUERY_STALE_TIME,
+  })
+
+  return { data, isLoadingTransparencyBalances }
 }
 
 export default useTransparency
