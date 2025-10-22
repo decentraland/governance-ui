@@ -20,7 +20,7 @@ import MonthlyTotal from '../components/Transparency/MonthlyTotal'
 import Sidebar from '../components/Transparency/Sidebar'
 import { DOCS_URL, JOIN_DISCORD_URL, OPEN_CALL_FOR_DELEGATES_LINK } from '../constants'
 import useFormatMessage from '../hooks/useFormatMessage'
-import useTransparency from '../hooks/useTransparency'
+import useTransparency, { useTransparencyBalances, useTransparencyTeams } from '../hooks/useTransparency'
 import locations from '../utils/locations'
 import { aggregateBalances } from '../utils/transparency'
 
@@ -34,8 +34,22 @@ const WEARABLE_CURATORS_URL = 'https://forum.decentraland.org/t/wearables-curati
 
 export default function TransparencyPage() {
   const t = useFormatMessage()
-  const { data } = useTransparency()
-  const balances = useMemo(() => (data && aggregateBalances(data.balances)) || [], [data])
+
+  const { data: transparencyData, isLoadingTransparencyData } = useTransparency()
+
+  const { data: teamsData, isLoadingTransparencyTeams } = useTransparencyTeams()
+
+  const { data: balancesData, isLoadingTransparencyBalances } = useTransparencyBalances()
+
+  const balances = useMemo(() => aggregateBalances(balancesData || []), [balancesData])
+
+  const isLoading =
+    isLoadingTransparencyData ||
+    isLoadingTransparencyTeams ||
+    isLoadingTransparencyBalances ||
+    !transparencyData ||
+    !teamsData ||
+    balancesData === undefined
 
   return (
     <>
@@ -46,8 +60,9 @@ export default function TransparencyPage() {
         links={[{ rel: 'canonical', href: locations.transparency() }]}
       />
       <div className="TransparencyPage">
-        {!data && <LoadingView withNavigation />}
-        {data && (
+        {isLoading && <LoadingView withNavigation />}
+
+        {!isLoading && transparencyData && teamsData && (
           <WiderContainer>
             <div className="TransparencyGrid">
               <Sidebar
@@ -85,15 +100,12 @@ export default function TransparencyPage() {
                         {t('page.transparency.mission.balance_title')}
                       </Heading>
                       <div className="Transparecy__TokenContainer">
-                        {balances &&
-                          balances.map((tokenBalance, index) => {
-                            return (
-                              <TokenBalanceCard
-                                aggregatedTokenBalance={tokenBalance}
-                                key={['tokenBalance', index].join('::')}
-                              />
-                            )
-                          })}
+                        {balances.map((tokenBalance, index) => (
+                          <TokenBalanceCard
+                            aggregatedTokenBalance={tokenBalance}
+                            key={['tokenBalance', index].join('::')}
+                          />
+                        ))}
                       </div>
                     </Card.Content>
                   </Card>
@@ -101,11 +113,11 @@ export default function TransparencyPage() {
                 <div className="Transparency__MonthlyTotals">
                   <MonthlyTotal
                     title={t('page.transparency.mission.monthly_income') || ''}
-                    monthlyTotal={data.income}
+                    monthlyTotal={transparencyData.income}
                   />
                   <MonthlyTotal
                     title={t('page.transparency.mission.monthly_expenses') || ''}
-                    monthlyTotal={data.expenses}
+                    monthlyTotal={transparencyData.expenses}
                     invertDiffColors={true}
                   />
                 </div>
@@ -137,17 +149,14 @@ export default function TransparencyPage() {
 
               <div className="Transparency__Section">
                 <Card className="Transparency__Card">
-                  {data &&
-                    data.committees.map((team, index) => {
-                      return (
-                        <MembersSection
-                          key={[team.name.trim(), index].join('::')}
-                          title={team.name}
-                          description={team.description}
-                          members={team.members}
-                        />
-                      )
-                    })}
+                  {teamsData.committees.map((team, index) => (
+                    <MembersSection
+                      key={[team.name.trim(), index].join('::')}
+                      title={team.name}
+                      description={team.description}
+                      members={team.members}
+                    />
+                  ))}
                 </Card>
               </div>
             </div>
