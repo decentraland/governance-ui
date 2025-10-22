@@ -5,7 +5,7 @@ import { Mobile, NotMobile } from 'decentraland-ui/dist/components/Media/Media'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import useParticipation from '../../hooks/useParticipation'
 import useProposals from '../../hooks/useProposals'
-import useTransparency from '../../hooks/useTransparency'
+import { useTransparencyBalances } from '../../hooks/useTransparency'
 import { ProposalStatus } from '../../types/proposals'
 import locations from '../../utils/locations'
 
@@ -14,16 +14,14 @@ import './MetricsCards.css'
 
 const MetricsCards = () => {
   const t = useFormatMessage()
-  const { data, isLoadingTransparencyData } = useTransparency()
-  const treasuryAmount = useMemo(
-    () =>
-      data?.balances
-        .reduce((acc, obj) => {
-          return acc + Number(obj.amount) * obj.rate
-        }, 0)
-        .toFixed(2),
-    [data?.balances]
-  )
+
+  const { data: balancesData, isLoadingTransparencyBalances } = useTransparencyBalances()
+
+  const treasuryAmount = useMemo(() => {
+    if (!balancesData) return 0
+    const total = balancesData.reduce((acc, obj) => acc + Number(obj.amount) * obj.rate, 0)
+    return total.toFixed(2)
+  }, [balancesData])
 
   const { proposals: endingSoonProposals, isLoadingProposals: isLoadingEndingSoonProposals } = useProposals({
     status: ProposalStatus.Active,
@@ -59,7 +57,7 @@ const MetricsCards = () => {
     <MetricsCard
       href={locations.transparency()}
       key="page.home.metrics.treasury_amount"
-      isLoading={isLoadingTransparencyData}
+      isLoading={isLoadingTransparencyBalances}
       loadingLabel={t('page.home.metrics.fetching_treasury_data')}
       category={t('page.home.metrics.treasury')}
       title={`$${t('general.number', { value: treasuryAmount })}`}
