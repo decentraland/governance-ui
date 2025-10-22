@@ -1,3 +1,4 @@
+import { CommitteeName } from '../clients/Transparency'
 import { MAX_NAME_SIZE, MIN_NAME_SIZE } from '../constants/proposals'
 
 import { SnapshotProposal } from './SnapshotTypes'
@@ -373,13 +374,6 @@ export const newProposalPOIScheme = {
     },
     coAuthors,
   },
-}
-
-enum CommitteeName {
-  SAB = 'Security Advisory Board',
-  DAOCommitee = 'DAO Committee',
-  WearableCuration = 'Wearable Curation Committee',
-  Revocation = 'Revocation Committee',
 }
 
 export type NewProposalHiring = {
