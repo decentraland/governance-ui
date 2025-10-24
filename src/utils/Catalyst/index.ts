@@ -118,9 +118,6 @@ export async function getProfile(address: string): Promise<DclProfile> {
       const r = await fetchProfilesFrom(peer, address)
       if (r.avatars?.length > 0) {
         const profile = r.avatars[0]
-        console.log('profile.raw', profile)
-        console.log('profile.avatar', profile?.avatar)
-        console.log('face256', profile?.avatar?.snapshots?.face256)
         return getDclProfile(profile, address)
       }
     } catch {
