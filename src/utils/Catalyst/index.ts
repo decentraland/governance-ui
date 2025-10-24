@@ -115,7 +115,7 @@ export async function getProfile(address: string): Promise<DclProfile> {
   }
   for (const catalyst of CATALYST_FALLBACKS) {
     try {
-      const r = await fetchProfilesFrom(peer, address)
+      const r = await fetchProfilesFrom(catalyst, address)
       if (r.avatars?.length > 0) {
         const profile = r.avatars[0]
         return getDclProfile(profile, address)
