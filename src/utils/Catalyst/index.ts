@@ -113,7 +113,7 @@ export async function getProfile(address: string): Promise<DclProfile> {
   } catch (err) {
     console.warn('Primary catalyst failed', { err })
   }
-  for (const peer of CATALYST_FALLBACKS) {
+  for (const catalyst of CATALYST_FALLBACKS) {
     try {
       const r = await fetchProfilesFrom(peer, address)
       if (r.avatars?.length > 0) {
