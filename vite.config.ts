@@ -49,14 +49,19 @@ export default defineConfig(({ command, mode }) => {
             },
           },
           build: {
+            target: 'es2015',
             commonjsOptions: {
               transformMixedEsModules: true,
             },
             minify: 'esbuild',
+            cssCodeSplit: false,
             chunkSizeWarningLimit: 1000,
+            reportCompressedSize: false,
             rollupOptions: {
+              maxParallelFileOps: 2,
               plugins: [rollupNodePolyFill()],
               output: {
+                compact: true,
                 manualChunks: (id: string) => {
                   if (id.includes('node_modules')) {
                     if (id.includes('react') || id.includes('react-dom')) {
@@ -67,6 +72,12 @@ export default defineConfig(({ command, mode }) => {
                     }
                     if (id.includes('ethers') || id.includes('@snapshot-labs')) {
                       return 'crypto-vendor'
+                    }
+                    if (id.includes('chart.js') || id.includes('react-chartjs')) {
+                      return 'chart-vendor'
+                    }
+                    if (id.includes('lottie')) {
+                      return 'lottie-vendor'
                     }
                     return 'vendor'
                   }
