@@ -52,8 +52,26 @@ export default defineConfig(({ command, mode }) => {
             commonjsOptions: {
               transformMixedEsModules: true,
             },
+            minify: 'esbuild',
+            chunkSizeWarningLimit: 1000,
             rollupOptions: {
               plugins: [rollupNodePolyFill()],
+              output: {
+                manualChunks: (id) => {
+                  if (id.includes('node_modules')) {
+                    if (id.includes('react') || id.includes('react-dom')) {
+                      return 'react-vendor'
+                    }
+                    if (id.includes('@dcl')) {
+                      return 'dcl-vendor'
+                    }
+                    if (id.includes('ethers') || id.includes('@snapshot-labs')) {
+                      return 'crypto-vendor'
+                    }
+                    return 'vendor'
+                  }
+                },
+              },
             },
             sourcemap: !envVariables.VERCEL,
           },

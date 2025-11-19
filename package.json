@@ -5,7 +5,7 @@
   "scripts": {
     "start": "vite",
     "prebuild": "node scripts/prebuild.js",
-    "build": "NODE_OPTIONS='--max-old-space-size=8192' tsc && vite build",
+    "build": "NODE_OPTIONS='--max-old-space-size=6144' tsc && vite build",
     "preview": "vite preview",
     "test": "jest",
     "prepare": "husky install",
