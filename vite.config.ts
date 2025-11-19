@@ -32,6 +32,7 @@ export default defineConfig(({ command, mode }) => {
     ...(command === 'build'
       ? {
           base: envVariables.VITE_BASE_URL,
+          sourcemap: false,
           optimizeDeps: {
             esbuildOptions: {
               // Node.js global to browser globalThis
