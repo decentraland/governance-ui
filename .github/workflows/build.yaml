@@ -1,12 +1,6 @@
 name: Build and release
 
-on:
-  push:
-    branches:
-      - main
-  release:
-    types:
-      - created
+on: [push, pull_request]
 
 jobs:
   build-release:
@@ -33,14 +27,4 @@ jobs:
         env:
           NODE_PATH: 'src'
           NODE_OPTIONS: '--max-old-space-size=6144'
-      - name: Publish
-        uses: menduz/oddish-action@master
-        with:
-          cwd: './dist'
-          deterministic-snapshot: true
-          registry-url: 'https://registry.npmjs.org'
-          access: public
-          gitlab-token: ${{ secrets.GITLAB_CDN_DEPLOYER_TOKEN }}
-          gitlab-pipeline-url: ${{ secrets.GITLAB_CDN_DEPLOYER_URL }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
