@@ -49,6 +49,7 @@ export default defineConfig(({ command, mode }) => {
             },
           },
           build: {
+            sourcemap: false,
             target: 'es2015',
             commonjsOptions: {
               transformMixedEsModules: true,
