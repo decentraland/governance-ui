@@ -97,7 +97,7 @@ export type TransparencyTeams = {
 export class Transparency {
   static async getData() {
     try {
-      const response = (await (await fetch(`${TRANSPARENCY_API}/api.json`)).json()) as TransparencyData
+      const response = (await (await fetch(`${TRANSPARENCY_API}/api-v2.json`)).json()) as TransparencyData
       return response
     } catch (error) {
       ErrorClient.report('Failed to fetch transparency data', { error, category: ErrorCategory.Transparency })
