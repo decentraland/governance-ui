@@ -65,3 +65,8 @@
 .ui.cards > .card > .content > .header {
   font-family: inherit;
 }
+
+.MonthlyTotal__Detail--Small {
+  opacity: 0.5;
+  color: #999;
+}
