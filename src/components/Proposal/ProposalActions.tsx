@@ -8,7 +8,7 @@ import { Governance } from '../../clients/Governance'
 import { useAuthContext } from '../../context/AuthProvider'
 import useAsyncTask from '../../hooks/useAsyncTask'
 import useFormatMessage from '../../hooks/useFormatMessage'
-import useIsDAOCommittee from '../../hooks/useIsDAOCommittee'
+import useIsDAOCouncil from '../../hooks/useIsDAOCouncil'
 import useIsProposalOwner from '../../hooks/useIsProposalOwner'
 import { getProposalQueryKey } from '../../hooks/useProposal'
 import { ProposalAttributes, ProposalStatus } from '../../types/proposals'
@@ -25,23 +25,23 @@ export default function ProposalActions({ proposal }: Props) {
   const navigate = useNavigate()
   const t = useFormatMessage()
   const [account] = useAuthContext()
-  const { isDAOCommittee } = useIsDAOCommittee(account)
+  const { isDAOCouncil } = useIsDAOCouncil(account)
   const { isOwner } = useIsProposalOwner(proposal)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [confirmStatusUpdate, setConfirmStatusUpdate] = useState<ProposalStatus | null>(null)
   const [deleting, deleteProposal] = useAsyncTask(async () => {
-    if (proposal && account && (proposal.user === account || isDAOCommittee)) {
+    if (proposal && account && (proposal.user === account || isDAOCouncil)) {
       await Governance.get().deleteProposal(proposal.id)
       navigate(locations.proposals())
     }
-  }, [proposal, account, isDAOCommittee])
+  }, [proposal, account, isDAOCouncil])
 
   const updatingStatus = useIsMutating({ mutationKey: [`updatingProposal#${proposal.id}`] }) > 0
 
   const proposalStatus = proposal?.status
-  const showDeleteButton = isOwner || isDAOCommittee
-  const showEnactButton = isDAOCommittee && isProposalEnactable(proposalStatus)
-  const showStatusUpdateButton = isDAOCommittee && proposalCanBePassedOrRejected(proposalStatus)
+  const showDeleteButton = isOwner || isDAOCouncil
+  const showEnactButton = isDAOCouncil && isProposalEnactable(proposalStatus)
+  const showStatusUpdateButton = isDAOCouncil && proposalCanBePassedOrRejected(proposalStatus)
 
   return (
     <>
@@ -84,7 +84,7 @@ export default function ProposalActions({ proposal }: Props) {
       <UpdateProposalStatusModal
         open={!!confirmStatusUpdate}
         proposal={proposal}
-        isDAOCommittee={isDAOCommittee}
+        isDAOCommittee={isDAOCouncil}
         status={confirmStatusUpdate}
         proposalKey={getProposalQueryKey(proposal.id)}
         onClose={() => setConfirmStatusUpdate(null)}
