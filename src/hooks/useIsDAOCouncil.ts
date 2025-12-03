@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 
@@ -16,14 +16,6 @@ export default function useIsDAOCouncil(address?: string | null) {
   const isDAOCouncil = useMemo(() => {
     return !!(address && councilAddresses && councilAddresses.includes(address))
   }, [address, councilAddresses])
-
-  useEffect(() => {
-    console.log('[useIsDAOCouncil]', {
-      address,
-      councilAddresses,
-      isDAOCouncil,
-    })
-  }, [address, councilAddresses, isDAOCouncil])
 
   return { isDAOCouncil }
 }
