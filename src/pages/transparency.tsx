@@ -51,6 +51,14 @@ export default function TransparencyPage() {
     !teamsData ||
     balancesData === undefined
 
+  const incomeDetails = transparencyData?.income?.details ?? []
+  const expenseDetails = transparencyData?.expenses?.details ?? []
+
+  const incomeBigDetails = incomeDetails.filter((detail) => Number(detail.value) > 1)
+  const incomeSmallDetails = incomeDetails.filter((detail) => Number(detail.value) <= 1)
+
+  const expenseBigDetails = expenseDetails.filter((detail) => Number(detail.value) > 1)
+  const expenseSmallDetails = expenseDetails.filter((detail) => Number(detail.value) <= 1)
   return (
     <>
       <Navigation activeTab={NavigationTab.Transparency} />
@@ -113,11 +121,17 @@ export default function TransparencyPage() {
                 <div className="Transparency__MonthlyTotals">
                   <MonthlyTotal
                     title={t('page.transparency.mission.monthly_income') || ''}
-                    monthlyTotal={transparencyData.income}
+                    monthlyTotal={{
+                      ...transparencyData.income,
+                      details: [...incomeBigDetails, ...incomeSmallDetails],
+                    }}
                   />
                   <MonthlyTotal
                     title={t('page.transparency.mission.monthly_expenses') || ''}
-                    monthlyTotal={transparencyData.expenses}
+                    monthlyTotal={{
+                      ...transparencyData.expenses,
+                      details: [...expenseBigDetails, ...expenseSmallDetails],
+                    }}
                     invertDiffColors={true}
                   />
                 </div>

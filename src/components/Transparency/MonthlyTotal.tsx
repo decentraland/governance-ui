@@ -37,10 +37,20 @@ export default function MonthlyTotal({ title, monthlyTotal, invertDiffColors = f
   const [detailsVisibility, setDetailsVisibility] = useState(DetailsVisibility.OVERVIEW)
 
   const handleButtonClick = () => {
-    detailsVisibility === DetailsVisibility.OVERVIEW
-      ? setDetailsVisibility(DetailsVisibility.FULL)
-      : setDetailsVisibility(DetailsVisibility.OVERVIEW)
+    setDetailsVisibility((current) =>
+      current === DetailsVisibility.OVERVIEW ? DetailsVisibility.FULL : DetailsVisibility.OVERVIEW
+    )
   }
+
+  const allDetails = monthlyTotal.details ?? []
+
+  const bigDetails = allDetails.filter((detail) => Number(detail.value) > 1)
+  const smallDetails = allDetails.filter((detail) => Number(detail.value) <= 1)
+  const visibleDetails =
+    detailsVisibility === DetailsVisibility.OVERVIEW ? bigDetails.slice(0, MAX_TAGS) : [...bigDetails, ...smallDetails]
+  const hiddenBigCount = Math.max(bigDetails.length - MAX_TAGS, 0)
+  const hiddenSmallCount = smallDetails.length
+  const hiddenCount = hiddenBigCount + hiddenSmallCount
 
   return (
     <div className={classNames('MonthlyTotal', detailsVisibility)}>
@@ -66,25 +76,30 @@ export default function MonthlyTotal({ title, monthlyTotal, invertDiffColors = f
             </Header>
           </div>
         </Card.Content>
+
         <Card.Content className={classNames('MonthlyTotal__Detail', detailsVisibility)}>
           <ItemsList>
-            {monthlyTotal.details &&
-              monthlyTotal.details.map((detail, index) => {
-                return (
-                  <DetailItem
-                    key={['incomeDetail', index].join('::')}
-                    name={detail.name}
-                    value={'$' + formatBalance(detail.value)}
-                    description={detail.description}
-                  />
-                )
-              })}
+            {visibleDetails.map((detail, index) => {
+              const numericValue = Number(detail.value)
+              const isSmall = numericValue <= 1
+
+              return (
+                <DetailItem
+                  key={['incomeDetail', index].join('::')}
+                  name={detail.name}
+                  value={'$' + formatBalance(detail.value)}
+                  description={detail.description}
+                  className={isSmall ? 'MonthlyTotal__Detail--Small' : ''}
+                />
+              )
+            })}
           </ItemsList>
         </Card.Content>
-        {monthlyTotal.details.length > MAX_TAGS && (
+
+        {hiddenCount > 0 && (
           <Button basic onClick={handleButtonClick}>
             {detailsVisibility === DetailsVisibility.OVERVIEW
-              ? t('page.transparency.funding.view_more', { count: monthlyTotal.details.length - MAX_TAGS })
+              ? t('page.transparency.funding.view_more', { count: hiddenCount })
               : t('modal.vp_delegation.details.show_less')}
           </Button>
         )}

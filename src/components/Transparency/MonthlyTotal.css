@@ -83,3 +83,8 @@ strong.Number.Number--Red {
     width: 90%;
   }
 }
+
+.MonthlyTotal__Detail--Small {
+  opacity: 0.5;
+  color: #999;
+}
