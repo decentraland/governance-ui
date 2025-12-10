@@ -375,6 +375,10 @@ export class Governance extends API {
     return await this.fetchApiResponse<string[]>(`/committee`)
   }
 
+  async getDAOCouncil() {
+    return await this.fetchApiResponse<string[]>(`/dao-council`)
+  }
+
   async getDebugAddresses() {
     return await this.fetchApiResponse<string[]>(`/debug`)
   }
