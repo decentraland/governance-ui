@@ -2,7 +2,7 @@
 import 'semantic-ui-css/semantic.min.css'
 
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { IntlProvider } from 'react-intl'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 
@@ -124,4 +124,6 @@ function LayoutShell() {
   )
 }
 
-ReactDOM.render(component, document.getElementById('root') as HTMLElement)
+const rootElement = document.getElementById('root') as HTMLElement
+const root = createRoot(rootElement)
+root.render(component)
