@@ -1,10 +1,8 @@
 import { isbot } from 'isbot'
 
-export interface AnalyticsWindow extends Window {
-  analytics: SegmentAnalytics.AnalyticsJS
-}
+import type { SegmentAnalytics } from '../../types/analytics'
 
-export function getAnalytics() {
+export function getAnalytics(): SegmentAnalytics | undefined {
   const userAgent = window.navigator.userAgent
 
   const isBot = isbot(userAgent)
@@ -12,5 +10,5 @@ export function getAnalytics() {
     return undefined
   }
 
-  return (window as AnalyticsWindow).analytics
+  return window.analytics
 }

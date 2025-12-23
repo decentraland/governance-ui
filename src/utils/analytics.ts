@@ -2,12 +2,6 @@
 import { getAnalytics } from 'decentraland-dapps/dist/modules/analytics/utils'
 import { once } from 'lodash'
 
-declare global {
-  interface Window {
-    analytics: any
-  }
-}
-
 function getUserAgent() {
   return window.navigator?.userAgent || ((window as any).opera as string)
 }

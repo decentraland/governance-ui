@@ -43,6 +43,9 @@ export const TransactionContext = createContext(defaultTransactionState)
 export function useAuthContext() {
   return useContext(AuthContext)
 }
+
+let ssoInitialized = false
+
 export default function AuthProvider({ sso, children }: React.PropsWithChildren<AuthProviderProps>) {
   const auth = useAuth()
   const transactions = useTransaction(auth[0], auth[1].chainId)
@@ -52,8 +55,19 @@ export default function AuthProvider({ sso, children }: React.PropsWithChildren<
   // Will only be initialized if the sso url is provided.
   // If the url is not provided, the identity of the user will be stored in the application's local storage instead of the sso local storage.
   useEffect(() => {
-    if (sso && isURL(sso)) {
-      SSO.init(sso)
+    if (sso && isURL(sso) && !ssoInitialized) {
+      try {
+        SSO.init(sso)
+        ssoInitialized = true
+      } catch (error) {
+        // Ignore "Already initialized" errors in React 18 StrictMode
+        if (error instanceof Error && error.message.includes('Already initialized')) {
+          ssoInitialized = true
+        } else {
+          // Re-throw otros errores
+          throw error
+        }
+      }
     }
   }, [sso])
 
