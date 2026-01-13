@@ -18,13 +18,15 @@ function isMobile(userAgent: string = getUserAgent()) {
 }
 
 const getContext = once(() => {
-  const ethereum = window?.ethereum as any
+  const ethereum = window.ethereum
   return {
     mobile: isMobile(),
     wallet: !ethereum
       ? 'none'
       : ethereum?.isMetaMask
       ? 'metamask'
+      : ethereum?.isRabby
+      ? 'rabby'
       : ethereum?.isDapper
       ? 'dapper'
       : ethereum?.isCucumber
