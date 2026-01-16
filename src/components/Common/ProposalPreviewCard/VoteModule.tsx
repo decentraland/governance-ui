@@ -30,7 +30,7 @@ function VoteModule({ proposal, votes }: Props) {
     () => calculateResult(proposal?.snapshot_proposal?.choices || [], votes || {}),
     [proposal?.snapshot_proposal?.choices, votes]
   )
-  const vpInFavor = results[0].power || 0
+  const vpInFavor = results[0]?.power || 0
   const threshold = proposal?.required_to_pass || 0
   const neededForAcceptance = threshold - vpInFavor
   const isThresholdStillNotMet = neededForAcceptance >= 0
