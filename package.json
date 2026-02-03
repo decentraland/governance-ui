@@ -20,7 +20,11 @@
     "roots": [
       "<rootDir>/src/"
     ],
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@dcl/ui-env$": "<rootDir>/src/__mocks__/@dcl/ui-env.ts",
+      "^@dcl/ui-env/(.*)$": "<rootDir>/src/__mocks__/@dcl/ui-env.ts"
+    }
   },
   "repository": {
     "type": "git",
@@ -33,7 +37,7 @@
   "dependencies": {
     "@dcl/feature-flags": "^1.2.0",
     "@dcl/schemas": "22.3.0",
-    "@dcl/ui-env": "^1.5.1",
+    "@dcl/ui-env": "^2.0.0",
     "@hookform/resolvers": "^3.4.2",
     "@pushprotocol/restapi": "^1.7.3",
     "@snapshot-labs/snapshot.js": "0.10.1",
@@ -49,7 +53,7 @@
     "dayjs-precise-range": "^1.0.1",
     "dcl-catalyst-client": "^21.7.0",
     "decentraland-crypto-middleware": "^1.2.0",
-    "decentraland-dapps": "^26.7.0",
+    "decentraland-dapps": "^26.11.0",
     "decentraland-ui": "^7.1.0",
     "decentraland-ui2": "^1.2.1",
     "dompurify": "^2.3.3",
@@ -80,6 +84,7 @@
     "remark-emoji": "4.0.1",
     "remark-gfm": "^3.0.0",
     "swiper": "^11.1.1",
+    "thirdweb": "^5.118.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
