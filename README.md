@@ -1,68 +1,91 @@
-<p align="center">
-  <a href="https://governance.decentraland.org">
-    <img alt="Decentraland" src="https://decentraland.org/images/logo.png" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Decentraland DAO Governance dApp
-</h1>
+# Decentraland Governance UI
 
-The governance hub for the Decentraland ecosystem. Create and vote on proposals that help shape the future of the metaverse via the Decentraland DAO (Decentralized Autonomous Organization).
+[![Coverage Status](https://coveralls.io/repos/github/decentraland/governance-ui/badge.svg?branch=main)](https://coveralls.io/github/decentraland/governance-ui?branch=main)
 
-# Setup
+The governance hub for the Decentraland DAO at governance.decentraland.org. Allows users to create, browse, and vote on proposals that shape the metaverse, track grant projects, and view DAO financial transparency data.
 
-Before you start make sure you have the [Backend](https://github.com/decentraland/governance) up and running
+## Table of Contents
 
-### Node version
+- [Features](#features)
+- [Dependencies & Related Services](#dependencies--related-services)
+- [Getting Started](#getting-started)
+- [Testing](#testing)
+- [AI Agent Context](#ai-agent-context)
 
-use node >= `18`
+## Features
 
-If you are starting from scratch and you don't have Node installed in your computer, we recommend using a Node version manager like [nvm](https://github.com/nvm-sh/nvm) to install Node.js and npm instead of the Node installer.
+- **Proposal Browsing**: List and filter all DAO proposals by status, category, and search
+- **Proposal Detail**: Full proposal view with vote breakdown, discussion, and linked updates
+- **Proposal Submission**: Create new governance proposals (grant requests, policy changes, etc.)
+- **Voting**: Cast votes on active proposals using wallet-signed transactions
+- **Grant Project Tracking**: View funded projects and their progress updates
+- **Transparency Page**: DAO financial data including grants awarded and treasury allocation
+- **User Profile**: View voting history and participation stats for any address
+- **Proposal Updates**: Authors submit progress updates linked to their proposals
 
-`nvm install v18.8.0` will install node version 18 and the corresponding npm version.
+## Dependencies & Related Services
 
-**NOTE**
+- **Governance Backend** ([github.com/decentraland/governance](https://github.com/decentraland/governance)): all proposal, vote, and project data
+- **Catalyst / Peer API** (`dcl-catalyst-client`): user profile and avatar data
+- **Auth UI**: wallet sign-in before creating proposals or voting
+- **Feature Flags Service** (`@dcl/feature-flags`): controls rollout of new governance features
 
-If you are using WSL (Windows Subsystem for Linux) as your development environment, clone the repository into the WSL filesystem. If you clone it inside the Windows filesystem, the project will not work.
+### What This UI Does NOT Handle
 
-Run `npm install` to install all the dependencies needed to run the project.
+- DAO treasury management (on-chain)
+- Smart contract vote execution (done on-chain via snapshot or governance contracts)
+- Rewards and grants disbursement (handled by separate reward systems)
+- DAO landing/marketing page (dao-landing)
 
-## Environment setup
+## Getting Started
 
-Create a copy of `.env.example` and name it as `.env.development`
+### Prerequisites
+
+- Node >=18
+- npm
+
+### Installation
 
 ```bash
-  cp .env.example .env.development
+npm install
 ```
 
-> to know more about this file see [the documentation](https://www.gatsbyjs.com/docs/how-to/local-development/environment-variables/#defining-environment-variables)
+### Configuration
 
+Create a copy of `.env.example` and name it `.env.development`:
 
-# Test
+```bash
+cp .env.example .env.development
+```
 
-To run the tests you can do
+### Running the UI
+
+```bash
+npm run start
+```
+
+## Testing
+
+### Running Tests
 
 ```bash
 npm test
 ```
 
-or create a run configuration in your IDE with `jest --no-cache --no-watchman --runInBand`
-
-Also, you can try adding the `--verbose` option.
-
-The `--runInBand` parameter runs the tests in a single thread, which is usually faster, but you can try without it
-and see what works best for you.
-
-# Run
-
-Once you setup this project you can start it using the following command
+Or with Jest options:
 
 ```bash
-  npm start
+jest --no-cache --no-watchman --runInBand
 ```
 
-The app should be running at https://localhost:5173/
+The `--runInBand` parameter runs tests in a single thread. Add `--verbose` for more detailed output.
 
-## Copyright & License
+### Test Structure
 
-This repository is protected with a standard Apache 2 license. See the terms and conditions in the [LICENSE](LICENSE) file.
+Test files are co-located with source files, using the `*.test.ts` / `*.test.tsx` naming convention, run with Jest.
+
+## AI Agent Context
+
+For detailed AI Agent context, see [docs/ai-agent-context.md](docs/ai-agent-context.md).
+
+---
