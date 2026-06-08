@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 24
       - name: Set package.json version
-        uses: decentraland/oddish-action@914e7c59e93e708152aa703c50196740c0526c1d # @master
+        uses: decentraland/oddish-action@0074f2d535c43b5c83f136525304a6277166d77f # @master
         with:
           deterministic-snapshot: true
           only-update-versions: true
