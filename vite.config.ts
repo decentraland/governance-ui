@@ -29,6 +29,9 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
+    optimizeDeps: {
+      exclude: ['thirdweb', '@base-org/account'],
+    },
     ...(command === 'build'
       ? {
           base: envVariables.VITE_BASE_URL,
