@@ -40,10 +40,17 @@ type Props = Omit<ModalProps, 'children'> & {
   proposalKey: string
 }
 
-const getPrimaryButtonTextKey = (status: ProposalStatus | null, isEdit: boolean) => {
+const isUndoingEnactment = (proposal: ProposalAttributes | null, status: ProposalStatus | null) =>
+  proposal?.status === ProposalStatus.Enacted && status === ProposalStatus.Passed
+
+const getPrimaryButtonTextKey = (status: ProposalStatus | null, isUndoEnactment: boolean) => {
+  if (isUndoEnactment) {
+    return 'modal.update_status_proposal.undo_enactment_accept'
+  }
+
   switch (status) {
     case ProposalStatus.Enacted:
-      return isEdit ? 'page.proposal_detail.edit_enacted_data' : 'page.proposal_detail.enact'
+      return 'page.proposal_detail.enact'
     case ProposalStatus.Passed:
       return 'page.proposal_detail.pass'
     case ProposalStatus.Rejected:
@@ -87,9 +94,11 @@ export function UpdateProposalStatusModal({
 
   const values = useWatch({ control })
 
-  const isProject = isProjectProposal(proposal?.type)
+  const isUndoEnactment = isUndoingEnactment(proposal, status)
+  const isProject = isProjectProposal(proposal?.type) && !isUndoEnactment
   const showAddButton = isProject && !!vesting_addresses && vesting_addresses.length > 0
   const hasValues = values.vestingAddresses && values.vestingAddresses.filter((value) => value.length > 0).length > 0
+  const modalStatus = isUndoEnactment ? ProposalStatus.Enacted : status
 
   useEffect(() => {
     setValue('vestingAddresses', defaultValues.vestingAddresses)
@@ -152,6 +161,7 @@ export function UpdateProposalStatusModal({
       setIsSubmitting(false)
       if (proposal) {
         queryClient.setQueryData([proposalKey], proposal)
+        queryClient.invalidateQueries([proposalKey])
         queryClient.invalidateQueries(['projectUpdates', proposal?.project_id])
       }
     },
@@ -179,8 +189,22 @@ export function UpdateProposalStatusModal({
       <Modal.Content>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="ProposalModal__Title">
-            <Header>{t('modal.update_status_proposal.title', { status })}</Header>
-            <Markdown size="lg">{t('modal.update_status_proposal.description', { status }) || ''}</Markdown>
+            <Header>
+              {t(
+                isUndoEnactment
+                  ? 'modal.update_status_proposal.undo_enactment_title'
+                  : 'modal.update_status_proposal.title',
+                { status: modalStatus }
+              )}
+            </Header>
+            <Markdown size="lg">
+              {t(
+                isUndoEnactment
+                  ? 'modal.update_status_proposal.undo_enactment_description'
+                  : 'modal.update_status_proposal.description',
+                { status: modalStatus }
+              ) || ''}
+            </Markdown>
           </div>
 
           {proposal && isProject && (
@@ -230,7 +254,7 @@ export function UpdateProposalStatusModal({
               disabled={isSubmitting || (isProject && !hasValues)}
               loading={loading && isSubmitting}
             >
-              {t(getPrimaryButtonTextKey(status, showAddButton))}
+              {t(getPrimaryButtonTextKey(status, isUndoEnactment))}
             </Button>
             <Button
               className="cancel"

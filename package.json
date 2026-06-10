@@ -36,6 +36,7 @@
   "homepage": "",
   "dependencies": {
     "@dcl/feature-flags": "^1.2.0",
+    "@dcl/hooks": "^1.0.0",
     "@dcl/schemas": "22.3.0",
     "@dcl/ui-env": "^2.0.0",
     "@hookform/resolvers": "^3.4.2",
@@ -52,6 +53,7 @@
     "dayjs": "^1.11.9",
     "dayjs-precise-range": "^1.0.1",
     "dcl-catalyst-client": "^21.7.0",
+    "decentraland-connect": "^11.1.0",
     "decentraland-crypto-middleware": "^1.2.0",
     "decentraland-dapps": "^26.11.0",
     "decentraland-ui": "^7.1.0",

@@ -13,7 +13,12 @@ import useIsProposalOwner from '../../hooks/useIsProposalOwner'
 import { getProposalQueryKey } from '../../hooks/useProposal'
 import { ProposalAttributes, ProposalStatus } from '../../types/proposals'
 import locations from '../../utils/locations'
-import { isProposalDeletable, isProposalEnactable, proposalCanBePassedOrRejected } from '../../utils/proposal'
+import {
+  canUpdateProposalEnactment,
+  getProposalEnactmentStatusUpdate,
+  isProposalDeletable,
+  proposalCanBePassedOrRejected,
+} from '../../utils/proposal'
 import { DeleteProposalModal } from '../Modal/DeleteProposalModal/DeleteProposalModal'
 import { UpdateProposalStatusModal } from '../Modal/UpdateProposalStatusModal/UpdateProposalStatusModal'
 
@@ -40,8 +45,9 @@ export default function ProposalActions({ proposal }: Props) {
 
   const proposalStatus = proposal?.status
   const showDeleteButton = isOwner || isDAOCouncil
-  const showEnactButton = isDAOCouncil && isProposalEnactable(proposalStatus)
+  const showEnactButton = isDAOCouncil && canUpdateProposalEnactment(proposal)
   const showStatusUpdateButton = isDAOCouncil && proposalCanBePassedOrRejected(proposalStatus)
+  const enactmentStatusUpdate = getProposalEnactmentStatusUpdate(proposal)
 
   return (
     <>
@@ -57,11 +63,11 @@ export default function ProposalActions({ proposal }: Props) {
         </Button>
       )}
       {showEnactButton && (
-        <Button basic loading={updatingStatus} fluid onClick={() => setConfirmStatusUpdate(ProposalStatus.Enacted)}>
+        <Button basic loading={updatingStatus} fluid onClick={() => setConfirmStatusUpdate(enactmentStatusUpdate)}>
           {t(
             proposalStatus === ProposalStatus.Passed
               ? 'page.proposal_detail.enact'
-              : 'page.proposal_detail.edit_enacted_data'
+              : 'page.proposal_detail.undo_enactment'
           )}
         </Button>
       )}

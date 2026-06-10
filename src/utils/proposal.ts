@@ -245,6 +245,24 @@ export function isProposalEnactable(proposalStatus: ProposalStatus) {
   return proposalStatus === ProposalStatus.Passed || proposalStatus === ProposalStatus.Enacted
 }
 
+type ProposalEnactmentData = Pick<ProposalAttributes, 'status' | 'type'>
+
+export function canUpdateProposalEnactment(proposal: ProposalEnactmentData) {
+  if (!isProposalEnactable(proposal.status)) {
+    return false
+  }
+
+  if (proposal.status === ProposalStatus.Enacted) {
+    return true
+  }
+
+  return proposal.type !== ProposalType.Poll && proposal.type !== ProposalType.Draft
+}
+
+export function getProposalEnactmentStatusUpdate(proposal: ProposalEnactmentData) {
+  return proposal.status === ProposalStatus.Enacted ? ProposalStatus.Passed : ProposalStatus.Enacted
+}
+
 export function proposalCanBePassedOrRejected(proposalStatus?: ProposalStatus) {
   return proposalStatus === ProposalStatus.Finished
 }
