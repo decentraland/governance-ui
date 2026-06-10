@@ -544,6 +544,8 @@
     "update_status_proposal": {
       "title": "Confirm Proposal Enactment",
       "description": "Mark this proposal as **{status}**, add vesting contracts, or edit enactment data using this tool.",
+      "undo_enactment_title": "Undo Proposal Enactment",
+      "undo_enactment_description": "This proposal is currently **enacted**. Undoing enactment will set it back to **passed** and clear its enactment metadata.",
       "grant_vesting_addresses": "Vesting Contract Addresses",
       "add_vesting_contract": "Add vesting contract",
       "invalid_vesting_address": "Some address is invalid",
@@ -551,6 +553,7 @@
       "update_status_description_label": "Description",
       "update_status_description_placeholder": "Add any useful details for user",
       "accept": "Save",
+      "undo_enactment_accept": "Undo enactment",
       "reject": "Cancel",
       "update_error_label": "There was an error while trying to update the proposal, please try again."
     },
@@ -1300,7 +1303,7 @@
       "voting_ends": "Voting ends {countdown}",
       "proposal_status": "Proposal {status}",
       "enact": "Enact proposal",
-      "edit_enacted_data": "Edit enacted data",
+      "undo_enactment": "Undo enactment",
       "pass": "Pass proposal",
       "reject": "Reject proposal",
       "delete": "Delete proposal",
