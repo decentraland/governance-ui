@@ -8,6 +8,7 @@
     "build": "NODE_OPTIONS='--max-old-space-size=6144' tsc && vite build",
     "preview": "vite preview",
     "test": "jest",
+    "check-links": "node scripts/check-links.js",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
