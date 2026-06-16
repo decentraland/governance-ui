@@ -15,19 +15,56 @@
   flex-direction: row;
 }
 
+.TokensPerWalletPopup .TokensPerWalletPopup__Item {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.TokensPerWalletPopup .TokensPerWalletPopup__Item:last-of-type {
+  margin-bottom: 0;
+}
+
 .TokensPerWalletPopup .TokensPerWalletPopup__Row {
   display: flex;
   flex-grow: 1;
   align-content: space-between;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
   padding: 5px;
   border-radius: 10px;
 }
 
-.TokensPerWalletPopup .TokensPerWalletPopup__Row:last-of-type {
-  margin-bottom: 0;
+.TokensPerWalletPopup .TokensPerWalletPopup__WalletName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.TokensPerWalletPopup .TokensPerWalletPopup__WarningIcon {
+  flex-shrink: 0;
+}
+
+.TokensPerWalletPopup .TokensPerWalletPopup__Warning {
+  display: flex;
+  align-items: flex-start;
+  margin: 4px 5px 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255, 176, 63, 0.12);
+}
+
+.TokensPerWalletPopup .TokensPerWalletPopup__WarningText {
+  color: var(--white-900);
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.TokensPerWalletPopup .TokensPerWalletPopup__Warning a {
+  color: var(--blue-600) !important;
+  font-weight: var(--weight-semi-bold);
+  white-space: nowrap;
 }
 
 .TokensPerWalletPopup .TokensPerWalletPopup__Block {

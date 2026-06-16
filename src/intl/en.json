@@ -1741,6 +1741,8 @@
         "dashboard_button": "Transparency Dashboard",
         "data_source_button": "DCL Data Source",
         "audit": "Audit on {service_name}",
+        "disputed_wallet_warning": "Funds withheld from the DAO. The former DAO Committee retains control of these wallets and has not returned the assets to the DAO.",
+        "disputed_wallet_learn_more": "Learn more",
         "monthly_income": "Last 30 Days Income",
         "monthly_expenses": "Last 30 Days Expenses",
         "diff_label": "vs previous 30 days",
