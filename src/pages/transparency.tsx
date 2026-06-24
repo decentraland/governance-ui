@@ -29,7 +29,7 @@ import './transparency.css'
 const DASHBOARD_URL =
   'https://datastudio.google.com/u/3/reporting/fca13118-c18d-4e68-9582-ad46d2dd5ce9/page/p_n06szvxkrc'
 const DATA_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1FoV7TdMTVnqVOZoV4bvVdHWkeu4sMH5JEhp8L0Shjlo/edit'
-const ABOUT_DAO_URL = 'https://docs.decentraland.org/decentraland/how-does-the-dao-work/'
+const ABOUT_DAO_URL = 'https://docs.decentraland.org/dao/dao/how-does-the-dao-work'
 const WEARABLE_CURATORS_URL = 'https://forum.decentraland.org/t/wearables-curation-committee-member-nominations/2047'
 
 export default function TransparencyPage() {

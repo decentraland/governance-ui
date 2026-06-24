@@ -1,0 +1,19 @@
+name: Link Check
+
+# Verifies that product-owned documentation/external links still resolve.
+# This is informational only: it reports broken links as warning annotations
+# and never fails the build.
+
+on: [push, pull_request]
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # @v4.3.0
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: 24
+      - name: Check links (warning only)
+        run: node scripts/check-links.js
