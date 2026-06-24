@@ -1,3 +1,11 @@
+export enum WalletStatus {
+  // Under DAO control; funds are available to the DAO.
+  Active = 'active',
+  // Controlled by a third party (e.g. the former DAO Committee); funds are
+  // NOT currently available to the DAO.
+  Disputed = 'disputed',
+}
+
 export type TokenInWallet = {
   symbol: string
   contractAddress: string
@@ -8,6 +16,9 @@ export type TokenInWallet = {
   address: string
   timestamp: Date
   rate: number
+  // Optional for backward compatibility with balances.json produced before the
+  // transparency pipeline started emitting wallet status.
+  status?: WalletStatus
 }
 
 export type TokenTotal = {

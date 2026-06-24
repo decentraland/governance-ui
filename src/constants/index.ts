@@ -11,6 +11,9 @@ export const FORUM_URL = DISCOURSE_API
 export const GOVERNANCE_API = import.meta.env.VITE_GOVERNANCE_API || config.get('GOVERNANCE_API')
 export const DAO_DISCORD_URL = 'https://dcl.gg/dao-discord'
 export const OPEN_CALL_FOR_DELEGATES_LINK = 'https://forum.decentraland.org/t/open-call-for-delegates-apply-now/5840'
+// Proposal that deprecated the DAO Committee and created the Council Operational
+// Multisig. Linked from the transparency page's disputed-wallet warning.
+export const COMMITTEE_DEPRECATION_PROPOSAL_ID = 'bb2b8234-42aa-4ca2-a049-3c7355d4caa4'
 export const CANDIDATE_ADDRESSES = Candidates.map((delegate) => delegate.address)
 export const SEGMENT_KEY = config.get('SEGMENT_KEY') || ''
 export const LOCAL_ENV_VAR = config.get('GATSBY_LOCAL_ENV_VAR') || ''
