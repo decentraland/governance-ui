@@ -101,7 +101,7 @@ export default abstract class API {
     const timestamp = String(Date.now())
     const pathname = new URL(this.url(endpoint), 'https://localhost').pathname
     const method = options.method
-    const metadata = ''
+    const metadata = '{}'
     const payload = [method, pathname, timestamp, metadata].join(':').toLowerCase()
     const chain = await signPayload(identity, payload)
 
