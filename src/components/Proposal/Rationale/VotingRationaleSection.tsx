@@ -38,6 +38,7 @@ function VotingRationaleSection({ votes, isLoadingVotes, choices }: Props) {
               <Comment
                 key={address}
                 cooked={vote.reason}
+                plainText
                 forumUsername={profile.username || addressShortener(address)}
                 createdAt={new Date(vote.timestamp * 1000).toISOString()}
                 avatarUrl={profile.avatarUrl}

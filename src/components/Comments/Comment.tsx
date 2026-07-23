@@ -27,6 +27,7 @@ type Props = {
   address?: string
   isValidated?: boolean
   extraInfo?: { choice: string; vp: number }
+  plainText?: boolean
 }
 
 const CHOICE_MAX_LENGTH = 14
@@ -40,6 +41,7 @@ export default function Comment({
   address,
   isValidated,
   extraInfo,
+  plainText,
 }: Props) {
   const createMarkup = (html: any) => {
     DOMPurify.addHook('afterSanitizeAttributes', function (node) {
@@ -56,7 +58,12 @@ export default function Comment({
       }
     })
 
-    const clean = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } })
+    // Forbid <style>/style= so cooked content cannot inject page-wide CSS (defacement).
+    const clean = DOMPurify.sanitize(html, {
+      USE_PROFILES: { html: true },
+      FORBID_TAGS: ['style'],
+      FORBID_ATTR: ['style'],
+    })
     return { __html: clean }
   }
 
@@ -109,7 +116,11 @@ export default function Comment({
             </Text>
           </DateTooltip>
         </div>
-        <div className="Comment__Cooked" dangerouslySetInnerHTML={createMarkup(cooked)} />
+        {plainText ? (
+          <div className="Comment__Cooked">{cooked}</div>
+        ) : (
+          <div className="Comment__Cooked" dangerouslySetInnerHTML={createMarkup(cooked)} />
+        )}
       </div>
     </div>
   )
