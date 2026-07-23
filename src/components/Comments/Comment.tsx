@@ -40,10 +40,10 @@ DOMPurify.addHook('afterSanitizeAttributes', (node: Element) => {
 })
 
 function createMarkup(html?: string) {
-  // Forbid <style>/style= so cooked content cannot inject page-wide CSS (defacement).
+  // Forbid page-wide CSS (defacement) and form/phishing elements; cooked content needs neither.
   const clean = DOMPurify.sanitize(html ?? '', {
     USE_PROFILES: { html: true },
-    FORBID_TAGS: ['style'],
+    FORBID_TAGS: ['style', 'form', 'input', 'button', 'select', 'option', 'textarea'],
     FORBID_ATTR: ['style'],
   })
   return { __html: clean }
