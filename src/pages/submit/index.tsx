@@ -65,7 +65,7 @@ export default function SubmitPage() {
         description={t('page.submit.description')}
         links={[{ rel: 'canonical', href: locations.submit() }]}
       />
-      <ContentLayout className="ProposalDetailPage" navigateBackUrl="/submit">
+      <ContentLayout className="ProposalDetailPage" navigateBackUrl="/proposals">
         <ContentSection>
           <Header size="huge">{t('page.submit.title')}</Header>
           <Text size="lg" weight="normal">
