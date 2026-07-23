@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { hasDangerousScheme, isMetaClick, isRelativeLink } from '../helpers/browser'
+import { isMetaClick, resolveLinkClickAction } from '../helpers/browser'
 import { track } from '../utils/analytics'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,14 +48,14 @@ export default function useAnalyticsTrackLink<H extends Handler>(callback?: H, d
         }
       }
 
-      if (
-        !isRelativeLink(data.href) &&
-        // Never assign a javascript:/data:/vbscript: href to window.location — that would execute it.
-        !hasDangerousScheme(data.href) &&
-        data.target === '_blank' &&
-        !isMetaClick(event) &&
-        !event.defaultPrevented
-      ) {
+      const action = resolveLinkClickAction(data.href, data.target, isMetaClick(event), event.defaultPrevented)
+
+      if (action === 'block') {
+        // Dangerous scheme: prevent default so the browser's own anchor navigation cannot execute
+        // it, and never assign it to window.location.
+        event.preventDefault()
+        track(name, data)
+      } else if (action === 'navigate') {
         event.preventDefault()
         track(name, data, () => {
           window.location.href = data.href!

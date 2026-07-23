@@ -1,4 +1,4 @@
-import { hasDangerousScheme, isRelativeLink } from './browser'
+import { hasDangerousScheme, isRelativeLink, resolveLinkClickAction } from './browser'
 
 describe('hasDangerousScheme', () => {
   let result: boolean
@@ -36,6 +36,36 @@ describe('hasDangerousScheme', () => {
   describe('when a dangerous scheme is prefixed with leading whitespace and control characters', () => {
     beforeEach(() => {
       result = hasDangerousScheme('\t\n javascript:alert(1)')
+    })
+
+    it('should still return true', () => {
+      expect(result).toBe(true)
+    })
+  })
+
+  describe('when a dangerous scheme is obfuscated with an embedded tab', () => {
+    beforeEach(() => {
+      result = hasDangerousScheme('jav\tascript:alert(1)')
+    })
+
+    it('should still return true', () => {
+      expect(result).toBe(true)
+    })
+  })
+
+  describe('when a dangerous scheme is obfuscated with an embedded newline', () => {
+    beforeEach(() => {
+      result = hasDangerousScheme('java\nscript:alert(1)')
+    })
+
+    it('should still return true', () => {
+      expect(result).toBe(true)
+    })
+  })
+
+  describe('when a dangerous scheme is obfuscated with an embedded carriage return', () => {
+    beforeEach(() => {
+      result = hasDangerousScheme('java\rscript:alert(1)')
     })
 
     it('should still return true', () => {
@@ -144,6 +174,90 @@ describe('isRelativeLink', () => {
 
     it('should return false', () => {
       expect(result).toBe(false)
+    })
+  })
+})
+
+describe('resolveLinkClickAction', () => {
+  let action: ReturnType<typeof resolveLinkClickAction>
+
+  describe('when the href uses a dangerous scheme and targets a new tab', () => {
+    beforeEach(() => {
+      action = resolveLinkClickAction('javascript:alert(1)', '_blank', false, false)
+    })
+
+    it('should block it', () => {
+      expect(action).toBe('block')
+    })
+  })
+
+  describe('when the href uses a dangerous scheme and does not target a new tab', () => {
+    beforeEach(() => {
+      action = resolveLinkClickAction('javascript:alert(1)', undefined, false, false)
+    })
+
+    it('should still block it', () => {
+      expect(action).toBe('block')
+    })
+  })
+
+  describe('when the href uses a dangerous scheme obfuscated with an embedded tab', () => {
+    beforeEach(() => {
+      action = resolveLinkClickAction('jav\tascript:alert(1)', '_blank', false, false)
+    })
+
+    it('should block it', () => {
+      expect(action).toBe('block')
+    })
+  })
+
+  describe('when the href is an external link that opens in a new tab', () => {
+    beforeEach(() => {
+      action = resolveLinkClickAction('https://example.org', '_blank', false, false)
+    })
+
+    it('should navigate', () => {
+      expect(action).toBe('navigate')
+    })
+  })
+
+  describe('when an external new-tab link is opened with a meta/modifier click', () => {
+    beforeEach(() => {
+      action = resolveLinkClickAction('https://example.org', '_blank', true, false)
+    })
+
+    it('should defer to the default browser behavior', () => {
+      expect(action).toBe('default')
+    })
+  })
+
+  describe('when an external link does not target a new tab', () => {
+    beforeEach(() => {
+      action = resolveLinkClickAction('https://example.org', undefined, false, false)
+    })
+
+    it('should defer to the default browser behavior', () => {
+      expect(action).toBe('default')
+    })
+  })
+
+  describe('when the href is relative', () => {
+    beforeEach(() => {
+      action = resolveLinkClickAction('/proposal?id=1', '_blank', false, false)
+    })
+
+    it('should defer to the default browser behavior', () => {
+      expect(action).toBe('default')
+    })
+  })
+
+  describe('when the default has already been prevented', () => {
+    beforeEach(() => {
+      action = resolveLinkClickAction('https://example.org', '_blank', false, true)
+    })
+
+    it('should defer to the default browser behavior', () => {
+      expect(action).toBe('default')
     })
   })
 })
