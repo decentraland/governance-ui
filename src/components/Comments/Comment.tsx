@@ -19,6 +19,31 @@ function getDiscourseProfileUrl(user: string, address?: string) {
   return address ? locations.profile({ address }) : `${FORUM_URL}/u/${user}`
 }
 
+// Registered once at module load. Registering inside the component (as before) re-added the hook
+// on every render, stacking duplicate hooks on the global DOMPurify singleton.
+DOMPurify.addHook('afterSanitizeAttributes', (node: Element) => {
+  if (node.nodeName === 'IMG' && node.getAttribute('alt') === 'image') {
+    node.className = 'Comment__CookedImg'
+  }
+
+  if (node.nodeName === 'A') {
+    const hrefAttribute = node.getAttribute('href')
+    if (hrefAttribute?.includes('/u/') && node.className === 'mention') {
+      node.setAttribute('href', getDiscourseProfileUrl(hrefAttribute.split('/u/')[1]))
+      node.setAttribute('target', '_blank')
+    }
+    // Add rel to every anchor so any link that opens in a new tab (mentions here, or a cooked
+    // link Discourse marked target=_blank) cannot reach back through window.opener or leak the
+    // referrer. Harmless for same-tab links, so we do not force target=_blank on non-mentions.
+    node.setAttribute('rel', 'noopener noreferrer')
+  }
+})
+
+function createMarkup(html?: string) {
+  const clean = DOMPurify.sanitize(html ?? '', { USE_PROFILES: { html: true } })
+  return { __html: clean }
+}
+
 type Props = {
   forumUsername: string
   avatarUrl: string
@@ -31,7 +56,6 @@ type Props = {
 
 const CHOICE_MAX_LENGTH = 14
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function Comment({
   forumUsername,
   avatarUrl,
@@ -41,25 +65,6 @@ export default function Comment({
   isValidated,
   extraInfo,
 }: Props) {
-  const createMarkup = (html: any) => {
-    DOMPurify.addHook('afterSanitizeAttributes', function (node) {
-      if (node.nodeName && node.nodeName === 'IMG' && node.getAttribute('alt') === 'image') {
-        node.className = 'Comment__CookedImg'
-      }
-
-      const hrefAttribute = node.getAttribute('href')
-      if (node.nodeName === 'A' && hrefAttribute?.includes('/u/') && node.className === 'mention') {
-        const newHref = getDiscourseProfileUrl(hrefAttribute?.split('/u/')[1])
-        node.setAttribute('href', newHref)
-        node.setAttribute('target', '_blank')
-        node.setAttribute('rel', 'noopener noreferrer')
-      }
-    })
-
-    const clean = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } })
-    return { __html: clean }
-  }
-
   const discourseUserUrl = getDiscourseProfileUrl(forumUsername, address)
   const { profile, isLoadingDclProfile } = useDclProfile(address)
   const { username, hasCustomAvatar, avatarUrl: profileAvatarUrl } = profile
