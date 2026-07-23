@@ -25,7 +25,7 @@ export default function Link({ target, rel, href, onClick, className, ...props }
     }
 
     const isBlank = e.currentTarget.target === TARGET_BLANK
-    if (isRelative && safeHref && !isBlank && !isMetaClick(e)) {
+    if (isRelative && safeHref && !isBlank && !isMetaClick(e) && !e.defaultPrevented) {
       e.preventDefault()
       navigate(safeHref)
     }
@@ -34,7 +34,7 @@ export default function Link({ target, rel, href, onClick, className, ...props }
   return (
     <a
       {...props}
-      className={classNames('Link', (onClick || href) && 'Link--pointer', className)}
+      className={classNames('Link', (onClick || safeHref) && 'Link--pointer', className)}
       target={linkTarget}
       rel={linkRel}
       href={isRelative ? toGovernancePathname(safeHref || '') : safeHref}
