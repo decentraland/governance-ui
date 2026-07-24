@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { DAO_DISCORD_URL, FORUM_URL } from '../../../constants'
+import { DECENTRALAND_DISCORD_URL, FORUM_URL } from '../../../constants'
 import useAbbreviatedFormatter from '../../../hooks/useAbbreviatedFormatter'
 import useFormatMessage from '../../../hooks/useFormatMessage'
 import useNewsletterSubscription from '../../../hooks/useNewsletterSubscription'
@@ -37,7 +37,7 @@ function BottomBanner() {
         icon: <Discord className="Discord__Icon" />,
         title: 'page.home.bottom_banner.discord_title',
         description: 'page.home.bottom_banner.discord_description',
-        url: DAO_DISCORD_URL,
+        url: DECENTRALAND_DISCORD_URL,
         onClick: undefined,
       },
       forum: {

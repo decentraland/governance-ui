@@ -37,7 +37,6 @@ export default function ProjectsBanner() {
       {
         title: t('page.grants.banner.faq_title'),
         description: t('page.grants.banner.faq_description'),
-        url: 'https://docs.decentraland.org/player/general/dao/overview/grants-faq/',
       },
     ],
     [t]

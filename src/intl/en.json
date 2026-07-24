@@ -107,7 +107,7 @@
       "show": "Show error",
       "copy": "Copy to Clipboard",
       "copied": "Copied!",
-      "call_for_action": "We rely on external services that *can* fail. However, feel free to post this error message on our #🚨┃support channel on [Discord](https://dcl.gg/dao-discord)."
+      "call_for_action": "We rely on external services that *can* fail. However, feel free to post this error message on our #help channel on [Discord](https://discord.gg/6RvBZYXFBf)."
     },
     "poll": {
       "title_empty": "Title field is empty",
@@ -437,7 +437,7 @@
     "ban_name_description": "Ban an offensive name from Decentraland",
     "grant_title": "Grant Request",
     "grant_description": "Request funding from the DAO for a project or contribution",
-    "grant_paused": "The Decentraland DAO Grants Program has been put on hold by community decision until February 28th, 2023. Please read [this governance proposal](https://governance.decentraland.org/proposal/?id=9f3b0be0-7e94-11ed-8750-cd1748a98b11) to learn more or visit the [DAO Discord Server](https://dcl.gg/dao-discord) to engage with members of the community.",
+    "grant_paused": "The Decentraland DAO Grants Program has been put on hold by community decision until February 28th, 2023. Please read [this governance proposal](https://governance.decentraland.org/proposal/?id=9f3b0be0-7e94-11ed-8750-cd1748a98b11) to learn more or visit the [Decentraland Discord Server](https://discord.gg/6RvBZYXFBf) to engage with members of the community.",
     "hiring_title": "Hiring",
     "hiring_description": "Request a Community member to be added or removed from a Committee",
     "hiring_add_title": "Add Committee Member",
@@ -957,7 +957,7 @@
       },
       "open_proposals": {
         "title": "Open Proposals",
-        "description": "Proposals are created by the community and work as the consensus mechanism used to outline policies and changes to the Decentraland ecosystem. Learn more about them [here](https://docs.decentraland.org/decentraland/what-can-you-do-with-the-dao/).",
+        "description": "Proposals are created by the community and work as the consensus mechanism used to outline policies and changes to the Decentraland ecosystem. Learn more about them [here](https://docs.decentraland.org/dao/dao/what-can-you-do-with-the-dao/).",
         "loading": "Fetching open proposals...",
         "ending_soon": "Ending soon",
         "by_user": "By ",
@@ -982,7 +982,7 @@
       },
       "active_community_grants": {
         "title": "Active Community Grants",
-        "description": "Grants are the mechanism that the DAO uses to fund community projects that add value to the Decentraland ecosystem with our Treasury. Read more about grants [here](https://docs.decentraland.org/decentraland/community-grants/).",
+        "description": "Grants are the mechanism that the DAO uses to fund community projects that add value to the Decentraland ecosystem with our Treasury.",
         "view_all_grants": "View all Grants",
         "fetching": "Fetching active Community Grants..."
       },
@@ -1675,12 +1675,12 @@
       },
       "delegation": {
         "title": "Delegated VP to",
-        "helper": "This is the DAO member this user delegated their VP to. Learn more about VP delegation [here](https://docs.decentraland.org/player/general/dao/overview/how-does-the-dao-work/)",
+        "helper": "This is the DAO member this user delegated their VP to. Learn more about VP delegation [here](https://docs.decentraland.org/dao/dao/how-does-the-dao-work/)",
         "change_delegation": "Change Delegation"
       },
       "delegators": {
         "title": "VP Delegators",
-        "helper": "These are all the DAO members that delegated their VP to this user. Learn more about VP Delegation [here](https://docs.decentraland.org/player/general/dao/overview/how-does-the-dao-work/)",
+        "helper": "These are all the DAO members that delegated their VP to this user. Learn more about VP Delegation [here](https://docs.decentraland.org/dao/dao/how-does-the-dao-work/)",
         "delegated": "Delegated {vp} VP",
         "delegate_action": "Delegate them your VP",
         "button": "Show all delegators"
@@ -1988,7 +1988,7 @@
       "category_selection": {
         "description": "Choose a category that best suits your project",
         "suspended_description": "The budget allocation for the following Grant categories has been suspended for the time being as a result of a binding community decision on [this proposal](https://decentraland.org/governance/proposal/?id=a89f79f1-7171-4982-8ca1-5a21b5872373)",
-        "documentation": "Not sure which one to choose? Find out more about our Categories on our [Grants Documentation](https://docs.decentraland.org/player/general/dao/overview/grants-program/#grant-categories-and-requirements)"
+        "documentation": "Not sure which one to choose? Find out more about our Categories on our Grants Documentation"
       },
       "modal_actions": {
         "submit": "SUBMIT",
@@ -2025,7 +2025,7 @@
         "title_label": "Title",
         "title_detail": "Provide a title that is concise and descriptive for your grant request. This title will appear as the header of your proposal’s detail page on the Governance dApp, our Snapshot space, and the Forum thread of your Proposal.",
         "title_placeholder": "Enter a descriptive title for your grant proposal here.",
-        "description": "Decentraland Grants allow the DAO’s MANA to fund the creation of features or content for the Decentraland platform. Either individuals or teams may apply within one of five categories, and there are six levels of funding for each category. Before submitting your grant proposal, please review the [Grants Framework](https://docs.decentraland.org/decentraland/community-grants/) here.\n\nAside from the requirements listed in the Grants Framework and Decentraland’s [Content Policy](https://decentraland.org/content), [Terms of Use](https://decentraland.org/terms), and [Code of Ethics](https://decentraland.org/ethics), there are no constraints on the content or features that may be funded.",
+        "description": "Decentraland Grants allow the DAO’s MANA to fund the creation of features or content for the Decentraland platform. Either individuals or teams may apply within one of five categories, and there are six levels of funding for each category. Before submitting your grant proposal, please review the Grants Framework here.\n\nAside from the requirements listed in the Grants Framework and Decentraland’s [Content Policy](https://decentraland.org/content), [Terms of Use](https://decentraland.org/terms), and [Code of Ethics](https://decentraland.org/ethics), there are no constraints on the content or features that may be funded.",
         "description_label": "Description",
         "description_detail": "Allows you to elaborate on why your project should receive funding, the problems that your project will solve, or the benefits it will bring to the Decentraland platform.",
         "abstract_label": "Abstract",
@@ -2176,7 +2176,7 @@
       "final_consent": {
         "title": "Final Consent",
         "subtitle": "Review and check the following",
-        "grants_framework_label": "I’ve read and understood the [Grants Framework](https://docs.decentraland.org/decentraland/community-grants/)",
+        "grants_framework_label": "I’ve read and understood the Grants Framework",
         "content_policy_label": "I’ve read and understood Decentraland’s [Content Policy](https://decentraland.org/content)",
         "terms_of_use_label": "I’ve read Decentraland’s [Terms of Use](https://decentraland.org/terms) and agree with them",
         "code_of_ethics_label": "I’ve read Decentraland’s [Code of Ethics](https://decentraland.org/ethics) and hereby commit to honoring it",

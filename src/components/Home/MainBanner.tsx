@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Button } from 'decentraland-ui/dist/components/Button/Button'
 
 import { HIDE_HOME_BANNER_KEY } from '../..//localStorageKeys'
-import { DAO_DISCORD_URL, DOCS_URL } from '../../constants'
+import { DECENTRALAND_DISCORD_URL, DOCS_URL } from '../../constants'
 import useFormatMessage from '../../hooks/useFormatMessage'
 import Link from '../Common/Typography/Link'
 import CloseCircle from '../Icon/CloseCircle'
@@ -39,7 +39,7 @@ const MainBanner = () => {
       <h2 className="MainBanner__Title">{t('page.home.main_banner.title')}</h2>
       <p className="MainBanner__Description">{t('page.home.main_banner.description')}</p>
       <div className="MainBanner__ButtonsContainer">
-        <Button as={Link} href={DAO_DISCORD_URL} className="MainBanner__Button MainBanner__DiscordButton">
+        <Button as={Link} href={DECENTRALAND_DISCORD_URL} className="MainBanner__Button MainBanner__DiscordButton">
           {t('page.home.main_banner.discord_button')}
         </Button>
         <Button as={Link} href={DOCS_URL} className="MainBanner__Button MainBanner__DocsButton">
