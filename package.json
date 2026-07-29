@@ -86,7 +86,7 @@
     "rehype-sanitize": "^6.0.0",
     "remark-emoji": "4.0.1",
     "remark-gfm": "^3.0.0",
-    "swiper": "^11.1.1",
+    "swiper": "^14.0.7",
     "thirdweb": "^5.118.0",
     "zod": "^3.23.8"
   },
