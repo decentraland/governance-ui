@@ -21,6 +21,13 @@ export type ApiOptions = {
   headers?: Record<string, string>
 }
 
+export class APIError extends Error {
+  constructor(public readonly status: number, public readonly body: string) {
+    super(`HTTP error! status: ${status}, body: ${body}`)
+    this.name = 'APIError'
+  }
+}
+
 export default abstract class API {
   private readonly baseUrl: string
   private defaultHeaders: Record<string, string> = {}
@@ -59,17 +66,8 @@ export default abstract class API {
 
   private async checkForErrors(response: Response) {
     if (!response.ok) {
-      let errorBody = await response.text()
-      const contentType = response.headers.get('Content-Type')
-      if (contentType && contentType.includes('application/json')) {
-        try {
-          const errorJson = await response.json()
-          errorBody = JSON.stringify(errorJson)
-        } catch (e) {
-          // If JSON parsing fails, fallback to using the text response (errorBody already set)
-        }
-      }
-      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`)
+      const errorBody = await response.text()
+      throw new APIError(response.status, errorBody)
     }
   }
 

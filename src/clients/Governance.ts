@@ -380,7 +380,7 @@ export class Governance extends API {
   }
 
   async getDebugAddresses() {
-    return await this.fetchApiResponse<string[]>(`/debug`)
+    return await this.fetchApiResponse<string[]>(`/debug`, { method: 'GET', sign: true })
   }
 
   async getProposalComments(proposal_id: string) {
