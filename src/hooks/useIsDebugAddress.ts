@@ -1,21 +1,34 @@
-import { useMemo } from 'react'
-
 import { useQuery } from '@tanstack/react-query'
 
+import { APIError } from '../clients/API'
 import { Governance } from '../clients/Governance'
 
-import { DEFAULT_QUERY_STALE_TIME } from './constants'
+const ACCESS_DENIED_STATUSES = new Set([401, 403])
+
+function isAccessDenied(error: unknown): error is APIError {
+  return error instanceof APIError && ACCESS_DENIED_STATUSES.has(error.status)
+}
 
 export default function useIsDebugAddress(address?: string | null) {
-  const { data: debugAddresses } = useQuery({
-    queryKey: ['debugAddresses'],
-    queryFn: () => Governance.get().getDebugAddresses(),
-    staleTime: DEFAULT_QUERY_STALE_TIME,
+  const normalizedAddress = address?.toLowerCase()
+  const { data: isDebugAddress = false } = useQuery({
+    queryKey: ['debugAccess', normalizedAddress],
+    enabled: !!normalizedAddress,
+    queryFn: async () => {
+      try {
+        const debugAddresses = await Governance.get().getDebugAddresses()
+        return debugAddresses.some((debugAddress) => debugAddress.toLowerCase() === normalizedAddress)
+      } catch (error) {
+        if (isAccessDenied(error)) {
+          return false
+        }
+        throw error
+      }
+    },
+    retry: (failureCount, error) => !isAccessDenied(error) && failureCount < 3,
+    staleTime: Infinity,
+    cacheTime: Infinity,
   })
-
-  const isDebugAddress = useMemo(() => {
-    return !!(address && debugAddresses && debugAddresses.includes(address))
-  }, [address, debugAddresses])
 
   return { isDebugAddress }
 }
