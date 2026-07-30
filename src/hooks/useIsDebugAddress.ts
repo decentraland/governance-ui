@@ -17,7 +17,7 @@ export default function useIsDebugAddress(address?: string | null) {
     queryFn: async () => {
       try {
         const debugAddresses = await Governance.get().getDebugAddresses()
-        return debugAddresses.includes(normalizedAddress!)
+        return debugAddresses.some((debugAddress) => debugAddress.toLowerCase() === normalizedAddress)
       } catch (error) {
         if (isAccessDenied(error)) {
           return false
