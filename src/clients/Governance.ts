@@ -472,11 +472,11 @@ export class Governance extends API {
     return await this.fetchApiResponse<Topic[]>(`/proposals/${proposalId}/survey-topics`)
   }
 
-  async getValidationMessage(account?: AccountType) {
+  // Required: the account type is part of the message that gets signed, so the server refuses to
+  // issue one without it.
+  async getValidationMessage(account: AccountType) {
     const params = new URLSearchParams()
-    if (account) {
-      params.append('account', account)
-    }
+    params.append('account', account)
     return await this.fetchApiResponse<string>(`/user/validate?${params.toString()}`, {
       method: 'GET',
       sign: true,

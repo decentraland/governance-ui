@@ -72,6 +72,12 @@ const INITIAL_STATE: ModalState = {
   isValidating: false,
 }
 
+// Step status and action are assigned by mutating the step objects, so every mount and every reset
+// needs its own copies. Sharing initialSteps carries a previous attempt's status into the next one.
+function createInitialState(): ModalState {
+  return { ...INITIAL_STATE, steps: initialSteps.map((step) => ({ ...step })) }
+}
+
 type Props = { address: string; onClose: () => void }
 
 function ForumConnectionFlow({ address, onClose }: Props) {
@@ -80,13 +86,18 @@ function ForumConnectionFlow({ address, onClose }: Props) {
   const t = useFormatMessage()
   const track = useAnalyticsTrack()
 
-  const [modalState, setModalState] = useState<ModalState>(INITIAL_STATE)
+  const [modalState, setModalState] = useState<ModalState>(createInitialState)
   const setCurrentStep = useCallback((currentStep: number) => setModalState((state) => ({ ...state, currentStep })), [])
   const setIsValidating = useCallback(
     (isValidating: boolean) => setModalState((state) => ({ ...state, isValidating })),
     []
   )
-  const setIsTimerActive = (isTimerActive: boolean) => setModalState((state) => ({ ...state, isTimerActive }))
+  // Memoised like the other setters: it is a dependency of handleStepOneAction, which the effect
+  // below depends on, so a new identity every render makes that effect re-run and set state forever.
+  const setIsTimerActive = useCallback(
+    (isTimerActive: boolean) => setModalState((state) => ({ ...state, isTimerActive })),
+    []
+  )
   const setStepStatus = useCallback(
     (stepStatus: StepStatus) => {
       modalState.steps[modalState.currentStep - 1].status = stepStatus
@@ -143,10 +154,9 @@ function ForumConnectionFlow({ address, onClose }: Props) {
   const resetState = useCallback(() => {
     setIsTimerActive(false)
     setModalState(
-      assignActionsToSteps(INITIAL_STATE, [handleStepOneAction, handleStepTwoAction, handleStepThreeAction])
+      assignActionsToSteps(createInitialState(), [handleStepOneAction, handleStepTwoAction, handleStepThreeAction])
     )
     setIsValidating(false)
-    setStepStatus('initial')
     resetForumConnect()
   }, [
     setIsTimerActive,
@@ -154,7 +164,6 @@ function ForumConnectionFlow({ address, onClose }: Props) {
     handleStepTwoAction,
     handleStepThreeAction,
     setIsValidating,
-    setStepStatus,
     resetForumConnect,
   ])
 
@@ -171,7 +180,9 @@ function ForumConnectionFlow({ address, onClose }: Props) {
 
   return (
     <>
-      {!isForumValidationFinished ? (
+      {/* Undefined means still validating. A failed validation is false, which must reach
+          PostConnection to be reported rather than silently returning to step one. */}
+      {isForumValidationFinished === undefined ? (
         <FlowWithSteps
           title={t(`modal.identity_setup.${account}.title`)}
           timerText={
