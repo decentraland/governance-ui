@@ -7,24 +7,25 @@ import { MESSAGE_TIMEOUT_TIME } from '../constants/users'
 import { useAuthContext } from '../context/AuthProvider'
 import { AccountType } from '../types/users'
 import Time from '../utils/date/Time'
+import { ValidationPoller } from '../utils/validationPoller'
 
 import useClipboardCopy from './useClipboardCopy'
 import useTimer from './useTimer'
 
 export const VALIDATION_CHECK_INTERVAL = 10 * 1000 // 10 seconds
 
-function useValidationSetup(account?: AccountType) {
+function useValidationSetup(account: AccountType) {
   const [user, userState] = useAuthContext()
 
   const [clipboardMessage, setClipboardMessage] = useState('')
   const { handleCopy } = useClipboardCopy(Time.Second)
   const { startTimer, resetTimer, time } = useTimer(MESSAGE_TIMEOUT_TIME / 1000 - 1)
-  const [validatingProfile, setValidatingProfile] = useState<NodeJS.Timeout>()
+  const [validatingProfile, setValidatingProfile] = useState<ValidationPoller>()
   const [isValidated, setIsValidated] = useState<boolean>()
 
   useEffect(() => {
     if (time <= 0 && validatingProfile) {
-      clearInterval(validatingProfile)
+      validatingProfile.stop()
       setValidatingProfile(undefined)
     }
   }, [time, validatingProfile])
@@ -35,9 +36,17 @@ function useValidationSetup(account?: AccountType) {
     }
   }, [isValidated, resetTimer])
 
+  // Without this the poller outlives the component and keeps signing requests after the user has
+  // navigated away, until the validation window happens to run out.
+  useEffect(() => {
+    return () => {
+      validatingProfile?.stop()
+    }
+  }, [validatingProfile])
+
   const resetValidation = useCallback(() => {
     if (validatingProfile) {
-      clearInterval(validatingProfile)
+      validatingProfile.stop()
       setValidatingProfile(undefined)
     }
     setIsValidated(undefined)
