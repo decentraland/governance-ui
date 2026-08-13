@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AUTH_CHAIN_HEADER_PREFIX, AUTH_METADATA_HEADER, AUTH_TIMESTAMP_HEADER } from '@dcl/crypto'
 import type { AuthIdentity } from '@dcl/crypto/dist/types'
-import {
-  AUTH_CHAIN_HEADER_PREFIX,
-  AUTH_METADATA_HEADER,
-  AUTH_TIMESTAMP_HEADER,
-} from 'decentraland-crypto-middleware/lib/types'
 
 import { signPayload } from '../context/auth/identify'
 import { getCurrentIdentity } from '../context/auth/storage'
