@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import RequestError from 'decentraland-crypto-middleware/lib/errors'
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
 
 import { ErrorClient } from '../clients/ErrorClient'
@@ -8,6 +7,10 @@ import { useAuthContext } from '../context/AuthProvider.tsx'
 import { ErrorCategory } from '../utils/errorCategories'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants'
+
+// The caller passes an `unknown` from a catch, so this only ever needed the shape,
+// never the middleware's RequestError class.
+type RequestError = Error & { statusCode: number }
 
 function isNotFoundOrBadRequest(error: RequestError) {
   return error.statusCode === 404 || error.statusCode === 400
