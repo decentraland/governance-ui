@@ -58,7 +58,7 @@
     "dcl-catalyst-client": "^21.7.0",
     "decentraland-connect": "^12.1.1",
     "decentraland-crypto-middleware": "^1.2.0",
-    "decentraland-dapps": "^29.6.1",
+    "decentraland-dapps": "^29.6.2",
     "decentraland-ui": "^7.1.0",
     "decentraland-ui2": "^3.20.0",
     "dompurify": "^2.3.3",
@@ -90,6 +90,7 @@
     "remark-gfm": "^3.0.0",
     "swiper": "^14.0.7",
     "thirdweb": "^5.118.0",
+    "viem": "2.55.19",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -150,7 +151,6 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.4.0",
     "typescript": "5.2.2",
-    "viem": "2.55.19",
     "vite": "^4.4.9"
   },
   "files": [
