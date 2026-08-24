@@ -5,10 +5,10 @@ import { ChainId } from '@dcl/schemas/dist/dapps/chain-id'
 import { Network } from '@dcl/schemas/dist/dapps/network'
 import { Avatar } from '@dcl/schemas/dist/platform/profile'
 import { useQuery } from '@tanstack/react-query'
+import NotificationSlot from 'decentraland-dapps/dist/containers/Navbar/NotificationSlot'
 import {
   DROPDOWN_MENU_BALANCE_CLICK_EVENT,
   DROPDOWN_MENU_DISPLAY_EVENT,
-  DROPDOWN_MENU_ITEM_CLICK_EVENT,
   DROPDOWN_MENU_SIGN_OUT_EVENT,
 } from 'decentraland-dapps/dist/containers/Navbar/constants'
 import useNotifications from 'decentraland-dapps/dist/hooks/useNotifications'
@@ -21,7 +21,6 @@ import { isEmpty } from 'lodash'
 import { useAuthContext } from '../../context/AuthProvider'
 import { addressShortener, getSupportedChainIds } from '../../helpers'
 import useAnalyticsTrack from '../../hooks/useAnalyticsTrack'
-import useAnalyticsTrackLink from '../../hooks/useAnalyticsTrackLink'
 import useDclFeatureFlags from '../../hooks/useDclFeatureFlags'
 import useDclIdentity from '../../hooks/useDclIdentity'
 import useDclProfile from '../../hooks/useDclProfile'
@@ -43,7 +42,7 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
   const [user, userState] = useAuthContext()
   const track = useAnalyticsTrack()
-  const { isFeatureFlagEnabled, getVariants } = useDclFeatureFlags()
+  const { isFeatureFlagEnabled } = useDclFeatureFlags()
   const location = useLocation()
 
   const analytics = getAnalytics()
@@ -52,41 +51,11 @@ export default function Layout({ children }: LayoutProps) {
     analytics?.page()
   }, [analytics, location])
 
-  const handleClickUserMenuOption = useAnalyticsTrackLink(function (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    event: any,
-    options: {
-      type: string
-      url?: string
-      track_uuid?: string
-    }
-  ) {
-    event.preventDefault()
-    track(DROPDOWN_MENU_ITEM_CLICK_EVENT, options)
-
-    return null
-  })
-
-  const handleClickNavbarOption = useAnalyticsTrackLink(function (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    _event: any,
-    options: {
-      eventTrackingName: string
-      url?: string
-      isExternal?: boolean
-    }
-  ) {
-    track('Click on Navbar', options)
-
-    return null
-  })
-
   const handleSwitchNetwork = useCallback((chainId: ChainId) => userState.switchTo(chainId), [userState])
 
   const { profile, isLoadingDclProfile } = useDclProfile(user)
   const chainId = userState.chainId
   const isAuthDappEnabled = isFeatureFlagEnabled(FeatureFlags.AuthDapp)
-  const cdnLinks = getVariants(FeatureFlags.LAUNCHER_LINKS)
 
   const { data: manaBalances } = useQuery({
     queryKey: ['manaBalances', user, chainId],
@@ -100,8 +69,7 @@ export default function Layout({ children }: LayoutProps) {
   })
 
   const handleClickBalance = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>, network?: Network) => {
-      event.preventDefault()
+    (network: Network) => {
       track(DROPDOWN_MENU_BALANCE_CLICK_EVENT, { network })
 
       setTimeout(() => {
@@ -111,38 +79,29 @@ export default function Layout({ children }: LayoutProps) {
     [track]
   )
 
-  const handleOpen = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (_e: any, track_uuid: string) => {
-      track(DROPDOWN_MENU_DISPLAY_EVENT, { track_uuid })
+  const handleToggleUserCard = useCallback(
+    (isOpen: boolean) => {
+      if (isOpen) {
+        track(DROPDOWN_MENU_DISPLAY_EVENT, {})
+      }
     },
     [track]
   )
 
-  const handleSignOut = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (_e: any, track_uuid: string) => {
-      track(DROPDOWN_MENU_SIGN_OUT_EVENT, { track_uuid })
-      setTimeout(() => {
-        userState.disconnect()
-      }, 300)
-    },
-    [track, userState]
-  )
+  const handleSignOut = useCallback(() => {
+    track(DROPDOWN_MENU_SIGN_OUT_EVENT, {})
+    setTimeout(() => {
+      userState.disconnect()
+    }, 300)
+  }, [track, userState])
 
   const withNotifications = true
   const dclIdentity = useDclIdentity()
   const hasProfile = !isEmpty(profile)
-  const {
-    isModalOpen,
-    isNotificationsOnboarding,
-    modalActiveTab,
-    isLoading,
-    notifications,
-    handleNotificationsOpen,
-    handleOnBegin,
-    handleOnChangeModalTab,
-  } = useNotifications(dclIdentity, withNotifications)
+  const { isModalOpen, isLoading, notifications, handleNotificationsOpen } = useNotifications(
+    dclIdentity,
+    withNotifications
+  )
 
   return (
     <LayoutContainer>
@@ -150,37 +109,28 @@ export default function Layout({ children }: LayoutProps) {
         manaBalances={manaBalances as ManaBalancesProps['manaBalances']}
         address={user || undefined}
         avatar={hasProfile ? (profile as unknown as Avatar) : undefined}
-        activePage="governance"
         isSignedIn={hasProfile}
         isSigningIn={userState.loading || isLoadingDclProfile}
         onClickBalance={handleClickBalance}
-        onClickNavbarItem={handleClickNavbarOption}
-        onClickUserMenuItem={handleClickUserMenuOption}
-        onClickOpen={handleOpen}
+        onToggleUserCard={handleToggleUserCard}
         onClickSignIn={isAuthDappEnabled ? userState.authorize : userState.select}
         onClickSignOut={handleSignOut}
-        notifications={
-          withNotifications
-            ? {
-                locale: 'en',
-                isLoading,
-                isOnboarding: isNotificationsOnboarding,
-                isOpen: isModalOpen,
-                items: notifications,
-                activeTab: modalActiveTab,
-                onClick: handleNotificationsOpen,
-                onClose: handleNotificationsOpen,
-                onBegin: handleOnBegin,
-                onChangeTab: (_, tab) => handleOnChangeModalTab(tab),
-                renderProfile: (address: string) => (
-                  <div className="layout__notifications-profile">
-                    <AvatarComponent address={address} size="xs" /> {addressShortener(address)}
-                  </div>
-                ),
-              }
-            : undefined
+        notificationSlot={
+          withNotifications ? (
+            <NotificationSlot
+              locale="en"
+              isLoading={isLoading}
+              isOpen={isModalOpen}
+              notifications={notifications}
+              onToggle={handleNotificationsOpen}
+              renderProfile={(address: string) => (
+                <div className="layout__notifications-profile">
+                  <AvatarComponent address={address} size="xs" /> {addressShortener(address)}
+                </div>
+              )}
+            />
+          ) : undefined
         }
-        cdnLinks={cdnLinks}
       />
 
       <main>{children}</main>
