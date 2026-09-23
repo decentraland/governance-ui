@@ -8,6 +8,8 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 
 import { QueryClient } from '@tanstack/query-core'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { setCurrentLocale } from 'decentraland-dapps/dist/modules/translation'
+import dappsEn from 'decentraland-dapps/dist/modules/translation/defaults/en.json'
 
 import SnapshotStatus from './components/Debug/SnapshotStatus'
 import Layout from './components/Layout/Layout'
@@ -59,6 +61,14 @@ import {
 } from "decentraland-ui2"
 
 getAnalytics()?.load(config.get('SEGMENT_KEY'))
+
+// Initialize decentraland-dapps' own intl module so that components imported
+// from that package (e.g. NotificationSlot) can call t() without throwing
+// "Cannot read properties of undefined (reading 'formatMessage')".
+// This app uses its own react-intl IntlProvider and never goes through the
+// dapps Redux/Saga TranslationProvider, so we must seed the module-level
+// locale manually before the React tree mounts.
+setCurrentLocale('en', flattenMessages(dappsEn))
 
 const queryClient = new QueryClient()
 
