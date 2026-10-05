@@ -16,15 +16,38 @@
     />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#000000" />
-    <title>Decentraland DAO</title>
+    <title>Decentraland Governance | DAO Proposals and Voting</title>
     <meta name="description" content="The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse." />
-    <meta property="og:title" content="Decentraland DAO" >
+    <meta property="og:title" content="Decentraland Governance | DAO Proposals and Voting" >
+    <meta property="og:site_name" content="Decentraland Governance" >
     <meta property="og:description" content="The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse."/>
-    <meta property="og:image" content="https://decentraland.org/images/decentraland.png" >
-    <meta property="twitter:title" content="Decentraland DAO" >
-    <meta property="twitter:description" content="The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse." >
-    <meta property="twitter:image" content="https://decentraland.org/images/decentraland.png" >
-    <meta property="twitter:card" content="summary" >
+    <meta property="og:image" content="https://ui.decentraland.org/logo.png" >
+    <meta name="twitter:title" content="Decentraland Governance | DAO Proposals and Voting" >
+    <meta name="twitter:description" content="The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse." >
+    <meta name="twitter:image" content="https://ui.decentraland.org/logo.png" >
+    <meta name="twitter:card" content="summary" >
+    <!-- Names this app for agents and search engines and tells it apart from the DAO page, which shares
+         the "Decentraland DAO" name. It describes the site, not a page, so it holds on every route. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Decentraland Governance",
+        "url": "https://decentraland.org/governance/",
+        "description": "The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse. For what the Decentraland DAO is and how to take part, see https://decentraland.org/dao/.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Decentraland",
+          "url": "https://decentraland.org/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Decentraland",
+          "url": "https://decentraland.org/"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
