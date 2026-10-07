@@ -29,7 +29,7 @@ export default function Head({ title, description, image, children, links }: Pro
     'og:description': description || '',
     'twitter:description': description || '',
     'og:image': image || DCL_META_IMAGE_URL,
-    'twitter:image': image || '',
+    'twitter:image': image || DCL_META_IMAGE_URL,
     'twitter:card': 'summary',
   }
 
