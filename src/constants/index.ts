@@ -7,6 +7,7 @@ export const DISCOURSE_USER = config.get('DISCOURSE_USER')
 export const DISCOURSE_API = config.get('DISCOURSE_API')
 export const GOVERNANCE_URL = import.meta.env.VITE_GOVERNANCE_URL || config.get('GOVERNANCE_URL')
 export const DOCS_URL = 'https://docs.decentraland.org/dao/dao/what-is-the-dao'
+export const MISSION_DOCS_URL = 'https://docs.decentraland.org/dao/dao/mission-vision-and-roles'
 export const FORUM_URL = DISCOURSE_API
 export const GOVERNANCE_API = import.meta.env.VITE_GOVERNANCE_API || config.get('GOVERNANCE_API')
 export const DAO_DISCORD_URL = 'https://dcl.gg/dao-discord'
