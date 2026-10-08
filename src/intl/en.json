@@ -934,7 +934,7 @@
     },
     "home": {
       "title": "Decentraland Governance | DAO Proposals and Voting",
-      "description": "The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse.",
+      "description": "The governance hub for the Decentraland DAO. Our mission: Ensure the sustainability of the Decentraland Ecosystem through representative governance, efficient management of collective resources, and technical innovation.",
       "main_banner": {
         "title": "Get involved and shape Decentraland’s future.",
         "description": "The  DAO is a key component of the ecosystem and it is the consensus mechanism for defining the rules of the Decentraland's virtual world. Participate in the DAO and make your voice heard.",
@@ -1734,7 +1734,8 @@
       "title": "Transparency",
       "mission": {
         "title": "Our Mission",
-        "description": "To support and facilitate the continual growth of the Decentraland platform.",
+        "description": "Ensure the sustainability of the Decentraland Ecosystem through representative governance, efficient management of collective resources, and technical innovation.",
+        "roles_button": "Mission, vision & roles",
         "join_discord_button": "Join our Discord",
         "docs_button": "Check our docs",
         "balance_title": "Current Balance",
