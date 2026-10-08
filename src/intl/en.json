@@ -933,7 +933,7 @@
       }
     },
     "home": {
-      "title": "Decentraland DAO",
+      "title": "Decentraland Governance | DAO Proposals and Voting",
       "description": "The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse.",
       "main_banner": {
         "title": "Get involved and shape Decentraland’s future.",
@@ -1127,7 +1127,7 @@
       "governance_description": "Finalize the decision-making process in a binding proposal by submitting a comprehensive proposal with all relevant details for implementation."
     },
     "proposal_list": {
-      "title": "Decentraland DAO",
+      "title": "Decentraland Governance",
       "description": "The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse.",
       "new_proposal": "Submit a proposal",
       "categories": "Categories",
@@ -1213,7 +1213,7 @@
       }
     },
     "proposal_detail": {
-      "title": "Decentraland DAO",
+      "title": "Decentraland Governance",
       "description": "The governance hub for Decentraland. Create and vote on proposals that help shape the future of the metaverse.",
       "subscribe_button": "Add to my Watchlist",
       "subscribed_button": "Remove from my Watchlist",
@@ -1616,8 +1616,8 @@
       "no_comments_text": "No comments yet, you have the chance to be the first one!"
     },
     "profile": {
-      "title": "{address} | Decentraland DAO",
-      "empty_title": "Decentraland DAO",
+      "title": "{address} | Decentraland Governance",
+      "empty_title": "Decentraland Governance",
       "description": "Your profile within the DAO",
       "show_badges": "{amount} More",
       "view_past_badges": "View past badges",
