@@ -2,7 +2,8 @@
 # Docs: https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
 #
 # Goals:
-#   - Security updates: all npm security fixes found in a run are grouped into ONE pull request.
+#   - Security updates: fixes found in a run are grouped into one PR for minor/patch bumps and
+#     one PR for major bumps, so a breaking major cannot hold back the safe fixes.
 #   - Version updates: disabled (open-pull-requests-limit: 0) to avoid routine bump noise.
 #     Security update PRs are not subject to that limit, so they keep flowing.
 #
@@ -24,3 +25,12 @@ updates:
         applies-to: security-updates
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      npm-security-major:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        update-types:
+          - "major"
