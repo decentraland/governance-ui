@@ -172,6 +172,22 @@
     },
     "decentraland-ui": {
       "@dcl/schemas": "26.5.0"
+    },
+    "@pushprotocol/restapi": {
+      "axios": "^0.34.0"
+    },
+    "ws@>=7.0.0 <7.5.11": "^7.5.11",
+    "ws@>=8.0.0 <8.21.0": "^8.22.0",
+    "bn.js@>=5.0.0 <5.2.3": "^5.2.3",
+    "minimatch@>=9.0.0 <9.0.7": "^9.0.7",
+    "fortmatic": {
+      "@babel/runtime": "^7.26.10"
+    },
+    "ethjs-unit": {
+      "bn.js": "^4.12.3"
+    },
+    "number-to-bn": {
+      "bn.js": "^4.12.3"
     }
   }
 }
