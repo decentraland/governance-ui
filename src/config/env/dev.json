@@ -14,6 +14,8 @@
   "JOIN_DISCORD_URL": "https://dcl.gg/discord",
   "MAINTENANCE": "false",
   "SEGMENT_KEY": "CXcLRdj0SnrRBlwYTcyWVBuE9kYaIP47",
+  "SEGMENT_ANALYTICS_URL": "https://evs.e.decentraland.org/analytics.js/v1/CXcLRdj0SnrRBlwYTcyWVBuE9kYaIP47/analytics.min.js",
+  "SEGMENT_API_HOST": "api.e.decentraland.org/v1",
   "PROD_ENV_VAR": "only for testing dev",
   "SNAPSHOT_DELEGATE_CONTRACT_ADDRESS": "0x469788fE6E9E9681C6ebF3bF78e7Fd26Fc015446",
   "SNAPSHOT_API": "https://testnet.hub.snapshot.org/",

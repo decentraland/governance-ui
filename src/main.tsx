@@ -43,7 +43,7 @@ import { flattenMessages } from './utils/intl'
 import { SSO_URL } from './constants'
 import HomePage from './pages'
 
-import './utils/analytics/snippet'
+import 'decentraland-dapps/dist/modules/analytics/snippet'
 // These CSS styles must be defined last to avoid overriding other styles
 import 'balloon-css/balloon.min.css'
 import 'decentraland-ui/dist/themes/base-theme.css'
@@ -51,8 +51,7 @@ import 'decentraland-ui/dist/themes/alternative/light-theme.css'
 import './theme.css'
 import './ui-overrides.css'
 import useScrollToHash from './components/Home/useScrollToHash.tsx'
-import { config } from './config/index.ts'
-import { getAnalytics } from './utils/analytics/segment.ts'
+import { loadAnalytics } from './utils/analytics/load.ts'
 import ProjectPage from './pages/project.tsx'
 
 import {
@@ -60,7 +59,7 @@ import {
   lightTheme,
 } from "decentraland-ui2"
 
-getAnalytics()?.load(config.get('SEGMENT_KEY'))
+loadAnalytics()
 
 // Initialize decentraland-dapps' own intl module so that components imported
 // from that package (e.g. NotificationSlot) can call t() without throwing
