@@ -17,7 +17,11 @@ export default defineConfig(({ command, mode }) => {
         globals: {
           Buffer: true,
           global: true,
-          process: true,
+          // Build only. In dev, Vite exposes the `define`d process.env on globalThis.process (via
+          // /@vite/env), but the plugin would rewrite `process` in src to its own shim, whose env is
+          // empty, so VITE_REACT_APP_DCL_DEFAULT_ENV would be ignored. ('build' is not enough: the
+          // plugin still injects the shim into src modules in dev with that value.)
+          process: command === 'build',
         },
         protocolImports: true,
       }),
