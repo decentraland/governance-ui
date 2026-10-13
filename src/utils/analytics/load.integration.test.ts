@@ -123,6 +123,12 @@ describe('loadAnalytics with the decentraland-dapps snippet', () => {
       result.loadAnalytics()
     })
 
+    it('should inject the script from the configured analytics url', () => {
+      const scripts = getInjectedScripts()
+      expect(scripts).toHaveLength(1)
+      expect(scripts[0].getAttribute('src')).toBe(ANALYTICS_URL)
+    })
+
     it('should keep the event in the queue to be replayed once analytics.js boots', () => {
       expect(analytics.filter(([method, name]) => method === 'track' && name === 'Early Event')).toHaveLength(1)
     })

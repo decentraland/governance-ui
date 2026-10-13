@@ -1,4 +1,4 @@
-import { configureAnalyticsSnippet, getAnalyticsLoadOptions } from 'decentraland-dapps/dist/modules/analytics/snippet'
+import { configureAnalyticsSnippet } from 'decentraland-dapps/dist/modules/analytics/snippet'
 
 import { config } from '../../config'
 
@@ -7,18 +7,15 @@ import { getAnalytics } from './segment'
 
 jest.mock('decentraland-dapps/dist/modules/analytics/snippet', () => ({
   configureAnalyticsSnippet: jest.fn(),
-  getAnalyticsLoadOptions: jest.fn(),
 }))
 jest.mock('../../config', () => ({ config: { get: jest.fn() } }))
 jest.mock('./segment', () => ({ getAnalytics: jest.fn() }))
 
 const configGetMock = config.get as jest.Mock
 const getAnalyticsMock = getAnalytics as jest.Mock
-const getAnalyticsLoadOptionsMock = getAnalyticsLoadOptions as jest.Mock
 const configureAnalyticsSnippetMock = configureAnalyticsSnippet as jest.Mock
 
 const loadMock = jest.fn()
-const LOAD_OPTIONS = { integrations: { 'Segment.io': { apiHost: 'api.example.com/v1' } } }
 
 function mockConfig(values: Record<string, string>) {
   configGetMock.mockImplementation((key: string, defaultValue?: string) => values[key] ?? defaultValue)
@@ -27,7 +24,6 @@ function mockConfig(values: Record<string, string>) {
 describe('loadAnalytics', () => {
   beforeEach(() => {
     getAnalyticsMock.mockReturnValue({ load: loadMock })
-    getAnalyticsLoadOptionsMock.mockReturnValue(LOAD_OPTIONS)
   })
 
   afterEach(() => {
@@ -51,8 +47,8 @@ describe('loadAnalytics', () => {
       })
     })
 
-    it('should load analytics with the key and the load options carrying the api host', () => {
-      expect(loadMock).toHaveBeenCalledWith('a-key', LOAD_OPTIONS)
+    it('should load analytics with the key only', () => {
+      expect(loadMock).toHaveBeenCalledWith('a-key')
     })
   })
 

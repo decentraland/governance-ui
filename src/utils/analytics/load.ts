@@ -1,4 +1,4 @@
-import { configureAnalyticsSnippet, getAnalyticsLoadOptions } from 'decentraland-dapps/dist/modules/analytics/snippet'
+import { configureAnalyticsSnippet } from 'decentraland-dapps/dist/modules/analytics/snippet'
 
 import { config } from '../../config'
 
@@ -15,5 +15,5 @@ export function loadAnalytics() {
     analyticsUrl: config.get('SEGMENT_ANALYTICS_URL', '') || undefined,
     apiHost: config.get('SEGMENT_API_HOST', '') || undefined,
   })
-  analytics.load(key, getAnalyticsLoadOptions())
+  analytics.load(key)
 }
