@@ -18,7 +18,7 @@ import DaoVestingCard from '../components/Transparency/DaoVestingCard'
 import MembersSection from '../components/Transparency/MembersSection'
 import MonthlyTotal from '../components/Transparency/MonthlyTotal'
 import Sidebar from '../components/Transparency/Sidebar'
-import { DOCS_URL, JOIN_DISCORD_URL, OPEN_CALL_FOR_DELEGATES_LINK } from '../constants'
+import { DOCS_URL, JOIN_DISCORD_URL, MISSION_DOCS_URL, OPEN_CALL_FOR_DELEGATES_LINK } from '../constants'
 import useFormatMessage from '../hooks/useFormatMessage'
 import useTransparency, { useTransparencyBalances, useTransparencyTeams } from '../hooks/useTransparency'
 import locations from '../utils/locations'
@@ -86,6 +86,11 @@ export default function TransparencyPage() {
                     href: DOCS_URL,
                     icon: <Document size={20} />,
                     children: t('page.transparency.mission.docs_button'),
+                  },
+                  {
+                    href: MISSION_DOCS_URL,
+                    icon: <DocumentOutline size={20} />,
+                    children: t('page.transparency.mission.roles_button'),
                   },
                   {
                     href: DASHBOARD_URL,
