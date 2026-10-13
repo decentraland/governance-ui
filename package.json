@@ -162,8 +162,8 @@
     "site"
   ],
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
-    "*.{js,jsx,ts,tsx,css,json}": "prettier --write"
+    "*.{js,jsx,ts,tsx,mts}": "eslint --cache --fix",
+    "*.{js,jsx,ts,tsx,mts,css,json}": "prettier --write"
   },
   "overrides": {
     "@dcl/schemas": "26.5.0",
