@@ -60,7 +60,7 @@
     "decentraland-crypto-middleware": "^1.2.0",
     "decentraland-dapps": "^29.7.0",
     "decentraland-ui": "^7.1.0",
-    "decentraland-ui2": "^3.22.0",
+    "decentraland-ui2": "^3.23.8",
     "dompurify": "^2.3.3",
     "dotenv": "^16.0.0",
     "ethers": "^5.7.2",
