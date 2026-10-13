@@ -61,6 +61,10 @@ export default defineConfig(({ command, mode }) => {
           // Set by scripts/prebuild.js: the CDN path of this version on CI, empty (relative) locally.
           base: envVariables.VITE_BASE_URL,
           build: {
+            // Vite 4's default target. Vite 7+ defaults to the "baseline widely available" browsers
+            // (chrome111, firefox114, safari16.4...), which would stop lowering class fields and private
+            // methods and drop CSS prefixes, breaking e.g. Safari/iOS 14-15. Keep today's browser support.
+            target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
             sourcemap: false,
           },
         }
