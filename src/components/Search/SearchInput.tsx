@@ -1,25 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
 import { Close } from 'decentraland-ui/dist/components/Close/Close'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { useProposalsSearchParams } from '../../hooks/useProposalsSearchParams'
-import locations from '../../utils/locations'
+import locations, { isProposalsListPath } from '../../utils/locations'
 
 import './SearchInput.css'
 
 export default function SearchInput() {
   const t = useFormatMessage()
   const navigate = useNavigate()
+  const location = useLocation()
   const { search } = useProposalsSearchParams()
   const searchInput = useRef<HTMLInputElement>(null)
   const [open, setOpen] = useState(false)
   const [searchText, setSearchText] = useState(() => search || '')
 
-  function handleSearch(textSearch: string, location: Location) {
-    const newParams = new URLSearchParams(location.search)
+  function handleSearch(textSearch: string) {
+    // only keep the current filters when already on the proposals list: on other pages (projects,
+    // a proposal) the params belong to that page and would leak into the proposals filters
+    const newParams = new URLSearchParams(isProposalsListPath(location.pathname) ? location.search : '')
     if (textSearch) {
       newParams.set('search', textSearch)
       newParams.delete('page')
@@ -41,6 +44,8 @@ export default function SearchInput() {
       setSearchText('')
       setOpen(false)
     } else {
+      // follow the url, e.g. when going back to a previous search
+      setSearchText(search)
       focusSearch()
     }
   }, [search])
@@ -56,7 +61,7 @@ export default function SearchInput() {
 
   function handleKeyPress(e: React.KeyboardEvent) {
     if (e.key === 'Enter') {
-      handleSearch(searchText, location)
+      handleSearch(searchText)
     }
   }
 

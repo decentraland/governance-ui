@@ -13,6 +13,11 @@ export function toProposalListPage(value: string | number | null | undefined): n
   }
 }
 
+// router pathname (without the /governance basename) of the proposals list
+export function isProposalsListPath(pathname: string) {
+  return /^\/proposals\/?$/.test(pathname)
+}
+
 export type ProposalListPage = {
   page: string
 }

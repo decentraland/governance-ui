@@ -1,11 +1,11 @@
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import classNames from 'classnames'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { useProposalsSearchParams } from '../../hooks/useProposalsSearchParams'
-import locations from '../../utils/locations'
+import locations, { isProposalsListPath } from '../../utils/locations'
 import Cross from '../Icon/Cross'
 
 import './SearchInputMobile.css'
@@ -19,9 +19,15 @@ export default function SearchInputMobile() {
   const [open, setOpen] = useState(false)
   const [searchText, setSearchText] = useState(search || '')
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSearch = (textSearch: string, location: any) => {
-    const newParams = new URLSearchParams(location.search)
+  // follow the url, e.g. when going back to a previous search
+  useEffect(() => {
+    setSearchText(search || '')
+  }, [search])
+
+  const handleSearch = (textSearch: string) => {
+    // only keep the current filters when already on the proposals list: on other pages (projects,
+    // a proposal) the params belong to that page and would leak into the proposals filters
+    const newParams = new URLSearchParams(isProposalsListPath(location.pathname) ? location.search : '')
     if (textSearch) {
       newParams.set('search', textSearch)
       newParams.delete('page')
@@ -52,7 +58,7 @@ export default function SearchInputMobile() {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleSearch(searchText, location)
+      handleSearch(searchText)
     }
   }
 
