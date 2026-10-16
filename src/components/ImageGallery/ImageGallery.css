@@ -36,10 +36,13 @@
   transform: rotate(180deg);
 }
 
+/* hide swiper's own arrow (the ::after glyph up to v11, an injected svg since v12) in favor of gallery-arrow.svg */
 .ImageGallery__Carousel .swiper-button-next::after,
 .ImageGallery__Carousel .swiper-button-prev::after,
 .ImageGallery__Carousel--fullscreen .swiper-button-next::after,
-.ImageGallery__Carousel--fullscreen .swiper-button-prev::after {
+.ImageGallery__Carousel--fullscreen .swiper-button-prev::after,
+.ImageGallery__Carousel .swiper-navigation-icon,
+.ImageGallery__Carousel--fullscreen .swiper-navigation-icon {
   display: none;
 }
 

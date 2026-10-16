@@ -103,7 +103,8 @@ const FloatingBar = ({
             {!isLoadingComments && (
               <>
                 <Forum color="var(--black-600)" />
-                {t('component.floating_bar.total_comments_label', { count: comments?.totalComments || 0 })}
+                {/* after a failed request the count is unknown, not 0 */}
+                {comments && t('component.floating_bar.total_comments_label', { count: comments.totalComments })}
               </>
             )}
           </button>

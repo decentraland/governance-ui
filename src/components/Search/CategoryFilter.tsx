@@ -83,13 +83,18 @@ export default function CategoryFilter({
 
   const isGrantSubtypeActive = useCallback(
     (subtype: string) => {
+      // the grant subtypes stay visible when the group is expanded on another type
+      if (type !== ProposalType.Grant && type !== ProjectTypeFilter.Grants) {
+        return false
+      }
+
       if (subtype === SubtypeAlternativeOptions.All && !currentSubtype) {
         return true
       }
 
       return subtype === currentSubtype
     },
-    [currentSubtype]
+    [currentSubtype, type]
   )
 
   const isGroupActive = useCallback(
@@ -112,7 +117,7 @@ export default function CategoryFilter({
         />
       )}
       {filters.map((filter, index) => {
-        const isAllProjectsSelected = filter === 'all_projects' && !params.toString().includes('type')
+        const isAllProjectsSelected = filter === 'all_projects' && !params.has(FILTER_KEY)
         const newParams = getUrlFilters(FILTER_KEY, params, filter === 'all_projects' ? undefined : filter)
         const projectParams = newParams ? `?${newParams.toString()}` : ''
 

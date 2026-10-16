@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import classNames from 'classnames'
 
@@ -18,6 +19,12 @@ export default function FilterMenu({ children }: Props) {
   const t = useFormatMessage()
   const [isOpen, setIsOpen] = useState(false)
   const handleClose = () => setIsOpen(false)
+  const { search } = useLocation()
+
+  // close the menu once a filter is applied, so the new results aren't hidden behind it
+  useEffect(() => {
+    setIsOpen(false)
+  }, [search])
 
   return (
     <div className="FilterMenu">
