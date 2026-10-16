@@ -1,4 +1,4 @@
-import { hasDangerousScheme, isRelativeLink, resolveLinkClickAction } from './browser'
+import { hasDangerousScheme, isRelativeLink, resolveLinkClickAction, toGovernancePathname } from './browser'
 
 describe('hasDangerousScheme', () => {
   let result: boolean
@@ -258,6 +258,54 @@ describe('resolveLinkClickAction', () => {
 
     it('should defer to the default browser behavior', () => {
       expect(action).toBe('default')
+    })
+  })
+})
+
+describe('toGovernancePathname', () => {
+  let result: string
+
+  afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (global as any).location
+  })
+
+  describe('when the app is served under /governance', () => {
+    beforeEach(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(global as any).location = { pathname: '/governance/proposals/' }
+    })
+
+    describe('and the href is a root-relative path', () => {
+      beforeEach(() => {
+        result = toGovernancePathname('/proposals/?type=poll')
+      })
+
+      it('should prefix it with /governance', () => {
+        expect(result).toBe('/governance/proposals/?type=poll')
+      })
+    })
+
+    describe('and the href only has a query string', () => {
+      beforeEach(() => {
+        result = toGovernancePathname('?type=grant&subtype=platform')
+      })
+
+      it('should leave it untouched so it resolves against the current page', () => {
+        expect(result).toBe('?type=grant&subtype=platform')
+      })
+    })
+  })
+
+  describe('when the app is served at the root', () => {
+    beforeEach(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(global as any).location = { pathname: '/proposals/' }
+      result = toGovernancePathname('/proposals/?type=poll')
+    })
+
+    it('should leave the path untouched', () => {
+      expect(result).toBe('/proposals/?type=poll')
     })
   })
 })
