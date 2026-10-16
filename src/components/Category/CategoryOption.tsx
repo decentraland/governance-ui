@@ -68,7 +68,11 @@ export default function CategoryOption({
           className
         )}
         onClick={(e) => {
-          e.preventDefault()
+          // Link skips its spa navigation when the click is already prevented, so only cancel it
+          // for group headers that have no href and exist just to expand/collapse their subcategories
+          if (!href) {
+            e.preventDefault()
+          }
           setIsGroupExpanded((prev) => !prev)
           onClick?.()
         }}
