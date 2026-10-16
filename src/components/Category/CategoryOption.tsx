@@ -72,8 +72,11 @@ export default function CategoryOption({
           // for group headers that have no href and exist just to expand/collapse their subcategories
           if (!href) {
             e.preventDefault()
+            setIsGroupExpanded((prev) => !prev)
+          } else {
+            // the header navigates to its own type, so keep its subcategories open
+            setIsGroupExpanded(true)
           }
-          setIsGroupExpanded((prev) => !prev)
           onClick?.()
         }}
       >

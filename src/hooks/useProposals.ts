@@ -68,15 +68,26 @@ export type UseProposalsFilter = Omit<GetProposalsFilter, 'subscribed' | 'limit'
   load: boolean
 }
 
-export default function useProposals(filter: Partial<UseProposalsFilter> = {}) {
-  const { data: proposals, isLoading: isLoadingProposals } = useQuery({
+export default function useProposals(
+  filter: Partial<UseProposalsFilter> = {},
+  { keepPreviousData = false }: { keepPreviousData?: boolean } = {}
+) {
+  const {
+    data: proposals,
+    isLoading: isLoadingProposals,
+    isPreviousData,
+    isError,
+  } = useQuery({
     queryKey: [`proposals#${JSON.stringify(filter)}`],
     queryFn: getProposalsQueryFn(filter),
     staleTime: DEFAULT_QUERY_STALE_TIME,
+    keepPreviousData,
   })
 
   return {
     proposals,
     isLoadingProposals,
+    isPreviousData,
+    isError,
   }
 }
