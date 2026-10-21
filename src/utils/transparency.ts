@@ -35,8 +35,17 @@ export function aggregateBalances(latestBalances: TokenInWallet[]): AggregatedTo
   for (const tokenBalance of tokenBalances) {
     tokenBalance.tokenInWallets.sort((a, b) => alphabeticalSort(a.name, b.name))
   }
-  tokenBalances.sort((a, b) => balanceSort(a.tokenTotal.amount, b.tokenTotal.amount))
+  // by USD value: token amounts aren't comparable across tokens (1.7 cbBTC is worth more than 87k DAI)
+  tokenBalances.sort((a, b) => balanceSort(a.tokenTotal.quote, b.tokenTotal.quote))
   return tokenBalances
+}
+
+// Tokens worth less than this are left out of the balance cards, e.g. dust or airdropped tokens with a
+// tiny price. They still count towards the consolidated treasury total.
+export const MIN_DISPLAYED_BALANCE_USD = 1
+
+export function getDisplayedBalances(balances: AggregatedTokenBalance[]): AggregatedTokenBalance[] {
+  return balances.filter((balance) => Number(balance.tokenTotal.quote) >= MIN_DISPLAYED_BALANCE_USD)
 }
 
 const ETHERSCAN_BASE_URL = 'https://etherscan.io/'

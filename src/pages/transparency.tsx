@@ -22,7 +22,7 @@ import { DOCS_URL, JOIN_DISCORD_URL, MISSION_DOCS_URL, OPEN_CALL_FOR_DELEGATES_L
 import useFormatMessage from '../hooks/useFormatMessage'
 import useTransparency, { useTransparencyBalances, useTransparencyTeams } from '../hooks/useTransparency'
 import locations from '../utils/locations'
-import { aggregateBalances } from '../utils/transparency'
+import { aggregateBalances, getDisplayedBalances } from '../utils/transparency'
 
 import './transparency.css'
 
@@ -41,7 +41,7 @@ export default function TransparencyPage() {
 
   const { data: balancesData, isLoadingTransparencyBalances } = useTransparencyBalances()
 
-  const balances = useMemo(() => aggregateBalances(balancesData || []), [balancesData])
+  const balances = useMemo(() => getDisplayedBalances(aggregateBalances(balancesData || [])), [balancesData])
 
   const isLoading =
     isLoadingTransparencyData ||
