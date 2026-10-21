@@ -13,6 +13,9 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
   "jest": {
     "watchman": false,
     "setupFilesAfterEnv": [
@@ -40,13 +43,13 @@
     "@dcl/feature-flags": "^1.2.0",
     "@dcl/hooks": "^1.0.0",
     "@dcl/schemas": "26.5.0",
-    "@wagmi/core": "3.6.4",
     "@dcl/ui-env": "^2.0.0",
     "@hookform/resolvers": "^3.4.2",
     "@pushprotocol/restapi": "^1.7.3",
     "@snapshot-labs/snapshot.js": "0.10.1",
     "@tanstack/react-query": "^4.29.7",
     "@uiw/react-md-editor": "^4.0.3",
+    "@wagmi/core": "3.6.4",
     "ace-builds": "^1.32.0",
     "chart.js": "^4.4.0",
     "chartjs-adapter-dayjs-4": "^1.0.4",
@@ -61,7 +64,7 @@
     "decentraland-dapps": "^29.7.0",
     "decentraland-ui": "^7.1.0",
     "decentraland-ui2": "^3.23.8",
-    "dompurify": "^2.3.3",
+    "dompurify": "^3.4.17",
     "dotenv": "^16.0.0",
     "ethers": "^5.7.2",
     "flickity": "^2.3.0",
@@ -98,8 +101,6 @@
     "@babel/preset-env": "^7.24.4",
     "@babel/preset-react": "^7.29.7",
     "@babel/preset-typescript": "^7.24.1",
-    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@storybook/addon-essentials": "^7.4.0",
     "@storybook/addon-interactions": "^7.4.0",
     "@storybook/addon-links": "^7.4.0",
@@ -115,7 +116,6 @@
     "@testing-library/user-event": "^14.6.1",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/dayjs-precise-range": "^1.0.5",
-    "@types/dompurify": "^2.3.1",
     "@types/express": "^4.17.11",
     "@types/flickity": "^2.2.6",
     "@types/isomorphic-fetch": "0.0.35",
@@ -130,8 +130,8 @@
     "@types/validator": "^13.6.6",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
-    "@vitejs/plugin-basic-ssl": "^1.0.2",
-    "@vitejs/plugin-react-swc": "^3.3.2",
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "@vitejs/plugin-react-swc": "^4.3.3",
     "babel-jest": "^29.7.0",
     "concurrently": "^6.0.0",
     "dotenv": "^16.3.1",
@@ -146,12 +146,12 @@
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^12.4.2",
     "prettier": "2.6.2",
-    "rollup-plugin-polyfill-node": "^0.13.0",
     "storybook": "^7.4.0",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.4.0",
     "typescript": "5.2.2",
-    "vite": "^4.4.9"
+    "vite": "^8.3.4",
+    "vite-plugin-node-polyfills": "^0.28.0"
   },
   "files": [
     "dist"
@@ -162,8 +162,8 @@
     "site"
   ],
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
-    "*.{js,jsx,ts,tsx,css,json}": "prettier --write"
+    "*.{js,jsx,ts,tsx,mts}": "eslint --cache --fix",
+    "*.{js,jsx,ts,tsx,mts,css,json}": "prettier --write"
   },
   "overrides": {
     "@dcl/schemas": "26.5.0",
@@ -188,6 +188,10 @@
     },
     "number-to-bn": {
       "bn.js": "^4.12.3"
+    },
+    "esbuild": "^0.28.2",
+    "@storybook/cli": {
+      "puppeteer-core": "^25.12.0"
     }
   }
 }
