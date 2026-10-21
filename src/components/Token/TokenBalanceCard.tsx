@@ -4,7 +4,7 @@ import { Header } from 'decentraland-ui/dist/components/Header/Header'
 
 import useFormatMessage from '../../hooks/useFormatMessage'
 import { AggregatedTokenBalance } from '../../types/transparency'
-import { Dai, Eth, Mana, Matic, Usdc, Usdt, Weth } from '../Icon/Token'
+import { Dai, Eth, Generic, Mana, Matic, Usdc, Usdt, Weth } from '../Icon/Token'
 
 import './TokenBalanceCard.css'
 import TokensPerWalletPopup from './TokensPerWalletPopup'
@@ -14,7 +14,7 @@ export type TokenBalanceCardProps = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 function getIcon(tokenSymbol: string) {
-  switch (tokenSymbol) {
+  switch (tokenSymbol.toLowerCase()) {
     case 'mana':
       return <Mana />
     case 'dai':
@@ -30,7 +30,8 @@ function getIcon(tokenSymbol: string) {
     case 'weth':
       return <Weth />
     default:
-      return null
+      // e.g. stETH, cbBTC or vault shares picked up by the transparency balances discovery
+      return <Generic symbol={tokenSymbol} />
   }
 }
 
@@ -48,7 +49,7 @@ export default function TokenBalanceCard({ aggregatedTokenBalance }: TokenBalanc
 
   return (
     <div className="TokenBalanceCard" onClick={handleClick}>
-      {getIcon(aggregatedTokenBalance.tokenTotal.symbol.toLowerCase())}
+      {getIcon(aggregatedTokenBalance.tokenTotal.symbol)}
       <div className="TokenBalanceCard_description">
         <div className="TokenBalanceCard__Header">
           <Header sub className="TokenBalanceCard__Symbol">
@@ -63,6 +64,9 @@ export default function TokenBalanceCard({ aggregatedTokenBalance }: TokenBalanc
           )}
         </div>
         <span>{t('general.number', { value: aggregatedTokenBalance.tokenTotal.amount })}</span>
+        <span className="TokenBalanceCard__Value">
+          ≈ ${t('general.number', { value: Math.round(Number(aggregatedTokenBalance.tokenTotal.quote)) })}
+        </span>
       </div>
     </div>
   )

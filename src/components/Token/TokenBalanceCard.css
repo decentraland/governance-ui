@@ -43,6 +43,11 @@
   margin-left: 1rem;
 }
 
+.TokenBalanceCard span.TokenBalanceCard__Value {
+  font-size: 1rem;
+  color: var(--black-600);
+}
+
 .TokenBalanceCard:hover {
   background: #e9f1fb;
   cursor: pointer;
