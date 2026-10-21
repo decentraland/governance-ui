@@ -49,37 +49,44 @@ export default function ProposalsPage() {
   const navigate = useNavigate()
   const [user, authState] = useAuthContext()
   const { type, subtype, status, search, searching, timeFrame, order, page, filtering } = useProposalsSearchParams()
-  const { proposals, isLoadingProposals } = useProposals({
-    type,
-    subtype,
-    status,
-    page,
-    search,
-    timeFrame,
-    order,
-    itemsPerPage: ITEMS_PER_PAGE,
-  })
+  // keep showing the previous results while a new filter loads, so the sidebar stays mounted
+  const { proposals, isLoadingProposals, isPreviousData, isError } = useProposals(
+    {
+      type,
+      subtype,
+      status,
+      page,
+      search,
+      timeFrame,
+      order,
+      itemsPerPage: ITEMS_PER_PAGE,
+    },
+    { keepPreviousData: true }
+  )
   const proposalIds = (proposals?.data || []).map((proposal) => proposal.id)
   const { segmentedVotes, isLoadingVotes } = useProposalsCachedVotes(proposalIds)
   const isTabletAndBelow = useTabletAndBelowMediaQuery()
 
   const handlePageFilter = useCallback(
-    (page: number) => {
+    (page: number, options?: { replace?: boolean }) => {
       const newParams = new URLSearchParams(location.search)
       page !== 1 ? newParams.set('page', String(page)) : newParams.delete('page')
-      return navigate(locations.proposals(newParams))
+      return navigate(locations.proposals(newParams), options)
     },
     [location.search, navigate]
   )
 
   useEffect(() => {
-    if (typeof proposals?.total === 'number') {
+    // skip while the previous filter's results are shown, and when there are no results at all
+    // (maxPage 0 would push a ?page=0 entry on every empty search). Replace instead of push, so
+    // going back to an out-of-range page doesn't bounce the user forward again
+    if (typeof proposals?.total === 'number' && !isPreviousData) {
       const maxPage = Math.ceil(proposals.total / ITEMS_PER_PAGE)
-      if (page > maxPage) {
-        handlePageFilter(maxPage)
+      if (maxPage > 0 && page > maxPage) {
+        handlePageFilter(maxPage, { replace: true })
       }
     }
-  }, [handlePageFilter, page, proposals])
+  }, [handlePageFilter, page, proposals, isPreviousData])
 
   const { requestsStatus } = useProposalsByCoAuthor(user, CoauthorStatus.PENDING)
   const { priorityProposals, isLoading: isLoadingPriorityProposals } = usePriorityProposals(user?.toLowerCase())
@@ -104,15 +111,17 @@ export default function ProposalsPage() {
     return <MaintenanceLayout title={title} description={description} activeTab={NavigationTab.Proposals} />
   }
 
-  const isLoading = !proposals || isLoadingProposals || isLoadingVotes || authState.loading
+  // the full-page loader is only for the first load; later filter changes only reload the list
+  const isLoadingPage = (!proposals && !isError) || authState.loading
+  const isLoading = isLoadingProposals || isPreviousData || isLoadingVotes
 
   return (
     <>
       <Head title={title} description={description} links={[{ rel: 'canonical', href: locations.proposals() }]} />
       <Navigation activeTab={NavigationTab.Proposals} />
       <WiderContainer>
-        {isLoading && <LoadingView />}
-        {!isLoading && (
+        {isLoadingPage && <LoadingView />}
+        {!isLoadingPage && (
           <>
             {search && (
               <NotMobile>
@@ -181,6 +190,9 @@ export default function ProposalsPage() {
                   {!isLoading && (
                     <>
                       {type && !searching && <CategoryBanner type={type} />}
+                      {!proposals && isError && (
+                        <Empty className="ProposalsPage__Empty" description={t('page.proposal_list.error_loading')} />
+                      )}
                       {proposals && proposals.data.length === 0 && (
                         <Empty
                           className="ProposalsPage__Empty"
@@ -214,7 +226,10 @@ export default function ProposalsPage() {
                       )}
                       {proposals && proposals.total > ITEMS_PER_PAGE && (
                         <Pagination
-                          onPageChange={(_e, { activePage }) => handlePageFilter(activePage as number)}
+                          onPageChange={(_e, { activePage }) => {
+                            window.scrollTo({ top: 0 })
+                            handlePageFilter(activePage as number)
+                          }}
                           totalPages={Math.ceil(proposals.total / ITEMS_PER_PAGE)}
                           activePage={page}
                           firstItem={null}

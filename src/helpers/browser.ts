@@ -12,6 +12,12 @@ export function scrollToAnchor(anchor: string, pixelsOverAnchor = 0) {
 }
 
 export function toGovernancePathname(pathname: string) {
+  // query-only hrefs (e.g. "?type=grant") resolve against the current page, so prefixing them would
+  // point them at the governance home instead (breaking open in new tab and copy link)
+  if (!pathname.startsWith('/')) {
+    return pathname
+  }
+
   if (location.pathname.indexOf('/governance') === 0) {
     return `/governance${pathname}`
   }

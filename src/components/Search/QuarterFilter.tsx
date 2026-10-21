@@ -34,27 +34,27 @@ function QuarterFilter() {
   const params = useURLSearchParams()
   const navigate = useNavigate()
   useEffect(() => {
-    if (yearParam) {
-      setSelectedYear(yearParam)
-    }
+    // also clear the selection when the year leaves the url (e.g. going back)
+    setSelectedYear(yearParam || undefined)
   }, [yearParam])
 
   const getQuarterButtons = (year: number) => {
     return QUARTERS.map((quarter) => {
       const isActive = yearParam === year && quarterParam === quarter
       const isEnabled = year <= Time().year() && (year < Time().year() || quarter <= Time().quarter())
+      const quarterParams = new URLSearchParams(params)
       if (isActive) {
-        params.delete('quarter')
+        quarterParams.delete('quarter')
       } else {
-        params.set('year', String(year))
-        params.set('quarter', String(quarter))
+        quarterParams.set('year', String(year))
+        quarterParams.set('quarter', String(quarter))
       }
 
       return (
         <Button
           className="QuarterFilter__Button"
           as={Link}
-          href={`/projects/?${params.toString()}`}
+          href={`/projects/?${quarterParams.toString()}`}
           key={quarter}
           active={isActive}
           disabled={!isEnabled}

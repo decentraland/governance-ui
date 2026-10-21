@@ -1133,6 +1133,7 @@
       "categories": "Categories",
       "browse": "Browse",
       "no_proposals_yet": "No proposals have been sent by community members yet.",
+      "error_loading": "We couldn't load the proposals right now. Please try again in a few minutes.",
       "votes": "{total} {total, plural, one {vote} other {votes}}",
       "finish_label": {
         "starts": "Starts",

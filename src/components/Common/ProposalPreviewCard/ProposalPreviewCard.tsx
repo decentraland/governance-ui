@@ -93,9 +93,12 @@ const ProposalPreviewCard = ({ proposal, votes, variant, customText, anchor }: P
                   <span className="ProposalPreviewCard__DetailsItem">
                     {t('page.home.open_proposals.votes', { total: Object.keys(votes || {}).length })}
                   </span>
-                  <span className="ProposalPreviewCard__DetailsItem">
-                    {t('page.home.open_proposals.comments', { total: comments?.totalComments || 0 })}
-                  </span>
+                  {/* only show a count we actually got: while loading or after a failed request it isn't 0 */}
+                  {comments && (
+                    <span className="ProposalPreviewCard__DetailsItem">
+                      {t('page.home.open_proposals.comments', { total: comments.totalComments })}
+                    </span>
+                  )}
                 </Desktop>
               </>
             )}
