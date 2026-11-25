@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { ErrorCode } from '@ethersproject/logger'
 import { Web3Provider } from '@ethersproject/providers'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Desktop, NotMobile, TabletAndBelow } from 'decentraland-ui/dist/components/Media/Media'
@@ -65,6 +64,7 @@ import { ProposalAttributes, ProposalStatus, ProposalType } from '../types/propo
 import { Survey } from '../types/surveyTopics'
 import { SelectedVoteChoice } from '../types/votes'
 import { ErrorCategory } from '../utils/errorCategories'
+import { isSnapshotNoVotingPowerError, isUserRejectedError } from '../utils/errors'
 import locations from '../utils/locations'
 import { isUnderMaintenance } from '../utils/maintenance'
 import { isBiddingAndTenderingProposal, isGovernanceProcessProposal } from '../utils/proposal'
@@ -222,14 +222,17 @@ export default function ProposalPage() {
           await reloadVotes()
           await queryClient.invalidateQueries({ queryKey: [PROPOSAL_CACHED_VOTES_QUERY_KEY] })
         } catch (error) {
-          ErrorClient.report('Unable to vote', {
-            error,
-            address: listedAccount,
-            proposal: proposal.id,
-            category: ErrorCategory.Voting,
-          })
-          /* eslint-disable @typescript-eslint/no-explicit-any */
-          if ((error as any).code === ErrorCode.ACTION_REJECTED) {
+          const isRejectedByUser = isUserRejectedError(error)
+          // Dismissing the wallet prompt and voting with no VP at the proposal's snapshot are user outcomes, not bugs
+          if (!isRejectedByUser && !isSnapshotNoVotingPowerError(error)) {
+            ErrorClient.report('Unable to vote', {
+              error,
+              address: listedAccount,
+              proposal: proposal.id,
+              category: ErrorCategory.Voting,
+            })
+          }
+          if (isRejectedByUser) {
             updatePageState((prevState) => ({
               ...prevState,
               changingVote: false,
