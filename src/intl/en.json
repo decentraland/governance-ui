@@ -1263,7 +1263,7 @@
       "voted_choice": "You voted {choice}",
       "voting_with": "Voting with {vp}",
       "voted_with": "Voted with {vp}",
-      "vp_needed": "You need at least {vp} to vote",
+      "no_vp_on_proposal": "You had no VP when this proposal was created, so you can't vote on it",
       "info": {
         "user_has_not_voted_delegate_voted_some_delegators_voted": "{delegate} has voted using your delegated {own_vp}. {delegators_that_voted}/{total_delegators} of your party has voted. If you vote for the remaining {delegators_without_vote, plural, one {account who has} other {{delegators_without_vote} accounts who have}} chosen you as their Delegate you will also reclaim your delegated VP.",
         "user_has_not_voted_delegate_voted_all_delegators_voted": "{delegate} has voted using your delegated {own_vp}. All of your party has voted.",

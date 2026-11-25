@@ -22,6 +22,7 @@ interface Props {
   proposalPageState: ProposalPageState
   updatePageState: React.Dispatch<React.SetStateAction<ProposalPageState>>
   startAt?: Date
+  canVote: boolean
 }
 
 function getSelectedChoice(currentChoice: string, currentChoiceIndex: number) {
@@ -41,6 +42,7 @@ export const ChoiceButtons = ({
   proposalPageState,
   updatePageState,
   startAt,
+  canVote,
 }: Props) => {
   const t = useFormatMessage()
   const { selectedChoice, retryTimer, showVotingError } = proposalPageState
@@ -72,7 +74,7 @@ export const ChoiceButtons = ({
             selected={selectedChoice.choice === currentChoice && !voteWithSurvey}
             key={currentChoice}
             voted={votedCurrentChoice}
-            disabled={votedCurrentChoice || !started}
+            disabled={votedCurrentChoice || !started || !canVote}
             onClick={handleChoiceClick(currentChoice, currentChoiceIndex)}
             delegate={delegateVotedCurrentChoice ? delegate! : undefined}
             voteCount={votesByChoices[currentChoiceIndex]}
@@ -84,7 +86,7 @@ export const ChoiceButtons = ({
       })}
       <Button
         primary
-        disabled={selectionPending || !started || showVotingError || voteWithSurvey}
+        disabled={selectionPending || !started || showVotingError || voteWithSurvey || !canVote}
         loading={castingVote}
         onClick={() => onVote && selectedChoice && onVote(selectedChoice)}
       >

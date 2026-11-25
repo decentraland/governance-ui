@@ -59,12 +59,13 @@ import { PROPOSAL_CACHED_VOTES_QUERY_KEY } from '../hooks/useProposalsCachedVote
 import useSurvey from '../hooks/useSurvey'
 import useURLSearchParams from '../hooks/useURLSearchParams'
 import useVoteReason from '../hooks/useVoteReason'
+import { setNoVotingPowerOnProposal } from '../hooks/useVotingPowerDistribution'
 import { OldGrantCategory } from '../types/grants'
 import { ProposalAttributes, ProposalStatus, ProposalType } from '../types/proposals'
 import { Survey } from '../types/surveyTopics'
 import { SelectedVoteChoice } from '../types/votes'
 import { ErrorCategory } from '../utils/errorCategories'
-import { isExpectedVoteError, isUserRejectedError } from '../utils/errors'
+import { isExpectedVoteError, isSnapshotNoVotingPowerError, isUserRejectedError } from '../utils/errors'
 import locations from '../utils/locations'
 import { isUnderMaintenance } from '../utils/maintenance'
 import { isBiddingAndTenderingProposal, isGovernanceProcessProposal } from '../utils/proposal'
@@ -234,6 +235,16 @@ export default function ProposalPage() {
             updatePageState((prevState) => ({
               ...prevState,
               changingVote: false,
+            }))
+          } else if (isSnapshotNoVotingPowerError(error)) {
+            // Retrying can't help: the VP at the proposal's snapshot block won't change. So no retry countdown and no
+            // step towards the Snapshot redirect; the voting section says the account has no VP on this proposal.
+            setNoVotingPowerOnProposal(queryClient, account, proposal.snapshot_id)
+            updatePageState((prevState) => ({
+              ...prevState,
+              changingVote: false,
+              showVotingModal: false,
+              showBidVotingModal: false,
             }))
           } else {
             updatePageState((prevState) => ({

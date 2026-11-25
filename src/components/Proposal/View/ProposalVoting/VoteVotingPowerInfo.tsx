@@ -1,4 +1,3 @@
-import { MINIMUM_VP_REQUIRED_TO_VOTE } from '../../../../constants/votes'
 import useFormatMessage from '../../../../hooks/useFormatMessage'
 import { Vote } from '../../../../types/votes'
 import Text from '../../../Common/Typography/Text'
@@ -26,7 +25,7 @@ const VoteVotingPowerInfo = ({ accountVotingPower, hasEnoughToVote, vote }: Vote
         (vote
           ? t('page.proposal_detail.voted_with', { vp: vpLabel(accountVotingPower) })
           : t('page.proposal_detail.voting_with', { vp: vpLabel(accountVotingPower) }))}
-      {!hasEnoughToVote && t('page.proposal_detail.vp_needed', { vp: vpLabel(MINIMUM_VP_REQUIRED_TO_VOTE) })}
+      {!hasEnoughToVote && t('page.proposal_detail.no_vp_on_proposal')}
     </>
   )
 }

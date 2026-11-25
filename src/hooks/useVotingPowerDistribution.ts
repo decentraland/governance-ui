@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { QueryClient, useQuery } from '@tanstack/react-query'
 
 import { Governance } from '../clients/Governance'
 import { VpDistribution } from '../types/SnapshotTypes'
@@ -18,9 +18,28 @@ export const EMPTY_DISTRIBUTION: VpDistribution = {
   rental: 0,
 }
 
+function getVpDistributionQueryKey(address?: string | null, proposalSnapshotId?: string) {
+  return [`vpDistribution#${address}#${proposalSnapshotId}`]
+}
+
+/**
+ * Records that Snapshot rejected a vote from `address` on the proposal with "no voting power", so the voting section
+ * shows that and disables voting even if the API couldn't tell (request failed, or an API without `hasVotingPower`).
+ */
+export function setNoVotingPowerOnProposal(queryClient: QueryClient, address: string, proposalSnapshotId: string) {
+  queryClient.setQueryData<VpDistribution>(
+    getVpDistributionQueryKey(address, proposalSnapshotId),
+    (vpDistribution) => ({ ...(vpDistribution ?? EMPTY_DISTRIBUTION), hasVotingPower: false })
+  )
+}
+
 export default function useVotingPowerDistribution(address?: string | null, proposalSnapshotId?: string) {
-  const { data: vpDistribution, isLoading } = useQuery({
-    queryKey: [`vpDistribution#${address}#${proposalSnapshotId}`],
+  const {
+    data: vpDistribution,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: getVpDistributionQueryKey(address, proposalSnapshotId),
     queryFn: async () => {
       if (!address) return EMPTY_DISTRIBUTION
       return await Governance.get().getVpDistribution(address, proposalSnapshotId)
@@ -28,5 +47,9 @@ export default function useVotingPowerDistribution(address?: string | null, prop
     staleTime: DEFAULT_QUERY_STALE_TIME,
   })
 
-  return { vpDistribution: vpDistribution ?? EMPTY_DISTRIBUTION, isLoadingVpDistribution: isLoading }
+  return {
+    vpDistribution: vpDistribution ?? EMPTY_DISTRIBUTION,
+    isLoadingVpDistribution: isLoading,
+    isErrorVpDistribution: isError,
+  }
 }
