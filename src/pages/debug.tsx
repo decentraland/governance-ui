@@ -4,7 +4,6 @@ import BoxTabs from '../components/Common/BoxTabs'
 import Heading from '../components/Common/Typography/Heading'
 import Text from '../components/Common/Typography/Text'
 import WiderContainer from '../components/Common/WiderContainer'
-import BadgesAdmin from '../components/Debug/BadgesAdmin'
 import BudgetsUpdate from '../components/Debug/BudgetsUpdate'
 import EnvStatus from '../components/Debug/EnvStatus'
 import ErrorReporting from '../components/Debug/ErrorReporting'
@@ -59,7 +58,6 @@ export default function DebugPage() {
         {isAdminActive && (
           <>
             <BudgetsUpdate className="DebugPage__Section" />
-            <BadgesAdmin className="DebugPage__Section" />
             <TriggerFunction className="DebugPage__Section" />
             <Notifications className="DebugPage__Section" />
           </>

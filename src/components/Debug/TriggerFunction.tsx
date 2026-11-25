@@ -16,18 +16,6 @@ interface Props {
 
 const FUNCTION_NAME_OPTIONS = [
   {
-    text: 'runQueuedAirdropJobs',
-    value: 'runQueuedAirdropJobs',
-  },
-  {
-    text: 'giveAndRevokeLandOwnerBadges',
-    value: 'giveAndRevokeLandOwnerBadges',
-  },
-  {
-    text: 'giveTopVoterBadges',
-    value: 'giveTopVoterBadges',
-  },
-  {
     text: 'restoreMissingUpdatesForumPost',
     value: 'restoreMissingUpdatesForumPost',
   },

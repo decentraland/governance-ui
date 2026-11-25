@@ -10,7 +10,7 @@ The Governance UI (`governance.decentraland.org`) is the full-featured governanc
 - Proposal detail: full proposal view with voting, comments (Discourse), co-authors, sentiment survey, and result stance (`/proposal?id=...`)
 - Proposal submission: type-specific submission forms for Poll, Draft, Governance, Grant, POI, Ban Name, Catalyst, Linked Wearables, Pitch, Tender, Bid, Hiring, Council Decision Veto (`/submit/*`)
 - Proposal editing and project updates (`/edit`, `/update`)
-- Governance profiles: per-address activity, VP, badges, delegations, votes cast (`/profile?address=...`)
+- Governance profiles: per-address activity, VP, delegations, votes cast (`/profile?address=...`)
 - Projects dashboard: funded grant projects and their milestones/updates (`/projects`, `/project?id=...`)
 - Transparency page: DAO treasury balances, vesting contract data, monthly spend totals, committee members (`/transparency`)
 - Snapshot integration: VP snapshot voting, delegation contract interactions
@@ -50,7 +50,7 @@ The Governance UI (`governance.decentraland.org`) is the full-featured governanc
 
 **External Dependencies:**
 
-- `GOVERNANCE_API` (governance.decentraland.org/api) — all proposal, project, vote, profile, budget, badge, and subscription data
+- `GOVERNANCE_API` (governance.decentraland.org/api) — all proposal, project, vote, profile, budget, and subscription data
 - `SNAPSHOT_API` / `SNAPSHOT_QUERY_ENDPOINT` — Snapshot Hub REST and subgraph GraphQL for VP and voting
 - `DISCOURSE_API` (forum.decentraland.org) — forum thread fetching and linking
 - `DCL_DATA_API` (decentraland-dao.github.io/transparency) — DAO transparency balances and team data
@@ -68,7 +68,7 @@ The Governance UI (`governance.decentraland.org`) is the full-featured governanc
 - **Voting Power (VP)**: VP is composed of MANA, LAND, estates, names, L1 wearables, rental, and delegated sources. `useVotingPowerInformation` and related hooks aggregate these. Snapshot is the authoritative source for VP at vote time.
 - **Snapshot integration**: Proposals are created on Snapshot (`snapshot.dcl.eth` space). VP is read from Snapshot's API. Voting calls Snapshot's Hub API. The `SnapshotApi` and `SnapshotGraphql` clients wrap these interactions.
 - **AuthProvider** (`src/context/AuthProvider.tsx`): Provides `[user, authState]` via `useAuthContext()`. Wraps `useAuth` (wallet connection via `decentraland-connect`) and initialises SSO via `@dcl/single-sign-on-client`.
-- **Governance API client** (`src/clients/Governance.ts`): Central typed REST client. Methods cover proposals, votes, projects, budgets, co-authors, subscriptions, badges, grants, bids, updates, transparency, and more. All responses are typed against types in `src/types/`.
+- **Governance API client** (`src/clients/Governance.ts`): Central typed REST client. Methods cover proposals, votes, projects, budgets, co-authors, subscriptions, grants, bids, updates, transparency, and more. All responses are typed against types in `src/types/`.
 - **Projects**: Funded grant proposals become "projects" tracked with milestones, personnel, and periodic updates. `useProject`, `useProjects`, `useProjectUpdates` hooks; `Project*` components in `src/components/Projects/` and `src/components/Updates/`.
 - **Budgets and categories**: The governance backend maintains quarterly budget allocations per grant category. `useBudgetByCategory`, `useCategoryBudget`, `useBudgetWithContestants` hooks surface this data.
 - **Feature flags**: `@dcl/feature-flags` via `useDclFeatureFlags` hook. Controls things like grant submission availability (see `GRANT_PROPOSAL_SUBMIT_ENABLED`, `PITCH_PROPOSAL_SUBMIT_ENABLED` constants).
