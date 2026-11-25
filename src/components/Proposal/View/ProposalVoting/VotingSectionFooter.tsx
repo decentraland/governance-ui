@@ -22,6 +22,7 @@ interface VotingSectionFooterProps {
   delegators: string[] | null
   totalVpOnProposal: number
   hasEnoughToVote: boolean
+  isVpUnknown: boolean
 }
 
 const VotingSectionFooter = ({
@@ -35,6 +36,7 @@ const VotingSectionFooter = ({
   delegators,
   totalVpOnProposal,
   hasEnoughToVote,
+  isVpUnknown,
 }: VotingSectionFooterProps) => {
   const t = useFormatMessage()
   const [userAddress] = useAuthContext()
@@ -52,7 +54,7 @@ const VotingSectionFooter = ({
       {!showVotingError && (
         <>
           <div className="VotingSectionFooter__VP">
-            {showVotingPowerInfo && (
+            {showVotingPowerInfo && !isVpUnknown && (
               <VoteVotingPowerInfo
                 accountVotingPower={totalVpOnProposal}
                 hasEnoughToVote={hasEnoughToVote}

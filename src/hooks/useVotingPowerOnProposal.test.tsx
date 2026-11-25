@@ -67,6 +67,7 @@ describe('useVotingPowerOnProposal', () => {
 
       expect(result.current.canVote).toBe(false)
       expect(result.current.hasEnoughToVote).toBe(false)
+      expect(result.current.isVpUnknown).toBe(false)
     })
   })
 
@@ -102,7 +103,7 @@ describe('useVotingPowerOnProposal', () => {
   })
 
   describe('when the VP request fails', () => {
-    it('lets the address vote and does not claim it has no VP', async () => {
+    it('lets the address vote, without claiming any amount of VP or that it has none', async () => {
       jest.spyOn(console, 'error').mockImplementation(() => undefined)
       getVpDistribution.mockRejectedValueOnce(new Error('HTTP error! status: 429'))
 
@@ -110,6 +111,7 @@ describe('useVotingPowerOnProposal', () => {
 
       expect(result.current.canVote).toBe(true)
       expect(result.current.hasEnoughToVote).toBe(true)
+      expect(result.current.isVpUnknown).toBe(true)
       jest.restoreAllMocks()
     })
   })
@@ -139,6 +141,7 @@ describe('useVotingPowerOnProposal', () => {
 
       await waitFor(() => expect(result.current.canVote).toBe(false))
       expect(result.current.hasEnoughToVote).toBe(false)
+      expect(result.current.isVpUnknown).toBe(false)
       jest.restoreAllMocks()
     })
   })

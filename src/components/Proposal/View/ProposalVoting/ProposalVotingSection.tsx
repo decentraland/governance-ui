@@ -68,6 +68,7 @@ const ProposalVotingSection = ({
     totalVpOnProposal,
     canVote,
     hasEnoughToVote,
+    isVpUnknown,
     isLoadingVp,
   } = useVotingPowerOnProposal(account, delegators, isDelegationResultLoading, proposal)
 
@@ -164,6 +165,7 @@ const ProposalVotingSection = ({
                   delegators={delegators}
                   totalVpOnProposal={totalVpOnProposal}
                   hasEnoughToVote={hasEnoughToVote}
+                  isVpUnknown={isVpUnknown}
                 />
               )}
 
