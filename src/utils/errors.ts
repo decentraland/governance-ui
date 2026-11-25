@@ -1,6 +1,9 @@
 import { ErrorCode } from '@ethersproject/logger'
 
 const MAX_STACK_LINES = 10
+// ethers repeats its params (e.g. an RPC response body) in the message, and the stack's first line repeats the message
+const MAX_MESSAGE_LENGTH = 1000
+const MAX_STACK_LENGTH = 2000
 const MAX_NESTED_ERROR_DEPTH = 3
 
 // EIP-1193 "User Rejected Request". Wallets that don't go through ethers' ACTION_REJECTED mapping throw this raw.
@@ -9,8 +12,8 @@ const USER_REJECTED_MESSAGE = /\buser (rejected|denied|cancell?ed)\b|\b(rejected
 
 const SNAPSHOT_NO_VOTING_POWER = 'no voting power'
 
-// What fetch() rejects with when the request never gets a response (offline, aborted navigation, blocked by an
-// extension): Chrome, Firefox and Safari, in that order.
+// What fetch() rejects with when the request gets no response (offline, aborted navigation, blocked by an extension):
+// Chrome, Firefox and Safari, in that order.
 const BROWSER_NETWORK_ERROR_MESSAGES = new Set([
   'Failed to fetch',
   'NetworkError when attempting to fetch resource.',
@@ -26,8 +29,12 @@ export type SerializedError = {
   [key: string]: unknown
 }
 
+function truncate(text: string, maxLength: number) {
+  return text.length > maxLength ? `${text.slice(0, maxLength)}… [truncated]` : text
+}
+
 function trimStack(stack: string) {
-  return stack.split('\n').slice(0, MAX_STACK_LINES).join('\n')
+  return truncate(stack.split('\n').slice(0, MAX_STACK_LINES).join('\n'), MAX_STACK_LENGTH)
 }
 
 /**
@@ -40,7 +47,7 @@ export function serializeError(error: Error): SerializedError {
   return {
     ...error,
     name: error.name,
-    message: error.message,
+    message: truncate(error.message, MAX_MESSAGE_LENGTH),
     ...(code !== undefined ? { code } : {}),
     ...(cause !== undefined ? { cause } : {}),
     ...(error.stack ? { stack: trimStack(error.stack) } : {}),
@@ -125,15 +132,10 @@ export function isSnapshotNoVotingPowerError(error: unknown): boolean {
 }
 
 /**
- * True for the TypeError fetch() throws when the browser couldn't reach the server at all. Also matches the
- * `${error}` form ("TypeError: Failed to fetch") that some callers report instead of the error itself.
+ * True for the TypeError fetch() throws when the request got no readable response. For a cross-origin request that
+ * includes an error page served without CORS headers (e.g. a gateway 502), so only skip reports on it for our own
+ * API, whose outages are visible on the backend, and not for third parties like Snapshot.
  */
 export function isBrowserNetworkError(error: unknown): boolean {
-  if (error instanceof TypeError) {
-    return BROWSER_NETWORK_ERROR_MESSAGES.has(error.message)
-  }
-  if (typeof error === 'string' && error.startsWith('TypeError: ')) {
-    return BROWSER_NETWORK_ERROR_MESSAGES.has(error.slice('TypeError: '.length))
-  }
-  return false
+  return error instanceof TypeError && BROWSER_NETWORK_ERROR_MESSAGES.has(error.message)
 }

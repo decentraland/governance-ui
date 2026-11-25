@@ -47,7 +47,7 @@ export default function useAsyncTask<A extends unknown[] = []>(
           message: err.message,
           stack: err.stack,
         }
-        ErrorClient.report('AsyncTask error', errorObj)
+        ErrorClient.report('AsyncTask error', { error: err })
         track('error', errorObj)
         if (cancelled) {
           return

@@ -34,16 +34,6 @@ describe('ErrorClient.report', () => {
     )
   })
 
-  it.each([
-    ['a TypeError under `error`', { error: new TypeError('Failed to fetch') }],
-    ['the stringified TypeError under `error`', { error: 'TypeError: Load failed', category: 'Profile' }],
-    ['a TypeError passed as the whole extra info', new TypeError('NetworkError when attempting to fetch resource.')],
-  ])('does not report browser network failures: %s', async (_, extraInfo) => {
-    await ErrorClient.report('Error getting governance profile', extraInfo as Record<string, unknown>)
-
-    expect(mockReportErrorToServer).not.toHaveBeenCalled()
-  })
-
   it('swallows failures while reporting', async () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined)
     mockReportErrorToServer.mockRejectedValueOnce(new Error('Missing identity'))

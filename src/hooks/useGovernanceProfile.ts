@@ -6,6 +6,7 @@ import { ErrorClient } from '../clients/ErrorClient'
 import { Governance } from '../clients/Governance'
 import { useAuthContext } from '../context/AuthProvider.tsx'
 import { ErrorCategory } from '../utils/errorCategories'
+import { isBrowserNetworkError } from '../utils/errors'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants'
 
@@ -24,7 +25,9 @@ export default function useGovernanceProfile(profileAddress?: string | null) {
         return await Governance.get().getUserProfile(profileAddress)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
-        if (!isNotFoundOrBadRequest(error)) {
+        // "Failed to fetch" here is the browser not reaching our own API (offline, aborted navigation, ad blocker).
+        // An actual API outage is visible on the backend, so this isn't worth a report.
+        if (!isNotFoundOrBadRequest(error) && !isBrowserNetworkError(error)) {
           ErrorClient.report(
             'Error getting governance profile',
             {

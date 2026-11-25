@@ -63,6 +63,18 @@ describe('serializeError', () => {
     expect(stack).not.toContain('frame9 ')
   })
 
+  it('caps the message and the stack length', () => {
+    const body = 'x'.repeat(5000)
+    const error = new Error(`missing response (body=${body})`)
+    error.stack = `Error: ${error.message}\n    at send (app.js:1:1)`
+
+    const { message, stack } = serializeError(error)
+
+    expect(message).toHaveLength(1000 + '… [truncated]'.length)
+    expect(message.endsWith('… [truncated]')).toBe(true)
+    expect(stack).toHaveLength(2000 + '… [truncated]'.length)
+  })
+
   it('omits the stack when there is none', () => {
     const error = new Error('no stack')
     error.stack = undefined
@@ -191,17 +203,15 @@ describe('isBrowserNetworkError', () => {
     ['Chrome', 'Failed to fetch'],
     ['Firefox', 'NetworkError when attempting to fetch resource.'],
     ['Safari', 'Load failed'],
-  ])('returns true for the %s TypeError and its stringified form', (_, message) => {
+  ])('returns true for the %s TypeError', (_, message) => {
     expect(isBrowserNetworkError(new TypeError(message))).toBe(true)
-    expect(isBrowserNetworkError(`${new TypeError(message)}`)).toBe(true)
   })
 
   it.each([
     ['a plain Error with the same message', new Error('Failed to fetch')],
     ['a TypeError from a bug', new TypeError("Cannot read properties of undefined (reading 'id')")],
     ['a message that only contains the text', new TypeError('Failed to fetch user profile')],
-    ['the message without the TypeError prefix', 'Failed to fetch'],
-    ['a stringified non-TypeError', 'Error: Failed to fetch'],
+    ['the stringified TypeError', 'TypeError: Failed to fetch'],
     ['undefined', undefined],
     ['the Snapshot pinning failed body', SNAPSHOT_PINNING_FAILED],
   ])('returns false for %s', (_, error) => {
