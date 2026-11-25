@@ -9,7 +9,9 @@ const MAX_NESTED_ERROR_DEPTH = 3
 
 // EIP-1193 "User Rejected Request". Wallets that don't go through ethers' ACTION_REJECTED mapping throw this raw.
 const EIP1193_USER_REJECTED_CODE = 4001
-const USER_REJECTED_MESSAGE = /\buser (rejected|denied|cancell?ed)\b|\b(rejected|denied|cancell?ed) by (the )?user\b/i
+// "by user operation" is account abstraction (ERC-4337) wording for a failed UserOperation, not a dismissed prompt
+const USER_REJECTED_MESSAGE =
+  /\buser (rejected|denied|cancell?ed)\b|\b(rejected|denied|cancell?ed) by (the )?user\b(?!\s+operation)/i
 
 const SNAPSHOT_NO_VOTING_POWER = 'no voting power'
 
@@ -63,7 +65,22 @@ export function serializeError(error: Error): SerializedError {
     }
   } catch {
     // Third-party errors can have throwing getters; keep what we can rather than losing the whole report
-    return { name: String(error.name), message: truncate(String(error.message), MAX_ERROR_TEXT_LENGTH) }
+    const { code, stack } = error as Error & { code?: unknown }
+    return {
+      name: String(error.name),
+      message: truncate(String(error.message), MAX_ERROR_TEXT_LENGTH),
+      ...(typeof code === 'string' || typeof code === 'number' ? { code } : {}),
+      ...(typeof stack === 'string' && stack ? { stack: trimStack(stack) } : {}),
+    }
+  }
+}
+
+function isJsonSerializable(value: unknown) {
+  try {
+    JSON.stringify(value)
+    return true
+  } catch {
+    return false
   }
 }
 
@@ -84,8 +101,9 @@ function serializeErrorsDeep(value: unknown, ancestors: Set<object>): unknown {
   }
   const isError = value instanceof Error
   if (!isError && !Array.isArray(value) && !isPlainObject(value)) {
-    // Primitives and class instances (Date, BigNumber...) are left for JSON.stringify, as before
-    return value
+    // Primitives and class instances (Date, BigNumber...) are left for JSON.stringify, as before, unless the instance
+    // would make it throw (a cycle or a bigint inside), which would drop the whole report
+    return value !== null && typeof value === 'object' && !isJsonSerializable(value) ? '[Unserializable]' : value
   }
   if (ancestors.has(value)) {
     return '[Circular]'

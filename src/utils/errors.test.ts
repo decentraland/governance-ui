@@ -93,8 +93,8 @@ describe('serializeError', () => {
     expect(serializeError(error)).toEqual({ name: 'Error', message: 'null' })
   })
 
-  it('falls back to name and message when reading a prop throws', () => {
-    const error = new Error('wallet error')
+  it('keeps name, message, code and stack when reading another prop throws', () => {
+    const error = Object.assign(new Error('wallet error'), { code: -32603 })
     Object.defineProperty(error, 'data', {
       enumerable: true,
       get() {
@@ -102,7 +102,12 @@ describe('serializeError', () => {
       },
     })
 
-    expect(serializeError(error)).toEqual({ name: 'Error', message: 'wallet error' })
+    expect(serializeError(error)).toEqual({
+      name: 'Error',
+      message: 'wallet error',
+      code: -32603,
+      stack: expect.stringContaining('wallet error'),
+    })
   })
 
   it('omits the stack when there is none', () => {
@@ -188,6 +193,23 @@ describe('toErrorReportExtraInfo', () => {
     expect(() => JSON.stringify(result)).not.toThrow()
   })
 
+  it('replaces a class instance that JSON.stringify would choke on instead of dropping the report', () => {
+    class Receipt {
+      self: Receipt = this
+    }
+    const cause = new Receipt()
+    const error = new Error('tx failed')
+    Object.defineProperty(error, 'cause', { value: cause, enumerable: false })
+
+    const result = toErrorReportExtraInfo({ error, category: 'Voting' })
+
+    expect(result).toEqual({
+      error: expect.objectContaining({ message: 'tx failed', cause: '[Unserializable]' }),
+      category: 'Voting',
+    })
+    expect(() => JSON.stringify(result)).not.toThrow()
+  })
+
   it('leaves class instances such as dates for JSON.stringify', () => {
     const date = new Date('2026-11-25T00:00:00Z')
 
@@ -219,6 +241,7 @@ describe('isUserRejectedError', () => {
     ['a different provider code', { code: 4100, message: 'Unauthorized' }],
     ['a "permission denied" message', new Error('permission denied')],
     ['a "rejected by server" message', new Error('Request rejected by server')],
+    ['an account abstraction "by user operation" message', new Error('Request rejected by user operation validation')],
   ])('returns false for %s', (_, error) => {
     expect(isUserRejectedError(error)).toBe(false)
   })
