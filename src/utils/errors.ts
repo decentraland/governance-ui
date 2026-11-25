@@ -45,20 +45,25 @@ function trimStack(stack: string) {
  * the report.
  */
 export function serializeError(error: Error): SerializedError {
-  const { code, cause } = error as Error & { code?: unknown; cause?: unknown }
-  const ownProps = Object.fromEntries(
-    Object.entries(error).map(([key, value]) => [
-      key,
-      typeof value === 'string' ? truncate(value, MAX_ERROR_TEXT_LENGTH) : value,
-    ])
-  )
-  return {
-    ...ownProps,
-    name: error.name,
-    message: truncate(error.message, MAX_ERROR_TEXT_LENGTH),
-    ...(code !== undefined ? { code } : {}),
-    ...(cause !== undefined ? { cause } : {}),
-    ...(error.stack ? { stack: trimStack(error.stack) } : {}),
+  try {
+    const { code, cause, stack } = error as Error & { code?: unknown; cause?: unknown }
+    const ownProps = Object.fromEntries(
+      Object.entries(error).map(([key, value]) => [
+        key,
+        typeof value === 'string' ? truncate(value, MAX_ERROR_TEXT_LENGTH) : value,
+      ])
+    )
+    return {
+      ...ownProps,
+      name: String(error.name),
+      message: truncate(String(error.message), MAX_ERROR_TEXT_LENGTH),
+      ...(code !== undefined ? { code } : {}),
+      ...(cause !== undefined ? { cause } : {}),
+      ...(typeof stack === 'string' && stack ? { stack: trimStack(stack) } : {}),
+    }
+  } catch {
+    // Third-party errors can have throwing getters; keep what we can rather than losing the whole report
+    return { name: String(error.name), message: truncate(String(error.message), MAX_ERROR_TEXT_LENGTH) }
   }
 }
 

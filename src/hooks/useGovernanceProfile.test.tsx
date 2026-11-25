@@ -50,19 +50,16 @@ describe('useGovernanceProfile', () => {
     expect(report).not.toHaveBeenCalled()
   })
 
-  it('reports any other failure', async () => {
-    getUserProfile.mockRejectedValueOnce(new APIError(500, 'Internal Server Error'))
+  it('reports any other failure with the error itself, so ErrorClient serializes and caps it', async () => {
+    const error = new APIError(500, 'Internal Server Error')
+    getUserProfile.mockRejectedValueOnce(error)
 
     const { result } = renderUseGovernanceProfile()
 
     await waitFor(() => expect(result.current.isLoadingGovernanceProfile).toBe(false))
     expect(report).toHaveBeenCalledWith(
       'Error getting governance profile',
-      {
-        error: 'APIError: HTTP error! status: 500, body: Internal Server Error',
-        address: ADDRESS,
-        category: 'Profile',
-      },
+      { error, address: ADDRESS, category: 'Profile' },
       { sign: true }
     )
   })

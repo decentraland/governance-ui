@@ -85,6 +85,26 @@ describe('serializeError', () => {
     expect(serialized.body).toHaveLength(1000 + '… [truncated]'.length)
   })
 
+  it('copes with a non-string message and stack', () => {
+    const error = new Error('placeholder')
+    Object.defineProperty(error, 'message', { value: null })
+    Object.defineProperty(error, 'stack', { value: { frames: [] } })
+
+    expect(serializeError(error)).toEqual({ name: 'Error', message: 'null' })
+  })
+
+  it('falls back to name and message when reading a prop throws', () => {
+    const error = new Error('wallet error')
+    Object.defineProperty(error, 'data', {
+      enumerable: true,
+      get() {
+        throw new Error('getter exploded')
+      },
+    })
+
+    expect(serializeError(error)).toEqual({ name: 'Error', message: 'wallet error' })
+  })
+
   it('omits the stack when there is none', () => {
     const error = new Error('no stack')
     error.stack = undefined
@@ -197,6 +217,8 @@ describe('isUserRejectedError', () => {
     ['the Snapshot no voting power body', SNAPSHOT_NO_VP],
     ['the Snapshot pinning failed body', SNAPSHOT_PINNING_FAILED],
     ['a different provider code', { code: 4100, message: 'Unauthorized' }],
+    ['a "permission denied" message', new Error('permission denied')],
+    ['a "rejected by server" message', new Error('Request rejected by server')],
   ])('returns false for %s', (_, error) => {
     expect(isUserRejectedError(error)).toBe(false)
   })

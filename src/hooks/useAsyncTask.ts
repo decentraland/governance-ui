@@ -42,10 +42,11 @@ export default function useAsyncTask<A extends unknown[] = []>(
       })
       .catch((err) => {
         console.error(err)
+        // A task can reject with anything, including null or undefined
         const errorObj = {
           ...err,
-          message: err.message,
-          stack: err.stack,
+          message: err?.message,
+          stack: err?.stack,
         }
         ErrorClient.report('AsyncTask error', { error: err })
         track('error', errorObj)

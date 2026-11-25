@@ -34,4 +34,13 @@ describe('useAsyncTask', () => {
     await waitFor(() => expect(report).toHaveBeenCalledWith('AsyncTask error', { error }))
     await waitFor(() => expect(result.current[0]).toBe(false))
   })
+
+  it('still reports and stops loading when the task rejects with undefined', async () => {
+    const { result } = renderHook(() => useAsyncTask(() => Promise.reject(undefined), []))
+
+    act(() => result.current[1]())
+
+    await waitFor(() => expect(report).toHaveBeenCalledWith('AsyncTask error', { error: undefined }))
+    await waitFor(() => expect(result.current[0]).toBe(false))
+  })
 })
