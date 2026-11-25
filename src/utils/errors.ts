@@ -1,8 +1,9 @@
 import { ErrorCode } from '@ethersproject/logger'
 
 const MAX_STACK_LINES = 10
-// ethers repeats its params (e.g. an RPC response body) in the message, and the stack's first line repeats the message
-const MAX_MESSAGE_LENGTH = 1000
+// Errors can carry whole response bodies (APIError's `body`, ethers' `body`/`requestBody`), repeated in the message,
+// and the stack's first line repeats the message again
+const MAX_ERROR_TEXT_LENGTH = 1000
 const MAX_STACK_LENGTH = 2000
 const MAX_NESTED_ERROR_DEPTH = 3
 
@@ -40,14 +41,21 @@ function trimStack(stack: string) {
 /**
  * JSON.stringify(new Error('boom')) is '{}' because name, message and stack are not enumerable.
  * This keeps the enumerable props that would have been sent anyway (e.g. ethers' `reason`, `code`, `action`)
- * and adds the non-enumerable ones that make the report useful.
+ * and adds the non-enumerable ones that make the report useful. Text is capped so a response body doesn't blow up
+ * the report.
  */
 export function serializeError(error: Error): SerializedError {
   const { code, cause } = error as Error & { code?: unknown; cause?: unknown }
+  const ownProps = Object.fromEntries(
+    Object.entries(error).map(([key, value]) => [
+      key,
+      typeof value === 'string' ? truncate(value, MAX_ERROR_TEXT_LENGTH) : value,
+    ])
+  )
   return {
-    ...error,
+    ...ownProps,
     name: error.name,
-    message: truncate(error.message, MAX_MESSAGE_LENGTH),
+    message: truncate(error.message, MAX_ERROR_TEXT_LENGTH),
     ...(code !== undefined ? { code } : {}),
     ...(cause !== undefined ? { cause } : {}),
     ...(error.stack ? { stack: trimStack(error.stack) } : {}),
@@ -65,6 +73,10 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 // `ancestors` only holds the objects on the current path, so a value referenced twice is serialized twice and only a
 // real cycle (e.g. an error whose `cause` is itself) is cut.
 function serializeErrorsDeep(value: unknown, ancestors: Set<object>): unknown {
+  if (typeof value === 'bigint') {
+    // JSON.stringify throws on bigints (thirdweb and viem use them), which would drop the whole report
+    return value.toString()
+  }
   const isError = value instanceof Error
   if (!isError && !Array.isArray(value) && !isPlainObject(value)) {
     // Primitives and class instances (Date, BigNumber...) are left for JSON.stringify, as before
@@ -129,6 +141,14 @@ export function isSnapshotNoVotingPowerError(error: unknown): boolean {
     typeof error === 'object' &&
     (error as Record<string, unknown>).error_description === SNAPSHOT_NO_VOTING_POWER
   )
+}
+
+/**
+ * Vote failures that come from the user, not from a bug: dismissing the wallet prompt, or having no VP at the
+ * proposal's snapshot.
+ */
+export function isExpectedVoteError(error: unknown): boolean {
+  return isUserRejectedError(error) || isSnapshotNoVotingPowerError(error)
 }
 
 /**

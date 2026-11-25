@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import RequestError from 'decentraland-crypto-middleware/lib/errors'
 import isEthereumAddress from 'validator/lib/isEthereumAddress'
 
+import { APIError } from '../clients/API'
 import { ErrorClient } from '../clients/ErrorClient'
 import { Governance } from '../clients/Governance'
 import { useAuthContext } from '../context/AuthProvider.tsx'
@@ -10,8 +10,8 @@ import { isBrowserNetworkError } from '../utils/errors'
 
 import { DEFAULT_QUERY_STALE_TIME } from './constants'
 
-function isNotFoundOrBadRequest(error: RequestError) {
-  return error.statusCode === 404 || error.statusCode === 400
+function isNotFoundOrBadRequest(error: unknown) {
+  return error instanceof APIError && (error.status === 404 || error.status === 400)
 }
 
 export default function useGovernanceProfile(profileAddress?: string | null) {
@@ -23,8 +23,7 @@ export default function useGovernanceProfile(profileAddress?: string | null) {
 
       try {
         return await Governance.get().getUserProfile(profileAddress)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
+      } catch (error) {
         // "Failed to fetch" here is the browser not reaching our own API (offline, aborted navigation, ad blocker).
         // An actual API outage is visible on the backend, so this isn't worth a report.
         if (!isNotFoundOrBadRequest(error) && !isBrowserNetworkError(error)) {

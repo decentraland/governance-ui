@@ -64,7 +64,7 @@ import { ProposalAttributes, ProposalStatus, ProposalType } from '../types/propo
 import { Survey } from '../types/surveyTopics'
 import { SelectedVoteChoice } from '../types/votes'
 import { ErrorCategory } from '../utils/errorCategories'
-import { isSnapshotNoVotingPowerError, isUserRejectedError } from '../utils/errors'
+import { isExpectedVoteError, isUserRejectedError } from '../utils/errors'
 import locations from '../utils/locations'
 import { isUnderMaintenance } from '../utils/maintenance'
 import { isBiddingAndTenderingProposal, isGovernanceProcessProposal } from '../utils/proposal'
@@ -222,9 +222,7 @@ export default function ProposalPage() {
           await reloadVotes()
           await queryClient.invalidateQueries({ queryKey: [PROPOSAL_CACHED_VOTES_QUERY_KEY] })
         } catch (error) {
-          const isRejectedByUser = isUserRejectedError(error)
-          // Dismissing the wallet prompt and voting with no VP at the proposal's snapshot are user outcomes, not bugs
-          if (!isRejectedByUser && !isSnapshotNoVotingPowerError(error)) {
+          if (!isExpectedVoteError(error)) {
             ErrorClient.report('Unable to vote', {
               error,
               address: listedAccount,
@@ -232,7 +230,7 @@ export default function ProposalPage() {
               category: ErrorCategory.Voting,
             })
           }
-          if (isRejectedByUser) {
+          if (isUserRejectedError(error)) {
             updatePageState((prevState) => ({
               ...prevState,
               changingVote: false,

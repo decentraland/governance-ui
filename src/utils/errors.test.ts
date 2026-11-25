@@ -2,6 +2,7 @@ import { ErrorCode, Logger } from '@ethersproject/logger'
 
 import {
   isBrowserNetworkError,
+  isExpectedVoteError,
   isSnapshotNoVotingPowerError,
   isUserRejectedError,
   serializeError,
@@ -73,6 +74,15 @@ describe('serializeError', () => {
     expect(message).toHaveLength(1000 + '… [truncated]'.length)
     expect(message.endsWith('… [truncated]')).toBe(true)
     expect(stack).toHaveLength(2000 + '… [truncated]'.length)
+  })
+
+  it('caps string props such as an APIError body', () => {
+    const error = Object.assign(new Error('HTTP error! status: 502'), { status: 502, body: '<html>'.repeat(1000) })
+
+    const serialized = serializeError(error)
+
+    expect(serialized.status).toBe(502)
+    expect(serialized.body).toHaveLength(1000 + '… [truncated]'.length)
   })
 
   it('omits the stack when there is none', () => {
@@ -149,6 +159,15 @@ describe('toErrorReportExtraInfo', () => {
     expect(toErrorReportExtraInfo(extraInfo)).toEqual({ category: 'Voting', self: '[Circular]' })
   })
 
+  it('turns bigints into strings so JSON.stringify does not throw and drop the report', () => {
+    const result = toErrorReportExtraInfo({
+      error: Object.assign(new Error('tx failed'), { value: BigInt('1000000000000000000') }),
+    })
+
+    expect(result).toEqual({ error: expect.objectContaining({ value: '1000000000000000000' }) })
+    expect(() => JSON.stringify(result)).not.toThrow()
+  })
+
   it('leaves class instances such as dates for JSON.stringify', () => {
     const date = new Date('2026-11-25T00:00:00Z')
 
@@ -195,6 +214,22 @@ describe('isSnapshotNoVotingPowerError', () => {
     ['a string', 'no voting power'],
   ])('returns false for %s', (_, error) => {
     expect(isSnapshotNoVotingPowerError(error)).toBe(false)
+  })
+})
+
+describe('isExpectedVoteError', () => {
+  it.each([
+    ['a wallet rejection', { code: 4001, message: 'User rejected the request.' }],
+    ['the Snapshot no voting power body', SNAPSHOT_NO_VP],
+  ])('returns true for %s', (_, error) => {
+    expect(isExpectedVoteError(error)).toBe(true)
+  })
+
+  it.each([
+    ['the Snapshot pinning failed body', SNAPSHOT_PINNING_FAILED],
+    ['an unexpected Error', new Error('Thirdweb: No active session')],
+  ])('returns false for %s, which is still reported', (_, error) => {
+    expect(isExpectedVoteError(error)).toBe(false)
   })
 })
 
