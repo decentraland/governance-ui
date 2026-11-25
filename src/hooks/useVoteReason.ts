@@ -9,7 +9,7 @@ function useVoteReason(proposal: ProposalAttributes | null) {
   const [account] = useAuthContext()
   const { isDelegationResultLoading, delegators } = useDelegationOnProposal(proposal, account)
 
-  const { totalVpOnProposal, hasEnoughToVote, isLoadingVp } = useVotingPowerOnProposal(
+  const { totalVpOnProposal, canVote, isLoadingVp } = useVotingPowerOnProposal(
     account,
     delegators,
     isDelegationResultLoading,
@@ -18,7 +18,7 @@ function useVoteReason(proposal: ProposalAttributes | null) {
 
   return {
     isLoading: isDelegationResultLoading || isLoadingVp,
-    shouldGiveReason: hasEnoughToVote && totalVpOnProposal > REASON_THRESHOLD,
+    shouldGiveReason: canVote && totalVpOnProposal > REASON_THRESHOLD,
     totalVpOnProposal,
   }
 }

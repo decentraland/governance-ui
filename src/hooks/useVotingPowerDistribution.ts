@@ -27,11 +27,18 @@ function getVpDistributionQueryKey(address?: string | null, proposalSnapshotId?:
  * shows that and disables voting even if the API couldn't tell (request failed, or an API without `hasVotingPower`).
  * Best effort: once the query is stale, a refetch (or a reload) against an API without the field drops the mark.
  */
-export function setNoVotingPowerOnProposal(queryClient: QueryClient, address: string, proposalSnapshotId: string) {
-  queryClient.setQueryData<VpDistribution>(
-    getVpDistributionQueryKey(address, proposalSnapshotId),
-    (vpDistribution) => ({ ...(vpDistribution ?? EMPTY_DISTRIBUTION), hasVotingPower: false })
-  )
+export async function setNoVotingPowerOnProposal(
+  queryClient: QueryClient,
+  address: string,
+  proposalSnapshotId: string
+) {
+  const queryKey = getVpDistributionQueryKey(address, proposalSnapshotId)
+  // A refetch already in flight (e.g. on refocus after the wallet popup) would otherwise overwrite the mark
+  await queryClient.cancelQueries({ queryKey })
+  queryClient.setQueryData<VpDistribution>(queryKey, (vpDistribution) => ({
+    ...(vpDistribution ?? EMPTY_DISTRIBUTION),
+    hasVotingPower: false,
+  }))
 }
 
 export default function useVotingPowerDistribution(address?: string | null, proposalSnapshotId?: string) {
@@ -51,6 +58,7 @@ export default function useVotingPowerDistribution(address?: string | null, prop
   return {
     vpDistribution: vpDistribution ?? EMPTY_DISTRIBUTION,
     isLoadingVpDistribution: isLoading,
-    isErrorVpDistribution: isError,
+    // A failed refetch keeps the previous data, which is still valid
+    isErrorVpDistribution: isError && vpDistribution === undefined,
   }
 }

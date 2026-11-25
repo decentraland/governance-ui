@@ -67,7 +67,6 @@ const ProposalVotingSection = ({
     addressVp: ownVotingPower,
     totalVpOnProposal,
     canVote,
-    hasEnoughToVote,
     isVpUnknown,
     isLoadingVp,
   } = useVotingPowerOnProposal(account, delegators, isDelegationResultLoading, proposal)
@@ -164,7 +163,7 @@ const ProposalVotingSection = ({
                   onChangeVote={onChangeVote}
                   delegators={delegators}
                   totalVpOnProposal={totalVpOnProposal}
-                  hasEnoughToVote={hasEnoughToVote}
+                  canVote={canVote}
                   isVpUnknown={isVpUnknown}
                 />
               )}

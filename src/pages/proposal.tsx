@@ -234,7 +234,7 @@ export default function ProposalPage() {
           const failure = getCastVoteFailure(error, listedAccount, account)
           if (failure === CastVoteFailure.NoVotingPower) {
             // The voting section then says the account has no VP on this proposal and disables voting
-            setNoVotingPowerOnProposal(queryClient, account, proposal.snapshot_id)
+            await setNoVotingPowerOnProposal(queryClient, account, proposal.snapshot_id)
           }
           updatePageState((prevState) => getPageStateAfterCastVoteFailure(failure, prevState, errorCounter))
           if (failure === CastVoteFailure.Failed) {

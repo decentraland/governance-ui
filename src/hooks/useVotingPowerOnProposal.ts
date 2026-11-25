@@ -53,14 +53,11 @@ export default function useVotingPowerOnProposal(
   // Without the API's answer, the request failed or all we have is the floored VP: a positive amount is real, but 0 may
   // be 0.4, which Snapshot accepts. So don't show an amount, and don't claim there's none.
   const isVpUnknown = hasVotingPower === undefined && (isErrorVpDistribution || totalVpOnProposal <= 0)
-  // Whether to show the VP the account votes with, or that it has none
-  const hasEnoughToVote = hasVotingPower ?? true
 
   return {
     totalVpOnProposal,
     ...vpOnProposal,
     canVote,
-    hasEnoughToVote,
     isVpUnknown,
     isLoadingVp: isLoadingVpDistribution || (data !== undefined && isLoading),
   }

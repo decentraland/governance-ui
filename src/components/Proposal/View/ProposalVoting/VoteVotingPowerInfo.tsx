@@ -4,11 +4,11 @@ import Text from '../../../Common/Typography/Text'
 
 interface VoteVotingPowerInfoProps {
   accountVotingPower: number
-  hasEnoughToVote: boolean
+  canVote: boolean
   vote: Vote | null
 }
 
-const VoteVotingPowerInfo = ({ accountVotingPower, hasEnoughToVote, vote }: VoteVotingPowerInfoProps) => {
+const VoteVotingPowerInfo = ({ accountVotingPower, canVote, vote }: VoteVotingPowerInfoProps) => {
   const t = useFormatMessage()
 
   function vpLabel(value: number) {
@@ -21,11 +21,11 @@ const VoteVotingPowerInfo = ({ accountVotingPower, hasEnoughToVote, vote }: Vote
 
   return (
     <>
-      {hasEnoughToVote &&
+      {canVote &&
         (vote
           ? t('page.proposal_detail.voted_with', { vp: vpLabel(accountVotingPower) })
           : t('page.proposal_detail.voting_with', { vp: vpLabel(accountVotingPower) }))}
-      {!hasEnoughToVote && t('page.proposal_detail.no_vp_on_proposal')}
+      {!canVote && t('page.proposal_detail.no_vp_on_proposal')}
     </>
   )
 }

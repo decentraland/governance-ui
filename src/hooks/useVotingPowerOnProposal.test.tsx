@@ -66,7 +66,6 @@ describe('useVotingPowerOnProposal', () => {
       const { result } = await renderLoaded()
 
       expect(result.current.canVote).toBe(false)
-      expect(result.current.hasEnoughToVote).toBe(false)
       expect(result.current.isVpUnknown).toBe(false)
     })
   })
@@ -78,7 +77,6 @@ describe('useVotingPowerOnProposal', () => {
       const { result } = await renderLoaded()
 
       expect(result.current.canVote).toBe(true)
-      expect(result.current.hasEnoughToVote).toBe(true)
     })
   })
 
@@ -89,7 +87,6 @@ describe('useVotingPowerOnProposal', () => {
       const { result } = await renderLoaded()
 
       expect(result.current.canVote).toBe(true)
-      expect(result.current.hasEnoughToVote).toBe(true)
       expect(result.current.isVpUnknown).toBe(true)
     })
 
@@ -100,7 +97,6 @@ describe('useVotingPowerOnProposal', () => {
 
       await waitFor(() => expect(result.current.isVpUnknown).toBe(false))
       expect(result.current.totalVpOnProposal).toBe(1)
-      expect(result.current.hasEnoughToVote).toBe(true)
       expect(result.current.canVote).toBe(true)
     })
   })
@@ -113,7 +109,6 @@ describe('useVotingPowerOnProposal', () => {
       const { result } = await renderLoaded()
 
       expect(result.current.canVote).toBe(true)
-      expect(result.current.hasEnoughToVote).toBe(true)
       expect(result.current.isVpUnknown).toBe(true)
       jest.restoreAllMocks()
     })
@@ -140,11 +135,47 @@ describe('useVotingPowerOnProposal', () => {
       const { result, queryClient } = await renderLoaded()
       expect(result.current.canVote).toBe(true)
 
-      act(() => setNoVotingPowerOnProposal(queryClient, ADDRESS, PROPOSAL.snapshot_id))
+      await act(() => setNoVotingPowerOnProposal(queryClient, ADDRESS, PROPOSAL.snapshot_id))
 
       await waitFor(() => expect(result.current.canVote).toBe(false))
-      expect(result.current.hasEnoughToVote).toBe(false)
       expect(result.current.isVpUnknown).toBe(false)
+      jest.restoreAllMocks()
+    })
+
+    it('keeps the mark when a refetch that was already running comes back without the field', async () => {
+      jest.spyOn(console, 'error').mockImplementation(() => undefined)
+      getVpDistribution.mockRejectedValueOnce(new Error('HTTP error! status: 429'))
+      const { result, queryClient } = await renderLoaded()
+      let resolveRefetch: (value: VpDistribution) => void = () => undefined
+      getVpDistribution.mockReturnValueOnce(new Promise((resolve) => (resolveRefetch = resolve)))
+      act(() => {
+        queryClient.refetchQueries()
+      })
+      await waitFor(() => expect(getVpDistribution).toHaveBeenCalledTimes(2))
+
+      await act(() => setNoVotingPowerOnProposal(queryClient, ADDRESS, PROPOSAL.snapshot_id))
+      await act(async () => resolveRefetch(distribution({ total: 0 })))
+
+      await waitFor(() => expect(result.current.canVote).toBe(false))
+      await act(() => new Promise((resolve) => setTimeout(resolve, 0)))
+      expect(result.current.canVote).toBe(false)
+      jest.restoreAllMocks()
+    })
+  })
+
+  describe('when a refetch fails after the VP loaded', () => {
+    it('keeps showing the VP it already had', async () => {
+      jest.spyOn(console, 'error').mockImplementation(() => undefined)
+      getVpDistribution.mockResolvedValueOnce(distribution({ total: 5, own: 5 }))
+      const { result, queryClient } = await renderLoaded()
+      await waitFor(() => expect(result.current.totalVpOnProposal).toBe(5))
+      getVpDistribution.mockRejectedValueOnce(new Error('HTTP error! status: 429'))
+
+      await act(() => queryClient.refetchQueries())
+
+      await waitFor(() => expect(getVpDistribution).toHaveBeenCalledTimes(2))
+      expect(result.current.isVpUnknown).toBe(false)
+      expect(result.current.canVote).toBe(true)
       jest.restoreAllMocks()
     })
   })
