@@ -1,6 +1,5 @@
 import snakeCase from 'lodash/snakeCase'
 
-import { SpecState } from '../components/Debug/UploadBadgeSpec'
 import { GOVERNANCE_API } from '../constants'
 import { HEROKU_APP_NAME } from '../constants/heroku'
 import {
@@ -14,7 +13,6 @@ import {
   SnapshotVote,
   VpDistribution,
 } from '../types/SnapshotTypes'
-import { BadgeCreationResult, GovernanceBadgeSpec, RevokeOrReinstateResult, UserBadges } from '../types/badges'
 import { BidRequest, UnpublishedBidAttributes } from '../types/bids'
 import { Budget, BudgetWithContestants, CategoryBudget } from '../types/budgets'
 import { CoauthorAttributes, CoauthorStatus } from '../types/coauthors'
@@ -63,24 +61,6 @@ import { TransparencyBudget, TransparencyVesting } from './Transparency'
 import { VestingWithLogs } from './VestingData'
 
 type ApiResponse<D> = { ok: boolean; data: D }
-
-type AirdropOutcome = Pick<AirdropJobAttributes, 'status' | 'error' | 'recipients' | 'badge_spec'>
-
-enum AirdropJobStatus {
-  PENDING = 'pending',
-  FINISHED = 'finished',
-  FAILED = 'failed',
-}
-
-type AirdropJobAttributes = {
-  id: string
-  badge_spec: string
-  recipients: string[]
-  status: AirdropJobStatus
-  error?: string
-  created_at: Date
-  updated_at: Date
-}
 
 type NewProposalMap = {
   [`/proposals/poll`]: NewProposalPoll
@@ -527,14 +507,6 @@ export class Governance extends API {
     })
   }
 
-  async getBadges(address: string) {
-    return await this.fetchApiResponse<UserBadges>(`/badges/${address}`)
-  }
-
-  async getCoreUnitsBadges() {
-    return await this.fetchApiResponse<GovernanceBadgeSpec[]>(`/badges/core-units`)
-  }
-
   async getBidsInfoOnTender(tenderId: string) {
     return await this.fetchApiResponse<{ is_submission_window_finished: boolean; publish_at: string }>(
       `/bids/${tenderId}`
@@ -623,49 +595,6 @@ export class Governance extends API {
     return await this.fetchApiResponse<ProposalCommentsInDiscourse>(`/updates/${update_id}/comments`)
   }
 
-  async airdropBadge(badgeSpecCid: string, recipients: string[]) {
-    return await this.fetchApiResponse<AirdropOutcome>(`/badges/airdrop/`, {
-      method: 'POST',
-      sign: true,
-      json: {
-        badgeSpecCid,
-        recipients,
-      },
-    })
-  }
-
-  async revokeBadge(badgeSpecCid: string, recipients: string[], reason?: string) {
-    return await this.fetchApiResponse<RevokeOrReinstateResult[]>(`/badges/revoke/`, {
-      method: 'POST',
-      sign: true,
-      json: {
-        badgeSpecCid,
-        recipients,
-        reason,
-      },
-    })
-  }
-
-  async uploadBadgeSpec(spec: SpecState) {
-    return await this.fetchApiResponse<BadgeCreationResult>(`/badges/upload-badge-spec/`, {
-      method: 'POST',
-      sign: true,
-      json: {
-        spec,
-      },
-    })
-  }
-
-  async createBadgeSpec(badgeCid: string) {
-    return await this.fetchApiResponse<string>(`/badges/create-badge-spec/`, {
-      method: 'POST',
-      sign: true,
-      json: {
-        badgeCid,
-      },
-    })
-  }
-
   async subscribeToNewsletter(email: string) {
     return await this.fetchApiResponse<NewsletterSubscriptionResult>(`/newsletter-subscribe`, {
       method: 'POST',
@@ -723,13 +652,6 @@ export class Governance extends API {
 
   async getAllEvents() {
     return await this.fetchApiResponse<ActivityTickerEvent[]>(`/events/all`, { method: 'GET', sign: true })
-  }
-
-  async getAllAirdropJobs() {
-    return await this.fetchApiResponse<AirdropJobAttributes[]>(`/airdrops/all`, {
-      method: 'GET',
-      sign: true,
-    })
   }
 
   async deletePersonnel(personnelId: PersonnelAttributes['id']) {

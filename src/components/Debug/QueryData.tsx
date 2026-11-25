@@ -25,15 +25,6 @@ function QueryData({ className }: Props) {
     }
   }
 
-  const handleGetAllAirdropJobs = async () => {
-    setErrorMessage('')
-    try {
-      console.log(await Governance.get().getAllAirdropJobs())
-    } catch (e: unknown) {
-      setErrorMessage(`${e}`)
-    }
-  }
-
   return (
     <div className={className}>
       <ContentSection>
@@ -41,9 +32,6 @@ function QueryData({ className }: Props) {
         <div className="QueryData__Buttons">
           <Button primary onClick={handleGetAllEvents}>
             {'Get All Events'}
-          </Button>
-          <Button primary onClick={handleGetAllAirdropJobs}>
-            {'Get All Airdrop Jobs'}
           </Button>
         </div>
         {errorMessage && <ErrorMessage label={'Latest error'} errorMessage={errorMessage} />}

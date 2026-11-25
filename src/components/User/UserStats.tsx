@@ -14,8 +14,6 @@ import VotingPowerDistribution from '../Modal/VotingPowerDelegationDetail/Voting
 import Bio from '../Profile/Bio'
 import ProfileSettings from '../Profile/ProfileSettings'
 
-import Badges from './Badges/Badges'
-
 import GetVpDropdown from './GetVpDropdown'
 import './UserStats.css'
 import UserVotingStats from './UserVotingStats'
@@ -56,7 +54,6 @@ export default function UserStats({ address, vpDistribution, isLoadingVpDistribu
             </div>
           )}
         </div>
-        <Badges address={address} />
       </div>
       <div className="UserStats__UserInfoContainer">
         <div className="UserStats__UserInfo">
