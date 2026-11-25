@@ -83,21 +83,24 @@ describe('useVotingPowerOnProposal', () => {
   })
 
   describe('when the API predates hasVotingPower', () => {
-    it('lets the address vote, and falls back on the floored VP to say whether it has any', async () => {
+    it('lets an address with a floored 0 VP vote, without claiming it has none, since it may have 0.4', async () => {
       getVpDistribution.mockResolvedValueOnce(distribution({ total: 0, own: 0 }))
 
       const { result } = await renderLoaded()
 
       expect(result.current.canVote).toBe(true)
-      expect(result.current.hasEnoughToVote).toBe(false)
+      expect(result.current.hasEnoughToVote).toBe(true)
+      expect(result.current.isVpUnknown).toBe(true)
     })
 
-    it('says the address has VP when the floored VP is above 0', async () => {
+    it('shows the floored VP when it is above 0', async () => {
       getVpDistribution.mockResolvedValueOnce(distribution({ total: 1, own: 1 }))
 
       const { result } = await renderLoaded()
 
-      await waitFor(() => expect(result.current.hasEnoughToVote).toBe(true))
+      await waitFor(() => expect(result.current.isVpUnknown).toBe(false))
+      expect(result.current.totalVpOnProposal).toBe(1)
+      expect(result.current.hasEnoughToVote).toBe(true)
       expect(result.current.canVote).toBe(true)
     })
   })

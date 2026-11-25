@@ -25,6 +25,7 @@ function getVpDistributionQueryKey(address?: string | null, proposalSnapshotId?:
 /**
  * Records that Snapshot rejected a vote from `address` on the proposal with "no voting power", so the voting section
  * shows that and disables voting even if the API couldn't tell (request failed, or an API without `hasVotingPower`).
+ * Best effort: once the query is stale, a refetch (or a reload) against an API without the field drops the mark.
  */
 export function setNoVotingPowerOnProposal(queryClient: QueryClient, address: string, proposalSnapshotId: string) {
   queryClient.setQueryData<VpDistribution>(

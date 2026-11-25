@@ -50,10 +50,11 @@ export default function useVotingPowerOnProposal(
   // with an API that predates the field, and none of those should stop anyone from voting.
   const hasVotingPower = proposal?.snapshot_id ? vpDistribution.hasVotingPower : undefined
   const canVote = hasVotingPower !== false
-  // The VP request failed, so neither the amount nor whether there's any is known
-  const isVpUnknown = hasVotingPower === undefined && isErrorVpDistribution
-  // Whether to show the VP the account votes with, or that it has none. An older API only gives us the floored VP.
-  const hasEnoughToVote = hasVotingPower ?? (isVpUnknown || totalVpOnProposal > 0)
+  // Without the API's answer, the request failed or all we have is the floored VP: a positive amount is real, but 0 may
+  // be 0.4, which Snapshot accepts. So don't show an amount, and don't claim there's none.
+  const isVpUnknown = hasVotingPower === undefined && (isErrorVpDistribution || totalVpOnProposal <= 0)
+  // Whether to show the VP the account votes with, or that it has none
+  const hasEnoughToVote = hasVotingPower ?? true
 
   return {
     totalVpOnProposal,

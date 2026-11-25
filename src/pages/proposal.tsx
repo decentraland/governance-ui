@@ -65,16 +65,16 @@ import { ProposalAttributes, ProposalStatus, ProposalType } from '../types/propo
 import { Survey } from '../types/surveyTopics'
 import { SelectedVoteChoice } from '../types/votes'
 import { ErrorCategory } from '../utils/errorCategories'
-import { isExpectedVoteError, isSnapshotNoVotingPowerError, isUserRejectedError } from '../utils/errors'
+import { isExpectedVoteError } from '../utils/errors'
 import locations from '../utils/locations'
 import { isUnderMaintenance } from '../utils/maintenance'
 import { isBiddingAndTenderingProposal, isGovernanceProcessProposal } from '../utils/proposal'
 import { SurveyEncoder } from '../utils/surveyTopics'
+import { CastVoteFailure, getCastVoteFailure, getPageStateAfterCastVoteFailure } from '../utils/votes/castVoteFailure'
 
 import './proposal.css'
 
 const EMPTY_VOTE_CHOICE_SELECTION: SelectedVoteChoice = { choice: undefined, choiceIndex: undefined }
-const MAX_ERRORS_BEFORE_SNAPSHOT_REDIRECT = 3
 const SECONDS_FOR_VOTING_RETRY = 5
 
 export type ProposalPageState = {
@@ -231,28 +231,13 @@ export default function ProposalPage() {
               category: ErrorCategory.Voting,
             })
           }
-          if (isUserRejectedError(error)) {
-            updatePageState((prevState) => ({
-              ...prevState,
-              changingVote: false,
-            }))
-          } else if (isSnapshotNoVotingPowerError(error)) {
-            // Retrying can't help: the VP at the proposal's snapshot block won't change. So no retry countdown and no
-            // step towards the Snapshot redirect; the voting section says the account has no VP on this proposal.
+          const failure = getCastVoteFailure(error, listedAccount, account)
+          if (failure === CastVoteFailure.NoVotingPower) {
+            // The voting section then says the account has no VP on this proposal and disables voting
             setNoVotingPowerOnProposal(queryClient, account, proposal.snapshot_id)
-            updatePageState((prevState) => ({
-              ...prevState,
-              changingVote: false,
-              showVotingModal: false,
-              showBidVotingModal: false,
-            }))
-          } else {
-            updatePageState((prevState) => ({
-              ...prevState,
-              changingVote: false,
-              showVotingError: true,
-              showSnapshotRedirect: errorCounter + 1 >= MAX_ERRORS_BEFORE_SNAPSHOT_REDIRECT,
-            }))
+          }
+          updatePageState((prevState) => getPageStateAfterCastVoteFailure(failure, prevState, errorCounter))
+          if (failure === CastVoteFailure.Failed) {
             setErrorCounter((prev) => prev + 1)
           }
         }
