@@ -1,8 +1,16 @@
-import type { ProposalPageState } from '../../pages/proposal'
 import { isSnapshotNoVotingPowerError, isUserRejectedError } from '../errors'
 import { isSameAddress } from '../snapshot'
 
 export const MAX_ERRORS_BEFORE_SNAPSHOT_REDIRECT = 3
+
+/** The part of the proposal page state a failed vote changes */
+type VoteFailurePageState = {
+  changingVote: boolean
+  showVotingModal: boolean
+  showBidVotingModal: boolean
+  showVotingError: boolean
+  showSnapshotRedirect: boolean
+}
 
 export enum CastVoteFailure {
   /** The user dismissed the wallet prompt */
@@ -31,11 +39,11 @@ export function getCastVoteFailure(error: unknown, signer: string, account: stri
  * `errorCount` is how many earlier failures counted towards the Snapshot redirect. Only a failure that may work on a
  * retry shows the retry countdown and counts: retrying can't give an account VP at a past block.
  */
-export function getPageStateAfterCastVoteFailure(
+export function getPageStateAfterCastVoteFailure<State extends VoteFailurePageState>(
   failure: CastVoteFailure,
-  prevState: ProposalPageState,
+  prevState: State,
   errorCount: number
-): ProposalPageState {
+): State {
   switch (failure) {
     case CastVoteFailure.Dismissed:
       return { ...prevState, changingVote: false }
