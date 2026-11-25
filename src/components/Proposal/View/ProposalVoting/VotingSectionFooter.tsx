@@ -21,7 +21,8 @@ interface VotingSectionFooterProps {
   onChangeVote?: (e: React.MouseEvent<unknown, MouseEvent>, changing: boolean) => void
   delegators: string[] | null
   totalVpOnProposal: number
-  hasEnoughToVote: boolean
+  canVote: boolean
+  isVpUnknown: boolean
 }
 
 const VotingSectionFooter = ({
@@ -34,7 +35,8 @@ const VotingSectionFooter = ({
   onChangeVote,
   delegators,
   totalVpOnProposal,
-  hasEnoughToVote,
+  canVote,
+  isVpUnknown,
 }: VotingSectionFooterProps) => {
   const t = useFormatMessage()
   const [userAddress] = useAuthContext()
@@ -52,19 +54,15 @@ const VotingSectionFooter = ({
       {!showVotingError && (
         <>
           <div className="VotingSectionFooter__VP">
-            {showVotingPowerInfo && (
-              <VoteVotingPowerInfo
-                accountVotingPower={totalVpOnProposal}
-                hasEnoughToVote={hasEnoughToVote}
-                vote={vote}
-              />
+            {showVotingPowerInfo && !isVpUnknown && (
+              <VoteVotingPowerInfo accountVotingPower={totalVpOnProposal} canVote={canVote} vote={vote} />
             )}
           </div>
           <div className="VotingSectionFooter__Actions">
-            {showVotingPowerInfo && userAddress && !hasEnoughToVote && (
+            {showVotingPowerInfo && userAddress && !canVote && (
               <Link href={locations.profile({ address: userAddress })}>{t('page.proposal_detail.get_vp')}</Link>
             )}
-            {hasEnoughToVote && (
+            {canVote && (
               <ChangeVoteButton
                 vote={vote}
                 delegateVote={delegateVote}

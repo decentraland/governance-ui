@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { Governance } from '../clients/Governance'
-import { MINIMUM_VP_REQUIRED_TO_VOTE } from '../constants/votes'
 import { SnapshotVote, StrategyOrder, VpDistribution } from '../types/SnapshotTypes'
 import { ProposalAttributes } from '../types/proposals'
 import { isSameAddress } from '../utils/snapshot'
@@ -25,7 +24,10 @@ export default function useVotingPowerOnProposal(
   isLoadingDelegators: boolean,
   proposal?: ProposalAttributes | null
 ) {
-  const { vpDistribution, isLoadingVpDistribution } = useVotingPowerDistribution(address, proposal?.snapshot_id)
+  const { vpDistribution, isLoadingVpDistribution, isErrorVpDistribution } = useVotingPowerDistribution(
+    address,
+    proposal?.snapshot_id
+  )
   const { data, isLoading } = useQuery({
     queryKey: [`votingPowerOnProposal#${address}#${proposal?.snapshot_id}`],
     queryFn: async () => {
@@ -42,12 +44,21 @@ export default function useVotingPowerOnProposal(
 
   const vpOnProposal = data ?? initialVotingPowerOnProposal
   const totalVpOnProposal = vpOnProposal.addressVp + vpOnProposal.delegatedVp
-  const hasEnoughToVote = totalVpOnProposal > MINIMUM_VP_REQUIRED_TO_VOTE && !isLoading
+
+  // Snapshot rejects a vote only when the account's VP at the proposal's snapshot block is exactly 0, and the API
+  // checks that for us on the unfloored VP. `hasVotingPower` is undefined while loading, when the request failed or
+  // with an API that predates the field, and none of those should stop anyone from voting.
+  const hasVotingPower = proposal?.snapshot_id ? vpDistribution.hasVotingPower : undefined
+  const canVote = hasVotingPower !== false
+  // Without the API's answer, the request failed or all we have is the floored VP: a positive amount is real, but 0 may
+  // be 0.4, which Snapshot accepts. So don't show an amount, and don't claim there's none.
+  const isVpUnknown = hasVotingPower === undefined && (isErrorVpDistribution || totalVpOnProposal <= 0)
 
   return {
     totalVpOnProposal,
     ...vpOnProposal,
-    hasEnoughToVote,
+    canVote,
+    isVpUnknown,
     isLoadingVp: isLoadingVpDistribution || (data !== undefined && isLoading),
   }
 }

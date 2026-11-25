@@ -111,6 +111,12 @@ export type SnapshotVpResponse = SnapshotQueryResponse<{
   } | null
 }>
 export type VpDistribution = {
+  /**
+   * Whether Snapshot reports any VP at all for the address (at the proposal's snapshot block when requested for a
+   * proposal), checked by the API on the unfloored VP. Snapshot rejects a vote with "no voting power" only when that VP
+   * is exactly 0, which the floored fields below can't tell apart from 0.4. Missing from APIs that predate it.
+   */
+  hasVotingPower?: boolean
   total: number
   own: number
   wMana: number
