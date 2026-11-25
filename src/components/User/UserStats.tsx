@@ -41,19 +41,17 @@ export default function UserStats({ address, vpDistribution, isLoadingVpDistribu
 
   return (
     <div className="UserStats">
-      <div>
-        <div className="UserStats__UsernameRow">
-          <div className="UserStats__UsernameContainer">
-            <Username address={address} size={isMobile ? 'sm' : 'md'} className="UserStats__Username" />
-            <ValidatedProfileCheck forumUsername={profile?.forum_username} isLoading={isLoadingGovernanceProfile} />
-            {showSettings && <ProfileSettings />}
-          </div>
-          {isLoggedInUserProfile && (
-            <div className="UserStats__GetVpDropdownContainer">
-              <GetVpDropdown />
-            </div>
-          )}
+      <div className="UserStats__UsernameRow">
+        <div className="UserStats__UsernameContainer">
+          <Username address={address} size={isMobile ? 'sm' : 'md'} className="UserStats__Username" />
+          <ValidatedProfileCheck forumUsername={profile?.forum_username} isLoading={isLoadingGovernanceProfile} />
+          {showSettings && <ProfileSettings />}
         </div>
+        {isLoggedInUserProfile && (
+          <div className="UserStats__GetVpDropdownContainer">
+            <GetVpDropdown />
+          </div>
+        )}
       </div>
       <div className="UserStats__UserInfoContainer">
         <div className="UserStats__UserInfo">

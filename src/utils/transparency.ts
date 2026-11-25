@@ -49,7 +49,7 @@ export function getDisplayedBalances(balances: AggregatedTokenBalance[]): Aggreg
 }
 
 const ETHERSCAN_BASE_URL = 'https://etherscan.io/'
-export const POLYGONSCAN_BASE_URL = 'https://polygonscan.com/'
+const POLYGONSCAN_BASE_URL = 'https://polygonscan.com/'
 
 export function blockExplorerLink(wallet: TokenInWallet): BlockExplorerLink {
   const addressUrl = 'address/' + wallet.address
